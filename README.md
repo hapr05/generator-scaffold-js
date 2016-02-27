@@ -7,7 +7,7 @@
 [![Github All Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/total.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/latest/total.svg)]()
 
-[![npm](https://img.shields.io/npm/v/npm.svg)]()
+[![npm](https://img.shields.io/fluky/generator-oldschool/npm.svg)]()
 [![node](https://img.shields.io/node/v/gh-badges.svg)]()
 [![Bower](https://img.shields.io/bower/v/bootstrap.svg)]()
 [![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]()
