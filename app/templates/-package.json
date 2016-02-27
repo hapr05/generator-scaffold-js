@@ -1,0 +1,39 @@
+{
+	"name": "<%= name %>",
+	"version": "1.0.0-alpha.1",
+	"description": "<%= description %>",
+	"keywords": [
+		"NodeJS",
+		"hapi",
+		"Bootstrap",
+		"AngularJS",
+		"MongoDB"
+	],
+	"homepage": "<%= homepage %>",
+	"bugs": "<%= bugs %>",
+	"license": "<%= license %>",
+	"contributors": {
+		"name": "<%= cName %>",
+		"email": "<%= cEmail %>",
+		"url": "<%= cUrl %>"
+	},
+	"main": "index.js",
+	"repository": "<%= repository %>",
+	"scripts": {
+		"test": "gulp test"
+	},
+	"dependencies": {
+	},
+	"devDependencies": {
+	},
+	"peerDependencies": {
+	},
+	"bundledDependencies": {
+	},
+	"optionalDependencies": {
+	},
+	"engines": {
+		"node": ">= 5.7.0",
+		"npm": ">= 3.6.0"
+	}
+}

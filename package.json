@@ -5,6 +5,7 @@
 	"keywords": [
 		"NodeJS",
 		"hapi",
+		"Bootstrap",
 		"AngularJS",
 		"MongoDB",
 		"Yeoman",
@@ -19,7 +20,8 @@
 		"url": "http://goddard.bz"
 	},
 	"files": [
-		"app"],
+		"app"
+	],
 	"main": "index.js",
 	"bin": {},
 	"man": [],
@@ -28,7 +30,9 @@
 		"test": "gulp test"
 	},
 	"dependencies": {
-		"yeoman-generator": "latest"
+		"yeoman-generator": "latest",
+		"git-config": "latest",
+		"github-url-from-git": "latest"
 	},
 	"devDependencies": {
 		"jshint": "latest",

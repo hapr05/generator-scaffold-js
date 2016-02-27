@@ -7,24 +7,102 @@
 		name = 'name-x';
 
 	before (function (done) {
-		helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).on ('end', done);
+		helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).withPrompts ({
+			name: name,
+			description: 'my-description',
+			homepage: 'my-homepage',
+			bugs: 'my-issues',
+			license: 'MIT',
+			cName: 'my-name',
+			cEmail: 'my-email',
+			cUrl: 'my-url',
+			repository: 'my-repository'
+		}).on ('end', done);
 	});
 
-	describe ('oldschool:app', function () {
-		it ('should generate project directory', function () {
-			assert.file (name);
+	describe ('oldschool:app', () => {
+		describe ('.gitignore', () => {
+			it ('should generate .gitignore', () => {
+				assert.file ('.gitignore');
+			});
+
+			it ('should contain node_modules', () => {
+				assert.fileContent ('.gitignore', 'node_modules');
+			});
+
+			it ('should contain coverage', () => {
+				assert.fileContent ('.gitignore', 'coverage');
+			});
 		});
 
-		describe ('.gitignore', function () {
-			it ('should generate .gitignore', function () {
-				assert.file (name + '/.gitignore');
+		describe ('package.json', () => {
+			it ('should generate package.jason', () => {
+				assert.file ('package.json');
 			});
-			it ('should contain node_modules', function () {
-				assert.fileContent (name + '/.gitignore', 'node_modules');
+
+			it ('should contain correct content', () => {
+				assert.jsonFileContent ('package.json', {
+					name: name,
+					version: '1.0.0-alpha.1',
+					description: 'my-description',
+					keywords: [
+						'NodeJS',
+						'hapi',
+						'Bootstrap',
+						'AngularJS',
+						'MongoDB'
+					],
+					homepage: 'my-homepage',
+					bugs: 'my-issues',
+					license: 'MIT',
+					contributors: {
+						name: 'my-name',
+						email: 'my-email',
+						url: 'my-url'
+					},
+					files: [
+					],
+					main: 'index.js',
+					bin: {},
+					man: [],
+					repository: 'my-repository',
+					scripts: {
+						test: 'gulp test'
+					},
+					dependencies: {
+					},
+					devDependencies: {
+					},
+					peerDependencies: {
+					},
+					bundledDependencies: {
+					},
+					optionalDependencies: {
+					},
+					engines: {
+						node: '>= 5.7.0',
+						npm: '>= 3.6.0'
+					}
+				});
 			});
-			it ('should contain coverage', function () {
-				assert.fileContent (name + '/.gitignore', 'coverage');
+
+			it ('should parse github repo', done => {
+				helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).withPrompts ({
+					name: name,
+					description: 'my-description',
+					bugs: 'my-issues',
+					license: 'MIT',
+					cName: 'my-name',
+					cEmail: 'my-email',
+					cUrl: 'my-url',
+					repository: 'git@github.com:fluky/generator-oldschool.git'
+				}).on ('end', () => {
+					assert.fileContent ('package.json', 'https://github.com/fluky/generator-oldschool');
+					done ();
+				});
 			});
 		});
 	});
 } ());
+
+

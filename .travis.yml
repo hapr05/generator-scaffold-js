@@ -12,6 +12,6 @@ install:
 script:
    - gulp ci
 after_success:
-   coveralls
-   codeclimate-test-reporter < coverage/lcov.info
-   codacy-covarage < coverage/lcov.info
+   - coveralls
+   - codeclimate-test-reporter < coverage/lcov.info
+   - codacy-covarage < coverage/lcov.info

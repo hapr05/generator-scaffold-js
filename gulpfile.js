@@ -17,7 +17,7 @@
 	gulp.task ('default', [ 'ci' ]);
 	gulp.task ('ci', [ 'js', 'test' ]);
 
-	gulp.task ('watch', function () {
+	gulp.task ('watch', () => {
 		gulp.watch ([
 			opts.js.gulpfile,
 			opts.js.app,
@@ -27,14 +27,13 @@
 
 	/* Unit testing tasks */
 	(function () {
-		gulp.task ('test.init', function () {
+		gulp.task ('test.init', () => {
 			return gulp.src (opts.js.app).pipe (istanbul ({
-				includeUntested: true,
-
+				includeUntested: true
 			})).pipe (istanbul.hookRequire ());
 		});
 
-		gulp.task ('test', [ 'test.init' ], function () {
+		gulp.task ('test', [ 'test.init' ], () => {
 			return gulp.src (opts.js.test).pipe (mocha ({
 				ui: 'bdd',
 				reporter: 'spec'
@@ -55,7 +54,7 @@
 
 	/* JavaScript tasks */
 	(function () {
-		gulp.task ('js.lint', function () {
+		gulp.task ('js.lint', () => {
 			return gulp.src ([
 				opts.js.gulpfile,
 				opts.js.app,
