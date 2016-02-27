@@ -15,7 +15,7 @@
 			});
 		},
 
-		init: function () {
+		init () {
 			this.pkg = this.fs.readJSON (path.join (__dirname, '../package.json'));
 		}
 	});

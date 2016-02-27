@@ -34,7 +34,9 @@
 		"jshint": "latest",
 
 		"gulp": "latest",
-		"gulp-jshint": "latest"
+		"gulp-jshint": "latest",
+		"gulp-mocha": "latest",
+		"gulp-istanbul": "latest"
 	},
 	"peerDependencies": {
 	},
