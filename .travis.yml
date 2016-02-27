@@ -5,7 +5,7 @@ language: node_js
 node_js:
    - "5.7.0"
 before_install:
-   - pip install codecov
+   - pip install --user :codecov
 install:
    - npm install -g gulp
    - npm install
