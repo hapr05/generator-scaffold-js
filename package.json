@@ -1,0 +1,50 @@
+{
+	"name": "generator-oldschool",
+	"version": "1.0.0-alpha.1",
+	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
+	"keywords": [
+		"NodeJS",
+		"hapi",
+		"AngularJS",
+		"MongoDB",
+		"Yeoman",
+		"yeoman-generator"
+	],
+	"homepage": "https://github.com/fluky/generator-oldschool.git",
+	"bugs": "https://github.com/fluky/generator-oldschool.git",
+	"license": "MIT",
+	"contributors": {
+		"name": "James Goddard",
+		"email": "james@goddard.bz",
+		"url": "http://goddard.bz"
+	},
+	"files": [
+		"app"],
+	"main": "index.js",
+	"bin": {},
+	"man": [],
+	"repository": "fluky/generator-oldschool",
+	"scripts": {
+		"test": "gulp test"
+	},
+	"dependencies": {
+		"yeoman-generator": "latest"
+	},
+	"devDependencies": {
+		"jshint": "latest",
+
+		"gulp": "latest",
+		"gulp-jshint": "latest"
+	},
+	"peerDependencies": {
+	},
+	"bundledDependencies": {
+	},
+	"optionalDependencies": {
+	},
+	"engines": {
+		"node": ">= 5.7.0",
+		"npm": ">= 3.6.0"
+	},
+	"preferGlobal": true
+}
