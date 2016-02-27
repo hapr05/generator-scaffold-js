@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/fluky/generator-oldschool.png?label=ready&title=Ready)](https://waffle.io/fluky/generator-oldschool)
 # generator-oldschool
 
 > [Yeoman](http://yeoman.io) generator
