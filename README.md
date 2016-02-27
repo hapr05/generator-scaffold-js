@@ -3,7 +3,6 @@
 > [Yeoman](http://yeoman.io) generator
 
 [![Travis](https://img.shields.io/travis/fluky/generator-oldschool.svg)]()
-[![Codecov](https://img.shields.io/codecov/c/github/codecov/example-python.svg)]()
 
 [![Github All Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/total.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/latest/total.svg)]()
