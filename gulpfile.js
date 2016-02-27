@@ -9,6 +9,7 @@
 
 	gulp.task ('default', [ 'serve' ]);
 	gulp.task ('serve', [ 'js.lint' ]);
+	gulp.task ('ci', [ 'js.lint' ]);
 
 	/* JavaScript tasks */
 	(function () {
