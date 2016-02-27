@@ -2,21 +2,20 @@
 
 > [Yeoman](http://yeoman.io) generator
 
-[travis-image]: https://travis-ci.org/fluky/generator-oldschool.svg?branch=master
-[travis-url]: https://travis-ci.org/fluky/generator-oldschool
+[![Build Status](https://travis-ci.org/fluky/generator-oldschool.svg?branch=master)](https://travis-ci.org/fluky/generator-oldschool)
 [![Code Climate](https://codeclimate.com/github/fluky/generator-oldschool/badges/gpa.svg)](https://codeclimate.com/github/fluky/generator-oldschool)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/eeae91ca87c049768c3355321e8fdd68)](https://www.codacy.com/app/james_20/generator-oldschool)
+[![Coverage Status](https://coveralls.io/repos/github/fluky/generator-oldschool/badge.svg?branch=master)](https://coveralls.io/github/fluky/generator-oldschool?branch=master)
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2016.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/latest/total.svg)]()
-[![GitHub release](https://img.shields.io/github/release/fluky/generator-oldschool.svg)]()
+[![Stories in Ready](https://badge.waffle.io/fluky/generator-oldschool.png?label=ready&title=ready)](https://waffle.io/fluky/generator-oldschool)
 
 [![Dependency Status](https://david-dm.org/fluky/generator-oldschool.svg)](https://david-dm.org/fluky/generator-oldschool)
 [![devDependency Status](https://david-dm.org/fluky/generator-oldschool/dev-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=devDependencies)
 [![peerDependency Status](https://david-dm.org/fluky/generator-oldschool/peer-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=peerDependencies)
 [![optionalDependency Status](https://david-dm.org/fluky/generator-oldschool/optional-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=optionalDependencies)
 
-[![Stories in Ready](https://badge.waffle.io/fluky/generator-oldschool.png?label=ready&title=Ready)](https://waffle.io/fluky/generator-oldschool)
 <!--
 [npm-image]: https://badge.fury.io/js/generator-oldschool.svg
 [npm-url]: https://npmjs.org/package/generator-oldschool

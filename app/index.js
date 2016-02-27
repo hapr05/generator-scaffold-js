@@ -2,7 +2,8 @@
 	'use strict';
 
 	const generator = require ('yeoman-generator'),
-		path = require ('path');
+		path = require ('path'),
+		mkdirp = require('mkdirp');
 
 	module.exports = generator.Base.extend ({
 		constructor: function () {
@@ -17,6 +18,13 @@
 
 		init () {
 			this.pkg = this.fs.readJSON (path.join (__dirname, '../package.json'));
+		},
+
+		app () {
+			mkdirp.sync (this.appName);
+
+			this.copy ('-gitignore', path.join (this.appName, '.gitignore'));
+
 		}
 	});
 } (require, module));
