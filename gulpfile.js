@@ -1,10 +1,13 @@
 (function (require) {
 	'use strict';
 
-	var gulp = require ('gulp'),
+	const gulp = require ('gulp'),
 		jshint = require ('gulp-jshint'),
 		opts = {
-			indexSrc: 'index.js'
+			js: {
+				'gulpfile': 'gulpfile.js',
+				'app': 'app/**/*.js'
+			}
 		};
 
 	gulp.task ('default', [ 'serve' ]);
@@ -15,11 +18,12 @@
 	(function () {
 		gulp.task ('js.lint', function () {
 			return gulp.src ([
-				opts.indexSrc
+				opts.js.gulpfile,
+				opts.js.app
 			]).pipe (jshint ());
 		});
 		
 		gulp.task ('js', [ 'js.lint' ]);
 	}) ();
 
-}) (require);
+} (require));
