@@ -42,7 +42,9 @@
 				reporters: [
 					'html',
 					'json',
-					'lcov'
+					'lcov',
+					'text',
+					'text-summary'
 				]
 			})).pipe (istanbul.enforceThresholds ({
 				thresholds: {
