@@ -11,7 +11,7 @@ install:
    - npm install
 script:
    - gulp ci
-after_success:
    - coveralls
+after_success:
    - codeclimate-test-reporter < coverage/lcov.info
    - codacy-covarage < coverage/lcov.info
