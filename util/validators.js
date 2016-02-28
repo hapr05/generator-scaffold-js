@@ -3,7 +3,7 @@
 
 	module.exports = {
 		required (value) {
-			return Boolean ("string" === typeof value && value.length)
+			return Boolean ("string" === typeof value && value.length);
 		}
 	};
 } (require, module));

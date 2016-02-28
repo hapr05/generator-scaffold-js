@@ -10,6 +10,7 @@
 			js: {
 				'gulpfile': 'gulpfile.js',
 				'app': 'app/**/*.js',
+				'appnt': '!app/**/-*.js',
 				'test': 'test/**/*.js'
 			}
 		};
@@ -28,7 +29,10 @@
 	/* Unit testing tasks */
 	(function () {
 		gulp.task ('test.init', () => {
-			return gulp.src (opts.js.app).pipe (istanbul ({
+			return gulp.src ([
+				opts.js.app,
+				opts.js.appnt
+			]).pipe (istanbul ({
 				includeUntested: true
 			})).pipe (istanbul.hookRequire ());
 		});
@@ -59,6 +63,7 @@
 			return gulp.src ([
 				opts.js.gulpfile,
 				opts.js.app,
+				opts.js.appnt,
 				opts.js.test
 			]).pipe (jshint ()).pipe (jshint.reporter ('default')).pipe (jshint.reporter ('fail'));
 		});

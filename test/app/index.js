@@ -1,4 +1,4 @@
-(function () {
+(function (require) {
 	'use strict';
 
 	const assert = require ('yeoman-assert'),
@@ -80,6 +80,8 @@
 					dependencies: {
 					},
 					devDependencies: {
+						gulp: 'latest',
+						'gulp-jshint': 'latest'
 					},
 					peerDependencies: {
 					},
@@ -150,7 +152,23 @@
 				assert.file ('README.md');
 			});
 		});
+
+		describe ('gulpfile.js', () => {
+			it ('should generate gulpfile.js', () => {
+				assert.file ('gulpfile.js');
+			});
+		});
+
+
+
+		describe ('generated app', () => {
+			it ('should build clean', () => {
+
+
+
+			});
+		});
 	});
-} ());
+} (require));
 
 

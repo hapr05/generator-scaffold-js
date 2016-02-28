@@ -90,6 +90,7 @@
 					break;
 			}
 			this.template ('-README.md', 'README.md', config);
+			this.copy ('-gulpfile.js', 'gulpfile.js');
 		}
 	});
 } (require, module));

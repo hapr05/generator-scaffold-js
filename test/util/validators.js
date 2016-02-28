@@ -1,10 +1,9 @@
-(function () {
+(function (require) {
 	'use strict';
 
 	const assert = require ('assert'),
 		validators = require ('../../util/validators');
 
-	console.log (validators);
 	describe ('validators', () => {
 		describe ('required', () => {
 			it ('should validate non-emty string', () => {
@@ -20,6 +19,6 @@
 			});
 		});
 	});
-} ());
+} (require));
 
 

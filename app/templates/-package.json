@@ -25,6 +25,8 @@
 	"dependencies": {
 	},
 	"devDependencies": {
+		"gulp": "latest",
+		"gulp-jshint": "latest"
 	},
 	"peerDependencies": {
 	},
