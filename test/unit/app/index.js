@@ -84,7 +84,10 @@
 						},
 						devDependencies: {
 							gulp: 'latest',
-							'gulp-jshint': 'latest'
+							'gulp-jshint': 'latest',
+							'gulp-json-lint': 'latest',
+							'jshint': 'latest',
+							'jshint-stylish': 'latest'
 						},
 						peerDependencies: {
 						},

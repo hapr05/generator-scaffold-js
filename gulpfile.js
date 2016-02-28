@@ -4,6 +4,7 @@
 	const gulp = require ('gulp'),
 		//debug = require ('gulp-debug'),
 		jshint = require ('gulp-jshint'),
+		jsonlint = require ('gulp-json-lint'),
 		mocha = require ('gulp-mocha'),
 		istanbul = require ('gulp-istanbul'),
 		spawn = require ('child_process').spawn,
@@ -14,11 +15,25 @@
 				'appnt': '!app/**/-*.js',
 				'unitTest': 'test/unit/**/*.js',
 				'integrationTest': 'test/integration/**/*.js'
-			}
+			},
+			json: [
+				'package.json',
+				'app/**/*.json'
+			]
 		};
 
+	function values (obj) {
+		var v = [], k;
+		for (k in obj) {
+			if (obj.hasOwnProperty (k)) {
+				v.push (obj [k]);
+			}
+		}
+		return v;
+	}
+
 	gulp.task ('default', [ 'ci' ]);
-	gulp.task ('ci', [ 'js', 'test.unit', 'test.integration' ]);
+	gulp.task ('ci', [ 'js', 'json', 'test.unit', 'test.integration' ]);
 
 	gulp.task ('watch', () => {
 		gulp.watch ([
@@ -71,15 +86,18 @@
 	/* JavaScript tasks */
 	(function () {
 		gulp.task ('js.lint', () => {
-			return gulp.src ([
-				opts.js.gulpfile,
-				opts.js.app,
-				opts.js.appnt,
-				opts.js.unitTest,
-				opts.js.integrationTest
-			]).pipe (jshint ()).pipe (jshint.reporter ('default')).pipe (jshint.reporter ('fail'));
+			return gulp.src (values (opts.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail'));
 		});
 		
 		gulp.task ('js', [ 'js.lint' ]);
+	} ());
+
+	/* Json tasks */
+	(function () {
+		gulp.task ('json.lint', () => {
+			return gulp.src (opts.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
+		});
+		
+		gulp.task ('json', [ 'json.lint' ]);
 	} ());
 } (require));

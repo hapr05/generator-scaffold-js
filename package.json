@@ -37,9 +37,11 @@
 	"devDependencies": {
 		"temp": "latest",
 		"jshint": "latest",
+		"jshint-stylish": "latest",
 
 		"gulp": "latest",
 		"gulp-jshint": "latest",
+		"gulp-json-lint": "latest",
 		"gulp-mocha": "latest",
 		"gulp-istanbul": "latest",
 
