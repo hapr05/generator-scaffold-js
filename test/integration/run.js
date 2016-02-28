@@ -26,13 +26,11 @@
 				if (e) {
 					reject (e);
 				} else {
-					let yo;
-
 					console.info (`Test directory created: ${ dir }`);
 					process.chdir (dir);
 
 					console.info ('Generating app');
-					helpers.run (path.join ( __dirname, '../../app')).withPrompts (prompts).inDir (dir).on ('end', (code) => {
+					helpers.run (path.join ( __dirname, '../../app')).withPrompts (prompts).inDir (dir).on ('end', () => {
 						console.info ('Running npm install');
 						spawn ('npm', [ 'install' ]).on ('close', (code) => {
 							if (code) {
