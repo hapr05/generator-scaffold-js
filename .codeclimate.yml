@@ -1,11 +1,28 @@
+---
 engines:
-   duplication:
-      enabled: true
-   config:
+  duplication:
+    enabled: true
+    config:
       languages:
-         - javascript
-   eslint:
-      enabled: true
-      checks:
-         global-require:
-            enabled: false
+      - ruby
+      - javascript
+      - python
+      - php
+  eslint:
+    enabled: true
+    checks:
+      global-require:
+         enabled: false
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.inc"
+  - "**.js"
+  - "**.jsx"
+  - "**.module"
+  - "**.php"
+  - "**.py"
+  - "**.rb"
+exclude_paths:
+- test/

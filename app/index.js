@@ -21,7 +21,6 @@
 
 		git: function () {
 			const done = this.async ();
-			this.gitConfig = {};
 
 			gitConfig ((err, config) => {
 				this.gitConfig = config;
@@ -34,8 +33,8 @@
 				prompts = [
 					{ name: 'name', message: 'Name', default: this.appname, validate: String.length },
 					{ name: 'description', message: 'Description', default: 'oldschool generated application'  },
-					{ name: 'cName', message: 'Author name', default: this.gitConfig.user && this.gitConfig.user.name },
-					{ name: 'cEmail', message: 'Author email', default: this.gitConfig.user && this.gitConfig.user.email },
+					{ name: 'cName', message: 'Author name', default: this.gitConfig && this.gitConfig.user && this.gitConfig.user.name },
+					{ name: 'cEmail', message: 'Author email', default: this.gitConfig && this.gitConfig.user && this.gitConfig.user.email },
 					{ name: 'cUrl', message: 'Author url' },
 					{ name: 'repository', message: 'Repository url' }
 				];

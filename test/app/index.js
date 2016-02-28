@@ -47,7 +47,7 @@
 					useCleanCache: true
 				});
 
-				gitConfigStub = sinon.stub ().callsArgWith (0, false, {});
+				gitConfigStub = sinon.stub ().callsArgWith (0, false, { user: {} });
 
 				mockery.registerMock ('git-config', gitConfigStub);
 			});
