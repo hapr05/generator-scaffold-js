@@ -144,6 +144,12 @@
 				});
 			});
 		});
+
+		describe ('README.md', () => {
+			it ('should generate README.md', () => {
+				assert.file ('README.md');
+			});
+		});
 	});
 } ());
 

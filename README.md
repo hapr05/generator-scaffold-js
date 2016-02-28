@@ -28,3 +28,82 @@
 [![Libscore](https://img.shields.io/libscore/s/jQuery.svg)]()
 -->
 
+## Synopsis
+
+Yeoman generator to create a full stack web application using the following techonologies:
+ - NodeJS
+ - Hapi
+ - MongoDB
+ - AngularJS
+ - Bootstrap
+
+## Code Example
+
+## Motivation
+
+## Installation
+
+```bash
+$ npm install -g gulp
+$ npm install -g yo
+$ npm install -g generator-oldschool
+```
+
+## Usage
+
+### App generator (api and web combo)
+
+```bash
+$ mkdir project-directory
+$ chdir project-directory
+$ yo oldschool
+```
+
+```bash
+$ gulp start
+```
+## API Reference
+
+## Tests
+
+```bash
+$ gulp test
+```
+
+## Questions and contributing
+
+Any issues or questions (no matter how basic), open an issue. Please take the
+initiative to include basic debugging information like operating system
+and relevant version details such as:
+
+```bash
+$ npm version
+
+#{ 'generator-oldschool': '1.0.0-alpha.1',
+#	npm: '3.6.0',
+#	ares: '1.10.1-DEV',
+#	http_parser: '2.6.2',
+#	icu: '56.1',
+#	modules: '47',
+#	node: '5.7.0',
+#	openssl: '1.0.2f',
+#	uv: '1.8.0',
+#	v8: '4.6.85.31',
+#	zlib: '1.2.8' }
+```
+
+Contributions are welcome. Your code should:
+
+ - include 100% test coverage
+ - follow the code convention (TODO)
+
+If you're changing something non-trivial, you may want to submit an issue first.
+
+## Keep it covered
+
+:+1: All the generators include 100% test coverage. 
+
+
+## License
+
+MIT

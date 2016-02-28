@@ -89,6 +89,7 @@
 					this.copy ('-LICENSE.MIT', 'LICENSE.MIT');
 					break;
 			}
+			this.template ('-README.md', 'README.md', config);
 		}
 	});
 } (require, module));
