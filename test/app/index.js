@@ -3,10 +3,12 @@
 
 	const assert = require ('yeoman-assert'),
 		helpers = require ('yeoman-test'),
+		sinon = require ('sinon'),
+		mockery = require ('mockery'),
 		path = require ('path'),
 		name = 'name-x';
 
-	before (function (done) {
+	before ((done) => {
 		helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).withPrompts ({
 			name: name,
 			description: 'my-description',
@@ -36,6 +38,20 @@
 		});
 
 		describe ('package.json', () => {
+			var gitConfigStub;
+
+			before (() => {
+				mockery.enable ({
+					warnOnReplace: false,
+					warnOnUnregistered: false,
+					useCleanCache: true
+				});
+
+				gitConfigStub = sinon.stub ().callsArgWith (0, false, {});
+
+				mockery.registerMock ('git-config', gitConfigStub);
+			});
+
 			it ('should generate package.jason', () => {
 				assert.file ('package.json');
 			});
@@ -86,7 +102,7 @@
 				});
 			});
 
-			it ('should parse github repo', done => {
+			it ('should parse github repo', (done) => {
 				helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).withPrompts ({
 					name: name,
 					description: 'my-description',
@@ -100,6 +116,12 @@
 					assert.fileContent ('package.json', 'https://github.com/fluky/generator-oldschool');
 					done ();
 				});
+			});
+		});
+
+		describe ('.travis.yml', () => {
+			it ('should generate .travis.yml', () => {
+				assert.file ('.travis.yml');
 			});
 		});
 	});

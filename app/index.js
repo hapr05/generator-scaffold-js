@@ -79,6 +79,7 @@
 			const config = this.config.getAll ();
 			this.copy ('-gitignore', '.gitignore');
 			this.template ('-package.json', 'package.json', config);
+			this.copy ('-.travis.yml', '.travis.yml');
 		}
 	});
 } (require, module));

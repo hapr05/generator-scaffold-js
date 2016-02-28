@@ -40,7 +40,10 @@
 		"gulp": "latest",
 		"gulp-jshint": "latest",
 		"gulp-mocha": "latest",
-		"gulp-istanbul": "latest"
+		"gulp-istanbul": "latest",
+
+		"sinon": "latest",
+		"mockery": "latest"
 	},
 	"peerDependencies": {
 	},
