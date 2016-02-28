@@ -35,6 +35,7 @@
 		"github-url-from-git": "latest"
 	},
 	"devDependencies": {
+		"temp": "latest",
 		"jshint": "latest",
 
 		"gulp": "latest",

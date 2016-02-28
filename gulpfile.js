@@ -6,24 +6,26 @@
 		jshint = require ('gulp-jshint'),
 		mocha = require ('gulp-mocha'),
 		istanbul = require ('gulp-istanbul'),
+		spawn = require ('child_process').spawn,
 		opts = {
 			js: {
 				'gulpfile': 'gulpfile.js',
 				'app': 'app/**/*.js',
 				'appnt': '!app/**/-*.js',
-				'test': 'test/**/*.js'
+				'unitTest': 'test/unit/**/*.js',
+				'integrationTest': 'test/integration/**/*.js'
 			}
 		};
 
 	gulp.task ('default', [ 'ci' ]);
-	gulp.task ('ci', [ 'js', 'test' ]);
+	gulp.task ('ci', [ 'js', 'test.unit', 'test.integration' ]);
 
 	gulp.task ('watch', () => {
 		gulp.watch ([
 			opts.js.gulpfile,
 			opts.js.app,
-			opts.js.test
-		], [ 'js', 'test' ]);
+			opts.js.unitTest
+		], [ 'js', 'test.unit' ]);
 	});
 
 	/* Unit testing tasks */
@@ -37,8 +39,8 @@
 			})).pipe (istanbul.hookRequire ());
 		});
 
-		gulp.task ('test', [ 'test.init' ], () => {
-			return gulp.src (opts.js.test).pipe (mocha ({
+		gulp.task ('test.unit', [ 'test.init' ], () => {
+			return gulp.src (opts.js.unitTest).pipe (mocha ({
 				ui: 'bdd',
 				reporter: 'spec'
 			})).pipe (istanbul.writeReports ({
@@ -55,6 +57,15 @@
 				}
 			}));
 		});
+
+		gulp.task ('test.integration', (done) => {
+			spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
+				if (code) {
+					throw 'integration test failed';
+				}
+				done ();
+			});
+		});
 	} ());
 
 	/* JavaScript tasks */
@@ -64,7 +75,8 @@
 				opts.js.gulpfile,
 				opts.js.app,
 				opts.js.appnt,
-				opts.js.test
+				opts.js.unitTest,
+				opts.js.integrationTest
 			]).pipe (jshint ()).pipe (jshint.reporter ('default')).pipe (jshint.reporter ('fail'));
 		});
 		

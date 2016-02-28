@@ -4,7 +4,7 @@ branches:
 language: node_js
 os:
    - linux
-   - osx
+#   - osx - travis-ci doesn't support node on osx (lame)
 node_js:
    - "5.7.0"
 install:

@@ -16,6 +16,10 @@
 			this.config.set ('appname', this.appname);
 		},
 
+		_def (a, b) {
+			return this.config.get (a) || b;
+		},
+
 		init () {
 			this.pkg = this.fs.readJSON (path.join (__dirname, '../package.json'));
 		},
@@ -32,12 +36,12 @@
 		askFor () {
 			const done = this.async (),
 				prompts = [
-					{ name: 'name', message: 'Name', default: this.config.get ('name') || this.appname, validate: validators.required },
-					{ name: 'description', message: 'Description', default: this.config.get ('description') || 'oldschool generated application' },
-					{ name: 'cName', message: 'Author name', default: this.config.get ('cName') || this.gitConfig && this.gitConfig.user && this.gitConfig.user.name },
-					{ name: 'cEmail', message: 'Author email', default: this.config.get ('cEmail') || this.gitConfig && this.gitConfig.user && this.gitConfig.user.email },
-					{ name: 'cUrl', message: 'Author url', default: this.config.get ('cUrl') },
-					{ name: 'repository', message: 'Repository url', default: this.config.get ('repository') }
+					{ name: 'name', message: 'Name', default: this._def ('name', this.appname), validate: validators.required },
+					{ name: 'description', message: 'Description', default: this._def ('description', 'oldschool generated application') },
+					{ name: 'cName', message: 'Author name', default: this._def ('cName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
+					{ name: 'cEmail', message: 'Author email', default: this._def ('cEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
+					{ name: 'cUrl', message: 'Author url', default: this._def ('cUrl', '') },
+					{ name: 'repository', message: 'Repository url', default: this._def ('repository', '') }
 				];
 
 			this.prompt (prompts, (answers) => {
@@ -51,7 +55,7 @@
 				homepage = githubUrlFromGit (this.config.get ('repository'));
 
 			var prompts = [
-				{ name: 'license', message: 'License', default: this.config.get ('license') || 'MIT', type: 'list', choices: [
+				{ name: 'license', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [
 					'Apache-2.0', 'MIT'
 				]}
 			];
@@ -59,13 +63,13 @@
 			this.isGithub = Boolean (homepage);
 			if (this.isGithub) {
 				prompts = prompts.concat ([
-					{ name: 'homepage', message: 'Project homepage url', default: this.config.get ('homepage') || homepage },
-					{ name: 'bugs', message: 'Issue tracker url', default: this.config.get ('bugs') || homepage + '/issues' }
+					{ name: 'homepage', message: 'Project homepage url', default: this._def ('homepage', homepage) },
+					{ name: 'bugs', message: 'Issue tracker url', default: this._def ('bugs', homepage + '/issues') }
 				]);
 			} else {
 				prompts = prompts.concat ([
-					{ name: 'homepage', message: 'Project homepage url', default: this.config.get ('homepage') },
-					{ name: 'bugs', message: 'Issue tracker url', default: this.config.get ('bugs') }
+					{ name: 'homepage', message: 'Project homepage url', default: this._def ('homepage', '') },
+					{ name: 'bugs', message: 'Issue tracker url', default: this._def ('bugs', '') }
 				]);
 			}
 
@@ -78,7 +82,7 @@
 		app () {
 			const config = this.config.getAll ();
 
-			this.copy ('-gitignore', '.gitignore');
+			this.copy ('-.gitignore', '.gitignore');
 			this.template ('-package.json', 'package.json', config);
 			this.copy ('-.travis.yml', '.travis.yml');
 			this.copy ('-.jshintrc', '.jshintrc');

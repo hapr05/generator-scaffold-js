@@ -1,4 +1,4 @@
-(function (require, module) {
+(function (module) {
 	'use strict';
 
 	module.exports = {
@@ -6,4 +6,4 @@
 			return Boolean ("string" === typeof value && value.length);
 		}
 	};
-} (require, module));
+} (module));

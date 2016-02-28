@@ -11,7 +11,7 @@
 	],
 	"iterator": false,
 	"latedef": true,
-	"maxcomplexity": 7,
+	"maxcomplexity": 5,
 	"maxdepth": 4,
 	"maxparams": 5,
 	"maxstatements": 10,
