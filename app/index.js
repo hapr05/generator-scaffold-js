@@ -5,7 +5,8 @@
 		path = require ('path'),
 		process = require ('process'),
 		gitConfig = require ('git-config'),
-		githubUrlFromGit = require ('github-url-from-git');
+		githubUrlFromGit = require ('github-url-from-git'),
+		validators = require ('../util/validators.js');
 
 	module.exports = generator.Base.extend ({
 		constructor: function () {
@@ -31,7 +32,7 @@
 		askFor () {
 			const done = this.async (),
 				prompts = [
-					{ name: 'name', message: 'Name', default: this.appname, validate: String.length },
+					{ name: 'name', message: 'Name', default: this.appname, validate: validators.required },
 					{ name: 'description', message: 'Description', default: 'oldschool generated application'  },
 					{ name: 'cName', message: 'Author name', default: this.gitConfig && this.gitConfig.user && this.gitConfig.user.name },
 					{ name: 'cEmail', message: 'Author email', default: this.gitConfig && this.gitConfig.user && this.gitConfig.user.email },
@@ -51,7 +52,7 @@
 
 			var prompts = [
 				{ name: 'license', message: 'License', default: 'MIT', type: 'list', choices: [
-					'Apache-2.0', 'APSL-2.0', 'MIT'
+					'Apache-2.0', 'MIT'
 				]}
 			];
 
@@ -80,6 +81,14 @@
 			this.template ('-package.json', 'package.json', config);
 			this.copy ('-.travis.yml', '.travis.yml');
 			this.copy ('-.jshintrc', '.jshintrc');
+			switch (config.license) {
+				case 'Apache-2.0':
+					this.copy ('-LICENSE.Apache-2.0', 'LICENSE.Apache-2.0');
+					break;
+				case 'MIT':
+					this.copy ('-LICENSE.MIT', 'LICENSE.MIT');
+					break;
+			}
 		}
 	});
 } (require, module));

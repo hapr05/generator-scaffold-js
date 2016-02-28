@@ -122,6 +122,28 @@
 				assert.file ('.jshintrc');
 			});
 		});
+
+		describe ('LICENSE', () => {
+			it ('should generate LICENSE.MIT', () => {
+				assert.file ('LICENSE.MIT');
+			});
+
+			it ('should generate LICENSE.Apache-2.0', (done) => {
+				helpers.run (path.join ( __dirname, '../../app')).withArguments ([ name ]).withPrompts ({
+					name: name,
+					description: 'my-description',
+					bugs: 'my-issues',
+					license: 'Apache-2.0',
+					cName: 'my-name',
+					cEmail: 'my-email',
+					cUrl: 'my-url',
+					repository: 'git@github.com:fluky/generator-oldschool.git'
+				}).on ('end', () => {
+					assert.file ('LICENSE.Apache-2.0');
+					done ();
+				});
+			});
+		});
 	});
 } ());
 
