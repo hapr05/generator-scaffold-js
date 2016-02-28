@@ -27,14 +27,6 @@
 			it ('should generate .gitignore', () => {
 				assert.file ('.gitignore');
 			});
-
-			it ('should contain node_modules', () => {
-				assert.fileContent ('.gitignore', 'node_modules');
-			});
-
-			it ('should contain coverage', () => {
-				assert.fileContent ('.gitignore', 'coverage');
-			});
 		});
 
 		describe ('package.json', () => {
@@ -122,6 +114,12 @@
 		describe ('.travis.yml', () => {
 			it ('should generate .travis.yml', () => {
 				assert.file ('.travis.yml');
+			});
+		});
+
+		describe ('.jshintrc', () => {
+			it ('should generate .jshintrc', () => {
+				assert.file ('.jshintrc');
 			});
 		});
 	});

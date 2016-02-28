@@ -79,6 +79,7 @@
 			this.copy ('-gitignore', '.gitignore');
 			this.template ('-package.json', 'package.json', config);
 			this.copy ('-.travis.yml', '.travis.yml');
+			this.copy ('-.jshintrc', '.jshintrc');
 		}
 	});
 } (require, module));
