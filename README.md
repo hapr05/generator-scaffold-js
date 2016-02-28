@@ -5,11 +5,12 @@
 [![Build Status](https://travis-ci.org/fluky/generator-oldschool.svg?branch=master)](https://travis-ci.org/fluky/generator-oldschool)
 [![Code Climate](https://codeclimate.com/github/fluky/generator-oldschool/badges/gpa.svg)](https://codeclimate.com/github/fluky/generator-oldschool)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/eeae91ca87c049768c3355321e8fdd68)](https://www.codacy.com/app/james_20/generator-oldschool)
-[![Coverage Status](https://coveralls.io/repos/github/fluky/generator-oldschool/badge.svg?branch=master)](https://coveralls.io/github/fluky/generator-oldschool?branch=master)
+[![Test Coverage](https://codeclimate.com/github/fluky/generator-oldschool/badges/coverage.svg)](https://codeclimate.com/github/fluky/generator-oldschool/coverage)
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2016.svg)]()
 [![Github Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/latest/total.svg)]()
 [![Stories in Ready](https://badge.waffle.io/fluky/generator-oldschool.png?label=ready&title=ready)](https://waffle.io/fluky/generator-oldschool)
+[![GitHub license](https://img.shields.io/github/license/fluky/generator-oldschool.svg)]()
 
 [![Dependency Status](https://david-dm.org/fluky/generator-oldschool.svg)](https://david-dm.org/fluky/generator-oldschool)
 [![devDependency Status](https://david-dm.org/fluky/generator-oldschool/dev-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=devDependencies)

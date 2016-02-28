@@ -2,6 +2,9 @@ branches:
    only:
       - master
 language: node_js
+os:
+   - linux
+   - osx
 node_js:
    - "5.7.0"
 install:

@@ -6,6 +6,7 @@
 			sinon = require ('sinon'),
 			mockery = require ('mockery'),
 			path = require ('path'),
+			spawn = require ('child_process').spawn,
 			name = 'name-x',
 			prompts = {
 				name: name,
@@ -177,22 +178,31 @@
 		});
 	});
 
-	describe ('npm install', () => {
+	/* it won't run npm install when unit testing */
+	xdescribe ('npm install', () => {
 		before ((done) => {
 			helpers.run (path.join ( __dirname, '../../app')).withPrompts (prompts).on ('end', done);
 		});
 
 		it ('should install node_modules', () => {
-			assert.noFile ('node_modules'); // Seems to always skip when testing
+			assert.noFile ('node_modules');
 		});
 	});
 
+	/* Too slow for Unit Testing */
+	xdescribe ('generated app', () => {
+		before ((done) => {
+			helpers.run (path.join ( __dirname, '../../app')).withPrompts (prompts).on ('end', done);
+		});
 
-	describe ('generated app', () => {
-		it ('should build clean', () => {
-
-
-
+		it ('should build clean', (done) => {
+			spawn ('npm', [ 'install' ]).on ('close', (code) => {
+				assert.strictEqual (code, 0);
+				spawn ('gulp').on ('close', (code) => {
+					assert.strictEqual (code, 0);
+					done ();
+				});
+			});
 		});
 	});
 } (require));
