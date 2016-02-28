@@ -43,6 +43,7 @@
 					'html',
 					'json',
 					'lcov',
+					'text-lcov',
 					'text',
 					'text-summary'
 				]
