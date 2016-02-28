@@ -77,6 +77,7 @@
 
 		app () {
 			const config = this.config.getAll ();
+
 			this.copy ('-gitignore', '.gitignore');
 			this.template ('-package.json', 'package.json', config);
 			this.copy ('-.travis.yml', '.travis.yml');
@@ -91,6 +92,13 @@
 			}
 			this.template ('-README.md', 'README.md', config);
 			this.copy ('-gulpfile.js', 'gulpfile.js');
+		},
+
+		installDeps () {
+			this.installDependencies ({
+				bower: false,
+				npm: true
+			});
 		}
 	});
 } (require, module));
