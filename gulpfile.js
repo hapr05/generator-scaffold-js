@@ -3,6 +3,7 @@
 
 	const gulp = require ('gulp'),
 		//debug = require ('gulp-debug'),
+		gutil = require ('gulp-util'),
 		jshint = require ('gulp-jshint'),
 		jsonlint = require ('gulp-json-lint'),
 		mocha = require ('gulp-mocha'),
@@ -76,11 +77,22 @@
 		});
 
 		gulp.task ('test.integration', (done) => {
-			spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
+			var test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
 				if (code) {
 					throw 'integration test failed';
 				}
 				done ();
+			});
+
+			test.stdout.setEncoding ('utf8');
+			test.stdout.on ('data', (data) => {
+				gutil.log (data);
+			});
+
+			test.stderr.setEncoding ('utf8');
+			test.stderr.on ('data', (data) => {
+				gutil.log (gutil.colors.red (data));
+				gutil.beep ();
 			});
 		});
 	} ());

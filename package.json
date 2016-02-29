@@ -40,6 +40,7 @@
 		"jshint-stylish": "latest",
 
 		"gulp": "latest",
+		"gulp-util": "latest",
 		"gulp-jshint": "latest",
 		"gulp-json-lint": "latest",
 		"gulp-mocha": "latest",
