@@ -2,10 +2,10 @@
 	'use strict';
 
 	const gulp = require ('gulp'),
-		nodeMon = require ('gulp-nodemon'),
+		nodemon = require ('gulp-nodemon'),
 		browserSync = require ('browser-sync'),
-		jsHint = require ('gulp-jshint'),
-		jsonLint = require ('gulp-json-lint'),
+		jshint = require ('gulp-jshint'),
+		jsonlint = require ('gulp-json-lint'),
 		opts= {
 			files: {
 				html: 'src/web/index.html',
@@ -42,8 +42,8 @@
 			gulp.watch (opts.files.html, [ /* 'html', */ 'bs.reload' ]);
 		});
 
-		gulp.task ('nodemon', (done) => {
-			return nodeMon ({
+		gulp.task ('nm', (done) => {
+			return nodemon ({
 				script: 'src/server',
 				watch: opts.files.js.server
 			}).on ('start', done).on ('restart', () => {
@@ -53,7 +53,7 @@
 			});
 		});
 
-		gulp.task ('bs', [ 'nodemon' ], () => {
+		gulp.task ('bs', [ 'nm' ], () => {
 			browserSync ({
 				proxy: 'localhost:8080'
 			});
@@ -67,7 +67,7 @@
 	/* JavaScript tasks */
 	(function () {
 		gulp.task ('js.lint', () => {
-			return gulp.src (values (opts.files.js)).pipe (jsHint ()).pipe (jsHint.reporter ('jsHint-stylish')).pipe (jsHint.reporter ('fail'));
+			return gulp.src (values (opts.files.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail'));
 		});
 		
 		gulp.task ('js', [ 'js.lint' ]);
@@ -76,7 +76,7 @@
 	/* Json tasks */
 	(function () {
 		gulp.task ('json.lint', () => {
-			return gulp.src (opts.files.json).pipe (jsonLint ()).pipe (jsonLint.report ('verbose'));
+			return gulp.src (opts.files.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
 		});
 		
 		gulp.task ('json', [ 'json.lint' ]);
