@@ -4,7 +4,7 @@
 	const gulp = require ('gulp'),
 		nodeMon = require ('gulp-nodemon'),
 		browserSync = require ('browser-sync'),
-		jsHint = require ('gulp-jsHint'),
+		jsHint = require ('gulp-jshint'),
 		jsonLint = require ('gulp-json-lint'),
 		opts= {
 			files: {
