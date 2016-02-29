@@ -39,7 +39,7 @@
 								reject (`failed to install npm modules: ${ code }`);
 							} else {
 								console.info ('Running gulp ci');
-								spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
+								p = spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
 									if (code) {
 										reject (`gulp failed: ${ code }`);
 									} else {
@@ -50,8 +50,8 @@
 								p.stderr.pipe (process.stderr);
 							}
 						});
-						p.stdout.pipe (process.stdout);
-						p.stderr.pipe (process.stderr);
+						//p.stdout.pipe (process.stdout);
+						//p.stderr.pipe (process.stderr);
 					}).on ('error', (e) => {
 						reject ('failed to generate: ' + e);
 					});
