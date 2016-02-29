@@ -31,21 +31,27 @@
 
 					console.info ('Generating app');
 					helpers.run (path.join ( __dirname, '../../app')).withPrompts (prompts).inDir (dir).on ('end', () => {
+						var p;
+
 						console.info ('Running npm install');
-						spawn ('npm', [ 'install' ]).on ('close', (code) => {
+						p = spawn ('npm', [ 'install' ]).on ('close', (code) => {
 							if (code) {
 								reject (`failed to install npm modules: ${ code }`);
 							} else {
-								console.info ('Running gulp js (will eventually replace)');
-								spawn ('gulp', [ 'js' ]).on ('close', (code) => {
+								console.info ('Running gulp ci');
+								spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
 									if (code) {
 										reject (`gulp failed: ${ code }`);
 									} else {
 										resolve ();
 									}
 								});
+								p.stdout.pipe (process.stdout);
+								p.stderr.pipe (process.stderr);
 							}
 						});
+						p.stdout.pipe (process.stdout);
+						p.stderr.pipe (process.stderr);
 					}).on ('error', (e) => {
 						reject ('failed to generate: ' + e);
 					});

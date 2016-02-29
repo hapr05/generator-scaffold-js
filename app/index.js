@@ -80,22 +80,31 @@
 		},
 
 		app () {
-			const config = this.config.getAll ();
+			const config = this.config.getAll (),
+				copy = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js' ],
+				template = [ 'README.md', 'package.json', 'src/web/index.html' ],
+				directory = [ 'config', 'src' ];
 
-			this.copy ('-.gitignore', '.gitignore');
-			this.template ('-package.json', 'package.json', config);
-			this.copy ('-.travis.yml', '.travis.yml');
-			this.copy ('-.jshintrc', '.jshintrc');
+			
+			directory.forEach ((item) => {
+				this.directory (item, item);
+			});
+			copy.forEach ((item) => {
+				this.copy (item, item);
+			});
+			
+			template.forEach ((item) => {
+				this.template (item, item, config);
+			});
+			
 			switch (config.license) {
 				case 'Apache-2.0':
-					this.copy ('-LICENSE.Apache-2.0', 'LICENSE.Apache-2.0');
+					this.copy ('LICENSE.Apache-2.0', 'LICENSE.Apache-2.0');
 					break;
 				case 'MIT':
-					this.copy ('-LICENSE.MIT', 'LICENSE.MIT');
+					this.copy ('LICENSE.MIT', 'LICENSE.MIT');
 					break;
 			}
-			this.template ('-README.md', 'README.md', config);
-			this.copy ('-gulpfile.js', 'gulpfile.js');
 		},
 
 		installDeps () {

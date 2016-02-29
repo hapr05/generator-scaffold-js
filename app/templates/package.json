@@ -23,12 +23,17 @@
 		"test": "gulp test"
 	},
 	"dependencies": {
+		"config": "latest",
+		"glue": "latest",
+		"inert": "latest"
 	},
 	"devDependencies": {
 		"gulp": "latest",
 		"gulp-jshint": "latest",
 		"gulp-json-lint": "latest",
+		"gulp-nodemon": "latest",
 
+		"browser-sync": "latest",
 		"jshint": "latest",
 		"jshint-stylish": "latest"
 	},

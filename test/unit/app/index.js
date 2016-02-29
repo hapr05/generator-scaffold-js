@@ -3,22 +3,22 @@
 
 	const assert = require ('yeoman-assert'),
 		helpers = require ('yeoman-test'),
-			sinon = require ('sinon'),
-			mockery = require ('mockery'),
-			path = require ('path'),
-			spawn = require ('child_process').spawn,
-			name = 'name-x',
-			prompts = {
-				name: name,
-				description: 'my-description',
-				homepage: 'my-homepage',
-				bugs: 'my-issues',
-				license: 'MIT',
-				cName: 'my-name',
-				cEmail: 'my-email',
-				cUrl: 'my-url',
-				repository: 'my-repository'
-			};
+		sinon = require ('sinon'),
+		mockery = require ('mockery'),
+		path = require ('path'),
+		spawn = require ('child_process').spawn,
+		name = 'name-x',
+		prompts = {
+			name: name,
+			description: 'my-description',
+			homepage: 'my-homepage',
+			bugs: 'my-issues',
+			license: 'MIT',
+			cName: 'my-name',
+			cEmail: 'my-email',
+			cUrl: 'my-url',
+			repository: 'my-repository'
+		};
 
 	describe ('oldschool:app', () => {
 		describe ('stanard', () => {
@@ -81,11 +81,16 @@
 							test: 'gulp test'
 						},
 						dependencies: {
+							config: 'latest',
+							glue: 'latest',
+							inert: 'latest'
 						},
 						devDependencies: {
 							gulp: 'latest',
 							'gulp-jshint': 'latest',
 							'gulp-json-lint': 'latest',
+							'gulp-nodemon': 'latest',
+							'browser-sync': 'latest',
 							'jshint': 'latest',
 							'jshint-stylish': 'latest'
 						},
@@ -101,33 +106,50 @@
 						}
 					});
 				});
-				describe ('.travis.yml', () => {
-					it ('should generate .travis.yml', () => {
-						assert.file ('.travis.yml');
-					});
-				});
+			});
 
-				describe ('.jshintrc', () => {
-					it ('should generate .jshintrc', () => {
-						assert.file ('.jshintrc');
-					});
+			describe ('.travis.yml', () => {
+				it ('should generate .travis.yml', () => {
+					assert.file ('.travis.yml');
 				});
+			});
 
-				describe ('LICENSE', () => {
-					it ('should generate LICENSE.MIT', () => {
-						assert.file ('LICENSE.MIT');
-					});
+			describe ('.jshintrc', () => {
+				it ('should generate .jshintrc', () => {
+					assert.file ('.jshintrc');
 				});
+			});
 
-				describe ('README.md', () => {
-					it ('should generate README.md', () => {
-						assert.file ('README.md');
-					});
+			describe ('LICENSE', () => {
+				it ('should generate LICENSE.MIT', () => {
+					assert.file ('LICENSE.MIT');
 				});
+			});
 
-				describe ('gulpfile.js', () => {
-					it ('should generate gulpfile.js', () => {
-						assert.file ('gulpfile.js');
+			describe ('README.md', () => {
+				it ('should generate README.md', () => {
+					assert.file ('README.md');
+				});
+			});
+
+			describe ('gulpfile.js', () => {
+				it ('should generate gulpfile.js', () => {
+					assert.file ('gulpfile.js');
+				});
+			});
+
+			describe ('config', () => {
+				it ('should generate default.json', () => {
+					assert.file ('config/default.json');
+				});
+			});
+
+			describe ('src', () => {
+				it ('should generate server.js', () => {
+					var files = [ 'server/index.js', 'server/routes/api.js', 'server/routes/web.js', 'web/index.html' ];
+
+					files.forEach ((item) => {
+						assert.file ('src/' + item);
 					});
 				});
 			});
@@ -179,31 +201,31 @@
 				});
 			});
 		});
-	});
 
-	/* it won't run npm install when unit testing */
-	xdescribe ('npm install', () => {
-		before ((done) => {
-			helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+		/* it won't run npm install when unit testing */
+		xdescribe ('npm install', () => {
+			before ((done) => {
+				helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+			});
+
+			it ('should install node_modules', () => {
+				assert.noFile ('node_modules');
+			});
 		});
 
-		it ('should install node_modules', () => {
-			assert.noFile ('node_modules');
-		});
-	});
+		/* Too slow for Unit Testing */
+		xdescribe ('generated app', () => {
+			before ((done) => {
+				helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+			});
 
-	/* Too slow for Unit Testing */
-	xdescribe ('generated app', () => {
-		before ((done) => {
-			helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
-		});
-
-		it ('should build clean', (done) => {
-			spawn ('npm', [ 'install' ]).on ('close', (code) => {
-				assert.strictEqual (code, 0);
-				spawn ('gulp').on ('close', (code) => {
+			it ('should build clean', (done) => {
+				spawn ('npm', [ 'install' ]).on ('close', (code) => {
 					assert.strictEqual (code, 0);
-					done ();
+					spawn ('gulp').on ('close', (code) => {
+						assert.strictEqual (code, 0);
+						done ();
+					});
 				});
 			});
 		});

@@ -9,17 +9,19 @@
 		istanbul = require ('gulp-istanbul'),
 		spawn = require ('child_process').spawn,
 		opts = {
-			js: {
-				'gulpfile': 'gulpfile.js',
-				'app': 'app/**/*.js',
-				'appnt': '!app/**/-*.js',
-				'unitTest': 'test/unit/**/*.js',
-				'integrationTest': 'test/integration/**/*.js'
-			},
-			json: [
-				'package.json',
-				'app/**/*.json'
-			]
+			files: {
+				js: {
+					'gulpfile': 'gulpfile.js',
+					'app': 'app/**/*.js',
+					'appnt': '!app/templates/**/*.js',
+					'unitTest': 'test/unit/**/*.js',
+					'integrationTest': 'test/integration/**/*.js'
+				},
+				json: [
+					'package.json',
+					'app/**/*.json'
+				]
+			}
 		};
 
 	function values (obj) {
@@ -37,9 +39,9 @@
 
 	gulp.task ('watch', () => {
 		gulp.watch ([
-			opts.js.gulpfile,
-			opts.js.app,
-			opts.js.unitTest
+			opts.files.js.gulpfile,
+			opts.files.js.app,
+			opts.files.js.unitTest
 		], [ 'js', 'test.unit' ]);
 	});
 
@@ -47,15 +49,15 @@
 	(function () {
 		gulp.task ('test.init', () => {
 			return gulp.src ([
-				opts.js.app,
-				opts.js.appnt
+				opts.files.js.app,
+				opts.files.js.appnt
 			]).pipe (istanbul ({
 				includeUntested: true
 			})).pipe (istanbul.hookRequire ());
 		});
 
 		gulp.task ('test.unit', [ 'test.init' ], () => {
-			return gulp.src (opts.js.unitTest).pipe (mocha ({
+			return gulp.src (opts.files.js.unitTest).pipe (mocha ({
 				ui: 'bdd',
 				reporter: 'spec'
 			})).pipe (istanbul.writeReports ({
@@ -86,7 +88,7 @@
 	/* JavaScript tasks */
 	(function () {
 		gulp.task ('js.lint', () => {
-			return gulp.src (values (opts.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail'));
+			return gulp.src (values (opts.files.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail'));
 		});
 		
 		gulp.task ('js', [ 'js.lint' ]);
@@ -95,7 +97,7 @@
 	/* Json tasks */
 	(function () {
 		gulp.task ('json.lint', () => {
-			return gulp.src (opts.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
+			return gulp.src (opts.files.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
 		});
 		
 		gulp.task ('json', [ 'json.lint' ]);
