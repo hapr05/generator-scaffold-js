@@ -8,7 +8,7 @@
 		"jquery": "latest",
 		"bootstrap": "latest",
 		"angular": "latest",
-		"angular-route": "latest",
+		"angular-ui-router": "latest",
 
 		"less": "latest"
 	},

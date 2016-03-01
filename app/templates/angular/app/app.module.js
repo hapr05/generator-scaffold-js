@@ -2,6 +2,8 @@
 	'use strict';
 
 	angular.module ('<%= appCamel %>', [
-		'ngRoute'
-	]);
+		'ui.router'
+	]).config (function ($urlRouterProvider) {
+		$urlRouterProvider.otherwise ('/');
+	});
 } (angular));

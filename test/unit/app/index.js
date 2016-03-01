@@ -99,7 +99,6 @@
 					var files = [ 
 						'web/index.html',
 						'web/app/app.module.js',
-						'web/app/app.routes.js',
 						'web/app/components/topnav/topnavView.html', 'web/app/components/topnav/topnavController.js',
 						'web/app/components/home/homeView.html', 'web/app/components/home/homeController.js',
 						'web/assets/less/app.less'

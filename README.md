@@ -35,15 +35,14 @@ Yeoman generator to create a full stack web application using the following tech
  - NodeJS
  - Hapi
  - MongoDB
- - AngularJS or ReactJS
+ - AngularJS
  - Bootstrap
 
 ## Code Example
 
 ## Motivation
 
- - Why ng-route..coming
- - Why Anguler 1..xcoming
+ - Why Anguler 1..coming
 
 ## Installation
 
@@ -51,7 +50,6 @@ Yeoman generator to create a full stack web application using the following tech
 $ npm install -g gulp
 $ npm install -g bower
 $ npm install -g yo
-$ npm install -g generator-oldschool
 ```
 
 ## Usage
@@ -65,7 +63,7 @@ $ yo oldschool
 ```
 
 ```bash
-$ gulp start
+$ gulp
 ```
 ## API Reference
 

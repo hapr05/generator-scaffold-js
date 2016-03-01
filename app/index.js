@@ -76,11 +76,16 @@
 				]);
 			}
 
-			prompts = prompts.concat ([
-				{ name: 'cfgFramework', message: 'Front end framework', default: this._def ('framework', 'AngularJS'), type: 'list', choices: [ 'AngularJS', 'ReactJS' ]}
-			]);
+			/* 
+			 * For future support of multiple front end frameworks
+			 *
+			 * prompts = prompts.concat ([
+			 *	{ name: 'cfgFramework', message: 'Front end framework', default: this._def ('framework', 'AngularJS'), type: 'list', choices: [ 'AngularJS', 'Other Framework' ]}
+			 * ]);
+			 */
 
 			this.prompt (prompts, (answers) => {
+				answers.cfgFramework = 'AngularJS';
 				this.config.set (answers);
 				done ();
 			});
