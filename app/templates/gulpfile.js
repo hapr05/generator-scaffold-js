@@ -12,7 +12,7 @@
 				js: {
 					'gulpfile': 'gulpfile.js',
 					'server': 'src/server/**/*.js',
-					'web': 'src/web/**/*.js'
+					'web': 'src/web/js/**/*.js'
 				},
 				json: [
 					'package.json',

@@ -17,7 +17,8 @@
 			cName: 'my-name',
 			cEmail: 'my-email',
 			cUrl: 'my-url',
-			repository: 'my-repository'
+			repository: 'my-repository',
+			framework: 'AngularJS'
 		};
 
 	describe ('oldschool:app', () => {
@@ -26,16 +27,14 @@
 				helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts (prompts).on ('end', done);
 			});
 
-			describe ('.gitignore', () => {
+			describe ('root', () => {
+				var gitConfigStub;
+
 				it ('should generate .gitignore', () => {
 					assert.file ('.gitignore');
 				});
-			});
 
-			describe ('package.json', () => {
-				var gitConfigStub;
-
-				before (() => {
+				it ('should generate package.jason', () => {
 					mockery.enable ({
 						warnOnReplace: false,
 						warnOnUnregistered: false,
@@ -45,94 +44,34 @@
 					gitConfigStub = sinon.stub ().callsArgWith (0, false, { user: {} });
 
 					mockery.registerMock ('git-config', gitConfigStub);
-				});
 
-				it ('should generate package.jason', () => {
 					assert.file ('package.json');
 				});
 
-				it ('should contain correct content', () => {
-					assert.jsonFileContent ('package.json', {
-						name: name,
-						version: '1.0.0-alpha.1',
-						description: 'my-description',
-						keywords: [
-							'NodeJS',
-							'hapi',
-							'Bootstrap',
-							'AngularJS',
-							'MongoDB'
-						],
-						homepage: 'my-homepage',
-						bugs: 'my-issues',
-						license: 'MIT',
-						contributors: {
-							name: 'my-name',
-							email: 'my-email',
-							url: 'my-url'
-						},
-						files: [
-						],
-						main: 'index.js',
-						bin: {},
-						man: [],
-						repository: 'my-repository',
-						scripts: {
-							test: 'gulp test'
-						},
-						dependencies: {
-							config: 'latest',
-							glue: 'latest',
-							inert: 'latest'
-						},
-						devDependencies: {
-							gulp: 'latest',
-							'gulp-jshint': 'latest',
-							'gulp-json-lint': 'latest',
-							'gulp-nodemon': 'latest',
-							'browser-sync': 'latest',
-							'jshint': 'latest',
-							'jshint-stylish': 'latest'
-						},
-						peerDependencies: {
-						},
-						bundledDependencies: {
-						},
-						optionalDependencies: {
-						},
-						engines: {
-							node: '>= 5.7.0',
-							npm: '>= 3.6.0'
-						}
-					});
+				it ('should generate bower.json', () => {
+					assert.file ('bower.json');
 				});
-			});
 
-			describe ('.travis.yml', () => {
+				it ('should generate .bowerrc', () => {
+					assert.file ('.bowerrc');
+				});
+
 				it ('should generate .travis.yml', () => {
 					assert.file ('.travis.yml');
 				});
-			});
 
-			describe ('.jshintrc', () => {
 				it ('should generate .jshintrc', () => {
 					assert.file ('.jshintrc');
 				});
-			});
 
-			describe ('LICENSE', () => {
 				it ('should generate LICENSE.MIT', () => {
 					assert.file ('LICENSE.MIT');
 				});
-			});
 
-			describe ('README.md', () => {
 				it ('should generate README.md', () => {
 					assert.file ('README.md');
 				});
-			});
 
-			describe ('gulpfile.js', () => {
 				it ('should generate gulpfile.js', () => {
 					assert.file ('gulpfile.js');
 				});
@@ -166,7 +105,8 @@
 						cName: 'my-name',
 						cEmail: 'my-email',
 						cUrl: 'my-url',
-						repository: 'git@github.com:fluky/generator-oldschool.git'
+						repository: 'git@github.com:fluky/generator-oldschool.git',
+						framework: 'AngularJS'
 					}).on ('end', () => {
 						done ();
 					});
@@ -190,7 +130,8 @@
 						cName: 'my-name',
 						cEmail: 'my-email',
 						cUrl: 'my-url',
-						repository: 'my-repository'
+						repository: 'my-repository',
+						framework: 'AngularJS'
 					}).on ('end', () => {
 						done ();
 					});

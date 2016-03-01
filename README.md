@@ -35,7 +35,7 @@ Yeoman generator to create a full stack web application using the following tech
  - NodeJS
  - Hapi
  - MongoDB
- - AngularJS
+ - AngularJS or ReactJS
  - Bootstrap
 
 ## Code Example

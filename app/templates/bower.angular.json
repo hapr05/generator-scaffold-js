@@ -1,0 +1,13 @@
+{
+	"name": "<%= name %>",
+	"version": "0.0.0",
+	"appPath": "src/web",
+	"dependencies": {
+		"jquery": "latest",
+		"bootstrap": "latest",
+		"es5-shim": "latest",
+		"es6-shim": "latest"
+	},
+	"devDependencies": {
+	}
+}

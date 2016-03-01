@@ -15,7 +15,8 @@
 			cName: 'test-name',
 			cEmail: 'test-email',
 			cUrl: 'test-url',
-			repository: 'test-repository'
+			repository: 'test-repository',
+			framework: 'AngularJS'
 		};
 
 
@@ -38,12 +39,21 @@
 							if (code) {
 								reject (`failed to install npm modules: ${ code }`);
 							} else {
-								console.info ('Running gulp ci');
-								p = spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
+								console.info ('Running bower install');
+								p = spawn ('bower', [ 'install' ]).on ('close', (code) => {
 									if (code) {
-										reject (`gulp failed: ${ code }`);
+										reject (`failed to install bower modules: ${ code }`);
 									} else {
-										resolve ();
+										console.info ('Running gulp ci');
+										p = spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
+											if (code) {
+												reject (`gulp failed: ${ code }`);
+											} else {
+												resolve ();
+											}
+										});
+										p.stdout.pipe (process.stdout);
+										p.stderr.pipe (process.stderr);
 									}
 								});
 								p.stdout.pipe (process.stdout);

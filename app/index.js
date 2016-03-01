@@ -20,8 +20,15 @@
 			return this.config.get (a) || b;
 		},
 
+		_angular () {
+			const config = this.config.getAll ();
+
+			this.directory ('angular', 'src/web');
+			this.template ('angular/index.html', 'angular/index.html', config);
+			this.template ('bower.angular.json', 'bower.json', config);
+		},
+
 		init () {
-			this.pkg = this.fs.readJSON (path.join (__dirname, '../package.json'));
 		},
 
 		git: function () {
@@ -55,9 +62,7 @@
 				homepage = githubUrlFromGit (this.config.get ('repository'));
 
 			var prompts = [
-				{ name: 'license', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [
-					'Apache-2.0', 'MIT'
-				]}
+				{ name: 'license', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [ 'Apache-2.0', 'MIT' ]}
 			];
 
 			this.isGithub = Boolean (homepage);
@@ -73,6 +78,10 @@
 				]);
 			}
 
+			prompts = prompts.concat ([
+				{ name: 'framework', message: 'Front end framework', default: this._def ('framework', 'AngularJS'), type: 'list', choices: [ 'AngularJS', 'ReactJS' ]}
+			]);
+
 			this.prompt (prompts, (answers) => {
 				this.config.set (answers);
 				done ();
@@ -81,8 +90,8 @@
 
 		app () {
 			const config = this.config.getAll (),
-				copy = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js' ],
-				template = [ 'README.md', 'package.json', 'src/web/index.html' ],
+				copy = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc' ],
+				template = [ 'README.md', 'package.json' ],
 				directory = [ 'config', 'src' ];
 
 			
@@ -105,11 +114,17 @@
 					this.copy ('LICENSE.MIT', 'LICENSE.MIT');
 					break;
 			}
+
+			switch (config.framework) {
+				case 'AngularJS':
+					this._angular ();
+					break;
+			}
 		},
 
 		installDeps () {
 			this.installDependencies ({
-				bower: false,
+				bower: true,
 				npm: true
 			});
 		}
