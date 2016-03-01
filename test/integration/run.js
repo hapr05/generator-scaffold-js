@@ -7,16 +7,16 @@
 		temp = require ('temp'),
 		testDir = 'oldschool_test',
 		prompts = {
-			name: 'test-app',
-			description: 'test-description',
-			homepage: 'test-homepage',
-			bugs: 'test-issues',
-			license: 'MIT',
-			cName: 'test-name',
-			cEmail: 'test-email',
-			cUrl: 'test-url',
-			repository: 'test-repository',
-			framework: 'AngularJS'
+			cfgName: 'test-app',
+			cfgDescription: 'test-description',
+			cfgHomepage: 'test-homepage',
+			cfgBugs: 'test-issues',
+			cfgLicense: 'MIT',
+			cfgContribName: 'test-name',
+			cfgContribEmail: 'test-email',
+			cfgContribUrl: 'test-url',
+			cfgRepository: 'test-repository',
+			cfgFramework: 'AngularJS'
 		};
 
 
