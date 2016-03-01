@@ -46,6 +46,7 @@ Yeoman generator to create a full stack web application using the following tech
 
 ```bash
 $ npm install -g gulp
+$ npm install -g bower
 $ npm install -g yo
 $ npm install -g generator-oldschool
 ```
