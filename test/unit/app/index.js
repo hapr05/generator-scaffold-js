@@ -9,16 +9,16 @@
 		spawn = require ('child_process').spawn,
 		name = 'name-x',
 		prompts = {
-			name: name,
-			description: 'my-description',
-			homepage: 'my-homepage',
-			bugs: 'my-issues',
-			license: 'MIT',
-			cName: 'my-name',
-			cEmail: 'my-email',
-			cUrl: 'my-url',
-			repository: 'my-repository',
-			framework: 'AngularJS'
+			cfgName: name,
+			cfgDescription: 'my-description',
+			cfgHomepage: 'my-homepage',
+			cfgBugs: 'my-issues',
+			cfgLicense: 'MIT',
+			cfgContribName: 'my-name',
+			cfgContribEmail: 'my-email',
+			cfgContribUrl: 'my-url',
+			cfgRepository: 'my-repository',
+			cfgFramework: 'AngularJS'
 		};
 
 	describe ('oldschool:app', () => {
@@ -62,6 +62,7 @@
 
 				it ('should generate .jshintrc', () => {
 					assert.file ('.jshintrc');
+					assert.file ('src/web/app/.jshintrc');
 				});
 
 				it ('should generate LICENSE.MIT', () => {
@@ -85,7 +86,24 @@
 
 			describe ('src', () => {
 				it ('should generate server.js', () => {
-					var files = [ 'server/index.js', 'server/routes/api.js', 'server/routes/web.js', 'web/index.html' ];
+					var files = [ 
+						'server/index.js', 'server/routes/api.js', 'server/routes/web.js'
+					];
+
+					files.forEach ((item) => {
+						assert.file ('src/' + item);
+					});
+				});
+
+				it ('should generate web app', () => {
+					var files = [ 
+						'web/index.html',
+						'web/app/app.module.js',
+						'web/app/app.routes.js',
+						'web/app/components/topnav/topnavView.html', 'web/app/components/topnav/topnavController.js',
+						'web/app/components/home/homeView.html', 'web/app/components/home/homeController.js',
+						'web/assets/less/app.less'
+					];
 
 					files.forEach ((item) => {
 						assert.file ('src/' + item);
@@ -98,15 +116,15 @@
 			describe ('package.json', () => {
 				before ((done) => {
 					helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
-						name: name,
-						description: 'my-description',
-						bugs: 'my-issues',
-						license: 'MIT',
-						cName: 'my-name',
-						cEmail: 'my-email',
-						cUrl: 'my-url',
-						repository: 'git@github.com:fluky/generator-oldschool.git',
-						framework: 'AngularJS'
+						cfgName: name,
+						cfgDescription: 'my-description',
+						cfgBugs: 'my-issues',
+						cfgLicense: 'MIT',
+						cfgContribName: 'my-name',
+						cfgContribEmail: 'my-email',
+						cfgContribUrl: 'my-url',
+						cfgRepository: 'git@github.com:fluky/generator-oldschool.git',
+						cfgFramework: 'AngularJS'
 					}).on ('end', () => {
 						done ();
 					});
@@ -122,16 +140,16 @@
 			describe ('LICENSE', () => {
 				before ((done) => {
 					helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
-						name: name,
-						description: 'my-description',
-						homepage: 'my-homepage',
-						bugs: 'my-issues',
-						license: 'Apache-2.0',
-						cName: 'my-name',
-						cEmail: 'my-email',
-						cUrl: 'my-url',
-						repository: 'my-repository',
-						framework: 'AngularJS'
+						cfgName: name,
+						cfgDescription: 'my-description',
+						cfgHomepage: 'my-homepage',
+						cfgBugs: 'my-issues',
+						cfgLicense: 'Apache-2.0',
+						cfgContribName: 'my-name',
+						cfgContribEmail: 'my-email',
+						cfgContribUrl: 'my-url',
+						cfgRepository: 'my-repository',
+						cfgFramework: 'AngularJS'
 					}).on ('end', () => {
 						done ();
 					});

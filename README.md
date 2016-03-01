@@ -42,6 +42,9 @@ Yeoman generator to create a full stack web application using the following tech
 
 ## Motivation
 
+ - Why ng-route..coming
+ - Why Anguler 1..xcoming
+
 ## Installation
 
 ```bash
@@ -97,7 +100,7 @@ $ npm version
 Contributions are welcome. Your code should:
 
  - include 100% test coverage
- - follow the code convention (TODO)
+ - follow the code convention (comming soon)
 
 If you're changing something non-trivial, you may want to submit an issue first.
 

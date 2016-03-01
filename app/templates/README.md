@@ -1,4 +1,4 @@
-# <%= name %>
+# <%= cfgName %>
 
 ## Synopsis
 
@@ -32,4 +32,4 @@ Let people know how they can dive into the project, include important links to t
 
 ## License
 
-<%= license %>
+<%= cfgLicense %>

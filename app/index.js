@@ -4,6 +4,7 @@
 	const generator = require ('yeoman-generator'),
 		path = require ('path'),
 		process = require ('process'),
+		camel = require ('to-camel-case'),
 		gitConfig = require ('git-config'),
 		githubUrlFromGit = require ('github-url-from-git'),
 		validators = require ('../util/validators.js');
@@ -21,11 +22,8 @@
 		},
 
 		_angular () {
-			const config = this.config.getAll ();
-
 			this.directory ('angular', 'src/web');
-			this.template ('angular/index.html', 'angular/index.html', config);
-			this.template ('bower.angular.json', 'bower.json', config);
+			this.template ('bower.angular.json', 'bower.json');
 		},
 
 		init () {
@@ -43,12 +41,12 @@
 		askFor () {
 			const done = this.async (),
 				prompts = [
-					{ name: 'name', message: 'Name', default: this._def ('name', this.appname), validate: validators.required },
-					{ name: 'description', message: 'Description', default: this._def ('description', 'oldschool generated application') },
-					{ name: 'cName', message: 'Author name', default: this._def ('cName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
-					{ name: 'cEmail', message: 'Author email', default: this._def ('cEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
-					{ name: 'cUrl', message: 'Author url', default: this._def ('cUrl', '') },
-					{ name: 'repository', message: 'Repository url', default: this._def ('repository', '') }
+					{ name: 'cfgName', message: 'Name', default: this._def ('name', this.appname), validate: validators.required },
+					{ name: 'cfgDescription', message: 'Description', default: this._def ('description', 'oldschool generated application') },
+					{ name: 'cfgContribName', message: 'Author name', default: this._def ('cName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
+					{ name: 'cfgContribEmail', message: 'Author email', default: this._def ('cEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
+					{ name: 'cfgContribUrl', message: 'Author url', default: this._def ('cUrl', '') },
+					{ name: 'cfgRepository', message: 'Repository url', default: this._def ('repository', '') }
 				];
 
 			this.prompt (prompts, (answers) => {
@@ -59,27 +57,27 @@
 
 		github () {
 			const done = this.async (),
-				homepage = githubUrlFromGit (this.config.get ('repository'));
+				homepage = githubUrlFromGit (this.config.get ('cfgRepository'));
 
 			var prompts = [
-				{ name: 'license', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [ 'Apache-2.0', 'MIT' ]}
+				{ name: 'cfgLicense', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [ 'Apache-2.0', 'MIT' ]}
 			];
 
 			this.isGithub = Boolean (homepage);
 			if (this.isGithub) {
 				prompts = prompts.concat ([
-					{ name: 'homepage', message: 'Project homepage url', default: this._def ('homepage', homepage) },
-					{ name: 'bugs', message: 'Issue tracker url', default: this._def ('bugs', homepage + '/issues') }
+					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('homepage', homepage) },
+					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('bugs', homepage + '/issues') }
 				]);
 			} else {
 				prompts = prompts.concat ([
-					{ name: 'homepage', message: 'Project homepage url', default: this._def ('homepage', '') },
-					{ name: 'bugs', message: 'Issue tracker url', default: this._def ('bugs', '') }
+					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('homepage', '') },
+					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('bugs', '') }
 				]);
 			}
 
 			prompts = prompts.concat ([
-				{ name: 'framework', message: 'Front end framework', default: this._def ('framework', 'AngularJS'), type: 'list', choices: [ 'AngularJS', 'ReactJS' ]}
+				{ name: 'cfgFramework', message: 'Front end framework', default: this._def ('framework', 'AngularJS'), type: 'list', choices: [ 'AngularJS', 'ReactJS' ]}
 			]);
 
 			this.prompt (prompts, (answers) => {
@@ -89,33 +87,29 @@
 		},
 
 		app () {
-			const config = this.config.getAll (),
-				copy = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc' ],
-				template = [ 'README.md', 'package.json' ],
+			const template = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json' ],
 				directory = [ 'config', 'src' ];
 
-			
-			directory.forEach ((item) => {
-				this.directory (item, item);
+			Object.assign (this, this.config.getAll ());
+			this.appCamel = camel (this.config.get ('cfgName'));
+
+			directory.forEach ((i) => {
+				this.directory (i);
 			});
-			copy.forEach ((item) => {
-				this.copy (item, item);
-			});
-			
-			template.forEach ((item) => {
-				this.template (item, item, config);
+			template.forEach ((i) => {
+				this.template (i);
 			});
 			
-			switch (config.license) {
+			switch (this.cfgLicense) {
 				case 'Apache-2.0':
-					this.copy ('LICENSE.Apache-2.0', 'LICENSE.Apache-2.0');
+					this.copy ('LICENSE.Apache-2.0');
 					break;
 				case 'MIT':
-					this.copy ('LICENSE.MIT', 'LICENSE.MIT');
+					this.copy ('LICENSE.MIT');
 					break;
 			}
 
-			switch (config.framework) {
+			switch (this.cfgFramework) {
 				case 'AngularJS':
 					this._angular ();
 					break;

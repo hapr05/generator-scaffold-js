@@ -1,7 +1,7 @@
 {
-	"name": "<%= name %>",
+	"name": "<%= cfgName %>",
 	"version": "1.0.0-alpha.1",
-	"description": "<%= description %>",
+	"description": "<%= cfgDescription %>",
 	"keywords": [
 		"NodeJS",
 		"hapi",
@@ -9,16 +9,16 @@
 		"AngularJS",
 		"MongoDB"
 	],
-	"homepage": "<%= homepage %>",
-	"bugs": "<%= bugs %>",
-	"license": "<%= license %>",
+	"homepage": "<%= cfgHomepage %>",
+	"bugs": "<%= cfgBugs %>",
+	"license": "<%= cfgLicense %>",
 	"contributors": {
-		"name": "<%= cName %>",
-		"email": "<%= cEmail %>",
-		"url": "<%= cUrl %>"
+		"name": "<%= cfgContribName %>",
+		"email": "<%= cfgContribEmail %>",
+		"url": "<%= cfgContribUrl %>"
 	},
 	"main": "index.js",
-	"repository": "<%= repository %>",
+	"repository": "<%= cfgRepository %>",
 	"scripts": {
 		"test": "gulp test"
 	},

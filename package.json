@@ -32,7 +32,8 @@
 	"dependencies": {
 		"yeoman-generator": "latest",
 		"git-config": "latest",
-		"github-url-from-git": "latest"
+		"github-url-from-git": "latest",
+		"to-camel-case": "latest"
 	},
 	"devDependencies": {
 		"temp": "latest",

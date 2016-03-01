@@ -1,5 +1,5 @@
 {
-	"name": "<%= name %>",
+	"name": "<%= cfgName %>",
 	"version": "0.0.0",
 	"appPath": "src/web",
 	"dependencies": {
@@ -7,6 +7,8 @@
 		"es6-shim": "latest",
 		"jquery": "latest",
 		"bootstrap": "latest",
+		"angular": "latest",
+		"angular-route": "latest",
 
 		"less": "latest"
 	},
