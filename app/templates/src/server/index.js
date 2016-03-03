@@ -3,17 +3,31 @@
 
 	const glue = require ('glue'),
 		config = require ('config');
+	var server;
 
-	glue.compose (config.get ('manifest'), {
-		relativeTo: __dirname
-	}, (err, server) => {
-		if (err) {
-			console.error (err);
-			throw err;
-		}   
+	module.exports = {
+		start () {
+			return new Promise ((resolve, reject) => {
+				glue.compose (config.get ('manifest'), {
+					relativeTo: __dirname
+				}).then ((_server_) => {
+					server = _server_; 
+					server.start ().then (() => {
+						console.log ('Server started on port: ' + server.info.port);
+						resolve (server);
+					}, (err) => {
+						console.error (err);
+						reject (err, server);
+					});
+				}, (err) => {	 
+					console.error (err);
+					reject (err, server);
+				});
+			});
+		},
 
-		server.start (() => {
-			console.log ('Server started on port: ' + server.info.port);
-		}); 
-	});
+		stop () {
+			return server.stop ();
+		}
+	};
 } (require));

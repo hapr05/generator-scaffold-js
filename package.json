@@ -48,7 +48,9 @@
 		"gulp-istanbul": "latest",
 
 		"sinon": "latest",
-		"mockery": "latest"
+		"mockery": "latest",
+		"dirty-chai": "latest",
+		"chai": "latest"
 	},
 	"peerDependencies": {
 	},

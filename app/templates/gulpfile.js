@@ -6,13 +6,18 @@
 		browserSync = require ('browser-sync'),
 		jshint = require ('gulp-jshint'),
 		jsonlint = require ('gulp-json-lint'),
+		mocha = require ('gulp-mocha'),
+		istanbul = require ('gulp-istanbul'),
+		es = require ('event-stream'),
 		opts= {
 			files: {
 				html: 'src/web/index.html',
 				js: {
 					'gulpfile': 'gulpfile.js',
 					'server': 'src/server/**/*.js',
-					'web': 'src/web/js/**/*.js'
+					'serverUnitTest': 'test/unit/server/**/*.js',
+					'web': 'src/web/js/**/*.js',
+					'unitTest': 'test/unit/**/*.js'
 				},
 				json: [
 					'package.json',
@@ -33,18 +38,18 @@
 	}
 
 	gulp.task ('default', [ 'serve' ]);
-	gulp.task ('ci', [ 'js.lint', 'json.lint' ]);
+	gulp.task ('ci', [ 'js.lint', 'json.lint', 'test.unit' ]);
 
 	/* Server tasks */
 	(function () {
-		gulp.task ('serve', [ 'js.lint', 'json.lint', 'bs' ], () => {
-			gulp.watch (opts.files.js.web, [ 'js.lint', 'bs.reload' ]);
-			gulp.watch (opts.files.html, [ /* 'html', */ 'bs.reload' ]);
+		gulp.task ('serve', [ 'js.lint', 'json.lint', 'test.unit', 'bs' ], () => {
+			gulp.watch (opts.files.js.web, [ 'js.lint', 'test.unit', 'bs.reload' ]);
+			gulp.watch (opts.files.html, [ /* 'html', */ 'test.unit', 'bs.reload' ]);
 		});
 
 		gulp.task ('nm', (done) => {
 			return nodemon ({
-				script: 'src/server',
+				script: 'server',
 				watch: opts.files.js.server
 			}).on ('start', done).on ('restart', () => {
 				setTimeout (() => {
@@ -80,5 +85,36 @@
 		});
 		
 		gulp.task ('json', [ 'json.lint' ]);
+	} ());
+
+	/* Testing */
+	(function () {
+		gulp.task ('test.unit.init', () => {
+			return gulp.src ([
+				opts.files.js.server,
+				opts.files.js.web
+			]).pipe (istanbul ({
+				includeUntested: true
+			})).pipe (istanbul.hookRequire ());
+		});
+
+		gulp.task ('test.unit', [ 'test.unit.init' ], () => {
+			return es.merge (gulp.src (opts.files.js.serverUnitTest).pipe (mocha ({
+				ui: 'bdd',
+				reporter: 'spec'
+			}))).pipe (istanbul.writeReports ({
+				dir: './coverage/',
+				reporters: [
+					'html',
+					'json',
+					'lcov',
+					'text'
+				]
+			})).pipe (istanbul.enforceThresholds ({
+				thresholds: {
+					global: 100
+				}
+			}));
+		});
 	} ());
 } (require));

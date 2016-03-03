@@ -2,6 +2,9 @@
 	'use strict';
 
 	const assert = require ('yeoman-assert'),
+		chai = require ('chai'),
+		dirtyChai = require ('dirty-chai'),
+		expect = chai.expect,
 		helpers = require ('yeoman-test'),
 		sinon = require ('sinon'),
 		mockery = require ('mockery'),
@@ -21,6 +24,19 @@
 			cfgFramework: 'AngularJS'
 		};
 
+	chai.use (dirtyChai);
+	chai.use (function (_chai, utils) {
+		_chai.Assertion.addMethod ('exist', function () {
+			var obj = utils.flag (this, 'object');
+			assert.file (obj);
+		});
+
+		_chai.Assertion.addMethod ('content', function (str) {
+			var obj = utils.flag (this, 'object');
+			assert.fileContent (obj, str);
+		});
+	});
+
 	describe ('oldschool:app', () => {
 		describe ('stanard', () => {
 			before ((done) => {
@@ -31,7 +47,7 @@
 				var gitConfigStub;
 
 				it ('should generate .gitignore', () => {
-					assert.file ('.gitignore');
+					expect ('.gitignore').to.exist ();
 				});
 
 				it ('should generate package.jason', () => {
@@ -45,53 +61,81 @@
 
 					mockery.registerMock ('git-config', gitConfigStub);
 
-					assert.file ('package.json');
+					expect ('package.json').to.exist ();
 				});
 
 				it ('should generate bower.json', () => {
-					assert.file ('bower.json');
+					expect ('bower.json').to.exist ();
 				});
 
 				it ('should generate .bowerrc', () => {
-					assert.file ('.bowerrc');
+					expect ('.bowerrc').to.exist ();
 				});
 
 				it ('should generate .travis.yml', () => {
-					assert.file ('.travis.yml');
+					expect ('.travis.yml').to.exist ();
 				});
 
 				it ('should generate .jshintrc', () => {
-					assert.file ('.jshintrc');
-					assert.file ('src/web/app/.jshintrc');
+					expect ('.jshintrc').to.exist ();
+					expect ('src/web/app/.jshintrc').to.exist ();
 				});
 
 				it ('should generate LICENSE.MIT', () => {
-					assert.file ('LICENSE.MIT');
+					expect ('LICENSE.MIT').to.exist ();
 				});
 
 				it ('should generate README.md', () => {
-					assert.file ('README.md');
+					expect ('README.md').to.exist ();
 				});
 
 				it ('should generate gulpfile.js', () => {
-					assert.file ('gulpfile.js');
+					expect ('gulpfile.js').to.exist ();
 				});
 			});
 
 			describe ('config', () => {
 				it ('should generate default.json', () => {
-					assert.file ('config/default.json');
+					expect ('config/default.json').to.exist ();
 				});
 			});
 
 			describe ('src', () => {
 				it ('should generate server.js', () => {
 					var files = [ 
-						'server/index.js', 'server/routes/api.js', 'server/routes/web.js'
+						'index.js', 'routes/api.js', 'routes/web.js'
+					];
+
+					expect ('server.js').to.exist ();
+					files.forEach ((item) => {
+						expect ('src/server/' + item).to.exist ();
+					});
+				});
+
+				it ('should generate web app', () => {
+					var files = [ 
+						'index.html',
+						'app/app.module.js',
+						'app/components/topnav/topnavView.html', 'app/components/topnav/topnavController.js',
+						'app/components/home/homeView.html', 'app/components/home/homeController.js',
+						'assets/less/app.less'
 					];
 
 					files.forEach ((item) => {
-						assert.file ('src/' + item);
+						expect ('src/web/' + item).to.exist ();
+					});
+				});
+			});
+
+			describe ('unit test', () => {
+				it ('should generate server tests', () => {
+					var files = [ 
+						'.jshintrc',
+						'index.js', 'routes/api.js', 'routes/web.js'
+					];
+
+					files.forEach ((item) => {
+						expect ('test/unit/server/' + item).to.exist ();
 					});
 				});
 
@@ -105,7 +149,7 @@
 					];
 
 					files.forEach ((item) => {
-						assert.file ('src/' + item);
+						expect ('src/' + item).to.exist ();
 					});
 				});
 			});
@@ -130,7 +174,7 @@
 				});
 
 				it ('should parse github repo', () => {
-					assert.fileContent ('package.json', 'https://github.com/fluky/generator-oldschool');
+					expect ('package.json').to.have.content ('https://github.com/fluky/generator-oldschool');
 				});
 			});
 		});
@@ -155,7 +199,7 @@
 				});
 
 				it ('should parse github repo', () => {
-					assert.file ('LICENSE.Apache-2.0');
+					expect ('LICENSE.Apache-2.0').to.exist ();
 				});
 			});
 		});

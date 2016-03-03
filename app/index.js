@@ -92,8 +92,8 @@
 		},
 
 		app () {
-			const template = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json' ],
-				directory = [ 'config', 'src' ];
+			const template = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
+				directory = [ 'config', 'src', 'test' ];
 
 			Object.assign (this, this.config.getAll ());
 			this.appCamel = camel (this.config.get ('cfgName'));

@@ -32,11 +32,17 @@
 		"gulp-jshint": "latest",
 		"gulp-json-lint": "latest",
 		"gulp-nodemon": "latest",
+		"gulp-mocha": "latest",
+		"gulp-istanbul": "latest",
 
+		"event-stream": "latest",
 		"browser-sync": "latest",
 		"less": "latest",
 		"jshint": "latest",
-		"jshint-stylish": "latest"
+		"jshint-stylish": "latest",
+		"chai": "latest",
+		"dirty-chai": "latest",
+		"chai-as-promised": "latest"
 	},
 	"peerDependencies": {
 	},
