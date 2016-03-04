@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	angular.module ('<%= appCamel %>').component ('home', {
+	angular.module ('<%= appSlug %>').component ('home', {
 		templateUrl: 'app/components/home/homeView.html'
 	}).config (function ($stateProvider) {
 		$stateProvider.state ('home', {

@@ -1,0 +1,10 @@
+{
+	"global": {
+		"btn": {
+			"toggleNavigation": "Toggle Navigation"
+		}
+	},
+	"home": {
+		"nav": "Home"
+	}
+}

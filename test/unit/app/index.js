@@ -105,6 +105,12 @@
 				});
 			});
 
+			describe ('locale', () => {
+				it ('should generate locale files', () => {
+					expect ('src/web/locale/locale-en.json').to.exist ();
+				});
+			});
+
 			describe ('unit test', () => {
 				it ('should generate server tests', () => {
 					var files = [ 

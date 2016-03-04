@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	beforeEach (module ('<%= appCamel %>'));
+	beforeEach (module ('<%= appSlug %>'));
 
 	beforeEach (function () {
 		inject (function ($rootScope, $state, $compile, $httpBackend, $templateCache) {
@@ -10,6 +10,8 @@
 			this.$compile = $compile;
 			this.$httpBackend = $httpBackend;
 			this.$templateCache = $templateCache;
+
+			$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
 		});
 	});
 

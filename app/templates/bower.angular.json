@@ -9,7 +9,12 @@
 		"bootstrap": "latest",
 		"angular": "latest",
 		"angular-aria": "latest",
+		"angular-cookies": "latest",
 		"angular-mocks": "latest",
+		"angular-translate": "latest",
+		"angular-translate-storage-cookie": "latest",
+		"angular-translate-storage-local": "latest",
+		"angular-translate-loader-static-files": "latest",
 		"angular-ui-router": "latest",
 
 		"less": "latest"

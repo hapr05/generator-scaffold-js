@@ -5,6 +5,7 @@
 		path = require ('path'),
 		process = require ('process'),
 		camel = require ('to-camel-case'),
+		slug = require ('to-slug-case'),
 		gitConfig = require ('git-config'),
 		githubUrlFromGit = require ('github-url-from-git'),
 		validators = require ('../util/validators.js');
@@ -98,6 +99,7 @@
 
 			Object.assign (this, this.config.getAll ());
 			this.appCamel = camel (this.config.get ('cfgName'));
+			this.appSlug = slug (this.config.get ('cfgName'));
 
 			directory.forEach ((i) => {
 				this.directory (i);
