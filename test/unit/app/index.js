@@ -61,7 +61,10 @@
 				});
 
 				it ('should generate config files', () => {
-					var files = [ '.gitignore', 'bower.json', '.bowerrc', '.travis.yml', '.jshintc', 'LICENSE.MIT', 'README.mc', 'gulpfile.js', 'karma.conf.js' ];
+					var files = [
+						'.gitignore', 'bower.json', '.bowerrc', '.travis.yml', '.jshintc', '.editorconfig',
+						'LICENSE.MIT', 'README.mc', 'gulpfile.js', 'karma.conf.js'
+					];
 
 					files.forEach (function (i) {
 						expect (i).to.exist ();

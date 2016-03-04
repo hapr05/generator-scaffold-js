@@ -13,6 +13,7 @@
 		gulpIstanbul = require ('gulp-istanbul'),
 		es = require ('event-stream'),
 		fs = require ('fs'),
+		path = require ('path'),
 		opts= {
 			files: {
 				html: 'src/web/index.html',
@@ -122,7 +123,7 @@
 
 		gulp.task ('test.unit.web', (done) => {
 			new karma.Server ({
-				configFile: __dirname + '/karma.conf.js'
+				configFile: path.join (__dirname, 'karma.conf.js')
 			}, done).start ();
 		});
 
