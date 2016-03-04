@@ -8,6 +8,7 @@
 		"jquery": "latest",
 		"bootstrap": "latest",
 		"angular": "latest",
+		"angular-aria": "latest",
 		"angular-mocks": "latest",
 		"angular-ui-router": "latest",
 
