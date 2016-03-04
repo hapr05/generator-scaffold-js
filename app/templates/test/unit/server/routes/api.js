@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const chai = require ('chai'),
@@ -28,4 +28,4 @@
 			return expect (server.inject ({ method: 'GET', url: '/' })).to.eventually.have.deep.property ('statusCode', 200);
 		});
 	});
-} (require));
+} ());

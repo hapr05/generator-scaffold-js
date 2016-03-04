@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const assert = require ('yeoman-assert'),
@@ -46,10 +46,6 @@
 			describe ('root', () => {
 				var gitConfigStub;
 
-				it ('should generate .gitignore', () => {
-					expect ('.gitignore').to.exist ();
-				});
-
 				it ('should generate package.jason', () => {
 					mockery.enable ({
 						warnOnReplace: false,
@@ -64,33 +60,12 @@
 					expect ('package.json').to.exist ();
 				});
 
-				it ('should generate bower.json', () => {
-					expect ('bower.json').to.exist ();
-				});
+				it ('should generate config files', () => {
+					var files = [ '.gitignore', 'bower.json', '.bowerrc', '.travis.yml', '.jshintc', 'LICENSE.MIT', 'README.mc', 'gulpfile.js', 'karma.conf.js' ];
 
-				it ('should generate .bowerrc', () => {
-					expect ('.bowerrc').to.exist ();
-				});
-
-				it ('should generate .travis.yml', () => {
-					expect ('.travis.yml').to.exist ();
-				});
-
-				it ('should generate .jshintrc', () => {
-					expect ('.jshintrc').to.exist ();
-					expect ('src/web/app/.jshintrc').to.exist ();
-				});
-
-				it ('should generate LICENSE.MIT', () => {
-					expect ('LICENSE.MIT').to.exist ();
-				});
-
-				it ('should generate README.md', () => {
-					expect ('README.md').to.exist ();
-				});
-
-				it ('should generate gulpfile.js', () => {
-					expect ('gulpfile.js').to.exist ();
+					files.forEach (function (i) {
+						expect (i).to.exist ();
+					});
 				});
 			});
 
@@ -103,7 +78,9 @@
 			describe ('src', () => {
 				it ('should generate server.js', () => {
 					var files = [ 
-						'index.js', 'routes/api.js', 'routes/web.js'
+						'.jshintrc',
+						'index.js',
+						'routes/api.js', 'routes/web.js'
 					];
 
 					expect ('server.js').to.exist ();
@@ -114,6 +91,7 @@
 
 				it ('should generate web app', () => {
 					var files = [ 
+						'.jshintrc',
 						'index.html',
 						'app/app.module.js',
 						'app/components/topnav/topnavView.html', 'app/components/topnav/topnavController.js',
@@ -139,17 +117,15 @@
 					});
 				});
 
-				it ('should generate web app', () => {
+				it ('should generate web tests', () => {
 					var files = [ 
-						'web/index.html',
-						'web/app/app.module.js',
-						'web/app/components/topnav/topnavView.html', 'web/app/components/topnav/topnavController.js',
-						'web/app/components/home/homeView.html', 'web/app/components/home/homeController.js',
-						'web/assets/less/app.less'
+						'app.module.js',
+						'components/topnav/topnavController.js',
+						'components/home/homeController.js',
 					];
 
 					files.forEach ((item) => {
-						expect ('src/' + item).to.exist ();
+						expect ('test/unit/web/app/' + item).to.exist ();
 					});
 				});
 			});
@@ -232,4 +208,4 @@
 			});
 		});
 	});
-} (require));
+} ());

@@ -1,5 +1,5 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	require ('./src/server').start ();
-} (require));
+} ());

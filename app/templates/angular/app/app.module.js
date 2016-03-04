@@ -1,4 +1,4 @@
-(function (angular) {
+(function () {
 	'use strict';
 
 	angular.module ('<%= appCamel %>', [
@@ -6,4 +6,4 @@
 	]).config (function ($urlRouterProvider) {
 		$urlRouterProvider.otherwise ('/');
 	});
-} (angular));
+} ());

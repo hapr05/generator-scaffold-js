@@ -7,8 +7,6 @@
 	"freeze": true,
 	"funcscope": false,
 	"futurehostile": true,
-	"globals": [
-	],
 	"iterator": false,
 	"latedef": true,
 	"maxcomplexity": 7,

@@ -1,4 +1,4 @@
-(function (require, module) {
+(function () {
 	'use strict';
 
 	const generator = require ('yeoman-generator'),
@@ -24,6 +24,7 @@
 		_angular () {
 			this.directory ('angular', 'src/web');
 			this.template ('bower.angular.json', 'bower.json');
+			this.template ('karma.angular.js', 'karma.conf.js');
 		},
 
 		init () {
@@ -128,4 +129,4 @@
 			});
 		}
 	});
-} (require, module));
+} ());

@@ -1,0 +1,9 @@
+{
+	"extends": "../../../.jshintrc",
+	"browser": true,
+	"jasmine": true,
+	"globals": {
+		"module": false,
+		"inject": false
+	}
+}

@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const chai = require ('chai'),
@@ -63,4 +63,4 @@
 			return expect (p).to.be.rejected;
 		});
 	});
-} (require));
+} ());

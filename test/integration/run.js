@@ -1,4 +1,4 @@
-(function (require, process) {
+(function () {
 	'use strict';
 
 	const spawn = require ('child_process').spawn,
@@ -77,4 +77,4 @@
 		console.error (e);
 		process.exit (1);
 	});
-} (require, process));
+} ());

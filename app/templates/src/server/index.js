@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const glue = require ('glue'),
@@ -30,4 +30,4 @@
 			return server.stop ();
 		}
 	};
-} (require));
+} ());

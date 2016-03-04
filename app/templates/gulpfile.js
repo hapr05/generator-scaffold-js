@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const gulp = require ('gulp'),
@@ -7,8 +7,12 @@
 		jshint = require ('gulp-jshint'),
 		jsonlint = require ('gulp-json-lint'),
 		mocha = require ('gulp-mocha'),
-		istanbul = require ('gulp-istanbul'),
+		karma = require ('karma'),
+		istanbul = require ('istanbul'),
+		checker = require ('istanbul-threshold-checker'),
+		gulpIstanbul = require ('gulp-istanbul'),
 		es = require ('event-stream'),
+		fs = require ('fs'),
 		opts= {
 			files: {
 				html: 'src/web/index.html',
@@ -89,32 +93,51 @@
 
 	/* Testing */
 	(function () {
-		gulp.task ('test.unit.init', () => {
+		gulp.task ('test.unit.server.init', () => {
 			return gulp.src ([
 				opts.files.js.server,
 				opts.files.js.web
-			]).pipe (istanbul ({
+			]).pipe (gulpIstanbul ({
 				includeUntested: true
-			})).pipe (istanbul.hookRequire ());
+			})).pipe (gulpIstanbul.hookRequire ());
 		});
 
-		gulp.task ('test.unit', [ 'test.unit.init' ], () => {
+		gulp.task ('test.unit.server', [ 'test.unit.server.init' ], () => {
 			return es.merge (gulp.src (opts.files.js.serverUnitTest).pipe (mocha ({
 				ui: 'bdd',
 				reporter: 'spec'
-			}))).pipe (istanbul.writeReports ({
-				dir: './coverage/',
+			}))).pipe (gulpIstanbul.writeReports ({
 				reporters: [
-					'html',
-					'json',
-					'lcov',
-					'text'
-				]
-			})).pipe (istanbul.enforceThresholds ({
+					'json'
+				],
+				reportOpts: {
+					json: { dir: 'coverage', file: 'server.coverage.json' }
+				}
+			}))/*.pipe (gulpIstanbul.enforceThresholds ({
 				thresholds: {
 					global: 100
 				}
-			}));
+			}))*/;
+		});
+
+		gulp.task ('test.unit.web', (done) => {
+			new karma.Server ({
+				configFile: __dirname + '/karma.conf.js'
+			}, done).start ();
+		});
+
+		gulp.task ('test.unit', [ 'test.unit.server', 'test.unit.web' ], (done) => {
+			const collector = new istanbul.Collector (),
+				reporter = new istanbul.Reporter ();
+
+			collector.add (JSON.parse (fs.readFileSync ('coverage/server.coverage.json', 'utf8')));
+			collector.add (JSON.parse (fs.readFileSync ('coverage/web.coverage.json', 'utf8')));
+			reporter.addAll ( ['html', 'json', 'lcov', 'text' ]);
+			reporter.write (collector, false, () => {
+				done (checker.checkFailures ({ global: 100 }, collector.getFinalCoverage ()).every ((t) => {
+					return !(t.global.failed || t.each && t.each.failed);
+				}) ? undefined : 'Failed to meet coverage thresholds!');
+			});
 		});
 	} ());
-} (require));
+} ());

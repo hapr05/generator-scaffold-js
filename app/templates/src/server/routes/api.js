@@ -1,4 +1,4 @@
-(function (exports) {
+(function () {
 	'use strict';
 
 	exports.register = function (server, options, next) {
@@ -18,4 +18,4 @@
 	exports.register.attributes = { 
 		name: 'api'
 	};
-} (exports));
+} ());

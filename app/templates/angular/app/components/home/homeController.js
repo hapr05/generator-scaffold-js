@@ -1,4 +1,4 @@
-(function (angular) {
+(function () {
 	'use strict';
 
 	angular.module ('<%= appCamel %>').component ('home', {
@@ -9,4 +9,4 @@
 			template: '<home></home>'
 		});
 	});
-} (angular));
+} ());

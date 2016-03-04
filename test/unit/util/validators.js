@@ -1,4 +1,4 @@
-(function (require) {
+(function () {
 	'use strict';
 
 	const assert = require ('assert'),
@@ -19,6 +19,4 @@
 			});
 		});
 	});
-} (require));
-
-
+} ());

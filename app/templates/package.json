@@ -42,7 +42,15 @@
 		"jshint-stylish": "latest",
 		"chai": "latest",
 		"dirty-chai": "latest",
-		"chai-as-promised": "latest"
+		"chai-as-promised": "latest",
+		"istanbul": "latest",
+		"istanbul-threshold-checker": "latest",
+		"jasmine-core": "latest",
+		"karma": "latest",
+		"karma-jasmine": "latest",
+		"karma-coverage": "0.5.3",
+		"karma-phantomjs-launcher": "latest",
+		"phantomjs-prebuilt": "latest"
 	},
 	"peerDependencies": {
 	},
