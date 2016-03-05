@@ -24,6 +24,7 @@
 
 		_angular () {
 			this.directory ('angular', 'src/web');
+			this.directory ('test.angular.web', 'test/unit/web');
 			this.template ('bower.angular.json', 'bower.json');
 			this.template ('karma.angular.js', 'karma.conf.js');
 		},

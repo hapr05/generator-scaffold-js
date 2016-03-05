@@ -73,9 +73,9 @@
 			});
 
 			describe ('config', () => {
-				it ('should generate default.json', () => {
-					expect ('config/default.json').to.exist ();
-					expect ('config/production.json').to.exist ();
+				it ('should generate config', () => {
+					expect ('config/default.js').to.exist ();
+					expect ('config/production.js').to.exist ();
 				});
 			});
 
@@ -100,6 +100,7 @@
 						'app/app.module.js',
 						'app/components/topnav/topnavView.html', 'app/components/topnav/topnavController.js',
 						'app/components/home/homeView.html', 'app/components/home/homeController.js',
+						'app/components/apidoc/apidocView.html', 'app/components/apidoc/apidocController.js',
 						'assets/less/app.less'
 					];
 

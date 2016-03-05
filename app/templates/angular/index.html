@@ -37,6 +37,9 @@
 		<!-- /build -->
 	</head>
 	<body ng-app="<%= appSlug %>">
+		<!-- build:remove -->
+		<div class="dev-ribbon">Development</div>
+		<!-- /build -->
 		<div class="container">
 			<topnav></topnav>
 			<div ui-view></div>
@@ -47,6 +50,7 @@
 
 		<script src="app/components/topnav/topnavController.js"></script>
 		<script src="app/components/home/homeController.js"></script>
+		<script src="app/components/apidoc/apidocController.js"></script>
 		<!-- /build -->
 		<!-- build:js app/app.tpl.min.js -->
 		<!-- /build -->

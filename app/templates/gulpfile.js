@@ -27,8 +27,11 @@
 		path = require ('path'),
 		opts= {
 			files: {
-				html: 'src/web/index.html',
-				htmlView: 'src/web/app/**/*.html',
+				html: {
+					index: 'src/web/index.html',
+					views: 'src/web/app/**/*.html',
+					watch: 'src/web/**/*.html'
+				},
 				js: {
 					gulpfile: 'gulpfile.js',
 					server: 'src/server/**/*.js',
@@ -60,17 +63,22 @@
 					],
 					css: [
 						'src/web/bower_components/bootstrap/dist/css/bootstrap.css'
+					],
+					fonts: [
+						'src/web/bower_components/bootstrap/dist/fonts/*'
 					]
 				}
 			},
 			dist: {
+				exclude: '!src/web/app/components/{apidoc,apidoc**}',
 				root: 'src/web/dist',
 				app: 'src/web/dist/app',
 				assets: {
 					js: 'src/web/dist/assets/js',
 					css: 'src/web/dist/assets/css',
 					locale: 'src/web/dist/assets/locale',
-					img: 'src/web/dist/assets/img'
+					img: 'src/web/dist/assets/img',
+					fonts: 'src/web/dist/assets/fonts'
 				}
 			},
 			restartDelay: 500
@@ -101,8 +109,7 @@
 		gulp.task ('serve', [ 'js.lint', 'json.lint', 'test.unit', 'bs' ], () => {
 			gulp.watch (opts.files.js.web, [ 'js.lint', 'test.unit', 'bs.reload' ]);
 			gulp.watch ([
-				opts.files.html,
-				opts.files.htmlView,
+				opts.files.html.watch,
 				opts.files.less,
 				opts.files.json.all,
 				opts.files.img
@@ -138,7 +145,10 @@
 		});
 		
 		gulp.task ('js.concat', () => {
-			return gulp.src (opts.files.js.web).pipe (concat ('app.js')).pipe (gulp.dest (opts.dist.app));
+			return gulp.src ([
+				opts.files.js.web,
+				opts.dist.exclude
+			]).pipe (concat ('app.js')).pipe (gulp.dest (opts.dist.app));
 		});
 		
 		gulp.task ('js.uglify', [ 'js.concat' ], () => {
@@ -178,7 +188,10 @@
 	/* HTML taskts */
 	(function () {
 		gulp.task ('html.templatecache', () => {
-			return gulp.src (opts.files.htmlView).pipe (templatecache ({
+			return gulp.src ([
+				opts.files.html.views,
+				opts.dist.exclude
+			]).pipe (processhtml ()).pipe (templatecache ({
 				filename: 'app.tpl.js',
 				module: '<%= appSlug %>',
 				base: path.join (__dirname, 'src/web')
@@ -190,7 +203,7 @@
 		});
 		
 		gulp.task ('html.process', () => {
-			return gulp.src (opts.files.html).pipe (processhtml ()).pipe (gulp.dest (opts.dist.root));
+			return gulp.src (opts.files.html.index).pipe (processhtml ()).pipe (gulp.dest (opts.dist.root));
 		});
 
 		gulp.task ('html', [ 'html.templatecache.uglify', 'html.process' ]);
@@ -264,6 +277,10 @@
 			return gulp.src (path.join (opts.dist.assets.css, 'vendor.css')).pipe (cleancss ()).pipe (rename ('vendor.min.css')).pipe (gulp.dest (opts.dist.assets.css));
 		});
 		
-		gulp.task ('vendor', [ 'vendor.js.uglify', 'vendor.css.clean' ]);
+		gulp.task ('vendor.fonts', () => {
+			return gulp.src (opts.files.vendor.fonts).pipe (gulp.dest (opts.dist.assets.fonts));
+		});
+		
+		gulp.task ('vendor', [ 'vendor.js.uglify', 'vendor.css.clean', 'vendor.fonts' ]);
 	} ());
 } ());

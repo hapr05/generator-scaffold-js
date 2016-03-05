@@ -24,8 +24,12 @@
 	},
 	"dependencies": {
 		"config": "latest",
+		"hapi": "latest",
+		"joi": "latest",
+		"hapi-swagger": "latest",
 		"glue": "latest",
-		"inert": "latest"
+		"inert": "latest",
+		"vision": "latest"
 	},
 	"devDependencies": {
 		"gulp": "latest",
