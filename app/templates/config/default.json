@@ -30,5 +30,8 @@
 				"register": "./routes/web"
 			}
 		}]
+	},
+	"web": {
+		"content": "./src/web"
 	}
 }

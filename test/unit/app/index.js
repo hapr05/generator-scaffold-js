@@ -75,6 +75,7 @@
 			describe ('config', () => {
 				it ('should generate default.json', () => {
 					expect ('config/default.json').to.exist ();
+					expect ('config/production.json').to.exist ();
 				});
 			});
 

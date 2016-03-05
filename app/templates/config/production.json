@@ -1,0 +1,10 @@
+{
+	"manifest": {
+		"connections": [{
+			"port": 80
+		}]
+	},
+	"web": {
+		"content": "./src/web/dist"
+	}
+}

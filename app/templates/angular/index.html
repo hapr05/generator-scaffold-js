@@ -8,10 +8,15 @@
 
 		<title><%= cfgName %></title>
 
+		<!-- build:css assets/css/vendor.min.css -->
 		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<!-- /build -->
 
+		<!-- build:css assets/css/app.min.css -->
 		<link rel="stylesheet/less" type="text/css" href="assets/less/app.less" />
+		<!-- /build -->
 
+		<!-- build:js assets/js/vendor.min.js -->
 		<script src="bower_components/es5-shim/es5-shim.js"></script>
 		<script src="bower_components/es6-shim/es6-shim.js"></script>
 		<script src="bower_components/jquery/dist/jquery.js"></script>
@@ -24,8 +29,11 @@
 		<script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
 		<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<!-- /build -->
 
+		<!-- build:remove -->
 		<script src="bower_components/less/dist/less.js"></script>
+		<!-- /build -->
 	</head>
 	<body ng-app="<%= appSlug %>">
 		<div class="container">
@@ -33,9 +41,13 @@
 			<div ui-view></div>
 		</div>
 
+		<!-- build:js app/app.min.js -->
 		<script src="app/app.module.js"></script>
 
 		<script src="app/components/topnav/topnavController.js"></script>
 		<script src="app/components/home/homeController.js"></script>
+		<!-- /build -->
+		<!-- build:js app/app.tpl.min.js -->
+		<!-- /build -->
 	</body>
 </html>
