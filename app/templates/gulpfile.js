@@ -12,11 +12,12 @@
 		uglify = require ('gulp-uglify'),
 		annotate = require ('gulp-ng-annotate'),
 		less = require ('gulp-less'),
-		clean = require ('gulp-clean-css'),
+		cleancss = require ('gulp-clean-css'),
 		jsonminify = require ('gulp-jsonminify'),
 		imagemin = require ('gulp-imagemin'),
 		templatecache = require ('gulp-angular-templatecache'),
 		processhtml = require ('gulp-processhtml'),
+		clean = require ('gulp-clean'),
 		karma = require ('karma'),
 		istanbul = require ('istanbul'),
 		checker = require ('istanbul-threshold-checker'),
@@ -89,6 +90,9 @@
 		gulp.task ('default', [ 'serve' ]);
 		gulp.task ('ci', [ 'js.lint', 'json.lint', 'test.unit' ]);
 		gulp.task ('build', [ 'vendor', 'js', 'css', 'json', 'img', 'html' ]);
+		gulp.task ('clean', () => {
+			gulp.src ([ 'src/web/dist', 'coverage' ], { read: false }).pipe (clean ());
+		});
 	} ());
 
 	/* Server tasks */
@@ -150,7 +154,7 @@
 		});
 		
 		gulp.task ('css.clean', [ 'css.less' ], () => {
-			return gulp.src (path.join (opts.dist.assets.css, 'app.css')).pipe (clean ()).pipe (rename ('app.min.css')).pipe (gulp.dest (opts.dist.assets.css));
+			return gulp.src (path.join (opts.dist.assets.css, 'app.css')).pipe (cleancss ()).pipe (rename ('app.min.css')).pipe (gulp.dest (opts.dist.assets.css));
 		});
 		
 		gulp.task ('css', [ 'css.clean' ]);
@@ -256,7 +260,7 @@
 		});
 		
 		gulp.task ('vendor.css.clean', [ 'vendor.css.concat' ], () => {
-			return gulp.src (path.join (opts.dist.assets.css, 'vendor.css')).pipe (clean ()).pipe (rename ('vendor.min.css')).pipe (gulp.dest (opts.dist.assets.css));
+			return gulp.src (path.join (opts.dist.assets.css, 'vendor.css')).pipe (cleancss ()).pipe (rename ('vendor.min.css')).pipe (gulp.dest (opts.dist.assets.css));
 		});
 		
 		gulp.task ('vendor', [ 'vendor.js.uglify', 'vendor.css.clean' ]);
