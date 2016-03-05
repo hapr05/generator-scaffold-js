@@ -4,6 +4,7 @@
 	angular.module ('<%= appSlug %>', [
 		'ngAria',
 		'ngCookies',
+		'ngSanitize',
 		'pascalprecht.translate',
 		'ui.router'
 	]).config (function ($urlRouterProvider) {
@@ -13,6 +14,6 @@
 		$translateProvider.useStaticFilesLoader ({
 			prefix: 'assets/locale/locale-',
 			suffix: '.json'
-		}).preferredLanguage ('en');
+		}).preferredLanguage ('en').useSanitizeValueStrategy ('sanitize');
 	});
 } ());

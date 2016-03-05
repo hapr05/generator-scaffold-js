@@ -10,6 +10,7 @@
 		"angular": "latest",
 		"angular-aria": "latest",
 		"angular-cookies": "latest",
+		"angular-sanitize": "latest",
 		"angular-mocks": "latest",
 		"angular-translate": "latest",
 		"angular-translate-storage-cookie": "latest",

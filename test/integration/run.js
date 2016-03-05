@@ -45,7 +45,7 @@
 										reject (`failed to install bower modules: ${ code }`);
 									} else {
 										console.info ('Running gulp ci');
-										p = spawn ('gulp', [ 'ci' ]).on ('close', (code) => {
+										p = spawn ('gulp', [ 'ci', 'build' ]).on ('close', (code) => {
 											if (code) {
 												reject (`gulp failed: ${ code }`);
 											} else {
