@@ -7,7 +7,6 @@
 		chaiAsPromised = require ('chai-as-promised'),
 		expect = chai.expect,
 		helpers = require ('yeoman-test'),
-		sinon = require ('sinon'),
 		mockery = require ('mockery'),
 		path = require ('path'),
 		spawn = require ('child_process').spawn,
