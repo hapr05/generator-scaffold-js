@@ -22,7 +22,6 @@
 		istanbul = require ('istanbul'),
 		checker = require ('istanbul-threshold-checker'),
 		gulpIstanbul = require ('gulp-istanbul'),
-		es = require ('event-stream'),
 		fs = require ('fs'),
 		path = require ('path'),
 		opts= {
@@ -54,7 +53,7 @@
 						'src/web/bower_components/angular/angular.js',
 						'src/web/bower_components/angular-aria/angular-aria.js',
 						'src/web/bower_components/angular-cookies/angular-cookies.js',
-						'src/web/bower_components/angular-cookies/angular-sanitize.js',
+						'src/web/bower_components/angular-sanitize/angular-sanitize.js',
 						'src/web/bower_components/angular-translate/angular-translate.js',
 						'src/web/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
 						'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
@@ -221,10 +220,10 @@
 		});
 
 		gulp.task ('test.unit.server', [ 'test.unit.server.init' ], () => {
-			return es.merge (gulp.src (opts.files.js.serverUnitTest).pipe (mocha ({
+			return gulp.src (opts.files.js.serverUnitTest).pipe (mocha ({
 				ui: 'bdd',
 				reporter: 'spec'
-			}))).pipe (gulpIstanbul.writeReports ({
+			})).pipe (gulpIstanbul.writeReports ({
 				reporters: [
 					'json'
 				],

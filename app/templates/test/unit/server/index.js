@@ -3,11 +3,13 @@
 
 	const chai = require ('chai'),
 		expect = chai.expect,
+		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
 		server = require ('../../../src/server'),
 		config = require ('config');
 
 	chai.use (chaiAsPromised);
+	chai.use (dirtyChai);
 	process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
 	describe ('server', () => {
@@ -35,7 +37,7 @@
 			p.then (() => {
 				m.registrations = [];
 				server.stop ();
-			}, () => {
+			}).catch (() => {
 				m.registrations = [];
 			});
 
@@ -53,7 +55,7 @@
 			p.then (() => {
 				m.connections = [];
 				server.stop ();
-			}, () => {
+			}).catch (() => {
 				m.connections = [];
 				/* This is a hack but the server is in an invalid state and cannot be stopped without this. */
 				server._state = 'started';

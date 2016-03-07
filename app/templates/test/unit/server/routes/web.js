@@ -3,12 +3,14 @@
 
 	const chai = require ('chai'),
 		expect = chai.expect,
+		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
 		hapi = require ('hapi'),
 		inert = require ('inert'),
 		web = require ('../../../../src/server/routes/web');
 
 	chai.use (chaiAsPromised);
+	chai.use (dirtyChai);
 
 	describe ('web route', () => {
 		var server;

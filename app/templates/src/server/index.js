@@ -15,11 +15,11 @@
 					server.start ().then (() => {
 						console.log ('Server started on port: ' + server.info.port);
 						resolve (server);
-					}, (err) => {
+					}).catch ((err) => {
 						console.error (err);
 						reject (err, server);
 					});
-				}, (err) => {	 
+				}).catch ((err) => {	 
 					console.error (err);
 					reject (err, server);
 				});

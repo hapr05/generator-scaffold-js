@@ -8,7 +8,8 @@
 		slug = require ('to-slug-case'),
 		gitConfig = require ('git-config'),
 		githubUrlFromGit = require ('github-url-from-git'),
-		validators = require ('../util/validators.js');
+		db = require ('./db'),
+		validators = require ('../util/validators');
 
 	module.exports = generator.Base.extend ({
 		constructor: function () {
@@ -44,12 +45,13 @@
 		askFor () {
 			const done = this.async (),
 				prompts = [
-					{ name: 'cfgName', message: 'Name', default: this._def ('name', this.appname), validate: validators.required },
-					{ name: 'cfgDescription', message: 'Description', default: this._def ('description', 'oldschool generated application') },
-					{ name: 'cfgContribName', message: 'Author name', default: this._def ('cName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
-					{ name: 'cfgContribEmail', message: 'Author email', default: this._def ('cEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
-					{ name: 'cfgContribUrl', message: 'Author url', default: this._def ('cUrl', '') },
-					{ name: 'cfgRepository', message: 'Repository url', default: this._def ('repository', '') }
+					{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.required },
+					{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.required },
+					{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'oldschool generated application') },
+					{ name: 'cfgContribName', message: 'Author name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
+					{ name: 'cfgContribEmail', message: 'Author email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
+					{ name: 'cfgContribUrl', message: 'Author url', default: this._def ('cfgContribUrl', '') },
+					{ name: 'cfgRepository', message: 'Repository url', default: this._def ('cfgRepository', '') }
 				];
 
 			this.prompt (prompts, (answers) => {
@@ -63,19 +65,19 @@
 				homepage = githubUrlFromGit (this.config.get ('cfgRepository'));
 
 			var prompts = [
-				{ name: 'cfgLicense', message: 'License', default: this._def ('license', 'MIT'), type: 'list', choices: [ 'Apache-2.0', 'MIT' ]}
+				{ name: 'cfgLicense', message: 'License', default: this._def ('cfgLicense', 'MIT'), type: 'list', choices: [ 'Apache-2.0', 'MIT' ]}
 			];
 
 			this.isGithub = Boolean (homepage);
 			if (this.isGithub) {
 				prompts = prompts.concat ([
-					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('homepage', homepage) },
-					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('bugs', homepage + '/issues') }
+					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('cfgHomepage', homepage) },
+					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', homepage + '/issues') }
 				]);
 			} else {
 				prompts = prompts.concat ([
-					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('homepage', '') },
-					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('bugs', '') }
+					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('cfgHomepage', '') },
+					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', '') }
 				]);
 			}
 
@@ -129,6 +131,14 @@
 			this.installDependencies ({
 				bower: true,
 				npm: true
+			});
+		},
+
+		installDatabase () {
+			const done = this.async ();
+			db.seed (this).then (done).catch ((err) => {
+				this.log (err);
+				done (err);
 			});
 		}
 	});

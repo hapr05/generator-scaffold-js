@@ -15,6 +15,7 @@
 					'gulpfile': 'gulpfile.js',
 					'app': 'app/**/*.js',
 					'appnt': '!app/templates/**/*.js',
+					'util': 'util/**/*.js',
 					'unitTest': 'test/unit/**/*.js',
 					'integrationTest': 'test/integration/**/*.js'
 				},
@@ -51,7 +52,8 @@
 		gulp.task ('test.init', () => {
 			return gulp.src ([
 				opts.files.js.app,
-				opts.files.js.appnt
+				opts.files.js.appnt,
+				opts.files.js.util
 			]).pipe (istanbul ({
 				includeUntested: true
 			})).pipe (istanbul.hookRequire ());

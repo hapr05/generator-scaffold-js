@@ -73,7 +73,7 @@
 	temp.track ();
 	create ().then (() => {
 		process.exit (0);
-	}, (e) => {
+	}).catch ((e) => {
 		console.error (e);
 		process.exit (1);
 	});

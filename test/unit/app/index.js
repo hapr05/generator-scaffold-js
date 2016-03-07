@@ -4,6 +4,7 @@
 	const assert = require ('yeoman-assert'),
 		chai = require ('chai'),
 		dirtyChai = require ('dirty-chai'),
+		chaiAsPromised = require ('chai-as-promised'),
 		expect = chai.expect,
 		helpers = require ('yeoman-test'),
 		sinon = require ('sinon'),
@@ -24,9 +25,10 @@
 			cfgFramework: 'AngularJS'
 		};
 
+	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
 	chai.use (function (_chai, utils) {
-		_chai.Assertion.addMethod ('exist', function () {
+		_chai.Assertion.addMethod ('existOnFs', function () {
 			var obj = utils.flag (this, 'object');
 			assert.file (obj);
 		});
@@ -38,26 +40,34 @@
 	});
 
 	describe ('oldschool:app', () => {
-		describe ('stanard', () => {
+		before (() => {
+			mockery.enable ({
+				warnOnReplace: false,
+				warnOnUnregistered: false,
+				useCleanCache: true
+			});
+
+			mockery.registerMock ('./db', {
+				seed: () => {
+					return Promise.resolve ();
+				}
+			});
+		});
+
+		after (() => {
+			mockery.deregisterAll ();
+			mockery.disable ();
+		});
+
+		describe ('standard', () => {
 			before ((done) => {
-				helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts (prompts).on ('end', done);
+				helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts (prompts).on ('end', done);
 			});
 
 			describe ('root', () => {
-				var gitConfigStub;
-
-				it ('should generate package.jason', () => {
-					mockery.enable ({
-						warnOnReplace: false,
-						warnOnUnregistered: false,
-						useCleanCache: true
-					});
-
-					gitConfigStub = sinon.stub ().callsArgWith (0, false, { user: {} });
-
-					mockery.registerMock ('git-config', gitConfigStub);
-
-					expect ('package.json').to.exist ();
+				it ('should generate package.json', () => {
+					mockery.registerMock ('git-config', sinon.stub ().callsArgWith (0, false, { user: {} }));
+					expect ('package.json').to.existOnFs ();
 				});
 
 				it ('should generate config files', () => {
@@ -145,7 +155,7 @@
 		describe ('github repo', () => {
 			describe ('package.json', () => {
 				before ((done) => {
-					helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
+					helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
 						cfgName: name,
 						cfgDescription: 'my-description',
 						cfgBugs: 'my-issues',
@@ -169,7 +179,7 @@
 		describe ('Apache License', () => {
 			describe ('LICENSE', () => {
 				before ((done) => {
-					helpers.run (path.join ( __dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
+					helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
 						cfgName: name,
 						cfgDescription: 'my-description',
 						cfgHomepage: 'my-homepage',
@@ -191,10 +201,20 @@
 			});
 		});
 
+		it ('should eat seed failure', (done) => {
+			mockery.deregisterMock ('./db');
+			mockery.registerMock ('./db', {
+				seed: () => {
+					return Promise.reject ();
+				}
+			});
+			helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+		});
+
 		/* it won't run npm install when unit testing */
 		xdescribe ('npm install', () => {
 			before ((done) => {
-				helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+				helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
 			});
 
 			it ('should install node_modules', () => {
@@ -205,7 +225,7 @@
 		/* Too slow for Unit Testing */
 		xdescribe ('generated app', () => {
 			before ((done) => {
-				helpers.run (path.join ( __dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+				helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
 			});
 
 			it ('should build clean', (done) => {
