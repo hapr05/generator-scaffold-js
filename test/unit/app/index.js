@@ -66,7 +66,12 @@
 
 			describe ('root', () => {
 				it ('should generate package.json', () => {
-					mockery.registerMock ('git-config', sinon.stub ().callsArgWith (0, false, { user: {} }));
+					mockery.registerMock ('git-config', sinon.stub ().callsArgWith (0, false, { 
+						user: {
+							name: 'user_name',
+							email: 'user_email'
+						}
+					}));
 					expect ('package.json').to.existOnFs ();
 				});
 
