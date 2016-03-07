@@ -52,6 +52,15 @@
 					return Promise.resolve ();
 				}
 			});
+
+			mockery.registerMock ('git-config', function (cb) {
+				cb (false, {
+					user: {
+						name: 'user_name',
+						email: 'user_email'
+					}
+				});
+			});
 		});
 
 		after (() => {
@@ -65,20 +74,10 @@
 			});
 
 			describe ('root', () => {
-				it ('should generate package.json', () => {
-					mockery.registerMock ('git-config', { 
-						user: {
-							name: 'user_name',
-							email: 'user_email'
-						}
-					});
-					expect ('package.json').to.existOnFs ();
-				});
-
 				it ('should generate config files', () => {
 					var files = [
 						'.gitignore', 'bower.json', '.bowerrc', '.travis.yml', '.jshintc', '.editorconfig',
-						'LICENSE.MIT', 'README.mc', 'gulpfile.js', 'karma.conf.js'
+						'LICENSE.MIT', 'README.mc', 'gulpfile.js', 'karma.conf.js', 'package.json'
 					];
 
 					files.forEach (function (i) {
