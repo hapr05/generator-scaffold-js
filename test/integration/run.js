@@ -5,6 +5,9 @@
 		path = require ('path'),
 		helpers = require ('yeoman-test'),
 		temp = require ('temp'),
+		mongo = require ('mongodb'),
+		db = mongo.Db,
+		server = mongo.Server,
 		testDir = 'oldschool_test',
 		prompts = {
 			cfgName: 'test-app',
@@ -27,6 +30,8 @@
 				if (e) {
 					reject (e);
 				} else {
+					var dbname = path.basename (dir);
+
 					console.info (`Test directory created: ${ dir }`);
 					process.chdir (dir);
 
@@ -37,19 +42,19 @@
 						console.info ('Running npm install');
 						p = spawn ('npm', [ 'install' ]).on ('close', (code) => {
 							if (code) {
-								reject (`failed to install npm modules: ${ code }`);
+								reject (`failed to install npm modules: ${ code }`, dbname);
 							} else {
 								console.info ('Running bower install');
 								p = spawn ('bower', [ 'install' ]).on ('close', (code) => {
 									if (code) {
-										reject (`failed to install bower modules: ${ code }`);
+										reject (`failed to install bower modules: ${ code }`, dbname);
 									} else {
 										console.info ('Running gulp ci');
 										p = spawn ('gulp', [ 'ci', 'build' ]).on ('close', (code) => {
 											if (code) {
-												reject (`gulp failed: ${ code }`);
+												reject (`gulp failed: ${ code }`, dbname);
 											} else {
-												resolve ();
+												resolve (dbname);
 											}
 										});
 										p.stdout.pipe (process.stdout);
@@ -63,18 +68,47 @@
 						p.stdout.pipe (process.stdout);
 						p.stderr.pipe (process.stderr);
 					}).on ('error', (e) => {
-						reject ('failed to generate: ' + e);
+						reject ('failed to generate: ' + e, dbname);
 					});
 				}
 			});
 		});
 	}
 
+	function dropDb (name) {
+		if (name) {
+			return new Promise ((resolve, reject)  => {
+				new db (name, new server ('localhost', 27017)).open ().then ((d) => {
+					d.dropDatabase ().then (() => {
+						resolve ();
+					}).catch ((err) => {
+						reject (err);
+					});
+				}).catch ((err) => {
+					reject (err);
+				});
+			});
+		} else {
+			return Promise.resolve ();
+		}
+	}
+
 	temp.track ();
-	create ().then (() => {
-		process.exit (0);
-	}).catch ((e) => {
-		console.error (e);
-		process.exit (1);
+
+	create ().then ((dbname) => {
+		dropDb (dbname).then (() => {
+			process.exit (0);
+		}).catch ((err) => {
+			console.error (err);
+			process.exit (1)
+		});
+	}).catch ((err, dbname) => {
+		console.error (err);
+		dropDb (dbname).then (() => {
+			process.exit (1);
+		}).catch ((err) => {
+			console.error (err);
+			process.exit (1)
+		});
 	});
 } ());

@@ -7,6 +7,8 @@ os:
 #   - osx - travis-ci doesn't support node on osx (lame)
 node_js:
    - "5.7.0"
+services:
+   - mongodb
 install:
    - npm install coveralls
    - npm install codeclimate-test-reporter
