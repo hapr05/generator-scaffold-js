@@ -7,6 +7,9 @@
 		server.route ({
 			method: 'GET',
 			path: '/{param*}',
+			config: {
+				auth: false
+			},
 			handler: {
 				directory: {
 					path: config.get ('web.content'),

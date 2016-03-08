@@ -5,6 +5,11 @@
 		config = require ('config');
 	var server;
 
+	function validateJWT (decoded, request, callback) {
+		console.error (decoded);
+		callback ('Callback First Param', false);
+	}
+
 	module.exports = {
 		start () {
 			return new Promise ((resolve, reject) => {
@@ -12,6 +17,17 @@
 					relativeTo: __dirname
 				}).then ((_server_) => {
 					server = _server_; 
+
+					server.auth.strategy ('jwt', 'jwt', {
+						key: config.get ('web.jwtKey'),
+						validateFunc: validateJWT,
+						verifyOptions: {
+							algorithms: [ 'HS256' ]
+						}
+					});
+
+					server.auth.default ('jwt');
+
 					server.start ().then (() => {
 						console.log ('Server started on port: ' + server.info.port);
 						resolve (server);

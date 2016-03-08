@@ -61,7 +61,8 @@
 						'src/web/bower_components/angular-ui-router/release/angular-ui-router.js'
 					],
 					css: [
-						'src/web/bower_components/bootstrap/dist/css/bootstrap.css'
+						'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
+						'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css'
 					],
 					fonts: [
 						'src/web/bower_components/bootstrap/dist/fonts/*'
@@ -80,7 +81,9 @@
 					fonts: 'src/web/dist/assets/fonts'
 				}
 			},
-			restartDelay: 500
+			restart: {
+				delay: 500
+			}
 		};
 
 	function values (obj) {

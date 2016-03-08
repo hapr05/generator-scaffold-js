@@ -4,6 +4,7 @@
 	const generator = require ('yeoman-generator'),
 		path = require ('path'),
 		process = require ('process'),
+		uuid = require ('node-uuid'),
 		camel = require ('to-camel-case'),
 		slug = require ('to-slug-case'),
 		gitConfig = require ('git-config'),
@@ -16,6 +17,9 @@
 			generator.Base.apply (this, arguments);
 
 			this.appname = path.basename (process.cwd ());
+			this.config.set ('appname', this.appname);
+
+			this.jwtKey = this._def ('jwtkey', uuid.v4 ());
 			this.config.set ('appname', this.appname);
 		},
 

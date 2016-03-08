@@ -1,10 +1,24 @@
 {
 	"global": {
+		"account": "Account",
 		"btn": {
 			"toggleNavigation": "Toggle Navigation"
 		}
 	},
 	"home": {
 		"nav": "Home"
+	},
+	"login": {
+		"nav": "Sign In",
+		"forgotPassword": "Forgot password?",
+		"noAccount": "Don't have an an account?",
+		"signUpHere": "Sign up here.",
+		"field": {
+			"usernameOrEmailAddress": "Username or Email Address",
+			"rememberMe": "Remember Me"
+		},
+		"btn": {
+			"login": "login"
+		}
 	}
 }

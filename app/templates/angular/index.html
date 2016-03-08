@@ -10,6 +10,7 @@
 
 		<!-- build:css assets/css/vendor.min.css -->
 		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
 		<!-- /build -->
 
 		<!-- build:css assets/css/app.min.css -->
@@ -36,13 +37,13 @@
 		<script src="bower_components/less/dist/less.js"></script>
 		<!-- /build -->
 	</head>
-	<body ng-app="<%= appSlug %>">
+	<body ng-app="<%= appSlug %>" role="document">
 		<!-- build:remove -->
 		<div class="dev-ribbon">Development</div>
 		<!-- /build -->
 		<div class="container">
 			<topnav></topnav>
-			<div ui-view></div>
+			<div class="content" ui-view></div>
 		</div>
 
 		<!-- build:js app/app.min.js -->
@@ -50,6 +51,8 @@
 
 		<script src="app/components/topnav/topnavController.js"></script>
 		<script src="app/components/home/homeController.js"></script>
+		<script src="app/components/login/loginController.js"></script>
+
 		<script src="app/components/apidoc/apidocController.js"></script>
 		<!-- /build -->
 		<!-- build:js app/app.tpl.min.js -->

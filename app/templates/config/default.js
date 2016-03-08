@@ -1,7 +1,8 @@
 (function () {
 	'use strict';
 
-	const pkg = require ('../package');
+	const pkg = require ('../package'),
+		defer = require ('config/defer').deferConfig;
 
 	module.exports = {
 		manifest: {
@@ -20,10 +21,14 @@
 				labels: [ 'web' ]
 			}],
 			registrations: [{
+				plugin: 'hapi-auth-jwt2'
+			}, {
 				plugin: {
 					register: 'hapi-mongodb',
 					options: {
-						url: '<%= cfgDbUrl %>'
+						url: defer (function (cfg) {
+							return cfg.db.url;
+						})
 					}
 				}
 			}, {
@@ -66,8 +71,13 @@
 				}
 			}]
 		},
+		db: {
+			url: '<%= cfgDbUrl %>'
+		},
 		web: {
-			content: './src/web'
+			content: './src/web',
+			/* Never share your secret key */
+			jwtKey: '<%= jwtKey %>'
 		}
 	}
 } ());
