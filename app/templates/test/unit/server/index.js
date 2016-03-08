@@ -15,8 +15,13 @@
 	describe ('server', () => {
 		var m = config.get ('manifest');
 
-		m.server = {};
-		m.connections = m.registrations = [];
+		beforeEach (() => {
+			m.server = {};
+			m.connections = [];
+			m.registrations = [{
+				plugin: 'hapi-auth-jwt2'
+			}];
+		});
 
 		it ('should start a server', () => {
 			var p = server.start ();
@@ -30,15 +35,14 @@
 
 		it ('should fail to start a server with an invalid plugin', () => {
 			m.registrations = [{
+					plugin: 'hapi-auth-jwt2'
+			}, {
 				plugin: './invalid-plugin'
 			}];
 
 			var p = server.start ();
 			p.then (() => {
-				m.registrations = [];
 				server.stop ();
-			}).catch (() => {
-				m.registrations = [];
 			});
 
 			return expect (p).to.be.rejected;
@@ -53,10 +57,8 @@
 			var p = server.start ();
 			
 			p.then (() => {
-				m.connections = [];
 				server.stop ();
 			}).catch (() => {
-				m.connections = [];
 				/* This is a hack but the server is in an invalid state and cannot be stopped without this. */
 				server._state = 'started';
 				server.stop ();

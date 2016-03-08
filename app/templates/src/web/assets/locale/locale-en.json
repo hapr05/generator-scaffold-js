@@ -15,10 +15,11 @@
 		"signUpHere": "Sign up here.",
 		"field": {
 			"usernameOrEmailAddress": "Username or Email Address",
+			"password": "Password",
 			"rememberMe": "Remember Me"
 		},
 		"btn": {
-			"login": "login"
+			"login": "Login"
 		}
 	}
 }

@@ -5,10 +5,12 @@
 		config = require ('config');
 	var server;
 
+	/*
 	function validateJWT (decoded, request, callback) {
 		console.error (decoded);
 		callback ('Callback First Param', false);
 	}
+	*/
 
 	module.exports = {
 		start () {
@@ -18,6 +20,7 @@
 				}).then ((_server_) => {
 					server = _server_; 
 
+					/*
 					server.auth.strategy ('jwt', 'jwt', {
 						key: config.get ('web.jwtKey'),
 						validateFunc: validateJWT,
@@ -27,6 +30,7 @@
 					});
 
 					server.auth.default ('jwt');
+					*/
 
 					server.start ().then (() => {
 						console.log ('Server started on port: ' + server.info.port);
