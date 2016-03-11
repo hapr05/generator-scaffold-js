@@ -55,6 +55,7 @@
 											if (code) {
 												reject (`gulp failed: ${ code }`, dbname);
 											} else {
+												console.info ('Build completed');
 												resolve (dbname);
 											}
 										});
@@ -98,8 +99,10 @@
 
 	create ().then ((dbname) => {
 		dropDb (dbname).then (() => {
+			console.info ('Temporary DB Dropped');
 			process.exit (0);
 		}).catch ((err) => {
+			console.info ('Temporary DB Drop Failed');
 			console.error (err);
 			process.exit (1);
 		});
