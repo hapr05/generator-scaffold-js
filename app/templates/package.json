@@ -25,15 +25,15 @@
 	"dependencies": {
 		"config": "latest",
 		"hapi": "latest", "joi": "latest", "hapi-swagger": "latest", "glue": "latest", "inert": "latest", "vision": "latest",
-		"hapi-auth-jwt2": "latest",
+		"hapi-auth-jwt2": "latest", "hapi-router": "latest",
 		"mongodb": "latest", "hapi-mongodb": "latest"
 	},
 	"devDependencies": {
 		"gulp": "latest",
 		"gulp-nodemon": "latest", "browser-sync": "latest",
 		"gulp-jshint": "latest", "gulp-json-lint": "latest", "jshint": "latest", "jshint-stylish": "latest",
-		"gulp-mocha": "latest", "gulp-istanbul": "latest", "chai": "latest", "dirty-chai": "latest", "chai-as-promised": "latest",
-		"karma": "latest", "karma-jasmine": "latest", "karma-coverage": "0.5.3", "karma-phantomjs-launcher": "latest", "phantomjs-prebuilt": "latest", "jasmine-core": "latest",
+		"gulp-mocha": "latest", "gulp-istanbul": "latest", "chai": "latest", "dirty-chai": "latest", "chai-as-promised": "latest", "sinon": "latest", "mockery": "latest",
+		"karma": "latest", "karma-jasmine": "latest", "karma-coverage": "latest", "karma-phantomjs-launcher": "latest", "phantomjs-prebuilt": "latest", "jasmine-core": "latest",
 		"istanbul": "latest", "istanbul-threshold-checker": "latest",
 		"gulp-concat": "latest", "gulp-rename": "latest", "gulp-uglify": "latest",
 		"gulp-clean-css": "latest", "gulp-less": "latest", "less": "latest",

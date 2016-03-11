@@ -54,11 +54,13 @@
 						'src/web/bower_components/angular-aria/angular-aria.js',
 						'src/web/bower_components/angular-cookies/angular-cookies.js',
 						'src/web/bower_components/angular-sanitize/angular-sanitize.js',
+						'src/web/bower_components/angular-local-storage/dist/angular-local-storage.js',
 						'src/web/bower_components/angular-translate/angular-translate.js',
 						'src/web/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
 						'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
 						'src/web/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
-						'src/web/bower_components/angular-ui-router/release/angular-ui-router.js'
+						'src/web/bower_components/angular-ui-router/release/angular-ui-router.js',
+						'src/web/bower_components/angular-jwt/dist/angular-jwt.js'
 					],
 					css: [
 						'src/web/bower_components/bootstrap/dist/css/bootstrap.css',

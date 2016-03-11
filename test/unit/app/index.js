@@ -96,8 +96,8 @@
 				it ('should generate server.js', () => {
 					var files = [ 
 						'.jshintrc',
-						'index.js',
-						'routes/api.js', 'routes/web.js'
+						'index.js', 'jwt.js',
+						'routes/authenticate.js', 'routes/web.js'
 					];
 
 					expect ('server.js').to.exist ();
@@ -111,9 +111,11 @@
 						'.jshintrc',
 						'index.html',
 						'app/app.module.js',
+						'app/shared/auth/auth.factory.js', 'app/shared/auth/auth.directive.js',
 						'app/components/topnav/topnavView.html', 'app/components/topnav/topnavController.js',
 						'app/components/home/homeView.html', 'app/components/home/homeController.js',
 						'app/components/apidoc/apidocView.html', 'app/components/apidoc/apidocController.js',
+						'app/components/login/loginView.html', 'app/components/login/loginController.js',
 						'assets/less/app.less'
 					];
 
@@ -133,7 +135,8 @@
 				it ('should generate server tests', () => {
 					var files = [ 
 						'.jshintrc',
-						'index.js', 'routes/api.js', 'routes/web.js'
+						'index.js', 'jwt.js',
+						'routes/authenticate.js', 'routes/web.js'
 					];
 
 					files.forEach ((item) => {
@@ -146,6 +149,8 @@
 						'app.module.js',
 						'components/topnav/topnavController.js',
 						'components/home/homeController.js',
+						'components/login/loginController.js',
+						'components/apidoc/apidocController.js',
 					];
 
 					files.forEach ((item) => {

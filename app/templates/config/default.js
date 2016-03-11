@@ -21,8 +21,6 @@
 				labels: [ 'web' ]
 			}],
 			registrations: [{
-				plugin: 'hapi-auth-jwt2'
-			}, {
 				plugin: {
 					register: 'hapi-mongodb',
 					options: {
@@ -39,6 +37,13 @@
 				plugin: {
 					register: 'hapi-swagger',
 					options: {
+						auth: 'jwt',
+						schemes: [ 'https' ],
+						responses: { 
+							'200': { 'description': 'Success' },
+							'400': { 'description': 'Bad Request' },
+							'401': { 'description': 'Unauthorized' }
+						}  ,
 						info: {
 							title: '<%= cfgName %> API Documentation',
 							description: '<%= cfgDescription %>',
@@ -58,16 +63,10 @@
 				}
 			}, {
 				plugin: {
-					register: './routes/api'
-				},
-				options: {
-					routes: {
-						prefix: '/api'
+					register: 'hapi-router',
+					options: {
+						routes: './src/server/routes/**/*.js'
 					}
-				}
-			}, {
-				plugin: {
-					register: './routes/web'
 				}
 			}]
 		},
@@ -77,7 +76,8 @@
 		web: {
 			content: './src/web',
 			/* Never share your secret key */
-			jwtKey: '<%= jwtKey %>'
+			jwtKey: '<%= jwtKey %>',
+			tokenExpire: 15 * 60
 		}
 	}
 } ());

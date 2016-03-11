@@ -21,5 +21,21 @@
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('home');
 		});
+
+		it ('should manage states', function () {
+			this.$rootScope.previousStateName = 'test';
+			this.$rootScope.$emit ('$stateChangeSuccess', {
+				name: 'home'
+			}, {}, {
+				name: 'test'
+			}, {});
+		});
+
+		it ('should handle state back', function () {
+			this.$rootScope.previousStateName = 'test';
+			this.$rootScope.back ();
+			this.$rootScope.previousStateName = 'login';
+			this.$rootScope.back ();
+		});
 	});
 } ());

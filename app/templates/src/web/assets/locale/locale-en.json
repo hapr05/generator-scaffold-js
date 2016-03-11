@@ -6,10 +6,13 @@
 		}
 	},
 	"home": {
-		"nav": "Home"
+		"nav": "Home",
+		"title": "Home"
 	},
 	"login": {
 		"nav": "Sign In",
+		"logoutNav": "Sign Out",
+		"title": "Sign In",
 		"forgotPassword": "Forgot password?",
 		"noAccount": "Don't have an an account?",
 		"signUpHere": "Sign up here.",
@@ -19,7 +22,20 @@
 			"rememberMe": "Remember Me"
 		},
 		"btn": {
-			"login": "Login"
+			"login": "Sign In"
+		},
+		"msg": {
+			"error": {
+				"auth": "<strong>Failed to sign in!</strong> Please check your credentials and try again."
+			},
+			"validate": {
+				"username": {
+					"required": "Username is required"
+				},
+				"password": {
+					"required": "Password is required"
+				}
+			}
 		}
 	}
 }

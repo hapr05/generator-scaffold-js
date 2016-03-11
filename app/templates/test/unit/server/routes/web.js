@@ -18,7 +18,9 @@
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ inert, web ])).to.be.fulfilled;
+			return expect (server.register ([ inert ]).then (() => {
+				server.route (web);
+			})).to.be.fulfilled ();
 		});
 
 		it ('should show index', () => {

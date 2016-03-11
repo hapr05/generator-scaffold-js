@@ -18,6 +18,13 @@
 			},
 			updateOne () {
 				return Promise.resolve ();
+			},
+			insertMany () {
+				return Promise.resolve ();
+			},
+			drop () {
+			},
+			createIndex () {
 			}
 		},
 		db = {
@@ -30,7 +37,8 @@
 					return Promise.resolve (db);
 				}
 			}
-		}, sandbox = sinon.sandbox.create ();
+		},
+		sandbox = sinon.sandbox.create ();
 
 		before (() => {
 			mockery.enable ({

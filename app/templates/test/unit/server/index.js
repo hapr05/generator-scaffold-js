@@ -18,9 +18,7 @@
 		beforeEach (() => {
 			m.server = {};
 			m.connections = [];
-			m.registrations = [{
-				plugin: 'hapi-auth-jwt2'
-			}];
+			m.registrations = [];
 		});
 
 		it ('should start a server', () => {
@@ -35,8 +33,6 @@
 
 		it ('should fail to start a server with an invalid plugin', () => {
 			m.registrations = [{
-					plugin: 'hapi-auth-jwt2'
-			}, {
 				plugin: './invalid-plugin'
 			}];
 
