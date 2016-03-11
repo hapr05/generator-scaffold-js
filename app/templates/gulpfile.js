@@ -101,7 +101,9 @@
 	/* Main tasks */
 	(function () {
 		gulp.task ('default', [ 'serve' ]);
-		gulp.task ('ci', [ 'js.lint', 'json.lint', 'test.unit' ]);
+		gulp.task ('ci', [ 'js.lint', 'json.lint', 'test.unit' ], () => {
+			process.exit ();
+		});
 		gulp.task ('build', [ 'vendor', 'js', 'css', 'json', 'img', 'html' ]);
 		gulp.task ('clean', () => {
 			gulp.src ([ 'src/web/dist', 'coverage' ], { read: false }).pipe (clean ());
