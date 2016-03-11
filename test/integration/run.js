@@ -11,6 +11,7 @@
 		testDir = 'oldschool_test',
 		prompts = {
 			cfgName: 'test-app',
+			cfgDbUrl: 'mongodb://localhost:27017/test',
 			cfgDescription: 'test-description',
 			cfgHomepage: 'test-homepage',
 			cfgBugs: 'test-issues',
@@ -93,7 +94,7 @@
 		}
 	}
 
-	temp.track ();
+	//temp.track ();
 
 	create ().then ((dbname) => {
 		dropDb (dbname).then (() => {

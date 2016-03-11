@@ -13,6 +13,7 @@
 		name = 'name-x',
 		prompts = {
 			cfgName: name,
+			cfgDbUrl: 'mongodb://localhost:27017',
 			cfgDescription: 'my-description',
 			cfgHomepage: 'my-homepage',
 			cfgBugs: 'my-issues',
