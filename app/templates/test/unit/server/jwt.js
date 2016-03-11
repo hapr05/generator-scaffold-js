@@ -42,7 +42,7 @@
 		it ('should validate valid token', () => {
 			jwt.validate ({
 				host: 'test',
-				user: 'test'
+				user: '56e321368fb6511021ff1f8b'
 			}, request, (err, response) => {
 				expect (response).to.be.true ();
 			});
@@ -51,7 +51,7 @@
 		it ('should fail to validate if host does not match', () => {
 			jwt.validate ({
 				host: 'invalid',
-				user: 'test'
+				user: '56e321368fb6511021ff1f8b'
 			}, request, (err, response) => {
 				expect (response).to.be.false ();
 			});
@@ -64,7 +64,7 @@
 
 			jwt.validate ({
 				host: 'test',
-				user: 'test'
+				user: '56e321368fb6511021ff1f8b'
 			}, request, (err, response) => {
 				expect (response).to.be.false ();
 			});
@@ -77,7 +77,7 @@
 
 			jwt.validate ({
 				host: 'test',
-				user: 'test'
+				user: '56e321368fb6511021ff1f8b'
 			}, request, (err, response) => {
 				expect (response).to.be.false ();
 			});

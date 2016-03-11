@@ -32,7 +32,7 @@
 		$httpProvider.interceptors.push('jwtInterceptor');
 	}).run (function ($rootScope, $state) {
 		$rootScope.$on ('$stateChangeSuccess',  function (toState, toParams, fromState, fromParams) {
-			if (toState.name !== 'login' && $rootScope.previousStateName) {
+			if (toState.name !== 'login' && $rootScope.previousStateName) { //TODO this is preventing all
 				$rootScope.previousStateName = fromState.name;
 				$rootScope.previousStateParams = fromParams;
 			}

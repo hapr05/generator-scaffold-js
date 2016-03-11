@@ -41,5 +41,26 @@
 				}); 
 			}   
 		};  
+	}).directive ('<%= appCamel %>HasAuthority', function (authFactory) {
+		return {
+			restrict: 'A',
+			link: function (scope, element, attrs) {
+				var authority = attrs.<%= appCamel %>HasAuthority,
+					setVisibility = function () {
+						if (authFactory.hasAuthority (authority)) {
+							element.removeClass ('hidden');
+						} else {
+							element.addClass ('hidden');
+						}
+					};
+
+				setVisibility ();
+				scope.$watch (function () {
+					return authFactory.authenticated;
+				}, function () {
+					setVisibility ();
+				}); 
+			}   
+		};  
 	});
 } ());

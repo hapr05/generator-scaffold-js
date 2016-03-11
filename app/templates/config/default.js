@@ -55,7 +55,9 @@
 							version: pkg.version
 						},
 						responseValidation: true,
-						auth: 'jwt'
+						auth: {
+							scope: [ 'ROLE_ADMIN' ]
+						}
 					}
 				}
 			}, {

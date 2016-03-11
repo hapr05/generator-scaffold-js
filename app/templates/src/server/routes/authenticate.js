@@ -43,7 +43,8 @@
 							iat: parseInt (new Date ().getTime () / 1000, 10),
 							sub: 'auth',
 							host: request.info.host,
-							user: user.__id
+							user: user._id,
+							scope: user.scope
 						}, config.get ('web.jwtKey')));
 					} else {
 						return Promise.reject ();
@@ -78,7 +79,8 @@
 					iat: parseInt (new Date ().getTime () / 1000, 10),
 					sub: 'auth',
 					host: request.info.host,
-					user: request.auth.credentials.user
+					user: request.auth.credentials.user._id,
+					scope: request.auth.credentials.user.scope
 				}, config.get ('web.jwtKey')));
 			}
 		}

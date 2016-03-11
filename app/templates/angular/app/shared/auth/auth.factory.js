@@ -28,7 +28,7 @@
 
 		return {
 			get authenticated () {
-				return _auth && !jwtHelper.isTokenExpired (_auth) ? true : false;
+				return _auth && !jwtHelper.isTokenExpired (_auth);
 			},
 
 			authenticate: function (username, password) {
@@ -40,6 +40,10 @@
 					_set (response.headers ('Authorization'));
 					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
 				});
+			},
+
+			hasAuthority: function (authority) {
+				return _auth && !jwtHelper.isTokenExpired (_auth) && -1 !== jwtHelper.decodeToken (_auth).scope.indexOf (authority);
 			},
 
 			reset: function () {
