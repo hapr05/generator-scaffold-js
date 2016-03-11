@@ -244,7 +244,8 @@
 
 		gulp.task ('test.unit.web', (done) => {
 			new karma.Server ({
-				configFile: path.join (__dirname, 'karma.conf.js')
+				configFile: path.join (__dirname, 'karma.conf.js'),
+				singleRun: true
 			}, done).start ();
 		});
 
