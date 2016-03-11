@@ -19,6 +19,15 @@
 					password: joi.string ().required ()
 				}).required ()
 			},
+			plugins: {
+				'hapi-swaggered': {
+					responses: { 
+						'200': { 'description': 'Success' },
+						'400': { 'description': 'Bad Request' },
+						'401': { 'description': 'Unauthorized' }
+					}
+				}
+			},
 			handler: (request, reply) => {
 				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
 
@@ -52,6 +61,15 @@
 			tags: [ 'authenticate' ],
 			validate: {
 				params: {}
+			},
+			plugins: {
+				'hapi-swaggered': {
+					responses: { 
+						'200': { 'description': 'Success' },
+						'400': { 'description': 'Bad Request' },
+						'401': { 'description': 'Unauthorized' }
+					}
+				}
 			},
 			handler: (request, reply) => {
 				reply ().code (200).header ('Authorization', jwt.sign ({

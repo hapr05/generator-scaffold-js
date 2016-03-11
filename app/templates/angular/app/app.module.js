@@ -8,7 +8,8 @@
 		'LocalStorageModule',
 		'pascalprecht.translate',
 		'ui.router',
-		'angular-jwt'
+		'angular-jwt',
+		'swaggerUi'
 	]).config (function ($urlRouterProvider) {
 		$urlRouterProvider.otherwise ('/');
 	}).config (function ($translateProvider) {
@@ -21,7 +22,7 @@
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
 	}).config (function ($httpProvider, jwtInterceptorProvider) {
 		jwtInterceptorProvider.tokenGetter = function (config, authFactory) {
-			if (-1 !== [ 'html', 'json' ].indexOf (config.url.substr (config.url.length - 4))) {
+			if (-1 !== [ 'html' ].indexOf (config.url.substr (config.url.length - 4))) {
 				return null;
 			} else {
 				return authFactory.token;

@@ -1,6 +1,7 @@
 {
 	"global": {
 		"account": "Account",
+		"administration": "Administration",
 		"btn": {
 			"toggleNavigation": "Toggle Navigation"
 		}
@@ -37,5 +38,8 @@
 				}
 			}
 		}
+	},
+	"apidoc": {
+		"nav": "API Documentation"
 	}
 }

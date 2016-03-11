@@ -32,18 +32,14 @@
 			}, {
 				plugin: 'inert'
 			}, {
-				plugin: 'vision'
-			}, {
 				plugin: {
-					register: 'hapi-swagger',
+					register: 'hapi-swaggered',
 					options: {
-						auth: 'jwt',
-						schemes: [ 'https' ],
-						responses: { 
-							'200': { 'description': 'Success' },
-							'400': { 'description': 'Bad Request' },
-							'401': { 'description': 'Unauthorized' }
-						}  ,
+						requiredTags: [ 'authenticate' ],
+						endpoint: '/swagger.json',
+						tags: {
+							authenticate: 'Authentication API'
+						},
 						info: {
 							title: '<%= cfgName %> API Documentation',
 							description: '<%= cfgDescription %>',
@@ -53,12 +49,13 @@
 								email: '<%= cfgContribEmail %>'
 							},
 							license: {
-								name: '<%= cfgLicense %>'
-								/* url: '' */
+								name: '<%= cfgLicense %>',
+								url: '<%= cfgRepository %>/blob/master/LICENSE.<%= cfgLicense %>'
 							},
 							version: pkg.version
 						},
-						documentationPath: '/swagger'
+						responseValidation: true,
+						auth: 'jwt'
 					}
 				}
 			}, {

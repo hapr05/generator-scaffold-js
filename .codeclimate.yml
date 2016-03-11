@@ -14,6 +14,8 @@ engines:
          enabled: false
       Similar code:
          enabled: false
+      no-process-exit:
+         enabled: false
   fixme:
     enabled: true
 ratings:

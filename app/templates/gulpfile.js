@@ -60,11 +60,13 @@
 						'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
 						'src/web/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
 						'src/web/bower_components/angular-ui-router/release/angular-ui-router.js',
-						'src/web/bower_components/angular-jwt/dist/angular-jwt.js'
+						'src/web/bower_components/angular-jwt/dist/angular-jwt.js',
+						'src/web/bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js'
 					],
 					css: [
 						'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
-						'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css'
+						'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+						'src/web/bower_components/angular-swagger-ui/dist/css/swagger-ui.css'
 					],
 					fonts: [
 						'src/web/bower_components/bootstrap/dist/fonts/*'
@@ -101,7 +103,12 @@
 	/* Main tasks */
 	(function () {
 		gulp.task ('default', [ 'serve' ]);
-		gulp.task ('ci', [ 'js.lint', 'json.lint', 'test.unit' ], () => {
+		gulp.task ('ci', [ 'build', 'test.unit' ], () => {
+			/*
+			 * This is to handle karma/travis issues where the process doesn't exit.
+			 * Only seems to happen on travis but causes the build to fail.
+			 * If the dependencies fail the process will still exit with 1.
+			 */
 			process.exit ();
 		});
 		gulp.task ('build', [ 'vendor', 'js', 'css', 'json', 'img', 'html' ]);

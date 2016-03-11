@@ -11,11 +11,14 @@
 					active: true
 				}).then ((user) => {
 					callback (null, user ? true : false, user);
+					return;
 				}).catch (() => {
 					callback (null, false);
+					return;
 				});
 			} else {
 					callback (null, false);
+					return;
 			}
 		}
 	};

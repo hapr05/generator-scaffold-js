@@ -19,6 +19,7 @@
 		"angular-translate-loader-static-files": "latest",
 		"angular-ui-router": "latest",
 		"angular-jwt": "latest",
+		"angular-swagger-ui": "latest",
 
 		"less": "latest"
 	},
