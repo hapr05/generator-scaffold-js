@@ -21,6 +21,9 @@
 	}).config (function (localStorageServiceProvider) {
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
 	}).config (function ($httpProvider, jwtInterceptorProvider) {
+		$httpProvider.defaults.xsrfCookieName = 'crumb';
+		$httpProvider.defaults.xsrfHeaderName = 'X-CSRF-Token';
+
 		jwtInterceptorProvider.tokenGetter = function (config, authFactory) {
 			if (-1 !== [ 'html' ].indexOf (config.url.substr (config.url.length - 4))) {
 				return null;

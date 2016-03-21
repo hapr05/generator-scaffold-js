@@ -25,7 +25,7 @@
 	"dependencies": {
 		"config": "latest",
 		"hapi": "latest", "joi": "latest", "hapi-swaggered": "latest", "glue": "latest", "inert": "latest",
-		"hapi-auth-jwt2": "latest", "hapi-router": "latest",
+		"hapi-auth-jwt2": "latest", "hapi-router": "latest", "crumb": "latest",
 		"mongodb": "latest", "hapi-mongodb": "latest"
 	},
 	"devDependencies": {

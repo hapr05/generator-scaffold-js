@@ -67,6 +67,21 @@
 						routes: './src/server/routes/**/*.js'
 					}
 				}
+			}, {
+				plugin: {
+					register: 'crumb',
+					options: {
+						key: 'crumb',
+						size: 43,
+						autoGenerate: true,
+						addToViewContext: true,
+						cookieOptions: {
+							/* TODO: Set to secure  when we get https support */
+							isSecure: false
+						},
+						restful: true
+					}
+				}
 			}]
 		},
 		db: {
