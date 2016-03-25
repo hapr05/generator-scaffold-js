@@ -9,7 +9,6 @@
 		helpers = require ('yeoman-test'),
 		mockery = require ('mockery'),
 		path = require ('path'),
-		spawn = require ('child_process').spawn,
 		name = 'name-x',
 		prompts = {
 			cfgName: name,
@@ -22,7 +21,8 @@
 			cfgContribEmail: 'my-email',
 			cfgContribUrl: 'my-url',
 			cfgRepository: 'my-repository',
-			cfgFramework: 'AngularJS'
+			cfgFramework: 'AngularJS',
+			cfgSocial: []
 		};
 
 	chai.use (chaiAsPromised);
@@ -173,7 +173,8 @@
 						cfgContribEmail: 'my-email',
 						cfgContribUrl: 'my-url',
 						cfgRepository: 'git@github.com:fluky/generator-oldschool.git',
-						cfgFramework: 'AngularJS'
+						cfgFramework: 'AngularJS',
+						cfgSocial: [ 'github' ]
 					}).on ('end', () => {
 						done ();
 					});
@@ -198,7 +199,8 @@
 						cfgContribEmail: 'my-email',
 						cfgContribUrl: 'my-url',
 						cfgRepository: 'my-repository',
-						cfgFramework: 'AngularJS'
+						cfgFramework: 'AngularJS',
+						cfgSocial: []
 					}).on ('end', () => {
 						done ();
 					});
@@ -218,34 +220,6 @@
 				}
 			});
 			helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
-		});
-
-		/* it won't run npm install when unit testing */
-		xdescribe ('npm install', () => {
-			before ((done) => {
-				helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
-			});
-
-			it ('should install node_modules', () => {
-				assert.noFile ('node_modules');
-			});
-		});
-
-		/* Too slow for Unit Testing */
-		xdescribe ('generated app', () => {
-			before ((done) => {
-				helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
-			});
-
-			it ('should build clean', (done) => {
-				spawn ('npm', [ 'install' ]).on ('close', (code) => {
-					assert.strictEqual (code, 0);
-					spawn ('gulp').on ('close', (code) => {
-						assert.strictEqual (code, 0);
-						done ();
-					});
-				});
-			});
 		});
 	});
 } ());

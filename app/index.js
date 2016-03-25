@@ -35,6 +35,9 @@
 		},
 
 		init () {
+			this.loginPanelClass = 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3';
+			this.loginFormClass = 'col-md-12';
+			this.loginSocialClass = 'hidden';
 		},
 
 		git: function () {
@@ -96,6 +99,189 @@
 			this.prompt (prompts, (answers) => {
 				answers.cfgFramework = 'AngularJS';
 				this.config.set (answers);
+				done ();
+			});
+		},
+
+		social () {
+			const done = this.async (),
+				caps = {
+					github: 'GitHub'
+				};
+			var prompts = [
+				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
+					name: 'GitHub',
+					value: 'github'
+				}] }
+			];
+
+			this.prompt (prompts, (answers) => {
+				this.config.set (answers);
+
+				this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTests = '';
+
+				if (answers.cfgSocial.length) {
+					this.loginPanelClass = 'col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2';
+					this.loginFormClass = 'col-md-8';
+					this.loginSocialClass = 'col-md-4';
+
+					answers.cfgSocial.forEach ((option) => {
+						var cap = caps [option],
+							prompts = [
+								//TODO 32 character minimum
+								{ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') },
+								{ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') },
+								{ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') }
+							];
+
+						this.prompt (prompts, (details) => {
+							var password = details ['cfg' + cap + 'Password' ],
+								clientId = details ['cfg' + cap + 'ClientId' ],
+								clientSecret = details ['cfg' + cap + 'ClientSecret' ];
+
+							this.config.set (details);
+
+							this.socialLogin = this.socialLogin + `server.auth.strategy (\'${ option }', 'bell', {
+								provider: '${ option }',
+								password: '${ password }',
+								clientId: '${ clientId }',
+								clientSecret: '${ clientSecret }',
+								isSecure: false // TODO Terrible idea but required if not using HTTPS especially if developing locally
+							});`;
+
+							this.socialButtons = this.socialButtons + 
+								`<a href="/authenticate/github"><img src="assets/img/GitHub-Mark-32px.png" alt="{{ 'login.btn.loginWithGithub' | translate }}" /></a>`;
+
+							this.socialRoutes = this.socialRoutes + `, {
+		method: 'GET',
+		path: '/authenticate/${ option }',
+		config: {
+			auth: '${ option }',
+			description: 'Authenticate a vi ${ cap }',
+			tags: [ 'authenticate' ],
+			handler: (request, reply) => {
+				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
+
+				users.findOne ({
+					username: request.auth.credentials.profile.username,
+					provider: '${ option }',
+					active: true
+				}).then ((user) => {
+					if (!user) {
+						user = {
+							username: request.auth.credentials.profile.username,
+							provider: '${ option }',
+							fullName: request.auth.credentials.profile.displayName,
+							nickname: request.auth.credentials.profile.displayName.split (" ").shift (),
+							email: request.auth.credentials.profile.email,
+							lang: 'en',
+							active: true,
+							created: new Date (),
+							scope: [ 'ROLE_USER' ]
+						};
+						users._id = users.insertOne (user).insertedId;
+					}
+
+					reply.view ('jwt', {
+						token: jwt.sign ({
+							iss: '${ this.appSlug }',
+							exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenExpire'),
+							iat: parseInt (new Date ().getTime () / 1000, 10),
+							sub: 'auth',
+							host: request.info.host,
+							user: user._id,
+							scope: user.scope
+						}, config.get ('web.jwtKey'))
+					});
+				}).catch (() => {
+					reply ().code (401);
+				});
+			}
+		}
+	}`;
+							this.socialTests = this.socialTests + `
+		describe ('${ option }', () => {
+			it ('should authenticate ${ option } user', (done) => {
+				sandbox.stub (users, 'findOne', () => {
+					return Promise.resolve (null);
+				});
+
+				server.views ({
+					engines: {
+						html: require ('handlebars')
+					},
+					relativeTo: __dirname,
+					path: '../../../../src/server/views'
+				});
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (e) {
+						done (e);
+					}
+				}).catch ((e) => {
+					done (e);
+				});
+			});
+
+			it ('should reauthenticate ${ option } user', (done) => {
+				server.views ({
+					engines: {
+						html: require ('handlebars')
+					},
+					relativeTo: __dirname,
+					path: '../../../../src/server/views'
+				});
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (e) {
+						done (e);
+					}
+				}).catch ((e) => {
+					done (e);
+				});
+			});
+
+			it ('should fail to authenticate ${ option } user', (done) => {
+				server.auth.strategy ('github', 'failed');
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (401);
+						done ();
+					} catch (e) {
+						done (e);
+					}
+				}).catch ((e) => {
+					done (e);
+				});
+			});
+
+			it ('should handle view failure', (done) => {
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (401);
+						done ();
+					} catch (e) {
+						done (e);
+					}
+				}).catch ((e) => {
+					done (e);
+				});
+			});
+		});`;
+						});
+					});
+				}
 				done ();
 			});
 		},

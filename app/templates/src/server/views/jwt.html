@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= cfgName %></title>
+	</head>
+	<body>
+		<div id="token">{{ token }}</div>
+		<script>
+			//TODO cookie fallback
+			var token = document.getElementById ('token').innerHTML;
+
+			if ('undefined' !== typeof (Storage)) {
+				localStorage.setItem ('<%= appSlug %>.token', token);
+			}
+
+			window.location = '/';
+		</script>
+	</body>
+</html>

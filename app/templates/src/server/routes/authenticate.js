@@ -58,6 +58,7 @@
 		method: 'GET',
 		path: '/authenticate',
 		config: {
+			auth: 'jwt',
 			description: 'Refresh the authentication token',
 			tags: [ 'authenticate' ],
 			validate: {
@@ -79,10 +80,10 @@
 					iat: parseInt (new Date ().getTime () / 1000, 10),
 					sub: 'auth',
 					host: request.info.host,
-					user: request.auth.credentials.user._id,
-					scope: request.auth.credentials.user.scope
+					user: request.auth.credentials._id,
+					scope: request.auth.credentials.scope
 				}, config.get ('web.jwtKey')));
 			}
 		}
-	}];
+	}<%- socialRoutes %>];
 } ());

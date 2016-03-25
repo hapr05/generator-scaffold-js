@@ -12,7 +12,7 @@
 				glue.compose (config.get ('manifest'), {
 					relativeTo: __dirname,
 					preRegister: (server, next) => {
-						server.register(require('hapi-auth-jwt2'), () => {
+						server.register (require ('hapi-auth-jwt2'), () => {
 							server.auth.strategy ('jwt', 'jwt', {
 								key: config.get ('web.jwtKey'),
 								validateFunc: jwt.validate,
@@ -24,6 +24,10 @@
 							server.auth.default ('jwt');
 
 							next ();
+						});
+
+						server.register (require ('bell'), () => {
+							<%- socialLogin %>
 						});
 					}
 				}).then ((_server_) => {

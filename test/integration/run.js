@@ -20,7 +20,8 @@
 			cfgContribEmail: 'test-email',
 			cfgContribUrl: 'test-url',
 			cfgRepository: 'test-repository',
-			cfgFramework: 'AngularJS'
+			cfgFramework: 'AngularJS',
+			cfgSocial: [ 'github' ]
 		};
 
 

@@ -8,7 +8,9 @@
 		sinon = require ('sinon'),
 		mockery = require ('mockery'),
 		hapi = require ('hapi'),
-		jwt = require ('hapi-auth-jwt2');
+		jwt = require ('hapi-auth-jwt2'),
+		succeed = require ('../../helpers/authSucceed'),
+		failed = require ('../../helpers/authFailed');
 
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
@@ -18,6 +20,9 @@
 			users = {
 				findOne () {
 					return Promise.resolve (true);
+				},
+				insertOne () {
+					return 'test';
 				}
 			},
 			db = {
@@ -45,8 +50,8 @@
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ require ('hapi-mongodb'), jwt ]).then (() => {
-				server.route (require ('../../../../src/server/routes/authenticate'));
+			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), jwt, succeed, failed ]).then (() => {
+            server.auth.strategy ('jwt', 'succeed');
 			})).to.be.fulfilled ();
 		});
 
@@ -59,40 +64,67 @@
 			mockery.disable ();
 		});
 
-		it ('should authenticate valid user', (done) => {
-			server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin'}}).then ((response) => {
-				done ();
-				expect (response.statusCode).to.equal (200);
+		describe ('internal', () => {
+			it ('should authenticate valid user', (done) => {
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin'}}).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should refresh token', (done) => {
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'GET', url: '/authenticate', credentials: { user: { id: '1' }}}).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail to authenticate invalid user', (done) => {
+				sandbox.stub (users, 'findOne', () => {
+					return Promise.resolve (null);
+				});
+
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (401);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail to authenticate on db error', (done) => {
+				sandbox.stub (users, 'findOne', () => {
+					return Promise.reject ('err');
+				});
+	
+				server.auth.strategy ('github', 'succeed'); 
+				server.route (require ('../../../../src/server/routes/authenticate'));
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
+					try {
+						expect (response.statusCode).to.equal (401);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
 			});
 		});
-
-		it ('should refresh token', (done) => {
-			server.inject ({ method: 'GET', url: '/authenticate', credentials: { user: { id: '1' }}}).then ((response) => {
-				done ();
-				expect (response.statusCode).to.equal (200);
-			});
-		});
-
-		it ('should fail to authenticate invalid user', (done) => {
-			sandbox.stub (users, 'findOne', () => {
-				return Promise.resolve (null);
-			});
-
-			server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
-				done ();
-				expect (response.statusCode).to.equal (401);
-			});
-		});
-
-		it ('should fail to authenticate on db error', (done) => {
-			sandbox.stub (users, 'findOne', () => {
-				return Promise.reject ('err');
-			});
-
-			server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
-				done ();
-				expect (response.statusCode).to.equal (401);
-			});
-		});
+		<%- socialTests %>
 	});
 } ());

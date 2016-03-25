@@ -23,7 +23,8 @@
 			"rememberMe": "Remember Me"
 		},
 		"btn": {
-			"login": "Sign In"
+			"login": "Sign In",
+			"loginWithGitHub": "Sign In With GitHub"
 		},
 		"msg": {
 			"error": {

@@ -82,6 +82,19 @@
 						restful: true
 					}
 				}
+			}, {
+				plugin: 'vision'
+			}, {
+				plugin: {
+					register: 'visionary',
+					options: {
+						engines: {
+							html: "handlebars"
+						},
+						relativeTo: __dirname,
+						path: '../src/server/views'
+					}
+				}
 			}]
 		},
 		db: {
