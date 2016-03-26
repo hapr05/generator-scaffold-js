@@ -44,6 +44,7 @@
 		init () {
 			this.loginPanelClass = 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3';
 			this.loginFormClass = 'col-md-12';
+			this.socialLogins = [];
 		},
 
 		git: function () {
@@ -137,11 +138,7 @@
 				}, {
 					name: caps.linkedin, value: 'linkedin'
 				}] }
-			], dprompts = [],
-			data = {
-				appSlug: this.appSlug,
-				social: []
-			};
+			], dprompts = [];
 
 			this.prompt (prompts, (answers) => {
 				this.config.set (answers);
@@ -164,7 +161,7 @@
 
 						answers.cfgSocial.forEach ((option) => {
 							var cap = caps [option];
-								data.social.push ({
+								this.socialLogins.push ({
 									name: option,
 									cap: cap,
 									password: details ['cfg' + cap + 'Password' ],
@@ -174,18 +171,9 @@
 								});
 						});
 	
-						this.socialLogin = this._partial ('socialLogin.tpl', data);
-						this.socialButtons = this._partial ('socialButtons.tpl', data);
-						this.socialRoutes = this._partial ('socialRoutes.tpl', data);
-						this.socialTests = this._partial ('socialTests.tpl', data);
-						this.socialTestAuth = this._partial ('socialTestAuth.tpl', data);
 						done ();
 					});
 				} else {
-					this.socialLogin = this.socialButtons = this.socialRoutes = "";
-					this.socialTestAuth = '		return server === fail;';
-					this.socialTests = `
-`;
 					done ();
 				}
 			});
