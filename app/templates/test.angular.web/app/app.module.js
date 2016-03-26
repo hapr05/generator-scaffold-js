@@ -22,13 +22,23 @@
 			expect (this.$state.current.name).toBe ('home');
 		});
 
+		it ('should not set previous state on login', function () {
+			this.$rootScope.$broadcast ('$stateChangeSuccess', {}, {
+				name: 'login'
+			}, {}, {
+				name: 'home'
+			});
+			this.$rootScope.$digest ();
+			expect (this.$rootScope.previousStateName).not.toBe ('login');
+		});
+
 		it ('should manage states', function () {
 			this.$rootScope.previousStateName = 'test';
-			this.$rootScope.$emit ('$stateChangeSuccess', {
+			this.$rootScope.$emit ('$stateChangeSuccess', {}, {
 				name: 'home'
 			}, {}, {
 				name: 'test'
-			}, {});
+			});
 		});
 
 		it ('should handle state back', function () {
