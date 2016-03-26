@@ -24,7 +24,11 @@
 		},
 		"btn": {
 			"login": "Sign In",
-			"loginWithGitHub": "Sign In With GitHub"
+			"loginWithGitHub": "Sign In With GitHub",
+			"loginWithTwitter": "Sign In With Tiwtter",
+			"loginWithFacebook": "Sign In With Facebook",
+			"loginWithGoogle": "Sign In With Google",
+			"loginWithLinkedin": "Sign In With Linkedin"
 		},
 		"msg": {
 			"error": {

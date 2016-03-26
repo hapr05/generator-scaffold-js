@@ -115,13 +115,15 @@
 					github: 'GitHub',
 					twitter: 'Twitter',
 					facebook: 'Facebook',
-					google: 'Google'
+					google: 'Google',
+					linkedin: 'Linkedin'
 				},
 				icons = {
 					github: 'GitHub-Mark-32px.png',
 					twitter: 'Twitter-Logo-32px.png',
 					facebook: 'FB-f-Logo__blue_29.png',
-					google: 'Google-Logo-32px.png'
+					google: 'Google-Logo-32px.png',
+					linkedin: 'In-2C-34px-R.png'
 				};
 			var prompts = [
 				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
@@ -132,15 +134,16 @@
 					name: caps.facebook, value: 'facebook'
 				}, {
 					name: caps.google, value: 'google'
+				}, {
+					name: caps.linkedin, value: 'linkedin'
 				}] }
-			],
+			], dprompts = [],
 			data = {
 				appSlug: this.appSlug,
 				social: []
 			};
 
 			this.prompt (prompts, (answers) => {
-				prompts = [];
 				this.config.set (answers);
 
 				if (answers.cfgSocial.length) {
@@ -151,12 +154,12 @@
 						var cap = caps [option];
 
 								//TODO 32 character minimum
-						prompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') });
-						prompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') });
-						prompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') });
+						dprompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') });
+						dprompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') });
+						dprompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') });
 					});
 
-					this.prompt (prompts, (details) => {
+					this.prompt (dprompts, (details) => {
 						this.config.set (details);
 
 						answers.cfgSocial.forEach ((option) => {
@@ -179,7 +182,8 @@
 						done ();
 					});
 				} else {
-					this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTestAuth = '';
+					this.socialLogin = this.socialButtons = this.socialRoutes = "";
+					this.socialTestAuth = '		return server === fail;';
 					this.socialTests = `
 `;
 					done ();
