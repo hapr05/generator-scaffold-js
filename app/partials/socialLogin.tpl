@@ -1,6 +1,6 @@
 
 						server.register (require ('bell'), () => {<% for (var i = 0; i < social.length; i++) { %>
-							server.auth.strategy ('<%= social [i].option %>', 'bell', {
+							server.auth.strategy ('<%= social [i].name %>', 'bell', {
 								provider: '<%= social [i].name %>',
 								password: '<%= social [i].password %>',
 								clientId: '<%= social [i].clientId %>',

@@ -15,6 +15,8 @@
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
 
+	function _socialAuth (server, fail) {<%- socialTestAuth %>	}
+
 	describe ('authentication route', () => {
 		var server,
 			users = {
@@ -66,7 +68,7 @@
 
 		describe ('internal', () => {
 			it ('should authenticate valid user', (done) => {
-				server.auth.strategy ('github', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin'}}).then ((response) => {
 					try {
@@ -79,7 +81,7 @@
 			});
 
 			it ('should refresh token', (done) => {
-				server.auth.strategy ('github', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate', credentials: { user: { id: '1' }}}).then ((response) => {
 					try {
@@ -96,7 +98,7 @@
 					return Promise.resolve (null);
 				});
 
-				server.auth.strategy ('github', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
 					try {
@@ -113,7 +115,7 @@
 					return Promise.reject ('err');
 				});
 	
-				server.auth.strategy ('github', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
 					try {
@@ -124,6 +126,5 @@
 					}
 				});
 			});
-		});
-<%- socialTests %>	});
+		});<%- socialTests %>	});
 } ());

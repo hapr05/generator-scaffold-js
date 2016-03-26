@@ -112,24 +112,27 @@
 		social () {
 			const done = this.async (),
 				caps = {
-					github: 'GitHub'
+					github: 'GitHub',
+					twitter: 'Twitter'
 				},
 				icons = {
-					github: 'GitHub-Mark-32px.png'
+					github: 'GitHub-Mark-32px.png',
+					twitter: 'Twitter-Logo-32px.png'
 				};
 			var prompts = [
 				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
-					name: 'GitHub',
-					value: 'github'
+					name: caps.github, value: 'github'
+				}, {
+					name: caps.twitter, value: 'twitter'
 				}] }
-			];
+			],
+			data = {
+				appSlug: this.appSlug,
+				social: []
+			};
 
 			this.prompt (prompts, (answers) => {
-				var data = {
-					appSlug: this.appSlug,
-					social: []
-				};
-
+				prompts = [];
 				this.config.set (answers);
 
 				if (answers.cfgSocial.length) {
@@ -137,34 +140,40 @@
 					this.loginFormClass = 'col-md-8';
 
 					answers.cfgSocial.forEach ((option) => {
-						var cap = caps [option],
-							prompts = [
+						var cap = caps [option];
+
 								//TODO 32 character minimum
-								{ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') },
-								{ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') },
-								{ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') }
-							];
+						prompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') });
+						prompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') });
+						prompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') });
+					});
 
-						this.prompt (prompts, (details) => {
-							data.social.push ({
-								name: option,
-								cap: cap,
-								password: details ['cfg' + cap + 'Password' ],
-								clientId: details ['cfg' + cap + 'ClientId' ],
-								clientSecret: details ['cfg' + cap + 'ClientSecret' ],
-								icon: icons [option]
-							});
+					this.prompt (prompts, (details) => {
+						this.config.set (details);
 
-							this.config.set (details);
-							this.socialLogin = this._partial ('socialLogin.tpl', data);
-							this.socialButtons = this._partial ('socialButtons.tpl', data);
-							this.socialRoutes = this._partial ('socialRoutes.tpl', data);
-							this.socialTests = this._partial ('socialTests.tpl', data);
-							done ();
+						answers.cfgSocial.forEach ((option) => {
+							var cap = caps [option];
+								data.social.push ({
+									name: option,
+									cap: cap,
+									password: details ['cfg' + cap + 'Password' ],
+									clientId: details ['cfg' + cap + 'ClientId' ],
+									clientSecret: details ['cfg' + cap + 'ClientSecret' ],
+									icon: icons [option]
+								});
 						});
+	
+						this.socialLogin = this._partial ('socialLogin.tpl', data);
+						this.socialButtons = this._partial ('socialButtons.tpl', data);
+						this.socialRoutes = this._partial ('socialRoutes.tpl', data);
+						this.socialTests = this._partial ('socialTests.tpl', data);
+						this.socialTestAuth = this._partial ('socialTestAuth.tpl', data);
+						done ();
 					});
 				} else {
-					this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTests = '';
+					this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTestAuth = '';
+					this.socialTests = `
+`;
 					done ();
 				}
 			});

@@ -1,4 +1,5 @@
 <% for (var i = 0; i < social.length; i++) { %>
+
 		describe ('<%= social [i].name %>', () => {
 			it ('should authenticate <%= social [i].name %> user', (done) => {
 				sandbox.stub (users, 'findOne', () => {
@@ -12,7 +13,7 @@
 					relativeTo: __dirname,
 					path: '../../../../src/server/views'
 				});
-				server.auth.strategy ('<%= social [i].name %>', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate/<%= social [i].name %>' }).then ((response) => {
 					try {
@@ -34,7 +35,7 @@
 					relativeTo: __dirname,
 					path: '../../../../src/server/views'
 				});
-				server.auth.strategy ('<%= social [i].name %>', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate/<%= social [i].name %>' }).then ((response) => {
 					try {
@@ -49,7 +50,7 @@
 			});
 
 			it ('should fail to authenticate <%= social [i].name %> user', (done) => {
-				server.auth.strategy ('<%= social [i].name %>', 'failed');
+				_socialAuth (server, '<%= social [i].name %>');
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate/<%= social [i].name %>' }).then ((response) => {
 					try {
@@ -64,7 +65,7 @@
 			});
 
 			it ('should handle view failure', (done) => {
-				server.auth.strategy ('<%= social [i].name %>', 'succeed'); 
+				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate/<%= social [i].name %>' }).then ((response) => {
 					try {
