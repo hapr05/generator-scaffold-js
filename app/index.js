@@ -53,8 +53,8 @@
 		askFor () {
 			const done = this.async (),
 				prompts = [
-					{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.required },
-					{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.required },
+					{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.name },
+					{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.dbUrl },
 					{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'oldschool generated application') },
 					{ name: 'cfgContribName', message: 'Author name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
 					{ name: 'cfgContribEmail', message: 'Author email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
@@ -144,10 +144,9 @@
 					answers.cfgSocial.forEach ((option) => {
 						var cap = caps [option];
 
-								//TODO 32 character minimum
-						dprompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password') });
-						dprompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId') });
-						dprompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret') });
+						dprompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password'), validate: validators.socialPassword });
+						dprompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId'), validate: validators.socialClientId });
+						dprompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret'), validate: validators.socialClientSecret });
 					});
 
 					this.prompt (dprompts, (details) => {

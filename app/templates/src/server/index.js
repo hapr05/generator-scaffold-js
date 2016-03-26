@@ -33,7 +33,7 @@
 								clientId: '<%= socialLogins [i].clientId %>',
 								/* Never share your secret key */
 								clientSecret: '<%= socialLogins [i].clientSecret %>',
-								isSecure: false // TODO Terrible idea but required if not using HTTPS especially if developing locally
+								isSecure: true
 							});
 <% } %>						});<% } %>
 					}
