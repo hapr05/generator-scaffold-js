@@ -114,12 +114,14 @@
 				caps = {
 					github: 'GitHub',
 					twitter: 'Twitter',
-					facebook: 'Facebook'
+					facebook: 'Facebook',
+					google: 'Google'
 				},
 				icons = {
 					github: 'GitHub-Mark-32px.png',
 					twitter: 'Twitter-Logo-32px.png',
-					facebook: 'FB-f-Logo__blue_29.png'
+					facebook: 'FB-f-Logo__blue_29.png',
+					google: 'Google-Logo-32px.png'
 				};
 			var prompts = [
 				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
@@ -128,6 +130,8 @@
 					name: caps.twitter, value: 'twitter'
 				}, {
 					name: caps.facebook, value: 'facebook'
+				}, {
+					name: caps.google, value: 'google'
 				}] }
 			],
 			data = {

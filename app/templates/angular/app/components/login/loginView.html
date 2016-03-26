@@ -11,21 +11,21 @@
 							<strong>Failed to sign in!</strong> Please check your credentials and try again.
 						</div>
 						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="login ($event)">
-							<div class="form-group" ng-class="{ 'has-error': form.username.$touched && form.username.$invalid }">
+							<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$invalid }">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 									<input type="text" class="form-control" name="username" autofocus ng-model="username" value="" required placeholder="{{ 'login.field.usernameOrEmailAddress' | translate }}">
 								</div>
-								<div ng-show="form.username.$touched && form.username.$invalid">
+								<div ng-show="form.username.$dirty && form.username.$invalid">
 									<p class="help-block" ng-show="form.username.$error.required" translate="login.msg.validate.username.required">Username is required.</p>
 								</div>
 							</div>
-							<div class="form-group" ng-class="{ 'has-error': form.password.$touched && form.password.$invalid }">
+							<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$invalid }">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 									<input type="password" class="form-control" name="password" ng-model="password" required placeholder="{{ 'login.field.password' | translate }}">
 								</div>
-								<div ng-show="form.password.$touched && form.password.$invalid">
+								<div ng-show="form.password.$dirty && form.password.$invalid">
 									<p class="help-block" ng-show="form.password.$error.required" translate="login.msg.validate.password.required">Password is required.</p>
 								</div>
 							</div>

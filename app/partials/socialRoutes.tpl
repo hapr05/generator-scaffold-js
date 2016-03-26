@@ -15,10 +15,10 @@
 				}).then ((user) => {
 					if (!user) {
 						user = {
-							username: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.id<% } else { %>request.auth.credentials.profile.username<% } %>,
+							username: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.id<% } else if ('google' === social [i].name) { %>request.auth.credentials.profile.id<% } else { %>request.auth.credentials.profile.username<% } %>,
 							provider: '<%= social [i].name %>',
 							fullName: request.auth.credentials.profile.displayName,
-							nickname: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.name.first<% } else { %>request.auth.credentials.profile.displayName.split (" ").shift ()<% } %>,
+							nickname: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.name.first<% } else if ('google' === social [i].name) { %>request.auth.credentials.profile.name.givenName<% } else { %>request.auth.credentials.profile.displayName.split (" ").shift ()<% } %>,
 							email: request.auth.credentials.profile.email,
 							lang: <% if ('twitter' === social [i].name) { %>request.auth.credentials.profile.raw.lang<% } else { %>'en'<% } %>,
 							active: true,
