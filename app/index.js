@@ -2,10 +2,8 @@
 	'use strict';
 
 	const generator = require ('yeoman-generator'),
-		fs = require ('fs'),
 		path = require ('path'),
 		process = require ('process'),
-		ejs = require ('ejs'),
 		uuid = require ('node-uuid'),
 		camel = require ('to-camel-case'),
 		slug = require ('to-slug-case'),
@@ -34,11 +32,6 @@
 			this.directory ('test.angular.web', 'test/unit/web');
 			this.template ('bower.angular.json', 'bower.json');
 			this.template ('karma.angular.js', 'karma.conf.js');
-		},
-
-		_partial (template, data) {
-			template = fs.readFileSync (path.join (__dirname, 'partials', template)).toString ();
-			return ejs.render (template, data);
 		},
 
 		init () {
