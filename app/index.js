@@ -2,8 +2,10 @@
 	'use strict';
 
 	const generator = require ('yeoman-generator'),
+		fs = require ('fs'),
 		path = require ('path'),
 		process = require ('process'),
+		ejs = require ('ejs'),
 		uuid = require ('node-uuid'),
 		camel = require ('to-camel-case'),
 		slug = require ('to-slug-case'),
@@ -34,10 +36,14 @@
 			this.template ('karma.angular.js', 'karma.conf.js');
 		},
 
+		_partial (template, data) {
+			template = fs.readFileSync (path.join (__dirname, 'partials', template)).toString ();
+			return ejs.render (template, data);
+		},
+
 		init () {
 			this.loginPanelClass = 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3';
 			this.loginFormClass = 'col-md-12';
-			this.loginSocialClass = 'hidden';
 		},
 
 		git: function () {
@@ -107,6 +113,9 @@
 			const done = this.async (),
 				caps = {
 					github: 'GitHub'
+				},
+				icons = {
+					github: 'GitHub-Mark-32px.png'
 				};
 			var prompts = [
 				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
@@ -116,14 +125,16 @@
 			];
 
 			this.prompt (prompts, (answers) => {
-				this.config.set (answers);
+				var data = {
+					appSlug: this.appSlug,
+					social: []
+				};
 
-				this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTests = '';
+				this.config.set (answers);
 
 				if (answers.cfgSocial.length) {
 					this.loginPanelClass = 'col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2';
 					this.loginFormClass = 'col-md-8';
-					this.loginSocialClass = 'col-md-4';
 
 					answers.cfgSocial.forEach ((option) => {
 						var cap = caps [option],
@@ -135,154 +146,27 @@
 							];
 
 						this.prompt (prompts, (details) => {
-							var password = details ['cfg' + cap + 'Password' ],
-								clientId = details ['cfg' + cap + 'ClientId' ],
-								clientSecret = details ['cfg' + cap + 'ClientSecret' ];
+							data.social.push ({
+								name: option,
+								cap: cap,
+								password: details ['cfg' + cap + 'Password' ],
+								clientId: details ['cfg' + cap + 'ClientId' ],
+								clientSecret: details ['cfg' + cap + 'ClientSecret' ],
+								icon: icons [option]
+							});
 
 							this.config.set (details);
-
-							this.socialLogin = this.socialLogin + `server.auth.strategy (\'${ option }', 'bell', {
-								provider: '${ option }',
-								password: '${ password }',
-								clientId: '${ clientId }',
-								clientSecret: '${ clientSecret }',
-								isSecure: false // TODO Terrible idea but required if not using HTTPS especially if developing locally
-							});`;
-
-							this.socialButtons = this.socialButtons + 
-								`<a href="/authenticate/github"><img src="assets/img/GitHub-Mark-32px.png" alt="{{ 'login.btn.loginWithGithub' | translate }}" /></a>`;
-
-							this.socialRoutes = this.socialRoutes + `, {
-		method: 'GET',
-		path: '/authenticate/${ option }',
-		config: {
-			auth: '${ option }',
-			description: 'Authenticate a vi ${ cap }',
-			tags: [ 'authenticate' ],
-			handler: (request, reply) => {
-				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
-
-				users.findOne ({
-					username: request.auth.credentials.profile.username,
-					provider: '${ option }',
-					active: true
-				}).then ((user) => {
-					if (!user) {
-						user = {
-							username: request.auth.credentials.profile.username,
-							provider: '${ option }',
-							fullName: request.auth.credentials.profile.displayName,
-							nickname: request.auth.credentials.profile.displayName.split (" ").shift (),
-							email: request.auth.credentials.profile.email,
-							lang: 'en',
-							active: true,
-							created: new Date (),
-							scope: [ 'ROLE_USER' ]
-						};
-						users._id = users.insertOne (user).insertedId;
-					}
-
-					reply.view ('jwt', {
-						token: jwt.sign ({
-							iss: '${ this.appSlug }',
-							exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenExpire'),
-							iat: parseInt (new Date ().getTime () / 1000, 10),
-							sub: 'auth',
-							host: request.info.host,
-							user: user._id,
-							scope: user.scope
-						}, config.get ('web.jwtKey'))
-					});
-				}).catch (() => {
-					reply ().code (401);
-				});
-			}
-		}
-	}`;
-							this.socialTests = this.socialTests + `
-		describe ('${ option }', () => {
-			it ('should authenticate ${ option } user', (done) => {
-				sandbox.stub (users, 'findOne', () => {
-					return Promise.resolve (null);
-				});
-
-				server.views ({
-					engines: {
-						html: require ('handlebars')
-					},
-					relativeTo: __dirname,
-					path: '../../../../src/server/views'
-				});
-				server.auth.strategy ('github', 'succeed'); 
-				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
-					try {
-						expect (response.statusCode).to.equal (200);
-						done ();
-					} catch (e) {
-						done (e);
-					}
-				}).catch ((e) => {
-					done (e);
-				});
-			});
-
-			it ('should reauthenticate ${ option } user', (done) => {
-				server.views ({
-					engines: {
-						html: require ('handlebars')
-					},
-					relativeTo: __dirname,
-					path: '../../../../src/server/views'
-				});
-				server.auth.strategy ('github', 'succeed'); 
-				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
-					try {
-						expect (response.statusCode).to.equal (200);
-						done ();
-					} catch (e) {
-						done (e);
-					}
-				}).catch ((e) => {
-					done (e);
-				});
-			});
-
-			it ('should fail to authenticate ${ option } user', (done) => {
-				server.auth.strategy ('github', 'failed');
-				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
-					try {
-						expect (response.statusCode).to.equal (401);
-						done ();
-					} catch (e) {
-						done (e);
-					}
-				}).catch ((e) => {
-					done (e);
-				});
-			});
-
-			it ('should handle view failure', (done) => {
-				server.auth.strategy ('github', 'succeed'); 
-				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'GET', url: '/authenticate/${ option }' }).then ((response) => {
-					try {
-						expect (response.statusCode).to.equal (401);
-						done ();
-					} catch (e) {
-						done (e);
-					}
-				}).catch ((e) => {
-					done (e);
-				});
-			});
-		});`;
+							this.socialLogin = this._partial ('socialLogin.tpl', data);
+							this.socialButtons = this._partial ('socialButtons.tpl', data);
+							this.socialRoutes = this._partial ('socialRoutes.tpl', data);
+							this.socialTests = this._partial ('socialTests.tpl', data);
+							done ();
 						});
 					});
+				} else {
+					this.socialLogin = this.socialButtons = this.socialRoutes = this.socialTests = '';
+					done ();
 				}
-				done ();
 			});
 		},
 

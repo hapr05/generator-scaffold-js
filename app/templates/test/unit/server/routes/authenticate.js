@@ -125,6 +125,5 @@
 				});
 			});
 		});
-		<%- socialTests %>
-	});
+<%- socialTests %>	});
 } ());

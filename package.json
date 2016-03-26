@@ -34,7 +34,8 @@
 		"git-config": "latest", "github-url-from-git": "latest",
 		"to-camel-case": "latest", "to-slug-case": "latest",
 		"node-uuid": "latest",
-		"mongodb": "latest"
+		"mongodb": "latest",
+		"ejs": "latest"
 	},
 	"devDependencies": {
 		"temp": "latest",

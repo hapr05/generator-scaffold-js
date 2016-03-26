@@ -25,11 +25,7 @@
 
 							next ();
 						});
-
-						server.register (require ('bell'), () => {
-							<%- socialLogin %>
-						});
-					}
+<%- socialLogin %>					}
 				}).then ((_server_) => {
 					server = _server_; 
 
