@@ -2,6 +2,7 @@
 	'use strict';
 
 	const pkg = require ('../package'),
+		fs = require ('fs'),
 		defer = require ('config/defer').deferConfig;
 
 	module.exports = {
@@ -17,7 +18,11 @@
 				}
 			},
 			connections: [{
-				port: 8080,
+				port: 8443,
+				tls: {
+					key: fs.readFileSync ('tls/key.pem'),
+					cert: fs.readFileSync ('tls/cert.pem')
+				},
 				labels: [ 'web' ]
 			}],
 			registrations: [{

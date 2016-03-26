@@ -10,7 +10,8 @@
 		gitConfig = require ('git-config'),
 		githubUrlFromGit = require ('github-url-from-git'),
 		db = require ('./db'),
-		validators = require ('../util/validators');
+		validators = require ('../util/validators'),
+		selfsigned = require ('selfsigned');
 
 	module.exports = generator.Base.extend ({
 		constructor: function () {
@@ -172,9 +173,25 @@
 			});
 		},
 
+		certs () {
+			const done = this.async ();
+
+			var keys = selfsigned.generate ([{
+				name: 'commonName',
+				value: this.appSlug + '.com'
+			}], {
+				days: 35600
+			});
+
+			this.tlsKey = keys.private;
+			this.tlsCsr = keys.public;
+			this.tlsCert = keys.cert;
+			done ();
+		},
+
 		app () {
 			const template = [ '.gitignore', '.travis.yml', '.jshintrc', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
-				directory = [ 'config', 'src', 'test' ];
+				directory = [ 'config', 'src', 'test', 'tls' ];
 
 			Object.assign (this, this.config.getAll ());
 			this.appCamel = camel (this.config.get ('cfgName'));
