@@ -8,9 +8,16 @@
 					credentials: {
 						username: 'test',
 						profile: {
+							id: 'test',
 							username: 'test',
 							displayName: 'test',
-							email: 'test'
+							email: 'test',
+							name: {
+								first: 'test'
+							},
+							raw: {
+								lang: 'en'
+							}
 						}
 					}
 				});

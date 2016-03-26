@@ -3,7 +3,7 @@
 		path: '/authenticate/<%= social [i].name %>',
 		config: {
 			auth: '<%= social [i].name %>',
-			description: 'Authenticate a vi <%= social [i].cap %>',
+			description: 'Authenticate a user via <%= social [i].cap %>',
 			tags: [ 'authenticate' ],
 			handler: (request, reply) => {
 				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
@@ -15,12 +15,12 @@
 				}).then ((user) => {
 					if (!user) {
 						user = {
-							username: request.auth.credentials.profile.username,
+							username: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.id<% } else { %>request.auth.credentials.profile.username<% } %>,
 							provider: '<%= social [i].name %>',
 							fullName: request.auth.credentials.profile.displayName,
-							nickname: request.auth.credentials.profile.displayName.split (" ").shift (),
+							nickname: <% if ('facebook' === social [i].name) { %>request.auth.credentials.profile.name.first<% } else { %>request.auth.credentials.profile.displayName.split (" ").shift ()<% } %>,
 							email: request.auth.credentials.profile.email,
-							lang: 'en',
+							lang: <% if ('twitter' === social [i].name) { %>request.auth.credentials.profile.raw.lang<% } else { %>'en'<% } %>,
 							active: true,
 							created: new Date (),
 							scope: [ 'ROLE_USER' ]

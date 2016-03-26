@@ -113,17 +113,21 @@
 			const done = this.async (),
 				caps = {
 					github: 'GitHub',
-					twitter: 'Twitter'
+					twitter: 'Twitter',
+					facebook: 'Facebook'
 				},
 				icons = {
 					github: 'GitHub-Mark-32px.png',
-					twitter: 'Twitter-Logo-32px.png'
+					twitter: 'Twitter-Logo-32px.png',
+					facebook: 'FB-f-Logo__blue_29.png'
 				};
 			var prompts = [
 				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
 					name: caps.github, value: 'github'
 				}, {
 					name: caps.twitter, value: 'twitter'
+				}, {
+					name: caps.facebook, value: 'facebook'
 				}] }
 			],
 			data = {
