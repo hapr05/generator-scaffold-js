@@ -81,8 +81,7 @@
 						autoGenerate: true,
 						addToViewContext: true,
 						cookieOptions: {
-							/* TODO: Set to secure  when we get https support */
-							isSecure: false
+							isSecure: true 
 						},
 						restful: true
 					}
