@@ -1,10 +1,12 @@
 (function () {
 	'use strict';
 
+	const boom = require ('boom');
+
 	function implementation () {
 		return {
 			authenticate (request, reply) {
-				return reply ().code (401);
+				return reply (boom.unauthorized ());
 			}
 		};
 	}

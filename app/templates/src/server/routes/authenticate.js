@@ -4,7 +4,8 @@
 	const joi = require ('joi'),
 		crypto = require ('crypto'),
 		jwt = require ('jsonwebtoken'),
-		config = require ('config');
+		config = require ('config'),
+		boom = require ('boom');
 
 	module.exports = [{
 		method: 'POST',
@@ -50,7 +51,7 @@
 						return Promise.reject ();
 					}
 				}).catch (() => {
-					reply ().code (401);
+					reply (boom.unauthorized ());
 				});
 			}
 		}
