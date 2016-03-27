@@ -122,6 +122,7 @@
 					nickname: request.payload.nickname,
 					email: request.payload.email,
 					lang: request.payload.lang || 'en',
+					provider: 'internal',
 					active: true,
 					created: new Date (),
 					scope: [ 'ROLE_USER' ]
