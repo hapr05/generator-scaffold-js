@@ -17,11 +17,11 @@
 
 		return users.insertMany ([{
 			username: 'admin', password: crypto.createHash ('sha256').update ('admin').digest ('hex'),
-			fullName: 'Administrator', nickName: 'Admin', email: 'admin@localhost', lang: 'en', 
+			fullName: 'Administrator', nickname: 'Admin', email: 'admin@localhost', lang: 'en', 
 			active: true, created: new Date (), scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
 		}, {
 			username: 'user', password: crypto.createHash ('sha256').update ('user').digest ('hex'),
-			fullName: 'User', nickName: 'User', email: 'user@localhost', lang: 'en', 
+			fullName: 'User', nickname: 'User', email: 'user@localhost', lang: 'en', 
 			active: true, created: new Date (), scope: [ 'ROLE_USER' ]
 		}]).then (() => {
 			return seed.updateOne ({ _id: 1 }, {

@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	describe ('auth factory', function () {
+	describe ('auth directive', function () {
 		var infiniteToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6WyJST0xFX1RFU1QiXX0.e0iwvoVG8UHUGUcJVYc6jfERlVlSrXk_6UOOaFCnVMM';
 
 		beforeEach (function () {

@@ -35,7 +35,7 @@
 		$httpProvider.interceptors.push('jwtInterceptor');
 	}).run (function ($rootScope, $state) {
 		$rootScope.$on ('$stateChangeSuccess',  function (toState, toParams, fromState, fromParams) {
-			if (fromState.name !== 'login') {
+			if (-1 === ['login', 'reigster' ].indexOf (fromState.name)) {
 				$rootScope.previousStateName = fromState.name;
 				$rootScope.previousStateParams = fromParams;
 			}

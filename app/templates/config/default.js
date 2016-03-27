@@ -40,10 +40,10 @@
 				plugin: {
 					register: 'hapi-swaggered',
 					options: {
-						requiredTags: [ 'authenticate' ],
 						endpoint: '/swagger.json',
 						tags: {
-							authenticate: 'Authentication API'
+							authenticate: 'Authentication API',
+							account: 'Account API'
 						},
 						info: {
 							title: '<%= cfgName %> API Documentation',

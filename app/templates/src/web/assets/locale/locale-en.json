@@ -10,6 +10,54 @@
 		"nav": "Home",
 		"title": "Home"
 	},
+	"register": {
+		"nav": "Register",
+		"title": "Sign Up",
+		"field": {
+			"username": "Username",
+			"fullName": "Full Name",
+			"nickname": "What should we call you?",
+			"email": "Email Address",
+			"password": "Password",
+			"confirmPassword": "Confirm Password"
+		},
+		"btn": {
+			"register": "Register"
+		},
+		"msg": {
+			"error": {
+				"failed": "Registration failed!"
+			},
+			"validate": {
+				"username": {
+					"required": "Username is required.",
+					"pending": "Checking username...",
+					"taken": "Username is already in use."
+				},
+				"fullName": {
+					"required": "Name is required."
+				},
+				"nickname": {
+					"required": "Nickname is required."
+				},
+				"email": {
+					"required": "Email address is required.",
+					"email": "Email address is invalid.",
+					"pending": "Checking email adddess...",
+					"taken": "Email address is already in use."
+				},
+				"password": {
+					"required": "Password is required.",
+					"minlength": "Password must be at least 8 characters.",
+					"pattern": "Password must contain at least one each uppercase, lowercase, numeric, and symbol character."
+				},
+				"confirmPassword": {
+					"required": "Confirmation password is required.",
+					"match": "Passwords do not match."
+				}
+			}
+		}
+	},
 	"login": {
 		"nav": "Sign In",
 		"logoutNav": "Sign Out",
@@ -19,8 +67,7 @@
 		"signUpHere": "Sign up here.",
 		"field": {
 			"usernameOrEmailAddress": "Username or Email Address",
-			"password": "Password",
-			"rememberMe": "Remember Me"
+			"password": "Password"
 		},
 		"btn": {
 			"login": "Sign In",
@@ -36,10 +83,10 @@
 			},
 			"validate": {
 				"username": {
-					"required": "Username is required"
+					"required": "Username is required."
 				},
 				"password": {
-					"required": "Password is required"
+					"required": "Password is required."
 				}
 			}
 		}

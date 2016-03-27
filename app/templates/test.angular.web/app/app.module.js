@@ -32,6 +32,16 @@
 			expect (this.$rootScope.previousStateName).not.toBe ('login');
 		});
 
+		it ('should not set previous state on register', function () {
+			this.$rootScope.$broadcast ('$stateChangeSuccess', {}, {
+				name: 'register'
+			}, {}, {
+				name: 'home'
+			});
+			this.$rootScope.$digest ();
+			expect (this.$rootScope.previousStateName).not.toBe ('register');
+		});
+
 		it ('should manage states', function () {
 			this.$rootScope.previousStateName = 'test';
 			this.$rootScope.$emit ('$stateChangeSuccess', {}, {

@@ -13,7 +13,8 @@
 		config: {
 			auth: false,
 			description: 'Authenticate a user',
-			tags: [ 'authenticate' ],
+			notes: 'Returns a json web token in the Authorization header on success.',
+			tags: [ 'api', 'authenticate' ],
 			validate: {
 				payload: joi.object ({
 					username: joi.string ().required (),
@@ -59,9 +60,9 @@
 		method: 'GET',
 		path: '/authenticate',
 		config: {
-			auth: 'jwt',
 			description: 'Refresh the authentication token',
-			tags: [ 'authenticate' ],
+			notes: 'Returns a json web token in the Authorization header on success.',
+			tags: [ 'api', 'authenticate' ],
 			validate: {
 				params: {}
 			},
@@ -92,7 +93,8 @@
 		config: {
 			auth: '<%= socialLogins [i].name %>',
 			description: 'Authenticate a user via <%= socialLogins [i].cap %>',
-			tags: [ 'authenticate' ],
+			notes: 'Returns a json web token in the Authorization header on success.',
+			tags: [ 'api', 'authenticate' ],
 			handler: (request, reply) => {
 				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
 
