@@ -7,6 +7,8 @@ engines:
       - javascript
   eslint:
     enabled: true
+    exclude_fingerprints:
+         - 9801ff54e320c64e928f3a1c20dbf247
     checks:
       global-require:
          enabled: false
@@ -16,8 +18,6 @@ engines:
          enabled: false
       no-process-exit:
          enabled: false
-      exclude_fingerprints:
-         - 9801ff54e320c64e928f3a1c20dbf247
   fixme:
     enabled: true
 ratings:
