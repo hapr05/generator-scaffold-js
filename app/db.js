@@ -6,12 +6,7 @@
 		pkg = require ('../package');
 		//versions = [ '0.0.1' ];
 
-	function seedV1 (db, seed, config, version) {
-		const users = db.collection ('users');
-
-		seed.drop ();
-		users.drop ();
-
+	function indexV1 (users) {
 		users.createIndex ({ username: 1 });
 		users.createIndex ({ username: 1, active: 1 });
 		users.createIndex ({ username: 1, password: 1 });
@@ -21,6 +16,15 @@
 		users.createIndex ({ email: 1 });
 		users.createIndex ({ email: 1, active: 1 });
 		users.createIndex ({ username: 1, provider: 1 }, { unique: true });
+	}
+
+	function seedV1 (db, seed, config, version) {
+		const users = db.collection ('users');
+
+		seed.drop ();
+		users.drop ();
+
+		indexV1 (users);
 
 		return users.insertMany ([{
 			username: 'admin', password: crypto.createHash ('sha256').update ('admin').digest ('hex'),
