@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('register', {
-		templateUrl: 'app/components/register/registerView.html',
+		templateUrl: 'app/components/register/register.view.html',
 		controller: function ($scope, $state, $http, accountFactory) {
 			angular.extend ($scope, {
 				passwordPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/,
@@ -27,7 +27,12 @@
 	}).config (function ($stateProvider) {
 		$stateProvider.state ('register', {
 			url: '/register',
-			template: '<register></register>'
+			template: '<register></register>',
+			data: {
+				allowed: function (authFactory) {
+					return !authFactory.authenticated;
+				}
+			}
 		});
 	});
 } ());

@@ -8,12 +8,12 @@
 				this.ctrl = $componentController ('topnav', { $scope: this.scope });
 			});
 			
-			this.$templateCache.put ('app/components/topnav/topnavView.html', '_topnav_component_content_');
+			this.$templateCache.put ('app/components/topnav/topnav.view.html', '_topnav_component_content_');
 		});
 
 		it ('should load', function () {
 			var el = this.$compile ("<topnav></topnav>") (this.$rootScope);
-			this.$httpBackend.whenGET ('/authenticate').respond (200);
+			this.$httpBackend.whenGET ('authenticate').respond (200);
 			this.$rootScope.$digest ();
 			expect (el.html ()).toContain ('_topnav_component_content_');
 		});

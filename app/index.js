@@ -196,6 +196,7 @@
 			this.appCamel = camel (this.config.get ('cfgName'));
 			this.appSlug = slug (this.config.get ('cfgName'));
 
+			this.mkdir ('logs');
 			directory.forEach ((i) => {
 				this.directory (i);
 			});

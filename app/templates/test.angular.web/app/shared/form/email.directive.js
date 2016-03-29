@@ -7,7 +7,7 @@
 			inject (function (accountFactory) {
 				this.accountFactory = accountFactory;
 			});
-			this.$httpBackend.whenGET ('/account/?email=test').respond (200);
+			this.$httpBackend.whenGET ('account/?email=test').respond (200);
 			this.$compile (angular.element ('<form name="form"><input <%= appSlug %>-email name="email" ng-model="email" /></form>')) (this.$rootScope);
 			this.form = this.$rootScope.form;
 		});

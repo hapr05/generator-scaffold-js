@@ -43,7 +43,8 @@
 						endpoint: '/swagger.json',
 						tags: {
 							authenticate: 'Authentication API',
-							account: 'Account API'
+							account: 'Account API',
+							logs: 'Log File API'
 						},
 						info: {
 							title: '<%= cfgName %> API Documentation',
@@ -97,6 +98,21 @@
 						},
 						relativeTo: __dirname,
 						path: '../src/server/views'
+					}
+				}
+			}, {
+				plugin: {
+					register: 'good',
+					options: {
+						reporters: [{
+							reporter: require ('good-file'),
+							events: { log: '*', response: '*', error: '*' },
+							config: {
+								path: 'logs',
+								prefix: 'server',
+								rotate: 'daily'
+							}
+						}]
 					}
 				}
 			}]

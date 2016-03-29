@@ -6,7 +6,7 @@
 			available: function (username, email) {
 				var d = $q.defer ();
 
-				$http.get ('/account/' + (username || ''), {
+				$http.get ('account/' + (username || ''), {
 					params: {
 						email: email
 					}
@@ -20,7 +20,7 @@
 			},
 
 			create: function (params) {
-				return $http.post ('/account/', params);
+				return $http.post ('account/', params);
 			}
 		};
 	});

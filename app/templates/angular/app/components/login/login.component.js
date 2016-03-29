@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('login', {
-		templateUrl: 'app/components/login/loginView.html',
+		templateUrl: 'app/components/login/login.view.html',
 		controller: function ($rootScope, $scope, $state, $http, authFactory) {
 			angular.extend ($scope, {
 				login: function (event) {
@@ -19,7 +19,12 @@
 	}).config (function ($stateProvider) {
 		$stateProvider.state ('login', {
 			url: '/login',
-			template: '<login></login>'
+			template: '<login></login>',
+			data: {
+				allowed: function (authFactory) {
+					return !authFactory.authenticated;
+				}
+			}
 		});
 	});
 } ());

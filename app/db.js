@@ -11,11 +11,10 @@
 		users.createIndex ({ username: 1, active: 1 });
 		users.createIndex ({ username: 1, password: 1 });
 		users.createIndex ({ username: 1, password: 1, active: 1 });
-		users.createIndex ({ username: 1, provider: 1 });
+		users.createIndex ({ username: 1, provider: 1 }, { unique: true });
 		users.createIndex ({ username: 1, provider: 1, active: 1 });
 		users.createIndex ({ email: 1 });
 		users.createIndex ({ email: 1, active: 1 });
-		users.createIndex ({ username: 1, provider: 1 }, { unique: true });
 	}
 
 	function seedV1 (db, seed, config, version) {

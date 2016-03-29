@@ -26,7 +26,7 @@
 		"config": "latest",
 		"hapi": "latest", "joi": "latest", "hapi-swaggered": "latest", "glue": "latest", "inert": "latest",
 		"hapi-auth-jwt2": "latest", "hapi-router": "latest", "crumb": "latest", "bell": "latest", "vision": "latest", "visionary": "latest", "handlebars": "latest",
-		"boom": "latest",
+		"boom": "latest", "good": "latest", "good-file": "latest",
 		"mongodb": "latest", "hapi-mongodb": "latest"
 	},
 	"devDependencies": {

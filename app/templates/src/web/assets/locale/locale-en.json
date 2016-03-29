@@ -91,6 +91,10 @@
 			}
 		}
 	},
+	"logs": {
+		"nav": "Logs",
+		"title": "Logs"
+	},
 	"apidoc": {
 		"nav": "API Documentation"
 	}

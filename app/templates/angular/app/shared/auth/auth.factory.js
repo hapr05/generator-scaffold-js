@@ -12,7 +12,7 @@
 				localStorageService.set ('token', token);
 			},
 			_refresh = function () {
-				$http.get ('/authenticate').then (function (response) {
+				$http.get ('authenticate').then (function (response) {
 					_set (response.headers ('Authorization'));
 					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
 				}).catch (function () {
@@ -33,7 +33,7 @@
 
 			authenticate: function (username, password) {
 				_reset ();
-				return $http.post ('/authenticate', {
+				return $http.post ('authenticate', {
 					username: username,
 					password: password
 				}).then (function (response) {

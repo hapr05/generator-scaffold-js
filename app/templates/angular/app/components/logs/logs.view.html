@@ -1,0 +1,10 @@
+<div class="well logs">
+	<h1 translate="logs.title">Logs</h1>
+	<div class="row">
+		<div class="col-md-4 list-group">
+			<a ng-repeat="file in logFiles" ng-class="{ active: file === active }" ng-click="show (file)" class="list-group-item">{{ file }}</a>
+		</div>
+		<pre class="col-md-8">{{ logData }}</pre>
+	</div>
+</div>
+

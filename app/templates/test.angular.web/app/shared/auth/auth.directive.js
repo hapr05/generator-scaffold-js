@@ -8,7 +8,7 @@
 			inject (function (authFactory) {
 				this.authFactory = authFactory;
 			});
-			this.$httpBackend.whenGET ('/authenticate').respond (401);
+			this.$httpBackend.whenGET ('authenticate').respond (401);
 		});
 
 		it ('should hide authenticated when unauthenticated', function () {
@@ -19,7 +19,7 @@
 
 		it ('should show authenticated when authenticated', function () {
 			var el = this.$compile (angular.element ('<div <%= appSlug %>-authenticated></div>')) (this.$rootScope);
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
 			this.$rootScope.$digest();
@@ -36,7 +36,7 @@
 		it ('should hide unauthenticated when authenticated', function () {
 			var el = this.$compile (angular.element ('<div <%= appSlug %>-unauthenticated></div>')) (this.$rootScope);
 			this.authFactory.reset ();
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
 			this.$rootScope.$digest();
@@ -46,7 +46,7 @@
 		it ('should hide authority when not authorized', function () {
 			var el = this.$compile (angular.element ('<div <%= appSlug %>-has-authority="test"></div>')) (this.$rootScope);
 			this.authFactory.reset ();
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
 			this.$rootScope.$digest();
@@ -56,7 +56,7 @@
 		it ('should show authority when authorized', function () {
 			var el = this.$compile (angular.element ('<div <%= appSlug %>-has-authority="ROLE_TEST"></div>')) (this.$rootScope);
 			this.authFactory.reset ();
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
 			this.$rootScope.$digest();

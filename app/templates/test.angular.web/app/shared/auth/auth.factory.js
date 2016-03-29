@@ -21,7 +21,7 @@
 		});
 	
 		it ('should indicate authenticate', function () {
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
 		});
@@ -40,14 +40,14 @@
 		});
 
 		it ('should refresh token', function () {
-			this.$httpBackend.expectGET ('/authenticate').respond (200, {}, { Authorization: infiniteToken });
+			this.$httpBackend.expectGET ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.refresh ();
 			this.$httpBackend.flush ();
 			expect (this.authFactory.token).toBe (infiniteToken);
 		});
 
 		it ('should reset on refresh failure', function () {
-			this.$httpBackend.whenGET ('/authenticate').respond (401);
+			this.$httpBackend.whenGET ('authenticate').respond (401);
 			this.authFactory.refresh ();
 			this.$httpBackend.flush ();
 			expect (this.authFactory.token).toBe (null);

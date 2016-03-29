@@ -10,11 +10,7 @@
 				this.ctrl = $componentController ('login', { $scope: this.scope });
 			});
 
-			inject (function (authFactory) {
-				this.authFactory = authFactory;
-			});
-
-			this.$templateCache.put ('app/components/login/loginView.html', '_login_component_content_');
+			this.$templateCache.put ('app/components/login/login.view.html', '_login_component_content_');
 		});
 
 		it ('should load', function () {
@@ -24,7 +20,7 @@
 		});
 
 		it ('should login', function () {
-			this.$httpBackend.expectPOST ('/authenticate').respond (200, {}, { Authorization: infiniteToken }); 
+			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken }); 
 			this.scope.login ({
 				preventDefault: function () {}
 			});
@@ -32,8 +28,8 @@
 		});
 
 		it ('should handle login failure', function () {
-			this.$httpBackend.expectPOST ('/authenticate').respond (401);
-			this.$httpBackend.whenGET ('/authenticate').respond (401);
+			this.$httpBackend.expectPOST ('authenticate').respond (401);
+			this.$httpBackend.whenGET ('authenticate').respond (401);
 			this.scope.login ({
 				preventDefault: function () {}
 			});

@@ -33,7 +33,14 @@
 		};
 
 		$httpProvider.interceptors.push('jwtInterceptor');
-	}).run (function ($rootScope, $state) {
+	}).run (function ($rootScope, $state, authFactory) {
+		$rootScope.$on ('$stateChangeStart', function (e, to) {
+			if (to.data && angular.isFunction (to.data.allowed) && !to.data.allowed (authFactory)) {
+				e.preventDefault ();
+				$state.go ('home');
+			}
+		});
+
 		$rootScope.$on ('$stateChangeSuccess',  function (toState, toParams, fromState, fromParams) {
 			if (-1 === ['login', 'reigster' ].indexOf (fromState.name)) {
 				$rootScope.previousStateName = fromState.name;

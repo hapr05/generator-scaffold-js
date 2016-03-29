@@ -9,6 +9,10 @@ engines:
     enabled: true
     exclude_fingerprints:
          - 9801ff54e320c64e928f3a1c20dbf247
+         - 73e895d5516a75f2a8fe975dfd1c3987
+         - 8184db62bd1b3152d978f3a8b37c3402
+         - 9c0901e1232c25d27cd632e68029baf1
+         - 02577be5b8ddc3cbbb4c04bbcdc764aa
     checks:
       global-require:
          enabled: false

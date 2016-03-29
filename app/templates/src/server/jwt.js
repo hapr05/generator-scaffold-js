@@ -19,8 +19,8 @@
 					return;
 				});
 			} else {
-					callback (null, false);
-					return;
+				callback (null, false);
+				return;
 			}
 		}
 	};
