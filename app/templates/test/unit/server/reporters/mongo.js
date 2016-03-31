@@ -6,9 +6,8 @@
 		expect = chai.expect,
 		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
-		sinon = require ('sinon'),
-		mockery = require ('mockery'),
 		stream = require ('stream'),
+		mocks = require ('../../helpers/mocks'),
 		mongo = require ('../../../../src/server/reporters/mongo');
 
 	chai.use (chaiAsPromised);
@@ -19,39 +18,14 @@
 				insertOne () {
 					return Promise.resolve (true);
 				}
-			},
-			server = {
-				instance () {
-					return {
-						plugins: {
-							'hapi-mongodb': {
-								db: {
-									collection () { return logs; }
-								}
-							}
-						}
-					};
-				}
-			},
-			sandbox = sinon.sandbox.create ();
+			};
 
 		before (() => {
-			mockery.enable ({
-				warnOnReplace: false,
-				warnOnUnregistered: false,
-				useCleanCache: true
-			});
-
-			mockery.registerMock ('../', server);
-		});
-
-		afterEach (() => {
-			sandbox.restore ();
+			mocks.server ('../', { logs: logs });
 		});
 
 		after (() => {
-			mockery.deregisterAll ();
-			mockery.disable ();
+			mocks.disable ();
 		});
 
 		describe ('collection', () => {

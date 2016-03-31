@@ -6,9 +6,9 @@
 		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
 		sinon = require ('sinon'),
-		mockery = require ('mockery'),
 		hapi = require ('hapi'),
 		jwt = require ('hapi-auth-jwt2'),
+		mocks = require ('../../helpers/mocks'),
 		admin = require ('../../helpers/authAdmin');
 
 	chai.use (chaiAsPromised);
@@ -29,26 +29,10 @@
 					};
 				}
 			},
-			db = {
-				collection () { return logs; }
-			},
-			mongo = {
-				MongoClient: {
-					connect (url, settings, cb) {
-						cb (false, db);
-					}
-				}
-			},
 			sandbox = sinon.sandbox.create ();
 
 		before (() => {
-			mockery.enable ({
-				warnOnReplace: false,
-				warnOnUnregistered: false,
-				useCleanCache: true
-			});
-
-			mockery.registerMock ('mongodb', mongo);
+			mocks.mongo ({ logs: logs });
 		});
 
 		beforeEach (() => {
@@ -65,8 +49,7 @@
 		});
 
 		after (() => {
-			mockery.deregisterAll ();
-			mockery.disable ();
+			mocks.disable ();
 		});
 
 		describe ('collection', () => {
