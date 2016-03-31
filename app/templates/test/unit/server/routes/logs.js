@@ -7,9 +7,9 @@
 		chaiAsPromised = require ('chai-as-promised'),
 		sinon = require ('sinon'),
 		hapi = require ('hapi'),
-		jwt = require ('hapi-auth-jwt2'),
 		mocks = require ('../../helpers/mocks'),
-		admin = require ('../../helpers/authAdmin');
+		creds = require ('../../helpers/creds'),
+		failed = require ('../../helpers/authFailed');
 
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
@@ -38,8 +38,8 @@
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), jwt, admin ]).then (() => {
-            server.auth.strategy ('jwt', 'admin');
+			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+            server.auth.strategy ('jwt', 'failed');
 				server.route (require ('../../../../src/server/routes/logs'));
 			})).to.be.fulfilled ();
 		});
@@ -56,7 +56,8 @@
 			it ('should list log entries', (done) => {
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z'
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
+					credentials: creds.admin
 				}).then ((response) => {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -80,7 +81,8 @@
 	
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z'
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
+					credentials: creds.admin
 				}).then ((response) => {
 						expect (response.statusCode).to.equal (500);
 						done ();
@@ -92,7 +94,8 @@
 			it ('should list log entries by event', (done) => {
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=log'
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=log',
+					credentials: creds.admin
 				}).then ((response) => {
 					expect (response.statusCode).to.equal (200);
 					done ();

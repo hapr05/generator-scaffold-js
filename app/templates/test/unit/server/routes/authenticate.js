@@ -7,17 +7,12 @@
 		chaiAsPromised = require ('chai-as-promised'),
 		sinon = require ('sinon'),
 		hapi = require ('hapi'),
-		jwt = require ('hapi-auth-jwt2'),
 		mocks = require ('../../helpers/mocks'),
-		succeed = require ('../../helpers/authSucceed'),
+		creds = require ('../../helpers/creds'),
 		failed = require ('../../helpers/authFailed');
 
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
-
-	function _socialAuth (<% if (socialLogins.length) { %>server, fail<% } %>) {<% for (var i = 0; i < socialLogins.length; i++) { %>
-		server.auth.strategy ('<%= socialLogins [i].name %>', '<%= socialLogins [i].name %>' === fail ? 'failed' : 'succeed');<% } %>
-	}
 
 	describe ('authentication route', () => {
 		var server,
@@ -38,8 +33,9 @@
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), jwt, succeed, failed ]).then (() => {
-            server.auth.strategy ('jwt', 'succeed');
+			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+            server.auth.strategy ('jwt', 'failed');<% if (socialLogins.length) { for (var i = 0; i < socialLogins.length; i++) { %>
+				server.auth.strategy ('<%= socialLogins [i].name %>', 'failed');<% }} %>
 			})).to.be.fulfilled ();
 		});
 
@@ -53,9 +49,8 @@
 
 		describe ('internal', () => {
 			it ('should authenticate valid user', (done) => {
-				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin'}}).then ((response) => {
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin'}, credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -66,7 +61,6 @@
 			});
 
 			it ('should refresh token', (done) => {
-				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
 				server.inject ({ method: 'GET', url: '/authenticate', credentials: { user: { id: '1' }}}).then ((response) => {
 					try {
@@ -83,9 +77,8 @@
 					return Promise.resolve (null);
 				});
 
-				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}, credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (401);
 						done ();
@@ -100,9 +93,8 @@
 					return Promise.reject ('err');
 				});
 	
-				_socialAuth (server);
 				server.route (require ('../../../../src/server/routes/authenticate'));
-				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}}).then ((response) => {
+				server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'fake', password: 'fake'}, credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (401);
 						done ();
@@ -127,9 +119,8 @@
 						relativeTo: __dirname,
 						path: '../../../../src/server/views'
 					});
-					_socialAuth (server);
 					server.route (require ('../../../../src/server/routes/authenticate'));
-					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>' }).then ((response) => {
+					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>', credentials: creds.user  }).then ((response) => {
 						try {
 							expect (response.statusCode).to.equal (200);
 							done ();
@@ -149,9 +140,8 @@
 						relativeTo: __dirname,
 						path: '../../../../src/server/views'
 					});
-					_socialAuth (server);
 					server.route (require ('../../../../src/server/routes/authenticate'));
-					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>' }).then ((response) => {
+					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>', credentials: creds.user  }).then ((response) => {
 						try {
 							expect (response.statusCode).to.equal (200);
 							done ();
@@ -164,7 +154,6 @@
 				});
 
 				it ('should fail to authenticate <%= socialLogins [i].name %> user', (done) => {
-					_socialAuth (server, '<%= socialLogins [i].name %>');
 					server.route (require ('../../../../src/server/routes/authenticate'));
 					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>' }).then ((response) => {
 						try {
@@ -179,9 +168,8 @@
 				});
 
 				it ('should handle view failure', (done) => {
-					_socialAuth (server);
 					server.route (require ('../../../../src/server/routes/authenticate'));
-					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>' }).then ((response) => {
+					server.inject ({ method: 'GET', url: '/authenticate/<%= socialLogins [i].name %>', credentials: creds.user  }).then ((response) => {
 						try {
 							expect (response.statusCode).to.equal (401);
 							done ();

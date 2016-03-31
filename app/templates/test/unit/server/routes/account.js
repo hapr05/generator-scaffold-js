@@ -7,9 +7,8 @@
 		chaiAsPromised = require ('chai-as-promised'),
 		sinon = require ('sinon'),
 		hapi = require ('hapi'),
-		jwt = require ('hapi-auth-jwt2'),
 		mocks = require ('../../helpers/mocks'),
-		succeed = require ('../../helpers/authSucceed'),
+		creds = require ('../../helpers/creds'),
 		failed = require ('../../helpers/authFailed');
 
 	chai.use (chaiAsPromised);
@@ -41,9 +40,11 @@
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), jwt, succeed, failed ]).then (() => {
-            server.auth.strategy ('jwt', 'succeed');
+			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+            server.auth.strategy ('jwt', 'failed');
 				server.route (require ('../../../../src/server/routes/account'));
+			}).catch ((err) => {
+				console.log (err);
 			})).to.be.fulfilled ();
 		});
 
@@ -57,7 +58,7 @@
 
 		describe ('item', () => {
 			it ('should retrieve an account', (done) => {
-				server.inject ({ method: 'GET', url: '/account/test' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -72,7 +73,7 @@
 					return Promise.resolve (null);
 				});
 
-				server.inject ({ method: 'GET', url: '/account/test' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (404);
 						done ();
@@ -87,7 +88,7 @@
 					return Promise.reject ('err');
 				});
 
-				server.inject ({ method: 'GET', url: '/account/test' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (500);
 						done ();
@@ -100,7 +101,7 @@
 
 		describe ('collection', () => {
 			it ('should list accounts', (done) => {
-				server.inject ({ method: 'GET', url: '/account/' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -118,7 +119,7 @@
 						}
 					};
 				});
-				server.inject ({ method: 'GET', url: '/account/' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (404);
 						done ();
@@ -136,7 +137,7 @@
 						}
 					};
 				});
-				server.inject ({ method: 'GET', url: '/account/' }).then ((response) => {
+				server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (500);
 						done ();
@@ -158,7 +159,8 @@
 						fullName: 'Test User',
 						nickname: 'Test',
 						email: 'test@localhost'
-					}
+					},
+					credentials: creds.user
 				}).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (200);
@@ -182,7 +184,8 @@
 						fullName: 'Test User',
 						nickname: 'Test',
 						email: 'test@localhost'
-					}
+					},
+					credentials: creds.user
 				}).then ((response) => {
 					try {
 						expect (response.statusCode).to.equal (500);
