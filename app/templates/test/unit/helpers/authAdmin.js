@@ -28,7 +28,7 @@
 
 	module.exports = {
 		register (server, options, next) {
-			server.auth.scheme ('succeed', implementation);
+			server.auth.scheme ('admin', implementation);
 			next();
 		}
 	};

@@ -11,7 +11,8 @@
 			return new Promise ((resolve, reject) => {
 				glue.compose (config.get ('manifest'), {
 					relativeTo: __dirname,
-					preRegister: (server, next) => {
+					preRegister: (_server_, next) => {
+						server = _server_; 
 						server.register (require ('hapi-auth-jwt2'), () => {
 							server.auth.strategy ('jwt', 'jwt', {
 								key: config.get ('web.jwtKey'),
@@ -55,6 +56,10 @@
 
 		stop () {
 			return server.stop ();
+		},
+
+		instance () {
+			return server;
 		}
 	};
 } ());

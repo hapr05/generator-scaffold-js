@@ -3,7 +3,8 @@
 
 	const pkg = require ('../package'),
 		fs = require ('fs'),
-		defer = require ('config/defer').deferConfig;
+		defer = require ('config/defer').deferConfig,
+		reporter = require ('../src/server/reporters/mongo');
 
 	module.exports = {
 		manifest: {
@@ -105,12 +106,13 @@
 					register: 'good',
 					options: {
 						reporters: [{
-							reporter: require ('good-file'),
-							events: { log: '*', response: '*', error: '*' },
-							config: {
-								path: 'logs',
-								prefix: 'server',
-								rotate: 'daily'
+							reporter: reporter,
+							events: {
+								error: '*',
+								log: '*',
+								ops: '*',
+								request: '*',
+								response: '*'
 							}
 						}]
 					}

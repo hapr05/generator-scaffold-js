@@ -25,6 +25,7 @@
 			var p = server.start ();
 
 			p.then (() => {
+				expect (server.instance ()).to.be.an ('object');
 				server.stop ();
 			});
 

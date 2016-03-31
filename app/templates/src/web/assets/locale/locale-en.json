@@ -93,7 +93,63 @@
 	},
 	"logs": {
 		"nav": "Logs",
-		"title": "Logs"
+		"title": "Logs",
+		"btn": {
+			"view": "View"
+		},
+		"field": {
+			"dates": "Dates",
+			"from": "From",
+			"to": "To",
+			"event": "Event"
+		},
+		"option": {
+			"log": "Log",
+			"ops": "Ops",
+			"request": "Request",
+			"response": "Response"
+		},
+		"header": {
+			"event": "Event",
+			"timestamp": "Timestamp",
+			"host": "Host",
+			"data": "Data",
+			"raw": "Raw"
+		},
+		"data": {
+			"tags": "Tags",
+			"data": "Data",
+			"os": "OS",
+			"proc": "Proc",
+			"load": "Load",
+			"uptime": "Uptime",
+			"totalMem": "Total Memory",
+			"freeMem": "Free Memory",
+			"rssMem": "RSS Memory",
+			"heapTotalMemory": "Total Heap Memory",
+			"heapUsedMemory": "Used Heap Memory",
+			"delay": "Delay",
+			"requests": "Requests",
+			"total": "Total",
+			"disconnects": "Discconects",
+			"statusCode": "Status",
+			"concurrents": "Concurrents",
+			"responseTimes": "Response Times",
+			"avg": "Average",
+			"max": "Max",
+			"sockets": "Sockets",
+			"labels": "Labels",
+			"method": "Method",
+			"path": "Path",
+			"query": "Query",
+			"responseTime": "Response Time",
+			"statusCode": "Status Code",
+			"httpVersion": "HTTP Version",
+			"source": "Source",
+			"remoteAddress": "remoteAddress",
+			"userAgent": "User Agent",
+			"referer": "Referer"
+		}
 	},
 	"apidoc": {
 		"nav": "API Documentation"

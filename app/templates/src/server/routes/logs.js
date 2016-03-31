@@ -2,48 +2,9 @@
 	'use strict';
 
 	const joi = require ('joi'),
-		fs = require ('fs'),
-		path = require ('path'),
 		boom = require ('boom');
 
 	module.exports = [{
-		method: 'GET',
-		path: '/logs/{file}',
-		config: {
-			auth: {
-				strategy: 'jwt',
-				scope: [ 'ROLE_ADMIN' ]
-			},
-			description: 'Retrieve log file list',
-			tags: [ 'api', 'logs' ],
-			validate: {
-				params: joi.object ({
-					file: joi.string ().required ()
-				}).required ()
-			},
-			plugins: {
-				'hapi-swaggered': {
-					produces: [ 'text/plain' ],
-					responses: {
-						200: {
-							type: 'string',
-							description: 'Success',
-							schema: joi.string ()
-						},
-						404: {
-							description: 'Not Found'
-						},
-						500: {
-							description: 'Internal Server Error'
-						}
-					}
-				}
-			},
-			handler: (request, reply) => {
-				reply.file (path.join (__dirname, '../../../logs', path.basename (request.params.file)));
-			}
-		}
-	}, {
 		method: 'GET',
 		path: '/logs/',
 		config: {
@@ -53,13 +14,21 @@
 			},
 			description: 'Retrieve log file list',
 			tags: [ 'api', 'logs' ],
+			validate: {
+				query: joi.object ({
+					from: joi.date ().required (),
+					to: joi.date ().required (),
+					event: joi.string ().valid ('error', 'log', 'ops', 'request', 'response').optional ()
+				}).required ()
+			},
 			plugins: {
 				'hapi-swaggered': {
+					produces: [ 'text/plain' ],
 					responses: {
 						200: {
-							type: 'array',
 							description: 'Success',
-							schema: joi.array ().items (joi.string ())
+							schema: joi.object ({
+							})
 						},
 						500: {
 							description: 'Internal Server Error'
@@ -67,18 +36,25 @@
 					}
 				}
 			},
-			response: {
-				status: {
-					200: joi.array ().items (joi.string ()),
-				}
-			},
 			handler: (request, reply) => {
-				fs.readdir (path.join (__dirname, '../../../logs'), (err, files) => {
-					if (err) {
-						reply (boom.badImplementation ());
-					} else {
-						reply (files).code (200);
-					}
+				const logs = request.server.plugins ['hapi-mongodb' ].db.collection ('logs');
+				var query = {
+					$and: [
+						{ timestamp: { $gte: request.query.from.getTime () }},
+						{ timestamp: { $lte: request.query.to.getTime () }}
+					]
+				};
+
+				if (request.query.event) {
+					query.event = request.query.event;
+				}
+
+				logs.find (query).sort({
+					$natural: 1
+				}).toArray ().then ((logs) => {
+					reply (logs).code (200);
+				}).catch (() => {
+					reply (boom.badImplementation ());
 				});
 			}
 		}

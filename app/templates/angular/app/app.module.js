@@ -8,6 +8,9 @@
 		'LocalStorageModule',
 		'pascalprecht.translate',
 		'ui.router',
+		'ui.select',
+		'ui.bootstrap',
+		'ui.bootstrap.datetimepicker',
 		'angular-jwt',
 		'swaggerUi'
 	]).config (function ($urlRouterProvider) {

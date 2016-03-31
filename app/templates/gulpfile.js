@@ -48,6 +48,7 @@
 					js: [
 						'src/web/bower_components/es5-shim/es5-shim.js',
 						'src/web/bower_components/es6-shim/es6-shim.js',
+						'src/web/bower_components/moment/moment.js',
 						'src/web/bower_components/jquery/dist/jquery.js',
 						'src/web/bower_components/bootstrap/dist/js/bootstrap.js',
 						'src/web/bower_components/angular/angular.js',
@@ -60,12 +61,18 @@
 						'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
 						'src/web/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
 						'src/web/bower_components/angular-ui-router/release/angular-ui-router.js',
+						'src/web/bower_components/angular-bootstrap/ui-bootstrap.js',
+						'src/web/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+						'src/web/bower_components/angular-ui-select/dist/select.js',
+						'src/web/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js',
+						'src/web/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.tpls.js',
 						'src/web/bower_components/angular-jwt/dist/angular-jwt.js',
 						'src/web/bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js'
 					],
 					css: [
 						'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
 						'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+						'src/web/bower_components/angular-ui-select/dist/select.css',
 						'src/web/bower_components/angular-swagger-ui/dist/css/swagger-ui.css'
 					],
 					fonts: [

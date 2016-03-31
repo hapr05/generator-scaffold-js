@@ -5,6 +5,7 @@
 		expect = chai.expect,
 		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
+		sinon = require ('sinon'),
 		mockery = require ('mockery'),
 		hapi = require ('hapi'),
 		jwt = require ('hapi-auth-jwt2'),
@@ -15,86 +16,105 @@
 
 	describe ('logs route', () => {
 		var server,
-			fs = {
-				readdir (path, cb) {
-					cb ('err');
+			logs = {
+				find () {
+					return {
+						sort () {
+							return {
+								toArray () {
+									return Promise.resolve (true);
+								}
+							};
+						}
+					};
 				}
-			};
+			},
+			db = {
+				collection () { return logs; }
+			},
+			mongo = {
+				MongoClient: {
+					connect (url, settings, cb) {
+						cb (false, db);
+					}
+				}
+			},
+			sandbox = sinon.sandbox.create ();
+
+		before (() => {
+			mockery.enable ({
+				warnOnReplace: false,
+				warnOnUnregistered: false,
+				useCleanCache: true
+			});
+
+			mockery.registerMock ('mongodb', mongo);
+		});
 
 		beforeEach (() => {
 			server = new hapi.Server ();
 			server.connection ();
-			return expect (server.register ([ require ('inert'), jwt, admin ]).then (() => {
-            server.auth.strategy ('jwt', 'succeed');
+			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), jwt, admin ]).then (() => {
+            server.auth.strategy ('jwt', 'admin');
 				server.route (require ('../../../../src/server/routes/logs'));
 			})).to.be.fulfilled ();
 		});
 
-		describe ('item', () => {
-			before (() => {
-				mockery.enable ({
-					warnOnReplace: false,
-					warnOnUnregistered: false,
-					useCleanCache: true
-				});
+		afterEach (() => {
+			sandbox.restore ();
+		});
 
-				mockery.registerMock ('fs', fs);
-			});
-
-			after (() => {
-				mockery.deregisterAll ();
-				mockery.disable ();
-			});
-
-			it ('should fail to return a log file that does not exist', (done) => {
-				server.inject ({ method: 'GET', url: '/logs/test' }).then ((response) => {
-					try {
-						expect (response.statusCode).to.equal (500);
-						done ();
-					} catch (err) {
-						done (err);
-					}
-				});
-			});
+		after (() => {
+			mockery.deregisterAll ();
+			mockery.disable ();
 		});
 
 		describe ('collection', () => {
-			it ('should list log files', (done) => {
-				server.inject ({ method: 'GET', url: '/logs/' }).then ((response) => {
-					try {
+			it ('should list log entries', (done) => {
+				server.inject ({
+					method: 'GET',
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z'
+				}).then ((response) => {
 						expect (response.statusCode).to.equal (200);
 						done ();
-					} catch (err) {
-						done (err);
-					}
+				}).catch ((err) => {
+					done (err);
 				});
 			});
-		});
 
-		describe ('collection', () => {
-			before (() => {
-				mockery.enable ({
-					warnOnReplace: false,
-					warnOnUnregistered: false,
-					useCleanCache: true
+			it ('should handle db failure ', (done) => {
+				sandbox.stub (logs, 'find', () => {
+					return {
+						sort () {
+							return {
+								toArray () {
+									return Promise.reject (true);
+								}
+							};
+						}
+					};
 				});
-
-				mockery.registerMock ('fs', fs);
-			});
-
-			after (() => {
-				mockery.deregisterAll ();
-				mockery.disable ();
-			});
-
-			it ('should error on directory failure', (done) => {
-				server.inject ({ method: 'GET', url: '/logs/' }).then ((response) => {
-					try {
+	
+				server.inject ({
+					method: 'GET',
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z'
+				}).then ((response) => {
 						expect (response.statusCode).to.equal (500);
 						done ();
-					} catch (err) {
-						done (err);
-					}
+				}).catch ((err) => {
+					done (err);
+				});
+			});
+
+			it ('should list log entries by event', (done) => {
+				server.inject ({
+					method: 'GET',
+					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=log'
+				}).then ((response) => {
+					expect (response.statusCode).to.equal (200);
+					done ();
+				}).catch ((err) => {
+					done (err);
 				});
 			});
 		});
