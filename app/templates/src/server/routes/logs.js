@@ -25,9 +25,8 @@
 							description: 'Success',
 							schema: logsModel.logEntryBecauseOpenAPISpecDoesntSupportAlternatives
 						},
-						500: {
-							description: 'Internal Server Error'
-						}
+						403: { description: 'Forbidden' },
+						500: { description: 'Internal Server Error' }
 					}
 				}
 			},
