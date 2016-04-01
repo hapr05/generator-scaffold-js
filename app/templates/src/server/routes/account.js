@@ -3,7 +3,8 @@
 
 	const joi = require ('joi'),
 		crypto = require ('crypto'),
-		boom = require ('boom');
+		boom = require ('boom'),
+		userModel = require ('../models/user');
 
 	module.exports = [{
 		method: 'GET',
@@ -13,12 +14,11 @@
 				strategy: 'jwt',
 				mode: 'optional'
 			},
-			description: 'Retrieve user account',
+			description: 'Retrieve User Account',
+			notes: 'Returns an account user by username.  If the user has ROLE_ADMIN or the account being retrieved belongs to the user, full account details are returned.  Otherwise only the status code is returned. The latter case can be used to check if a username is avilable.',
 			tags: [ 'api', 'account' ],
 			validate: {
-				params: joi.object ({
-					username: joi.string ().required ()
-				}).required ()
+				params: userModel.retrieve
 			},
 			plugins: {
 				'hapi-swaggered': {
@@ -54,12 +54,11 @@
 				strategy: 'jwt',
 				mode: 'optional'
 			},
-			description: 'Retrieve user account list',
+			description: 'Search User Accounts',
+			notes: 'Searches for user accounts by fields.  If the user has ROLE_ADMIN or the account being retrieved belongs to the user, full account details are returned.  Otherwise only the status code is returned. The latter case can be used to check for duplicates, such as accounts with the same email address.',
 			tags: [ 'api', 'account' ],
 			validate: {
-				query: joi.object ({
-					email: joi.string ().email ().optional ()
-				}).optional ()
+				query: userModel.search
 			},
 			plugins: {
 				'hapi-swaggered': {
@@ -74,7 +73,7 @@
 				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
 
 				users.find ({
-					email: request.query.email
+					email: request.query.email || undefined
 				}).toArray ().then ((users) => {
 					if (users && users.length) {
 						//TODO for admin user or user === user, return user list, document response in 200
@@ -92,17 +91,11 @@
 		path: '/account/',
 		config: {
 			auth: false,
-			description: 'Create user account',
+			description: 'Create User Account',
+			notes: 'Creates a new user account.',
 			tags: [ 'api', 'account' ],
 			validate: {
-				payload: joi.object ({
-					username: joi.string ().required (),
-					password: joi.string ().regex (/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/, 'strong').min (8).required (),
-					fullName: joi.string ().required (),
-					nickname: joi.string ().required (),
-					email: joi.string ().email ().required (),
-					lang: joi.string ().optional ()
-				}).required ()
+				payload: userModel.create
 			},
 			plugins: {
 				'hapi-swaggered': {

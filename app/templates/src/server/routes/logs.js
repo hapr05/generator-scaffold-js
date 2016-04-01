@@ -1,8 +1,8 @@
 (function () {
 	'use strict';
 
-	const joi = require ('joi'),
-		boom = require ('boom');
+	const boom = require ('boom'),
+		logsModel = require ('../models/logs');
 
 	module.exports = [{
 		method: 'GET',
@@ -12,23 +12,18 @@
 				strategy: 'jwt',
 				scope: [ 'ROLE_ADMIN' ]
 			},
-			description: 'Retrieve log file list',
+			description: 'Search Log Entries',
+			notes: 'Searches for log entries by date and optionally, event type',
 			tags: [ 'api', 'logs' ],
 			validate: {
-				query: joi.object ({
-					from: joi.date ().required (),
-					to: joi.date ().required (),
-					event: joi.string ().valid ('error', 'log', 'ops', 'request', 'response').optional ()
-				}).required ()
+				query: logsModel.search
 			},
 			plugins: {
 				'hapi-swaggered': {
-					produces: [ 'text/plain' ],
 					responses: {
 						200: {
 							description: 'Success',
-							schema: joi.object ({
-							})
+							schema: logsModel.logEntryBecauseOpenAPISpecDoesntSupportAlternatives
 						},
 						500: {
 							description: 'Internal Server Error'

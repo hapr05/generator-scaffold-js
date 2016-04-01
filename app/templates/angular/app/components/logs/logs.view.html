@@ -134,7 +134,7 @@
 					<div><span translate="logs.data.method">Method</span>: {{ log.method | uppercase }}</div>
 					<div><span translate="logs.data.path">Path</span>: {{ log.path }}</div>
 					<div translate="logs.data.data">Data</div>
-					<pre>{{ log.dtata }}</pre>
+					<pre>{{ log.dtata | json }}</pre>
 				<td>
 					<button ng-click="raw ($index)" type="button" class="btn btn-default">
 						<span class="glyphicon glyphicon-open-file"></span>

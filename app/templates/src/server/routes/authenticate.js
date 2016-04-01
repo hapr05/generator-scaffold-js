@@ -1,25 +1,22 @@
 (function () {
 	'use strict';
 
-	const joi = require ('joi'),
-		crypto = require ('crypto'),
+	const crypto = require ('crypto'),
 		jwt = require ('jsonwebtoken'),
 		config = require ('config'),
-		boom = require ('boom');
+		boom = require ('boom'),
+		userModel = require ('../models/user');
 
 	module.exports = [{
 		method: 'POST',
 		path: '/authenticate',
 		config: {
 			auth: false,
-			description: 'Authenticate a user',
-			notes: 'Returns a json web token in the Authorization header on success.',
-			tags: [ 'api', 'authenticate' ],
-			validate: {
-				payload: joi.object ({
-					username: joi.string ().required (),
-					password: joi.string ().required ()
-				}).required ()
+			description: 'Authenticate a User',
+			notes: 'Authenticates a user by username or email and password. The usernamefield can be either the regsitered username or the user\'s email address.  Returns a json web token in the Authorization header on success.  The token must be used as a bearer token in the Authorization header on any authenticated requests.',
+			tags: [ 'api', 'authenticate' ], 
+			validate: {  
+				payload: userModel.authenticate
 			},
 			plugins: {
 				'hapi-swaggered': {
@@ -60,12 +57,9 @@
 		method: 'GET',
 		path: '/authenticate',
 		config: {
-			description: 'Refresh the authentication token',
-			notes: 'Returns a json web token in the Authorization header on success.',
+			description: 'Refresh the Authentication Token',
+			notes: 'Refresh an unexipred authentication token. Returns a new json web token wth a new expiration date in the Authorization header on success.',
 			tags: [ 'api', 'authenticate' ],
-			validate: {
-				params: {}
-			},
 			plugins: {
 				'hapi-swaggered': {
 					responses: { 
@@ -92,8 +86,8 @@
 		path: '/authenticate/<%= socialLogins [i].name %>',
 		config: {
 			auth: '<%= socialLogins [i].name %>',
-			description: 'Authenticate a user via <%= socialLogins [i].cap %>',
-			notes: 'Returns a json web token in the Authorization header on success.',
+			description: 'Authenticate a User via <%= socialLogins [i].cap %>',
+			notes: 'Authenticates a user using OAuth for <%= socialLogins [i].cap %>.  Returns a json web token in the Authorization header on success.  The token must be used as a bearer token in the Authorization header on any authenticated requests.',
 			tags: [ 'api', 'authenticate' ],
 			handler: (request, reply) => {
 				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');

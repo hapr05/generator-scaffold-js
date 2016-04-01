@@ -48,7 +48,7 @@
 							logs: 'Log File API'
 						},
 						info: {
-							title: '<%= cfgName %> API Documentation',
+							title: '<%= cfgName %> API',
 							description: '<%= cfgDescription %>',
 							/* termsOfService: '', */
 							contact: {
