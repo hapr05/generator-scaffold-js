@@ -1,8 +1,7 @@
 (function () {
 	'use strict';
 
-	const joi = require ('joi'),
-		crypto = require ('crypto'),
+	const crypto = require ('crypto'),
 		boom = require ('boom'),
 		userModel = require ('../models/user');
 
