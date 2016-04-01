@@ -3,7 +3,7 @@
 
 	angular.module ('<%= appSlug %>').component ('register', {
 		templateUrl: 'app/components/register/register.view.html',
-		controller: function ($scope, $state, $http, accountFactory) {
+		controller: function ($scope, $state, accountFactory) {
 			angular.extend ($scope, {
 				passwordPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/,
 

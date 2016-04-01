@@ -3,7 +3,7 @@
 
 	angular.module ('<%= appSlug %>').component ('login', {
 		templateUrl: 'app/components/login/login.view.html',
-		controller: function ($rootScope, $scope, $state, $http, authFactory) {
+		controller: function ($rootScope, $scope, $state, authFactory) {
 			angular.extend ($scope, {
 				login: function (event) {
 					event.preventDefault ();

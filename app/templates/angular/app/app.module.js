@@ -5,6 +5,7 @@
 		'ngAria',
 		'ngCookies',
 		'ngSanitize',
+		'ngResource',
 		'LocalStorageModule',
 		'pascalprecht.translate',
 		'ui.router',
@@ -23,7 +24,7 @@
 		}).preferredLanguage ('en').useSanitizeValueStrategy ('sanitize');
 	}).config (function (localStorageServiceProvider) {
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
-	}).config (function ($httpProvider, jwtInterceptorProvider) {
+	}).config (function ($httpProvider, $resourceProvider, jwtInterceptorProvider) {
 		$httpProvider.defaults.xsrfCookieName = 'crumb';
 		$httpProvider.defaults.xsrfHeaderName = 'X-CSRF-Token';
 
@@ -36,6 +37,7 @@
 		};
 
 		$httpProvider.interceptors.push('jwtInterceptor');
+		$resourceProvider.defaults.stripTrailingSlashes = false;
 	}).run (function ($rootScope, $state, authFactory) {
 		$rootScope.$on ('$stateChangeStart', function (e, to) {
 			if (to.data && angular.isFunction (to.data.allowed) && !to.data.allowed (authFactory)) {

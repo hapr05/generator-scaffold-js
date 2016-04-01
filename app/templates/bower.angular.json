@@ -12,6 +12,7 @@
 		"angular-aria": "latest",
 		"angular-cookies": "latest",
 		"angular-sanitize": "latest",
+		"angular-resource": "latest",
 		"angular-mocks": "latest",
 		"angular-translate": "latest",
 		"angular-local-storage": "latest",

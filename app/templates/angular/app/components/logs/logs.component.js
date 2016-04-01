@@ -3,8 +3,9 @@
 
 	angular.module ('<%= appSlug %>').component ('logs', {
 		templateUrl: 'app/components/logs/logs.view.html',
-		controller: function ($scope, $http, $filter, $uibModal) {
+		controller: function ($scope, $resource, $filter, $uibModal) {
 			angular.extend ($scope, {
+				logRoute: $resource ('logs/'),
 				events: [
 					'logs.option.log',
 					'logs.option.ops',
@@ -22,15 +23,10 @@
 				toOpen: false,
 
 				view: function () {
-					$scope.logData = []; 
-					$http.get ('logs/', {
-						params: {
-							from: $scope.filter.from,
-							to: $scope.filter.to,
-							event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined
-						}
-					}).then (function (response) {
-						$scope.logData = response.data;
+					$scope.logData = $scope.logRoute.query ({
+						from: $scope.filter.from,
+						to: $scope.filter.to,
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined
 					});
 				},
 
