@@ -22,13 +22,18 @@
 			insertMany () {
 				return Promise.resolve ();
 			},
-			drop () {
-			},
-			createIndex () {
-			}
+			createIndex () {}
 		},
 		db = {
-			collection () { return collection; },
+			dropDatabase () {
+				return Promise.resolve ();
+			},
+			createCollection () {
+				return Promise.resolve ();
+			},
+			collection () {
+				return collection;
+			},
 			close () {}
 		},
 		mongo = {
@@ -100,6 +105,15 @@
 				return Promise.reject ('err');
 			});
 			return expect (db.seed ({})).to.be.rejected ();
+		});
+
+		it ('should handle drop failure', () => {
+			var db2 = require ('../../../app/db');
+
+			sandbox.stub (db, 'dropDatabase', () => {
+				return Promise.reject ('err');
+			});
+			return expect (db2.seed ({})).to.be.rejected ();
 		});
 	});
 } ());
