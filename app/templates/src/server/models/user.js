@@ -25,6 +25,6 @@
 		authenticate: joi.object ({
 			username: joi.string ().required ().description ('Username'),
 			password: joi.string ().required ().description ('Password')
-		}).required ().meta ({ className: 'AuthenticateUser' }),
+		}).required ().meta ({ className: 'AuthenticateUser' })
 	};
 } ());

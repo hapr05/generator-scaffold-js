@@ -67,7 +67,7 @@
 							total: joi.number ().integer ().required ().description ('Total Active Sockets')
 						}).required ().description ('Server Type (key is server type (http/https))').meta ({ className: 'Socket' })
 					}).required ().description ('Active Scokets').meta ({ className: 'Sockets' })
-				}).required ().description ('Resource Loads').meta ({ className: 'Load' }),
+				}).required ().description ('Resource Loads').meta ({ className: 'Load' })
 			}).meta ({ className: 'OpsLogEntry' }),
 
 			joi.object ({
@@ -78,7 +78,7 @@
 				pid: joi.number ().required ().description ('Process Identifier'),
 				id: joi.string ().token ().optional ().description ('Request Identifier'),
 				method: joi.string ().allow ('options', 'get', 'head', 'post', 'put', 'delete', 'trace', 'connect').optional ().description ('HTTP Request Method'),
-				path: joi.string ().optional ().description ('Request Path'),
+				path: joi.string ().optional ().description ('Request Path')
 			}).meta ({ className: 'RequestLogEntry' }),
 			
 			joi.object ({
@@ -103,7 +103,7 @@
 					userAgent: joi.string ().required ().description ('Source User Agent'),
 					referer: joi.alternatives ().try (
 						joi.string ().allow (null)
-					).description ('Source Referrer').meta ({ className: 'Source' }),
+					).description ('Source Referrer').meta ({ className: 'Source' })
 				}).optional ().description ('Request Source').meta ({ className: 'Source' }),
 				log: joi.array ().items (joi.object ({
 					request: joi.string ().token ().required ().description ('Request Identifier'),
@@ -111,7 +111,7 @@
 					tags: joi.array ().items (joi.string ()).required ().description ('Tags'),
 					data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' }),
 					internal: joi.boolean ().required ().description ('Internal Flag')
-				}).optional ().description ('Request Breakdown').meta ({ className: 'RequestLog' })),
+				}).optional ().description ('Request Breakdown').meta ({ className: 'RequestLog' }))
 			}).meta ({ className: 'ResponseLogEntry' })
 		)).meta ({ className: 'LogEntry' }),
 
@@ -182,7 +182,7 @@
 				userAgent: joi.string ().required ().description ('Source User Agent'),
 				referer: joi.alternatives ().try (
 					joi.string ().allow (null)
-				).description ('Source Referrer').meta ({ className: 'Source' }),
+				).description ('Source Referrer').meta ({ className: 'Source' })
 			}).optional ().description ('Request Source').meta ({ className: 'Source' }),
 			log: joi.array ().items (joi.object ({
 				request: joi.string ().token ().required ().description ('Request Identifier'),
@@ -190,7 +190,7 @@
 				tags: joi.array ().items (joi.string ()).required ().description ('Tags'),
 				data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' }),
 				internal: joi.boolean ().required ().description ('Internal Flag')
-			}).optional ().description ('Request Breakdown').meta ({ className: 'RequestLog' })),
+			}).optional ().description ('Request Breakdown').meta ({ className: 'RequestLog' }))
 		}).meta ({ className: 'ResponseLogEntry' }))
 	};
 } ());
