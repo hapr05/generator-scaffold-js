@@ -26,7 +26,7 @@
 				}).required ().description ('Load Averages').meta ({ className: 'OSLoad' }),
 				memory: joi.object ({
 					free: joi.number ().integer ().required ().description ('Free Memory'),
-					total: joi.number ().integer ().required ().description ('Total Memory'),
+					total: joi.number ().integer ().required ().description ('Total Memory')
 				}).required ().description ('Memory').meta ({ className: 'MetricsOSMemory' }),
 				networkInterfaces: joi.object ({
 					name: joi.string ().required ().description ('Network Interaface Name'),
@@ -37,7 +37,7 @@
 						mac: joi.string ().regex (/^([0-9A-Fa-f]{2}:-){5}([0-9A-Fa-f]{2})$/).required ().description ('MAC Address'),
 						scopeid: joi.number ().integer ().required ().description ('Scope Id'),
 						internal: joi.boolean ().required ().description ('Internal Flag')
-					}).required ().description ('Network Interface Address').meta ({ className: 'NetworkInterfaceAddress' })).required ().description ('Network Interface Addresses'),
+					}).required ().description ('Network Interface Address').meta ({ className: 'NetworkInterfaceAddress' })).required ().description ('Network Interface Addresses')
 				}).required ().description ('Network Interfaces').meta ({ className: 'NetworkInterfaces' }),
 				platform: joi.string ().allow ('darwin', 'freebsd', 'linux', 'sunos', 'win32').required ().description ('Operating System Platform'),
 				release: joi.object ().required ().description ('Operating System Release').meta ({ className: 'AnyObject' }),
@@ -55,7 +55,18 @@
 				pid: joi.number ().integer ().required ().description ('PID'),
 				uptime: joi.number ().integer ().required ().description ('Process Uptime in Seconds'),
 				versions: joi.object ().required ().description ('Node & Dependencies Versions').meta ({ className: 'AnyObject' })
-			}).required ().description ('Process').meta ({ className: 'MetricsProcess' })
+			}).required ().description ('Process').meta ({ className: 'MetricsProcess' }),
+			server: joi.object ({
+				connections: joi.array ().items (joi.object ({
+					id: joi.string ().required ().description ('Server Connection Id'),
+					address: joi.string ().ip ().required ().description ('Server Address'),
+					port: joi.number ().integer ().required ().description ('Server Port'),
+					protocol: joi.string ().allow ('http', 'https', 'socket').required ().description ('Server Protocol'),
+					host: joi.string ().hostname ().required ().description ('Server Host'),
+					uri: joi.string ().uri ().required ().description ('Server Uri')
+				}).description ('Connection').meta ({ className: 'Connection' })).description ('Connections'),
+				version: joi.string ().required ().description ('Server Version')
+			}).required ().description ('Server').meta ({ className: 'MetricsServer' })
 		}).description ('Metrics').meta ({ className: 'Metrics' })
 	};
 } ());

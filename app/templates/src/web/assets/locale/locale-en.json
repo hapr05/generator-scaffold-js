@@ -242,6 +242,22 @@
 			"versions": {
 				"title": "Versions"
 			}
+		},
+		"server": {
+			"title": "Server",
+			"info": {
+				"title": "Information",
+				"version": "Version"
+			},
+			"connections": {
+				"title": "Connections",
+				"id": "Id",
+				"host": "Hostname",
+				"address": "Address",
+				"port": "Port",
+				"protocol": "Protocol",
+				"uri": "Uri"
+			}
 		}
 	},
 	"apidoc": {

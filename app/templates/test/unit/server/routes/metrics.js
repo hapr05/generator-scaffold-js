@@ -16,7 +16,7 @@
 
 	describe ('metrics route', () => {
 		var server,
-			metrics = {//TODO
+			metrics = {
 				find () {
 					return {
 						sort () {

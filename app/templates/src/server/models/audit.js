@@ -22,7 +22,7 @@
 				}).required ().description ('User').meta ({ className: 'User' }),
 				status: joi.string ().valid ('success', 'failure').required ().description ('Event Status'),
 				resource: joi.string ().required ().description ('Resource Accesed'),
-				data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' }),
+				data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' })
 			}).meta ({ className: 'LogLogEntry' })
 		).meta ({ className: 'AuditLogEntry' })
 	};

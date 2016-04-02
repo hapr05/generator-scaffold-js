@@ -23,6 +23,7 @@
 		"test": "gulp test"
 	},
 	"dependencies": {
+		"harmony-reflect": "latest",
 		"config": "latest",
 		"hapi": "latest", "joi": "latest", "hoek": "latest",
 		"hapi-swaggered": "latest", "glue": "latest", "inert": "latest",

@@ -30,6 +30,7 @@
 		"test": "gulp test"
 	},
 	"dependencies": {
+		"harmony-reflect": "latest",
 		"yeoman-generator": "latest",
 		"git-config": "latest", "github-url-from-git": "latest",
 		"to-camel-case": "latest", "to-slug-case": "latest",

@@ -4,7 +4,7 @@
 	const mongo = require ('mongodb').MongoClient,
 		crypto = require ('crypto'),
 		pkg = require ('../package');
-		//versions = [ '0.0.1' ];
+		// versions = [ '0.0.1' ];
 
 	function indexV1 (users) {
 		users.createIndex ({ username: 1 });
@@ -39,7 +39,7 @@
 
 					return users.insertMany ([{
 						username: 'admin', password: crypto.createHash ('sha256').update ('admin').digest ('hex'),
-						fullName: 'Administrator', nickname: 'Admin', email: 'admin@localhost', lang: 'en', 
+						fullName: 'Administrator', nickname: 'Admin', email: 'admin@localhost', lang: 'en',
 						provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
 					}, {
 						username: 'user', password: crypto.createHash ('sha256').update ('user').digest ('hex'),
@@ -76,6 +76,7 @@
 		const version = pkg.version.split ('-') [0];
 
 		return seedV1 (db, config, version);
+
 		/* since v1 drops will need to reload seed for futuer versions */
 	}
 

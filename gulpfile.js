@@ -82,7 +82,7 @@
 		gulp.task ('test.integration', (done) => {
 			var test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
 				if (code) {
-					throw 'integration test failed';
+					throw new Error ('integration test failed');
 				}
 				done ();
 			});

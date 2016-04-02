@@ -1,7 +1,8 @@
 (function () {
 	'use strict';
 
-	const os = require ('os'),
+	const Reflect = require ('harmony-reflect'),
+		os = require ('os'),
 		metricsModel = require ('../models/metrics');
 
 	module.exports = [{
@@ -34,15 +35,12 @@
 					
 				request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'success', 'metrics', {});
 
-				for (let name in osNetworkInterfaces) {
-					/* istanbul ignore else: else on hasOwnProperty is untestable */
-					if (osNetworkInterfaces.hasOwnProperty (name)) {
-						networkInterfaces.push ({
-							name: name,
-							addresses: osNetworkInterfaces [name]
-						});
-					}
-				}
+				Reflect.ownKeys (osNetworkInterfaces).forEach ((name) => {
+					networkInterfaces.push ({
+						name: name,
+						addresses: osNetworkInterfaces [name]
+					});
+				});
 
 				reply ({
 					os: {
@@ -64,12 +62,19 @@
 						tempdir: os.tmpdir (),
 						uptime: os.uptime()
 					},
-					process:{
+					process: {
 						env: process.env,
 						memory: process.memoryUsage (),
 						pid: process.pid,
 						uptime: process.uptime (),
 						versions: process.versions
+					},
+					server: {
+						connections: request.server.connections.map ((connection) => {
+							return connection.info;
+						}),
+						version: request.server.version,
+						
 					}
 				});
 			}

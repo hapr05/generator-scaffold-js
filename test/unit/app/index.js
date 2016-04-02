@@ -170,12 +170,12 @@
 						cfgName: name,
 						cfgDescription: 'my-description',
 						cfgBugs: 'my-issues',
-						cfgLicense: 'MIT',
+						cfgLicense: 'Junk',
 						cfgContribName: 'my-name',
 						cfgContribEmail: 'my-email',
 						cfgContribUrl: 'my-url',
 						cfgRepository: 'git@github.com:fluky/generator-oldschool.git',
-						cfgFramework: 'AngularJS',
+						cfgFramework: 'Junk',
 						cfgSocial: [ 'github' ]
 					}).on ('ready', (generator) => {
 						generator.config.set ('tlsKey', 'test');

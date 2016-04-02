@@ -32,7 +32,7 @@
 ## Synopsis
 
 Yeoman generator to create a full stack web application using the following techonologies:
- - NodeJS
+ - NodeJS (V8 4.9)
  - Hapi
  - MongoDB
  - AngularJS

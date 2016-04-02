@@ -1,7 +1,8 @@
 (function () {
 	'use strict';
 
-	const generator = require ('yeoman-generator'),
+	const Reflect = require ('harmony-reflect'),
+		generator = require ('yeoman-generator'),
 		path = require ('path'),
 		process = require ('process'),
 		uuid = require ('node-uuid'),
@@ -15,7 +16,7 @@
 
 	module.exports = generator.Base.extend ({
 		constructor: function () {
-			generator.Base.apply (this, arguments);
+			Reflect.apply (generator.Base, this, arguments);
 
 			this.appname = path.basename (process.cwd ());
 			this.config.set ('appname', this.appname);
@@ -195,7 +196,7 @@
 
 		certs () {
 			if (!(this.tlsKey && this.tlsCsr && this.tlsCert)) {
-				let keys = selfsigned.generate ([{
+				const keys = selfsigned.generate ([{
 					name: 'commonName',
 					value: `${this.appSlug}.com`
 				}], {
@@ -230,16 +231,18 @@
 				case 'Apache-2.0':
 					this.copy ('LICENSE.Apache-2.0');
 					break;
+				default:
 				case 'MIT':
 					this.copy ('LICENSE.MIT');
 					break;
 			}
 
-			switch (this.cfgFramework) {
-				case 'AngularJS':
+//			switch (this.cfgFramework) {
+//				default:
+//				case 'AngularJS':
 					this._angular ();
-					break;
-			}
+//					break;
+//			}
 		},
 
 		installDeps () {

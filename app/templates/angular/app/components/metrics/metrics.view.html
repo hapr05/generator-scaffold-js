@@ -6,8 +6,8 @@
 		</div>
 	</div>
 	<h3 translate="metrics.os.title">Operating System</h3>
-	<div class="row">
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+	<div class="row" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.os.info.title">Information</b>
 			<div class="row">
 				<div class="col-md-6" translate="metrics.os.info.arch">Architecture</div>
@@ -50,7 +50,7 @@
 				<div class="col-md-10 text-right">{{ metricsData.os.load ['15'] | number: 2 }}</div>
 			</div>
 		</div>
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.os.cpus.title">CPUS</b>
 			<uib-accordion>
 				<uib-accordion-group ng-repeat="cpu in metricsData.os.cpus" is-open="$first">
@@ -86,7 +86,7 @@
 				</uib-accordion-group>
 			</uib-accordion>
 		</div>
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.os.networkInterfaces.title">CPUS</b>
 			<uib-accordion>
 				<uib-accordion-group ng-repeat="interface in metricsData.os.networkInterfaces" is-open="$first">
@@ -123,8 +123,8 @@
 		</div>
 	</div>
 	<h3 translate="metrics.process.title">Process</h3>
-	<div class="row">
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+	<div class="row" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.process.info.title">Information</b>
 			<div class="row">
 				<div class="col-md-6" translate="metrics.process.info.pid">PID</div>
@@ -145,7 +145,7 @@
 				<span>{{ 100 * metricsData.process.memory.heapUsed / metricsData.process.memory.heapTotal | number: 0}}%</span>
 			</uib-progressbar>
 		</div>
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.process.env.title">Environment Variables</b>
 			<div class="row">
 				<div class="scroll">
@@ -156,7 +156,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
 			<b translate="metrics.process.versions.title">Versions</b>
 			<div class="row">
 				<div class="scroll">
@@ -168,4 +168,43 @@
 			</div>
 		</div>
 	</div>
+	<h3 translate="metrics.server.title">Server</h3>
+	<div class="row" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
+			<b translate="metrics.server.info.title">Information</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.server.info.version">Version</div>
+				<div class="col-md-6 text-right">{{ metricsData.server.version }}</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<b translate="metrics.server.connections.title">Connections</b>
+			<div ng-repeat="connection in metricsData.server.connections">
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.id">Version</div>
+					<div class="col-md-6 text-right">{{ connection.id }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.host">Version</div>
+					<div class="col-md-6 text-right">{{ connection.host }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.address">Version</div>
+					<div class="col-md-6 text-right">{{ connection.address }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.port">Version</div>
+					<div class="col-md-6 text-right">{{ connection.port }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.protocol">Version</div>
+					<div class="col-md-6 text-right">{{ connection.protocol }}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6" translate="metrics.server.connections.uri">Version</div>
+					<div class="col-md-6 text-right">{{ connection.uri }}</div>
+				</div>
+				<br ng-hide="$last" />
+			</div>
+		</div>
 </div>
