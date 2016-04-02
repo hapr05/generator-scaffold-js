@@ -20,10 +20,6 @@
 			this.appname = path.basename (process.cwd ());
 			this.config.set ('appname', this.appname);
 
-			this.tlsKey = this.config.get ('tlsKey');
-			this.tlsCsr = this.config.get ('tlsCsr');
-			this.tlsCert = this.config.get ('tlsCert');
-
 			this.jwtKey = this._def ('jwtKey', uuid.v4 ());
 			this.config.set ('jwtKey', this.jwtKey);
 		},
@@ -40,6 +36,10 @@
 		},
 
 		init () {
+			this.tlsKey = this.config.get ('tlsKey');
+			this.tlsCsr = this.config.get ('tlsCsr');
+			this.tlsCert = this.config.get ('tlsCert');
+
 			this.loginPanelClass = 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3';
 			this.loginFormClass = 'col-md-12';
 			this.socialLogins = [];
