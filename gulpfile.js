@@ -2,13 +2,12 @@
 	'use strict';
 
 	const gulp = require ('gulp'),
-		//debug = require ('gulp-debug'),
+		// debug = require ('gulp-debug'),
 		gutil = require ('gulp-util'),
+		istanbul = require ('gulp-istanbul'),
 		jshint = require ('gulp-jshint'),
 		jsonlint = require ('gulp-json-lint'),
 		mocha = require ('gulp-mocha'),
-		istanbul = require ('gulp-istanbul'),
-		spawn = require ('child_process').spawn,
 		opts = {
 			files: {
 				js: {
@@ -24,7 +23,8 @@
 					'app/**/*.json'
 				]
 			}
-		};
+		},
+		spawn = require ('child_process').spawn;
 
 	function values (obj) {
 		var v = [], k;
@@ -48,7 +48,7 @@
 	});
 
 	/* Unit testing tasks */
-	(function () {
+	(function unit () {
 		gulp.task ('test.init', () => {
 			return gulp.src ([
 				opts.files.js.app,
@@ -79,7 +79,7 @@
 		});
 
 		gulp.task ('test.integration', (done) => {
-			var test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
+			let test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
 				if (code) {
 					throw 'integration test failed';
 				}
@@ -100,20 +100,20 @@
 	} ());
 
 	/* JavaScript tasks */
-	(function () {
+	(function js () {
 		gulp.task ('js.lint', () => {
 			return gulp.src (values (opts.files.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail'));
 		});
-		
+
 		gulp.task ('js', [ 'js.lint' ]);
 	} ());
 
 	/* Json tasks */
-	(function () {
+	(function json () {
 		gulp.task ('json.lint', () => {
 			return gulp.src (opts.files.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
 		});
-		
+		 
 		gulp.task ('json', [ 'json.lint' ]);
 	} ());
 } (require));

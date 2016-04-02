@@ -1,0 +1,125 @@
+<div class="well metrics">
+	<h1 translate="metrics.title">Logs</h1>
+	<div class="row">
+		<div class="col-md-12 text-right">
+			<button class="btn btn-primary" ng-click="refresh ()" ng-disabled="form.$invalid" translate="metrics.btn.refresh">Refresh</button>
+		</div>
+	</div>
+	<h3 translate="metrics.os.title">Operating System Metrics</h3>
+	<div class="row">
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.os.info.title">Information</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.os.info.arch">Architecture</div>
+				<div class="col-md-6 text-right">{{ metricsData.os.arch }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.os.info.hostname">Hostname</div>
+				<div class="col-md-6 text-right">{{ metricsData.os.hostname }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.os.info.platform">Architecture</div>
+				<div class="col-md-6 text-right">{{ metricsData.os.platform }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.os.info.release">Architecture</div>
+				<div class="col-md-6 text-right">{{ metricsData.os.release }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.os.info.uptime">Uptime</div>
+				<div class="col-md-6 text-right">{{ metricsData.os.uptime | uptime:'seconds' }}</div> 
+			</div>
+			<br />
+			<b translate="metrics.os.memory.title">Memory</b>
+			<p><span translate="metrics.os.memory.total">Total</span> ({{ (metricsData.os.memory.total - metricsData.os.memory.free) | memory }} / {{ metricsData.os.memory.total | memory }})</p>
+			<uib-progressbar min="0" max="metricsData.os.memory.total" value="metricsData.os.memory.total - metricsData.os.memory.free" class="progress-striped active" type="success">
+				<span>{{ 100 * (metricsData.os.memory.total - metricsData.os.memory.free) / metricsData.os.memory.total | number: 0}}%</span>
+			</uib-progressbar>
+			<br />
+			<b translate="metrics.os.memory.load">Load</b>
+			<div class="row">
+				<div class="col-md-2">1</div> 
+				<div class="col-md-10 text-right">{{ metricsData.os.load ['1'] | number: 2 }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">5</div> 
+				<div class="col-md-10 text-right">{{ metricsData.os.load ['5'] | number: 2 }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2">15</div> 
+				<div class="col-md-10 text-right">{{ metricsData.os.load ['15'] | number: 2 }}</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.os.cpus.title">CPUS</b>
+			<uib-accordion>
+				<uib-accordion-group ng-repeat="cpu in metricsData.os.cpus" is-open="$first">
+				<uib-accordion-heading><span translate="metrics.os.cpus.cpu">CPU</span> {{ $index + 1 }}</uib-accordion-heading>
+					<div class="row">
+						<div class="col-md-12">{{ cpu.model }}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6" translate="metrics.os.cpus.speed">Speed</div> 
+						<div class="col-md-6 text-right">{{ cpu.speed }} MHz</div>
+					</div>
+					<b translate="metrics.os.cpus.times">Times</b>
+					<div class="row">
+						<div class="col-md-4" translate="metrics.os.cpus.user">User</div> 
+						<div class="col-md-8 text-right">{{ cpu.times.user | uptime }}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" translate="metrics.os.cpus.nice">Nice</div> 
+						<div class="col-md-8 text-right">{{ cpu.times.nice| uptime }}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" translate="metrics.os.cpus.sys">System</div> 
+						<div class="col-md-8 text-right">{{ cpu.times.sys | uptime }}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" translate="metrics.os.cpus.idle">Idle</div> 
+						<div class="col-md-8 text-right">{{ cpu.times.idle | uptime }}</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" translate="metrics.os.cpus.irq">Irq</div> 
+						<div class="col-md-8 text-right">{{ cpu.times.irq | uptime }}</div>
+					</div>
+				</uib-accordion-group>
+			</uib-accordion>
+		</div>
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.os.networkInterfaces.title">CPUS</b>
+			<uib-accordion>
+				<uib-accordion-group ng-repeat="interface in metricsData.os.networkInterfaces" is-open="$first">
+				<uib-accordion-heading>{{ interface.name }}</uib-accordion-heading>
+					<div ng-repeat="address in interface.addresses">
+						<div class="row">
+							<div class="col-md-2" translate="metrics.os.networkInterfaces.address">Address</div> 
+							<div class="col-md-10 text-right">{{ address.address }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3" translate="metrics.os.networkInterfaces.netmask">netmask</div> 
+							<div class="col-md-9 text-right">{{ address.netmask }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3" translate="metrics.os.networkInterfaces.family">Family</div> 
+							<div class="col-md-9 text-right">{{ address.family }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3" translate="metrics.os.networkInterfaces.mac">MAC</div> 
+							<div class="col-md-9 text-right">{{ address.mac }}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4" translate="metrics.os.networkInterfaces.scopeid">Scope Id</div> 
+							<div class="col-md-8 text-right">{{ address.scopeId}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-3" translate="metrics.os.networkInterfaces.internal">Internal</div> 
+							<div class="col-md-9 text-right">{{ address.internal }}</div>
+						</div>
+						<br ng-hide="$last" />
+					</div>
+				</uib-accordion-group>
+			</uib-accordion>
+		</div>
+	</div>
+</div>

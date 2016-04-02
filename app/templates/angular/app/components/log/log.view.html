@@ -77,7 +77,7 @@
 						<li><span translate="log.data.load">Load</span>: {{ log.os.load | number: 2 }}</li>
 						<li><span translate="log.data.totalMem">Total Memory</span>: {{ log.os.mem.total | memory }}</li>
 						<li><span translate="log.data.freeMem">Free Memory</span>: {{ log.os.mem.free | memory }}</li>
-						<li><span translate="log.data.uptime">Uptime</span>: {{ log.os.uptime | memory }}</li>
+						<li><span translate="log.data.uptime">Uptime</span>: {{ log.os.uptime | uptime:'seconds' }}</li>
 					</ul>
 					<div><strong translate="log.data.proc">Proc</strong></div>
 					<ul class="list-unstyled">

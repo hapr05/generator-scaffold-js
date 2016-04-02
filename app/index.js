@@ -80,7 +80,7 @@
 			if (this.isGithub) {
 				prompts = prompts.concat ([
 					{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('cfgHomepage', homepage) },
-					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', homepage + '/issues') }
+					{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', `${homepage}/issues`) }
 				]);
 			} else {
 				prompts = prompts.concat ([
@@ -144,9 +144,24 @@
 					answers.cfgSocial.forEach ((option) => {
 						var cap = caps [option];
 
-						dprompts.push ({ name: 'cfg' + cap + 'Password', message: cap + ' password', default: this._def ('cfg' + cap + 'Password'), validate: validators.socialPassword });
-						dprompts.push ({ name: 'cfg' + cap + 'ClientId', message: cap + ' client id', default: this._def ('cfg' + cap + 'ClientId'), validate: validators.socialClientId });
-						dprompts.push ({ name: 'cfg' + cap + 'ClientSecret', message: cap + ' client secret', default: this._def ('cfg' + cap + 'ClientSecret'), validate: validators.socialClientSecret });
+						dprompts.push ({
+							name: `cfg${cap}Password`,
+							message: `${cap} password`,
+							default: this._def (`cfg${cap}Password`),
+							validate: validators.socialPassword
+						});
+						dprompts.push ({
+							name: `cfg${cap}ClientId`,
+							message: `${cap} client id`,
+							default: this._def (`cfg${cap}ClientId`),
+							validate: validators.socialClientId
+						});
+						dprompts.push ({
+							name: `cfg${cap}ClientSecret`,
+							message: `${cap} client secret`,
+							default: this._def (`cfg${cap}ClientSecret`),
+							validate: validators.socialClientSecret
+						});
 					});
 
 					this.prompt (dprompts, (details) => {
@@ -157,9 +172,9 @@
 								this.socialLogins.push ({
 									name: option,
 									cap: cap,
-									password: details ['cfg' + cap + 'Password' ],
-									clientId: details ['cfg' + cap + 'ClientId' ],
-									clientSecret: details ['cfg' + cap + 'ClientSecret' ],
+									password: details [`cfg${cap}Password` ],
+									clientId: details [`cfg${cap}ClientId` ],
+									clientSecret: details [`cfg${cap}ClientSecret` ],
 									icon: icons [option]
 								});
 						});
@@ -177,7 +192,7 @@
 
 			var keys = selfsigned.generate ([{
 				name: 'commonName',
-				value: this.appSlug + '.com'
+				value: `${this.appSlug}.com`
 			}], {
 				days: 35600
 			});
@@ -228,6 +243,7 @@
 
 		installDatabase () {
 			const done = this.async ();
+
 			db.seed (this).then (done).catch ((err) => {
 				this.log (err);
 				done (err);

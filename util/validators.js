@@ -1,4 +1,4 @@
-(function (module) {
+(function () {
 	'use strict';
 
 	module.exports = {
@@ -7,17 +7,17 @@
 				return 'Name is required.';
 			} else if (value.length > 214) {
 				return 'Name must be less than or equal to 214 characters.';
-			} else {
-				return true;
 			}
+
+			return true;
 		},
 
 		dbUrl (value) {
 			if ("string" !== typeof value || value.length < 1) {
 				return 'Database Connection Url is required.';
-			} else {
-				return true;
 			}
+
+			return true;
 		},
 
 		socialPassword (value) {
@@ -25,25 +25,25 @@
 				return 'Password is required.';
 			} else if (value.length < 32) {
 				return 'Password must be at least 32 characters.';
-			} else {
-				return true;
 			}
+
+			return true;
 		},
 
 		socialClientId (value) {
 			if ("string" !== typeof value || value.length < 1) {
 				return 'Client Id is required.';
-			} else {
-				return true;
 			}
+
+			return true;
 		},
 
 		socialClientSecret (value) {
 			if ("string" !== typeof value || value.length < 1) {
 				return 'Client Secret is required.';
-			} else {
-				return true;
 			}
+
+			return true;
 		}
 	};
-} (module));
+} ());

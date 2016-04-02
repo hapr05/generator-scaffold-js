@@ -179,6 +179,53 @@
 			"data": "Data"
 		}
 	},
+	"metrics": {
+		"nav": "System Metrics",
+		"title": "System Metrics",
+		"btn": {
+			"refresh": "Refresh"
+		},
+		"os": {
+			"title": "Operating System",
+			"info": {
+				"title": "Information",
+				"arch": "Architecture",
+				"hostname": "Hostname",
+				"platform": "Platform",
+				"release": "Release",
+				"tempdir": "Temporary Directory",
+				"uptime": "Uptime"
+			},
+			"cpus": {
+				"title": "CPUS",
+				"cpu": "CPU",
+				"model": "Model",
+				"speed": "Speed",
+				"times": "Times",
+				"user": "User",
+				"nice": "Nice",
+				"sys": "System",
+				"idle": "Idle",
+				"irq": "IRQ"
+			},
+			"memory": {
+				"title": "Memory",
+				"total": "Total"
+			},
+			"load": {
+				"title": "Load"
+			},
+			"networkInterfaces": {
+				"title": "Network Interfaces",
+				"address": "Address",
+				"netmask": "Netmask",
+				"family": "Family",
+				"mac": "MAC",
+				"scopeid": "Scope Id",
+				"internal": "Internal"
+			}
+		}
+	},
 	"apidoc": {
 		"nav": "API Documentation"
 	}

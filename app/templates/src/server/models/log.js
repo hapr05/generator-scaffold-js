@@ -31,9 +31,9 @@
 					mem: joi.object ({
 						total: joi.number ().integer ().required ().description ('Total Memory in Bytes'),
 						free: joi.number ().integer ().required ().description ('Free Memory in Bytes')
-					}).required ().description ('Memory').meta ({ className: 'OSMemory' }),
+					}).required ().description ('Memory').meta ({ className: 'LogsOSMemory' }),
 					uptime: joi.number ().integer ().required ().description ('Uptime in Seconds')
-				}).required ().description ('Operating System').meta ({ className: 'OperatingSystem' }),
+				}).required ().description ('Operating System').meta ({ className: 'LogsOperatingSystem' }),
 				proc: joi.object ({
 					uptime: joi.number ().integer ().required ().description ('Uptime in Seconds'),
 					mem: joi.object ({

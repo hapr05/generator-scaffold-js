@@ -14,9 +14,9 @@
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
 
-	describe ('log route', () => {
+	describe ('metrics route', () => {
 		var server,
-			log = {
+			metrics = {//TODO
 				find () {
 					return {
 						sort () {
@@ -32,7 +32,7 @@
 			sandbox = sinon.sandbox.create ();
 
 		before (() => {
-			mocks.mongo ({ log: log });
+			mocks.mongo ({ metrics: metrics });
 		});
 
 		beforeEach (() => {
@@ -41,7 +41,7 @@
 			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
             server.method ('audit', () => {});
             server.auth.strategy ('jwt', 'failed');
-				server.route (require ('../../../../src/server/routes/log'));
+				server.route (require ('../../../../src/server/routes/metrics'));
 			})).to.be.fulfilled ();
 		});
 
@@ -54,48 +54,10 @@
 		});
 
 		describe ('collection', () => {
-			it ('should list log entries', (done) => {
+			it ('should retrieve metrics', (done) => {
 				server.inject ({
 					method: 'GET',
-					url: '/log/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
-					credentials: creds.admin
-				}).then ((response) => {
-					expect (response.statusCode).to.equal (200);
-					done ();
-				}).catch ((err) => {
-					done (err);
-				});
-			});
-
-			it ('should handle db failure ', (done) => {
-				sandbox.stub (log, 'find', () => {
-					return {
-						sort () {
-							return {
-								toArray () {
-									return Promise.reject (true);
-								}
-							};
-						}
-					};
-				});
-	
-				server.inject ({
-					method: 'GET',
-					url: '/log/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
-					credentials: creds.admin
-				}).then ((response) => {
-						expect (response.statusCode).to.equal (500);
-						done ();
-				}).catch ((err) => {
-					done (err);
-				});
-			});
-
-			it ('should list log entries by event', (done) => {
-				server.inject ({
-					method: 'GET',
-					url: '/log/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=log',
+					url: '/metrics',
 					credentials: creds.admin
 				}).then ((response) => {
 					expect (response.statusCode).to.equal (200);

@@ -17,13 +17,13 @@
 		users.createIndex ({ email: 1, active: 1 });
 	}
 
-	function seedV1 (db, config, version) {
+	function seedV1 (odb, config, version) {
 		return new Promise ((resolve, reject) => {
-			return db.dropDatabase ().then (() => {
-				db.close ();
+			return odb.dropDatabase ().then (() => {
+				odb.close ();
 				return mongo.connect (config.cfgDbUrl).then ((db) => {
-					const users = db.collection ('users'),
-						seed = db.collection ('seed');
+					const	seed = db.collection ('seed'),
+						users = db.collection ('users');
 
 					indexV1 (users);
 
@@ -43,7 +43,7 @@
 						provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
 					}, {
 						username: 'user', password: crypto.createHash ('sha256').update ('user').digest ('hex'),
-						fullName: 'User', nickname: 'User', email: 'user@localhost', lang: 'en', 
+						fullName: 'User', nickname: 'User', email: 'user@localhost', lang: 'en',
 						provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_USER' ]
 					}]).then (() => {
 						return seed.updateOne ({ _id: 1 }, {
@@ -67,7 +67,7 @@
 					});
 				});
 			}).catch (() => {
-				reject (db);
+				reject (odb);
 			});
 		});
 	}
