@@ -40,6 +40,8 @@
 	});
 
 	describe ('oldschool:app', () => {
+		var gitError = false;
+
 		before (() => {
 			mockery.enable ({
 				warnOnReplace: false,
@@ -54,7 +56,7 @@
 			});
 
 			mockery.registerMock ('git-config', function (cb) {
-				cb (false, {
+				cb (gitError, {
 					user: {
 						name: 'user_name',
 						email: 'user_email'
@@ -175,6 +177,10 @@
 						cfgRepository: 'git@github.com:fluky/generator-oldschool.git',
 						cfgFramework: 'AngularJS',
 						cfgSocial: [ 'github' ]
+					}).on ('ready', (generator) => {
+						generator.config.set ('tlsKey', 'test');
+						generator.config.set ('tlsCsr', 'test');
+						generator.config.set ('tlsCert', 'test');
 					}).on ('end', () => {
 						done ();
 					});
@@ -189,6 +195,7 @@
 		describe ('Apache License', () => {
 			describe ('LICENSE', () => {
 				before ((done) => {
+					gitError = true;
 					helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
 						cfgName: name,
 						cfgDescription: 'my-description',
@@ -200,8 +207,9 @@
 						cfgContribUrl: 'my-url',
 						cfgRepository: 'my-repository',
 						cfgFramework: 'AngularJS',
-						cfgSocial: []
+						cfgSocial: [],
 					}).on ('end', () => {
+						gitError = false;
 						done ();
 					});
 				});

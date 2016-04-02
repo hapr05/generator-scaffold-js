@@ -28,6 +28,7 @@
 
 	function values (obj) {
 		var v = [], k;
+
 		for (k in obj) {
 			if (obj.hasOwnProperty (k)) {
 				v.push (obj [k]);
@@ -79,7 +80,7 @@
 		});
 
 		gulp.task ('test.integration', (done) => {
-			let test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
+			var test = spawn ('node', [ 'test/integration/run.js' ]).on ('close', (code) => {
 				if (code) {
 					throw 'integration test failed';
 				}

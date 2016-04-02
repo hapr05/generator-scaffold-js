@@ -12,6 +12,7 @@ services:
 install:
    - npm install coveralls
    - npm install codeclimate-test-reporter
+   - npm install codacy-coverage
    - npm install -g gulp
    - npm install -g bower
    - npm install

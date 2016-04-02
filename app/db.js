@@ -48,7 +48,7 @@
 					}]).then (() => {
 						return seed.updateOne ({ _id: 1 }, {
 							_id: 1,
-							version: version,
+							version,
 							name: config.cfgName,
 							description: config.cfgDescription,
 							contributors: [
@@ -86,19 +86,19 @@
 					const seed = db.collection ('seed');
 
 					seed.findOne ({ _id: 1 }).then ((dbconfig) => {
-						seedDatabase (db, seed, config, dbconfig).then ((db) => {
-							db.close ();
+						seedDatabase (db, seed, config, dbconfig).then ((fdb) => {
+							fdb.close ();
 							resolve ();
-						}).catch ((db) => {
-							db.close ();
+						}).catch ((fdb) => {
+							fdb.close ();
 							reject ();
 						});
 					}).catch (() => {
-						seedDatabase (db, seed, config).then ((db) => {
-							db.close ();
+						seedDatabase (db, seed, config).then ((fdb) => {
+							fdb.close ();
 							resolve ();
-						}).catch ((db) => {
-							db.close ();
+						}).catch ((fdb) => {
+							fdb.close ();
 							reject ();
 						});
 					});

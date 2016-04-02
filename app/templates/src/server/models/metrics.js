@@ -44,7 +44,18 @@
 				tempdir: joi.string ().required ().description ('Temporary Directory'),
 				type: joi.string ().required ().description ('Operating System Type'),
 				uptime: joi.number ().integer ().required ().description ('Operating System Uptime in Seconds')
-			}).description ('Operating System').meta ({ className: 'MetricsOperatingSystem' })
+			}).required ().description ('Operating System').meta ({ className: 'MetricsOperatingSystem' }),
+			process: joi.object ({
+				env: joi.object ().required ().description ('Environment Variables').meta ({ className: 'AnyObject' }),
+				memory: joi.object ({
+					rss: joi.number ().integer ().required ().description ('RSS Memory'),
+					heapTotal: joi.number ().integer ().required ().description ('Total Heap Memory'),
+					heapUsed: joi.number ().integer ().required ().description ('Used Heap Memory')
+				}).required ().description ('Process Memory').meta ({ className: 'ProcessMemory' }),
+				pid: joi.number ().integer ().required ().description ('PID'),
+				uptime: joi.number ().integer ().required ().description ('Process Uptime in Seconds'),
+				versions: joi.object ().required ().description ('Node & Dependencies Versions').meta ({ className: 'AnyObject' })
+			}).required ().description ('Process').meta ({ className: 'MetricsProcess' })
 		}).description ('Metrics').meta ({ className: 'Metrics' })
 	};
 } ());

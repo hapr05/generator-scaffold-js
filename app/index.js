@@ -20,8 +20,12 @@
 			this.appname = path.basename (process.cwd ());
 			this.config.set ('appname', this.appname);
 
-			this.jwtKey = this._def ('jwtkey', uuid.v4 ());
-			this.config.set ('appname', this.appname);
+			this.tlsKey = this.config.get ('tlsKey');
+			this.tlsCsr = this.config.get ('tlsCsr');
+			this.tlsCert = this.config.get ('tlsCert');
+
+			this.jwtKey = this._def ('jwtKey', uuid.v4 ());
+			this.config.set ('jwtKey', this.jwtKey);
 		},
 
 		_def (a, b) {
@@ -41,11 +45,13 @@
 			this.socialLogins = [];
 		},
 
-		git: function () {
+		git () {
 			const done = this.async ();
 
 			gitConfig ((err, config) => {
-				this.gitConfig = config;
+				if (!err) {
+					this.gitConfig = config;
+				}
 				done ();
 			});
 		},
@@ -172,9 +178,9 @@
 								this.socialLogins.push ({
 									name: option,
 									cap: cap,
-									password: details [`cfg${cap}Password` ],
-									clientId: details [`cfg${cap}ClientId` ],
-									clientSecret: details [`cfg${cap}ClientSecret` ],
+									password: details [`cfg${cap}Password`],
+									clientId: details [`cfg${cap}ClientId`],
+									clientSecret: details [`cfg${cap}ClientSecret`],
 									icon: icons [option]
 								});
 						});
@@ -188,19 +194,21 @@
 		},
 
 		certs () {
-			const done = this.async ();
-
-			var keys = selfsigned.generate ([{
-				name: 'commonName',
-				value: `${this.appSlug}.com`
-			}], {
-				days: 35600
-			});
-
-			this.tlsKey = keys.private;
-			this.tlsCsr = keys.public;
-			this.tlsCert = keys.cert;
-			done ();
+			if (!(this.tlsKey && this.tlsCsr && this.tlsCert)) {
+				let keys = selfsigned.generate ([{
+					name: 'commonName',
+					value: `${this.appSlug}.com`
+				}], {
+					days: 35600
+				});
+	
+				this.tlsKey = keys.private;
+				this.tlsCsr = keys.public;
+				this.tlsCert = keys.cert;
+				this.config.set ('tlsKey', this.tlsKey);
+				this.config.set ('tlsCsr', this.tlsCsr);
+				this.config.set ('tlsCert', this.tlsCert);
+			}
 		},
 
 		app () {

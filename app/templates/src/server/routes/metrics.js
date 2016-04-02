@@ -28,7 +28,7 @@
 				}
 			},
 			handler: (request, reply) => {
-				var interfaces = [],
+				var networkInterfaces = [],
 					osLoad = os.loadavg (),
 					osNetworkInterfaces = os.networkInterfaces ();
 					
@@ -37,7 +37,7 @@
 				for (let name in osNetworkInterfaces) {
 					/* istanbul ignore else: else on hasOwnProperty is untestable */
 					if (osNetworkInterfaces.hasOwnProperty (name)) {
-						interfaces.push ({
+						networkInterfaces.push ({
 							name: name,
 							addresses: osNetworkInterfaces [name]
 						});
@@ -58,11 +58,18 @@
 							'5': osLoad [1],
 							'15': osLoad [2]
 						},
-						networkInterfaces: interfaces,
+						networkInterfaces,
 						platform: os.platform (),
 						release: os.release (),
 						tempdir: os.tmpdir (),
 						uptime: os.uptime()
+					},
+					process:{
+						env: process.env,
+						memory: process.memoryUsage (),
+						pid: process.pid,
+						uptime: process.uptime (),
+						versions: process.versions
 					}
 				});
 			}

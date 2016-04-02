@@ -224,6 +224,24 @@
 				"scopeid": "Scope Id",
 				"internal": "Internal"
 			}
+		},
+		"process": {
+			"title": "Process",
+			"info": {
+				"title": "Information",
+				"pid": "PID"
+			},
+			"memory": {
+				"title": "Memory",
+				"rss": "RSS",
+				"heap": "Heap"
+			},
+			"env": {
+				"title": "Environment Variables"
+			},
+			"versions": {
+				"title": "Versions"
+			}
 		}
 	},
 	"apidoc": {

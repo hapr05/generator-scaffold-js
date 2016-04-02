@@ -5,7 +5,7 @@
 			<button class="btn btn-primary" ng-click="refresh ()" ng-disabled="form.$invalid" translate="metrics.btn.refresh">Refresh</button>
 		</div>
 	</div>
-	<h3 translate="metrics.os.title">Operating System Metrics</h3>
+	<h3 translate="metrics.os.title">Operating System</h3>
 	<div class="row">
 		<div class="col-md-4" ng-show="metricsData.$resolved">
 			<b translate="metrics.os.info.title">Information</b>
@@ -120,6 +120,52 @@
 					</div>
 				</uib-accordion-group>
 			</uib-accordion>
+		</div>
+	</div>
+	<h3 translate="metrics.process.title">Process</h3>
+	<div class="row">
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.process.info.title">Information</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.process.info.pid">PID</div>
+				<div class="col-md-6 text-right">{{ metricsData.process.pid }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.process.info.uptime">Uptime</div>
+				<div class="col-md-6 text-right">{{ metricsData.process.uptime | uptime:'seconds' }}</div> 
+			</div>
+			<br />
+			<b translate="metrics.process.memory.title">Memory</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.process.memory.rss">RSS</div>
+				<div class="col-md-6 text-right">{{ metricsData.process.memory.rss | memory }}</div> 
+			</div>
+			<p><span translate="metrics.process.memory.heap">Total</span> ({{ metricsData.process.memory.heapUsed | memory }} / {{ metricsData.process.memory.heapTotal | memory }})</p>
+			<uib-progressbar min="0" max="metricsData.process.memory.heapTotal" value="metricsData.process.memory.heapUsed" class="progress-striped active" type="success">
+				<span>{{ 100 * metricsData.process.memory.heapUsed / metricsData.process.memory.heapTotal | number: 0}}%</span>
+			</uib-progressbar>
+		</div>
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.process.env.title">Environment Variables</b>
+			<div class="row">
+				<div class="scroll">
+					<div ng-repeat="(key, value) in metricsData.process.env">
+						<div class="col-md-12">{{ key }}</div>
+						<div class="col-md-12">{{ value }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4" ng-show="metricsData.$resolved">
+			<b translate="metrics.process.versions.title">Versions</b>
+			<div class="row">
+				<div class="scroll">
+					<div ng-repeat="(key, value) in metricsData.process.versions">
+						<div class="col-md-6">{{ key }}</div>
+						<div class="col-md-6 text-right">{{ value }}</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
