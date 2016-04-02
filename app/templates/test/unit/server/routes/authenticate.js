@@ -34,6 +34,7 @@
 			server = new hapi.Server ();
 			server.connection ();
 			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+            server.method ('audit', () => {});
             server.auth.strategy ('jwt', 'failed');<% if (socialLogins.length) { for (var i = 0; i < socialLogins.length; i++) { %>
 				server.auth.strategy ('<%= socialLogins [i].name %>', 'failed');<% }} %>
 			})).to.be.fulfilled ();

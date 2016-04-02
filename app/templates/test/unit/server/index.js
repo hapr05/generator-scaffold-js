@@ -5,6 +5,7 @@
 		expect = chai.expect,
 		dirtyChai = require ('dirty-chai'),
 		chaiAsPromised = require ('chai-as-promised'),
+		sinon = require ('sinon'),
 		server = require ('../../../src/server'),
 		config = require ('config');
 
@@ -33,11 +34,13 @@
 		});
 
 		it ('should fail to start a server with an invalid plugin', () => {
+			var p;
+
 			m.registrations = [{
 				plugin: './invalid-plugin'
 			}];
 
-			var p = server.start ();
+			p = server.start ();
 			p.then (() => {
 				server.stop ();
 			});
@@ -46,13 +49,15 @@
 		});
 
 		it ('should fail to start a second server on the same port', () => {
+			var p;
+
 			m.connections = [{
 				port: 8080
 			}, {
 				port: 8080
 			}];
-			var p = server.start ();
-			
+
+			p = server.start ();
 			p.then (() => {
 				server.stop ();
 			}).catch (() => {
@@ -62,6 +67,26 @@
 			});
 			
 			return expect (p).to.be.rejected;
+		});
+
+		it ('should audit', (done) => {
+			var insert = sinon.spy ();
+
+			server.start ().then ((s) => {
+				s.plugins ['hapi-mongodb'] = {
+					db: {
+						collection () {
+							return {
+								insertOne: insert
+							};
+						}
+					}
+				};
+				s.methods.audit ('', {}, '', '', {});
+				server.stop ();
+				expect (insert.called).to.be.true ();
+				done ();
+			});
 		});
 	});
 } ());

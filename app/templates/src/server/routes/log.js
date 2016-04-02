@@ -2,11 +2,11 @@
 	'use strict';
 
 	const boom = require ('boom'),
-		logsModel = require ('../models/logs');
+		logModel = require ('../models/log');
 
 	module.exports = [{
 		method: 'GET',
-		path: '/logs/',
+		path: '/log/',
 		config: {
 			auth: {
 				strategy: 'jwt',
@@ -14,16 +14,16 @@
 			},
 			description: 'Search Log Entries',
 			notes: 'Searches for log entries by date and optionally, event type',
-			tags: [ 'api', 'logs' ],
+			tags: [ 'api', 'log' ],
 			validate: {
-				query: logsModel.search
+				query: logModel.search
 			},
 			plugins: {
 				'hapi-swaggered': {
 					responses: {
 						200: {
 							description: 'Success',
-							schema: logsModel.logEntryBecauseOpenAPISpecDoesntSupportAlternatives
+							schema: logModel.logEntryBecauseOpenAPISpecDoesntSupportAlternatives
 						},
 						403: { description: 'Forbidden' },
 						500: { description: 'Internal Server Error' }
@@ -31,7 +31,7 @@
 				}
 			},
 			handler: (request, reply) => {
-				const logs = request.server.plugins ['hapi-mongodb' ].db.collection ('logs');
+				const log = request.server.plugins ['hapi-mongodb' ].db.collection ('log');
 				var query = {
 					$and: [
 						{ timestamp: { $gte: request.query.from.getTime () }},
@@ -43,11 +43,13 @@
 					query.event = request.query.event;
 				}
 
-				logs.find (query).sort({
+				log.find (query).sort ({
 					$natural: 1
-				}).toArray ().then ((logs) => {
-					reply (logs).code (200);
+				}).toArray ().then ((log) => {
+					request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'success', 'log', request.query);
+					reply (log).code (200);
 				}).catch (() => {
+					request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'failure', 'log', request.query);
 					reply (boom.badImplementation ());
 				});
 			}

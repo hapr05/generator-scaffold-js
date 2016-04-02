@@ -42,6 +42,7 @@
 			server.connection ();
 			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
             server.auth.strategy ('jwt', 'failed');
+            server.method ('audit', () => {});
 				server.route (require ('../../../../src/server/routes/account'));
 			}).catch ((err) => {
 				console.log (err);

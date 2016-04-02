@@ -45,7 +45,7 @@
 						tags: {
 							authenticate: 'Authentication API',
 							account: 'Account API',
-							logs: 'Log File API'
+							log: 'Logging API'
 						},
 						info: {
 							title: '<%= cfgName %> API',

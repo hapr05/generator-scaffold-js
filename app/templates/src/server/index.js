@@ -13,6 +13,23 @@
 					relativeTo: __dirname,
 					preRegister: (_server_, next) => {
 						server = _server_; 
+
+						server.method ('audit', function (event, user, status, resource, data) {
+							const audit = this.plugins ['hapi-mongodb' ].db.collection ('audit');
+
+							audit.insertOne ({
+								event: event,
+								timestamp: new Date ().getTime (),
+								user: user,
+								status: status,
+								resource: resource,
+								data: data
+							});
+						}, {
+							bind: server,
+							callback: false
+						});
+
 						server.register (require ('hapi-auth-jwt2'), () => {
 							server.auth.strategy ('jwt', 'jwt', {
 								key: config.get ('web.jwtKey'),

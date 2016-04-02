@@ -1,0 +1,73 @@
+<div class="well audit">
+	<h1 translate="audit.title">Logs</h1>
+	<form novalidate name="form" role="form">
+		<div class="row">
+			<div class="form-group col-md-4">
+				<div class="input-group">
+					<span class="input-group-btn" uib-dropdown is-open="isOpen" auto-close="disabled">>
+						<button type="button" class="btn btn-default" uib-dropdown-toggle><i class="glyphicon glyphicon-calendar"></i></button>
+						<ul uib-dropdown-menu>
+							<li>
+							<div class="form-group" ng-class="{ 'has-error': form.from.$dirty && form.from.$invalid }">
+								<label for="from" translate="audit.field.from">To</label>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="fromOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+									<input type="text" name="from" class="form-control" datetime-picker="short" ng-model="filter.from" ng-model-options="{ alloInvalid: true }" max-date="filter.to" is-open="fromOpen" required />
+								</div>
+							</div>
+							</li>
+							<li>
+							<div class="form-group" ng-class="{ 'has-error': form.to.$dirty && form.to.$invalid }">
+								<label for="to" translate="audit.field.to">To</label>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="toOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+									</span>
+									<input type="text" name="to" class="form-control" datetime-picker="short" ng-model="filter.to" ng-model-options="{ alloInvalid: true }" min-date="filter.from" is-open="toOpen" required />
+								</div>
+							</div>
+							</li>
+						</ul>
+					</span>
+					<input type="text" name="dates" class="form-control" placeholder="{{ 'audit.field.dates' | translate }}" ng-model="filter.dates" readonly />
+				</div>
+			</div>
+			<div class="form-group col-md-3">
+				<ui-select name="event" ng-model="filter.event" theme="bootstrap" search-enabled="false" title="{{ 'audit.field.event' | translate }}">
+				<ui-select-match allow-clear placeholder="{{ 'audit.field.event' | translate }}">{{ $select.selected | translate }}</ui-select-match>
+				<ui-select-choices repeat="event in events">{{ event | translate }}</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="form-group col-md-3">
+				<input type="search" name="username" class="form-control" ng-model="filter.username" placeholder="{{ 'audit.field.username' | translate }}" />
+			</div>
+			<div class="col-md-2 text-right">
+				<button class="btn btn-primary" ng-click="view ()" ng-disabled="form.$invalid" translate="audit.btn.view">View</button>
+			</div>
+		</div>
+	</form>
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+			<tr>
+				<td translate="audit.header.event">Event</td>
+				<td translate="audit.header.timestamp">Timestamp</td>
+				<td translate="audit.header.user">User</td>
+				<td translate="audit.header.status">Status</td>
+				<td translate="audit.header.resource">Resource</td>
+				<td translate="audit.header.data">Data</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="audit in auditData" ng-class="{ danger: 'audit' === audit.event && -1 !== audit.tags.indexOf ('error') }" ng-switch on="audit.event">
+				<td>{{ audit.event }}</td>
+				<td>{{ audit.timestamp | date: 'short' }}</td>
+				<td>{{ audit.user.username }} ({{ audit.user.id }})</td>
+				<td>{{ audit.status }}</td>
+				<td>{{ audit.resource }}</td>
+				<td><pre>{{ audit.data | json }}</pre></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

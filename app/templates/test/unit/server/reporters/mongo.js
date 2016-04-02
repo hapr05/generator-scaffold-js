@@ -14,14 +14,14 @@
 	chai.use (dirtyChai);
 
 	describe ('mongo reporter', () => {
-		var logs = {
+		var log = {
 				insertOne () {
 					return Promise.resolve (true);
 				}
 			};
 
 		before (() => {
-			mocks.server ('../', { logs: logs });
+			mocks.server ('../', { log: log });
 		});
 
 		after (() => {

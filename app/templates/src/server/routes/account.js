@@ -35,7 +35,7 @@
 					username: request.params.username
 				}).then ((user) => {
 					if (user) {
-						//TODO for admin user or user === user, return user data, document response in 200
+						//TODO for admin user or user === user, return user data, document response in 200 && audit
 						reply ().code (200);
 					} else {
 						reply (boom.notFound ());
@@ -105,7 +105,15 @@
 				}
 			},
 			handler: (request, reply) => {
-				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users');
+				const users = request.server.plugins ['hapi-mongodb' ].db.collection ('users'),
+					data = {
+						username: request.payload.username,
+						fullName: request.payload.fullName,
+						nickname: request.payload.nickname,
+						email: request.payload.email,
+						lang: request.payload.lang || 'en',
+						provider: 'internal'
+					};
 
 				users.insertOne ({
 					username: request.payload.username,
@@ -118,9 +126,11 @@
 					active: true,
 					created: new Date (),
 					scope: [ 'ROLE_USER' ]
-				}).then (() => {
+				}).then ((res) => {
+					request.server.methods.audit ('create', { id: res.insertedId, username: request.payload.username }, 'success', 'users', data);
 					reply ().code (200);
 				}).catch (() => {
+					request.server.methods.audit ('create', { id: '', username: request.payload.username }, 'failure', 'users', data);
 					reply (boom.badImplementation ());
 				});
 			}

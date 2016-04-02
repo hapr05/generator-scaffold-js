@@ -26,7 +26,13 @@
 						seed = db.collection ('seed');
 
 					indexV1 (users);
-					db.createCollection ('logs', {
+
+					db.createCollection ('log', {
+						capped: true,
+						size: 1024 * 1024 * 1024
+					});
+
+					db.createCollection ('audit', {
 						capped: true,
 						size: 1024 * 1024 * 1024
 					});

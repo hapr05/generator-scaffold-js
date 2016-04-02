@@ -91,7 +91,7 @@
 			}
 		}
 	},
-	"logs": {
+	"log": {
 		"nav": "Logs",
 		"title": "Logs",
 		"btn": {
@@ -149,6 +149,34 @@
 			"remoteAddress": "remoteAddress",
 			"userAgent": "User Agent",
 			"referer": "Referer"
+		}
+	},
+	"audit": {
+		"nav": "Audit Logs",
+		"title": "Audit Logs",
+		"btn": {
+			"view": "View"
+		},
+		"field": {
+			"dates": "Dates",
+			"from": "From",
+			"to": "To",
+			"event": "Event",
+			"username": "Username"
+		},
+		"option": {
+			"auth": "Authorization",
+			"access": "Access",
+			"change": "Change",
+			"create": "Create"
+		},
+		"header": {
+			"event": "Event",
+			"timestamp": "Timestamp",
+			"user": "User",
+			"status": "Status",
+			"resource": "Resource",
+			"data": "Data"
 		}
 	},
 	"apidoc": {

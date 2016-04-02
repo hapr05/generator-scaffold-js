@@ -1,16 +1,16 @@
 (function () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').component ('logs', {
-		templateUrl: 'app/components/logs/logs.view.html',
+	angular.module ('<%= appSlug %>').component ('log', {
+		templateUrl: 'app/components/log/log.view.html',
 		controller: function ($scope, $resource, $filter, $uibModal) {
 			angular.extend ($scope, {
-				logRoute: $resource ('logs/'),
+				logRoute: $resource ('log/'),
 				events: [
-					'logs.option.log',
-					'logs.option.ops',
-					'logs.option.request',
-					'logs.option.response'
+					'log.option.log',
+					'log.option.ops',
+					'log.option.request',
+					'log.option.response'
 				],
 
 				filter: {
@@ -33,7 +33,7 @@
 				raw: function (index) {
 					$uibModal.open ({
 						size: 'md',
-						templateUrl: 'app/components/logs/logs.raw.html',
+						templateUrl: 'app/components/log/log.raw.html',
 						controller: function ($scope, raw) {
 							$scope.raw = raw;
 						},
@@ -57,9 +57,9 @@
 			});
 		}
 	}).config (function ($stateProvider) {
-		$stateProvider.state ('logs', {
-			url: '/logs',
-			template: '<logs></logs>',
+		$stateProvider.state ('log', {
+			url: '/log',
+			template: '<log></log>',
 			data: {
 				allowed: function (authFactory) {
 					return authFactory.hasAuthority ('ROLE_ADMIN');

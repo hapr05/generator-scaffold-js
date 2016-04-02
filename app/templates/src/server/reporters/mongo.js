@@ -11,9 +11,9 @@
 
 		stream.pipe (through.obj (function (data, enc, next) {
 			const db = server.instance ().plugins ['hapi-mongodb'].db,
-				logs = db.collection ('logs');
+				log = db.collection ('log');
 
-			logs.insertOne (hoek.clone (data));
+			log.insertOne (hoek.clone (data));
 			return next ();
 		})).pipe (process.stdout);
 

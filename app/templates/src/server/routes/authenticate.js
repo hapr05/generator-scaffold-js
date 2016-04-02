@@ -36,6 +36,7 @@
 					active: true
 				}).then ((user) => {
 					if (user) {
+						request.server.methods.audit ('auth', { id: user._id, username: user.username}, 'success', 'authenticate', {});
 						reply ().code (200).header ('Authorization', jwt.sign ({
 							iss: '<%= appSlug %>',
 							exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenExpire'),
@@ -46,9 +47,13 @@
 							scope: user.scope
 						}, config.get ('web.jwtKey')));
 					} else {
+						delete request.payload.password;
+						request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'authenticate', request.payload);
 						return Promise.reject ();
 					}
 				}).catch (() => {
+					delete request.payload.password;
+					request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'authenticate', request.payload);
 					reply (boom.unauthorized ());
 				});
 			}
@@ -112,6 +117,7 @@
 						users._id = users.insertOne (user).insertedId;
 					}
 
+					request.server.methods.audit ('auth', { id: user._id, username: user.username}, 'success', 'authenticate', {});
 					reply.view ('jwt', {
 						token: jwt.sign ({
 							iss: '<%= appSlug %>',

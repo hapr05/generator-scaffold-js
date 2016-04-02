@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	describe ('logs component', function () {
+	describe ('memory filter', function () {
 		beforeEach (function () {
 			inject (function ($filter) {
 				this.$filter = $filter;

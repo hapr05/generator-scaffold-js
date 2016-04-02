@@ -121,7 +121,7 @@
 					linkedin: 'In-2C-34px-R.png'
 				};
 			var prompts = [
-				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial', undefined), type: 'checkbox', choices: [{
+				{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial'), type: 'checkbox', choices: [{
 					name: caps.github, value: 'github'
 				}, {
 					name: caps.twitter, value: 'twitter'

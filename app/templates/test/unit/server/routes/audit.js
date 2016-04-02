@@ -14,9 +14,9 @@
 	chai.use (chaiAsPromised);
 	chai.use (dirtyChai);
 
-	describe ('logs route', () => {
+	describe ('audit route', () => {
 		var server,
-			logs = {
+			audit = {
 				find () {
 					return {
 						sort () {
@@ -32,7 +32,7 @@
 			sandbox = sinon.sandbox.create ();
 
 		before (() => {
-			mocks.mongo ({ logs: logs });
+			mocks.mongo ({ audit: audit });
 		});
 
 		beforeEach (() => {
@@ -40,7 +40,8 @@
 			server.connection ();
 			return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
             server.auth.strategy ('jwt', 'failed');
-				server.route (require ('../../../../src/server/routes/logs'));
+            server.method ('audit', () => {});
+				server.route (require ('../../../../src/server/routes/audit'));
 			})).to.be.fulfilled ();
 		});
 
@@ -53,10 +54,10 @@
 		});
 
 		describe ('collection', () => {
-			it ('should list log entries', (done) => {
+			it ('should list audit entries', (done) => {
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
+					url: '/audit/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
 					credentials: creds.admin
 				}).then ((response) => {
 						expect (response.statusCode).to.equal (200);
@@ -67,7 +68,7 @@
 			});
 
 			it ('should handle db failure ', (done) => {
-				sandbox.stub (logs, 'find', () => {
+				sandbox.stub (audit, 'find', () => {
 					return {
 						sort () {
 							return {
@@ -81,7 +82,7 @@
 	
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
+					url: '/audit/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
 					credentials: creds.admin
 				}).then ((response) => {
 						expect (response.statusCode).to.equal (500);
@@ -91,10 +92,10 @@
 				});
 			});
 
-			it ('should list log entries by event', (done) => {
+			it ('should list audit entries by event/username', (done) => {
 				server.inject ({
 					method: 'GET',
-					url: '/logs/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=log',
+					url: '/audit/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=create&username=test',
 					credentials: creds.admin
 				}).then ((response) => {
 					expect (response.statusCode).to.equal (200);
