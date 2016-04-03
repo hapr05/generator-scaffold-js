@@ -75,7 +75,7 @@
 							connections: request.server.connections.map ((connection) => {
 								return connection.info;
 							}),
-							version: request.server.version,
+							version: request.server.version
 						},
 						db: {
 							version: db.version,

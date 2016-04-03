@@ -5,9 +5,11 @@
 		templateUrl: 'app/components/register/register.view.html',
 		controller: function ($scope, $state, accountFactory) {
 			angular.extend ($scope, {
+				disable: false,
 				passwordPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/,
 
 				register: function (event) {
+					$scope.disable = true;
 					event.preventDefault ();
 					accountFactory.create ({
 						username: $scope.username,
@@ -16,9 +18,11 @@
 						nickname: $scope.nickname,
 						email: $scope.email
 					}).then (function () {
+						$scope.disable = false;
 						$scope.registrationError = false;
 						$state.go ('login');
 					}).catch (function () {
+						$scope.disable = false;
 						$scope.registrationError = true;
 					}); 
 				}

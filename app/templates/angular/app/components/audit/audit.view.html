@@ -44,7 +44,7 @@
 				<input type="search" name="username" class="form-control" ng-model="filter.username" placeholder="{{ 'audit.field.username' | translate }}" />
 			</div>
 			<div class="col-md-2 text-right">
-				<button class="btn btn-primary" ng-click="view ()" ng-disabled="form.$invalid" translate="audit.btn.view">View</button>
+				<button class="btn btn-primary" ng-click="view ()" ng-disabled="form.$invalid || false === auditData.$resolved" translate="audit.btn.view">View</button>
 			</div>
 		</div>
 	</form>

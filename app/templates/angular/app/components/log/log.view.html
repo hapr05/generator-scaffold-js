@@ -41,7 +41,7 @@
 				</ui-select>
 			</div>
 			<div class="col-md-5 text-right">
-				<button class="btn btn-primary" ng-click="view ()" ng-disabled="form.$invalid" translate="log.btn.view">View</button>
+				<button class="btn btn-primary" ng-click="view ()" ng-disabled="form.$invalid || false === logData.$resolved" translate="log.btn.view">View</button>
 			</div>
 		</div>
 	</form>
