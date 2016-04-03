@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 
-	angular.module ('<%= appCamel %>').directive ('<%= appCamel %>PasswordStrength', function () {
+	angular.module ('<%= appSlug %>').directive ('<%= appCamel %>PasswordStrength', function () {
 		return {
 			restrict: 'E',
 			replace: true,
