@@ -48,8 +48,7 @@
 				},
 				"password": {
 					"required": "Password is required.",
-					"minlength": "Password must be at least 8 characters.",
-					"pattern": "Password must contain at least one each uppercase, lowercase, numeric, and symbol character."
+					"pattern": "Password must be at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character."
 				},
 				"confirmPassword": {
 					"required": "Confirmation password is required.",

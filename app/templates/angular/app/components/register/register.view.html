@@ -41,11 +41,11 @@
 								</div>
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$invalid }">
-								<input type="password" class="form-control" name="password" ng-minlength="8" ng-pattern="passwordPattern" ng-model="password" required placeholder="{{ 'register.field.password' | translate }}">
+								<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="password" ng-model-options="{ allowInvalid: true }" required placeholder="{{ 'register.field.password' | translate }}">
+								<<%= appSlug %>-password-strength password="password" />
 								<div ng-show="form.password.$dirty && form.password.$invalid">
 									<p class="help-block" ng-show="form.password.$error.required" translate="register.msg.validate.password.required">Password is required.</p>
-									<p class="help-block" ng-show="form.password.$error.minlength" translate="register.msg.validate.password.minlength">Password must be at least 8 characters.</p>
-									<p class="help-block" ng-show="form.password.$error.pattern" translate="register.msg.validate.password.pattern">Password must contain at least one each uppercase, lowercase, numeric, and symbol character.</p>
+									<p class="help-block" ng-show="form.password.$error.<%= appCamel %>PasswordValid" translate="register.msg.validate.password.pattern">Password must at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character.</p>
 								</div>
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': form.confirmPassword.$dirty && form.confirmPassword.$invalid }">

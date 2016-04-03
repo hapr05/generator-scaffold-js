@@ -227,7 +227,7 @@
 			template.forEach ((i) => {
 				this.template (i);
 			});
-			
+
 			switch (this.cfgLicense) {
 				case 'Apache-2.0':
 					this.copy ('LICENSE.Apache-2.0');

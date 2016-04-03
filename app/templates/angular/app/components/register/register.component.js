@@ -6,7 +6,6 @@
 		controller: function ($scope, $state, accountFactory) {
 			angular.extend ($scope, {
 				disable: false,
-				passwordPattern: /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/,
 
 				register: function (event) {
 					$scope.disable = true;
