@@ -15,7 +15,7 @@
 		selfsigned = require ('selfsigned');
 
 	module.exports = generator.Base.extend ({
-		constructor: function () {
+		constructor: function constructor () {
 			Reflect.apply (generator.Base, this, arguments);
 
 			this.appname = path.basename (process.cwd ());
@@ -96,7 +96,7 @@
 				]);
 			}
 
-			/* 
+			/*
 			 * For future support of multiple front end frameworks
 			 *
 			 * prompts = prompts.concat ([
@@ -176,16 +176,17 @@
 
 						answers.cfgSocial.forEach ((option) => {
 							var cap = caps [option];
-								this.socialLogins.push ({
-									name: option,
-									cap: cap,
-									password: details [`cfg${cap}Password`],
-									clientId: details [`cfg${cap}ClientId`],
-									clientSecret: details [`cfg${cap}ClientSecret`],
-									icon: icons [option]
-								});
+
+							this.socialLogins.push ({
+								name: option,
+								cap,
+								password: details [`cfg${cap}Password`],
+								clientId: details [`cfg${cap}ClientId`],
+								clientSecret: details [`cfg${cap}ClientSecret`],
+								icon: icons [option]
+							});
 						});
-	
+
 						done ();
 					});
 				} else {

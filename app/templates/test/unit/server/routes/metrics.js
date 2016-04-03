@@ -29,10 +29,11 @@
 					};
 				}
 			},
-			sandbox = sinon.sandbox.create ();
+			sandbox = sinon.sandbox.create (),
+			db;
 
 		before (() => {
-			mocks.mongo ({ metrics: metrics });
+			db = mocks.mongo ({ metrics: metrics });
 		});
 
 		beforeEach (() => {
@@ -55,12 +56,41 @@
 
 		describe ('collection', () => {
 			it ('should retrieve metrics', (done) => {
+				db.admin = () => {
+					return {
+						serverStatus () {
+							return Promise.resolve ({ metrics: {}});
+						}
+					};
+				};
+
 				server.inject ({
 					method: 'GET',
 					url: '/metrics',
 					credentials: creds.admin
 				}).then ((response) => {
 					expect (response.statusCode).to.equal (200);
+					done ();
+				}).catch ((err) => {
+					done (err);
+				});
+			});
+
+			it ('should handle error', (done) => {
+				db.admin = () => {
+					return {
+						serverStatus () {
+							return Promise.reject ();
+						}
+					};
+				};
+
+				server.inject ({
+					method: 'GET',
+					url: '/metrics',
+					credentials: creds.admin
+				}).then ((response) => {
+					expect (response.statusCode).to.equal (500);
 					done ();
 				}).catch ((err) => {
 					done (err);

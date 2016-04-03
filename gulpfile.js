@@ -114,7 +114,7 @@
 		gulp.task ('json.lint', () => {
 			return gulp.src (opts.files.json).pipe (jsonlint ()).pipe (jsonlint.report ('verbose'));
 		});
-		 
+
 		gulp.task ('json', [ 'json.lint' ]);
 	} ());
 } (require));

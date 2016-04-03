@@ -3,7 +3,7 @@
 
 	module.exports = {
 		name (value) {
-			if ("string" !== typeof value || value.length < 1) {
+			if ('string' !== typeof value || value.length < 1) {
 				return 'Name is required.';
 			} else if (value.length > 214) {
 				return 'Name must be less than or equal to 214 characters.';
@@ -13,7 +13,7 @@
 		},
 
 		dbUrl (value) {
-			if ("string" !== typeof value || value.length < 1) {
+			if ('string' !== typeof value || value.length < 1) {
 				return 'Database Connection Url is required.';
 			}
 
@@ -21,7 +21,7 @@
 		},
 
 		socialPassword (value) {
-			if ("string" !== typeof value || value.length < 1) {
+			if ('string' !== typeof value || value.length < 1) {
 				return 'Password is required.';
 			} else if (value.length < 32) {
 				return 'Password must be at least 32 characters.';
@@ -31,7 +31,7 @@
 		},
 
 		socialClientId (value) {
-			if ("string" !== typeof value || value.length < 1) {
+			if ('string' !== typeof value || value.length < 1) {
 				return 'Client Id is required.';
 			}
 
@@ -39,7 +39,7 @@
 		},
 
 		socialClientSecret (value) {
-			if ("string" !== typeof value || value.length < 1) {
+			if ('string' !== typeof value || value.length < 1) {
 				return 'Client Secret is required.';
 			}
 

@@ -258,6 +258,52 @@
 				"protocol": "Protocol",
 				"uri": "Uri"
 			}
+		},
+		"db": {
+			"title": "Database",
+			"info": {
+				"title": "Information",
+				"version": "Version",
+				"host": "Hostname",
+				"pid": "PID",
+				"uptime": "Uptime",
+				"ok": "Ok"
+			},
+			"asserts": {
+				"title": "Asserts",
+				"regular": "Regular",
+				"warning": "Warning",
+				"msg": "Msg",
+				"user": "User",
+				"rollovers": "Rollovers"
+			},
+			"backgroundFlushing": {
+				"title": "Background Flushing",
+				"flushes": "Flushes",
+				"total_ms": "Totaal Time",
+				"average_ms": "Average Time",
+				"last_ms": "Last Time",
+				"last_finished": "Last Finished"
+			},
+			"connections": {
+				"title": "Connections",
+				 "current": "Current",
+				 "available": "Avilable",
+				 "totalCreated": "Total Created"
+			},
+			"network": {
+				"title": "Network",
+				"bytesIn": "In",
+				"bytesOut": "Out",
+				"numRequests": "Requests"
+			},
+			"document": {
+				"title": "Document",
+				"deleted": "Deleted",
+				"inserted": "Inserted",
+				"returned": "Returned",
+				"updated": "Updated"
+			}
 		}
 	},
 	"apidoc": {

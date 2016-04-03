@@ -65,8 +65,45 @@
 					host: joi.string ().hostname ().required ().description ('Server Host'),
 					uri: joi.string ().uri ().required ().description ('Server Uri')
 				}).description ('Connection').meta ({ className: 'Connection' })).description ('Connections'),
-				version: joi.string ().required ().description ('Server Version')
-			}).required ().description ('Server').meta ({ className: 'MetricsServer' })
+				version: joi.string ().required ().description ('Hapi Version')
+			}).required ().description ('Server').meta ({ className: 'MetricsServer' }),
+			db: joi.object ({
+				version: joi.string ().required ().description ('Mongo Version'),
+				host: joi.string ().hostname ().required ().description ('Database Host'),
+				pid: joi.number ().integer ().required ().description ('PID'),
+				uptime: joi.number ().integer ().required ().description ('Database Uptime in Seconds'),
+				ok: joi.boolean ().required ().description ('Ok'),
+				asserts: joi.object ({
+					regular: joi.number ().integer ().required ().description ('Regular Asserts'),
+					warning: joi.number ().integer ().required ().description ('Warning Asserts'),
+					msg: joi.number ().integer ().required ().description ('Msg Asserts'),
+					user: joi.number ().integer ().required ().description ('User Asserts'),
+					rollovers: joi.number ().integer ().required ().description ('Rollvers Asserts')
+				}).required ().description ('Asserts').meta ({ className: 'DatabaseAsserts' }),
+				backgroundFlushing: joi.object ({
+					flushes: joi.number ().integer ().required ().description ('Flushes'),
+					total_ms: joi.number ().integer ().required ().description ('Total Milliseconds'),
+					average_ms: joi.number ().required ().description ('Average Milliseconds'),
+					last_ms: joi.number ().integer ().required ().description ('Last Milliseconds'),
+					last_finished: joi.date ().iso ().required ().description ('Last Finished')
+				}).required ().description ('Background Flushing').meta ({ className: 'BackgroundFlushing' }),
+				connections: joi.object ({
+					current: joi.number ().integer ().required ().description ('Current'),
+					avilable: joi.number ().integer ().required ().description ('Available'),
+					totalCreated: joi.number ().integer ().required ().description ('Total Created')
+				}).required ().description ('Connections').meta ({ className: 'DatabaseConnections' }),
+				network: joi.object ({
+					bytesIn: joi.number ().integer ().required ().description ('Bytes In'),
+					bytesOut: joi.number ().integer ().required ().description ('Bytes Out'),
+					numRequests: joi.number ().integer ().required ().description ('Number of Requests')
+				}).required ().description ('Network').meta ({ className: 'DatabaseNetwork' }),
+				document: joi.object ({
+					deleted: joi.number ().integer ().required ().description ('Deleted'),
+					inserted: joi.number ().integer ().required ().description ('Inserted'),
+					returned: joi.number ().integer ().required ().description ('Returned'),
+					updated: joi.number ().integer ().required ().description ('Updated')
+				}).required ().description ('Document').meta ({ className: 'DatabaseDocument' })
+			}).required ().description ('Database').meta ({ className: 'MetricsDatabase' })
 		}).description ('Metrics').meta ({ className: 'Metrics' })
 	};
 } ());

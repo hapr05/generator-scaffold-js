@@ -42,6 +42,7 @@
 
 			module.exports.enable ();
 			mockery.registerMock ('mongodb', mongo);
+			return db;
 		},
 
 		server (path, collections) {

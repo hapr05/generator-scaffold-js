@@ -2,6 +2,7 @@
 	'use strict';
 
 	const Reflect = require ('harmony-reflect'),
+		boom = require ('boom'),
 		os = require ('os'),
 		metricsModel = require ('../models/metrics');
 
@@ -31,10 +32,9 @@
 			handler: (request, reply) => {
 				var networkInterfaces = [],
 					osLoad = os.loadavg (),
-					osNetworkInterfaces = os.networkInterfaces ();
+					osNetworkInterfaces = os.networkInterfaces (),
+					admin = request.server.plugins ['hapi-mongodb'].db.admin ();
 					
-				request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'success', 'metrics', {});
-
 				Reflect.ownKeys (osNetworkInterfaces).forEach ((name) => {
 					networkInterfaces.push ({
 						name: name,
@@ -42,40 +42,57 @@
 					});
 				});
 
-				reply ({
-					os: {
-						arch: os.arch (),
-						cpus: os.cpus (),
-						memory: {
-							free: os.freemem (),
-							total: os.totalmem ()
+				admin.serverStatus ().then ((db) => {
+					request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'success', 'metrics', {});
+					reply ({
+						os: {
+							arch: os.arch (),
+							cpus: os.cpus (),
+							memory: {
+								free: os.freemem (),
+								total: os.totalmem ()
+							},
+							hostname: os.hostname (),
+							load: {
+								'1': osLoad [0],
+								'5': osLoad [1],
+								'15': osLoad [2]
+							},
+							networkInterfaces,
+							platform: os.platform (),
+							release: os.release (),
+							tempdir: os.tmpdir (),
+							uptime: os.uptime()
 						},
-						hostname: os.hostname (),
-						load: {
-							'1': osLoad [0],
-							'5': osLoad [1],
-							'15': osLoad [2]
+						process: {
+							env: process.env,
+							memory: process.memoryUsage (),
+							pid: process.pid,
+							uptime: process.uptime (),
+							versions: process.versions
 						},
-						networkInterfaces,
-						platform: os.platform (),
-						release: os.release (),
-						tempdir: os.tmpdir (),
-						uptime: os.uptime()
-					},
-					process: {
-						env: process.env,
-						memory: process.memoryUsage (),
-						pid: process.pid,
-						uptime: process.uptime (),
-						versions: process.versions
-					},
-					server: {
-						connections: request.server.connections.map ((connection) => {
-							return connection.info;
-						}),
-						version: request.server.version,
-						
-					}
+						server: {
+							connections: request.server.connections.map ((connection) => {
+								return connection.info;
+							}),
+							version: request.server.version,
+						},
+						db: {
+							version: db.version,
+							host: db.host,
+							pid: db.pid,
+							uptime: db.uptime,
+							asserts: db.asserts,
+							backgroundFlushing: db.backgroundFlushing,
+							connections: db.connections,
+							network: db.network,
+							document: db.metrics.document,
+							ok: db.ok
+						}
+					});
+				}).catch (() => {
+					request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username}, 'failure', 'metrics', {});
+					reply (boom.badImplementation ());
 				});
 			}
 		}

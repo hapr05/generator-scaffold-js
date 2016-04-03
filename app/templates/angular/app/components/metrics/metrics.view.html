@@ -27,13 +27,13 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6" translate="metrics.os.info.uptime">Uptime</div>
-				<div class="col-md-6 text-right">{{ metricsData.os.uptime | uptime:'seconds' }}</div> 
+				<div class="col-md-6 text-right">{{ metricsData.os.uptime | uptime: 'seconds' }}</div> 
 			</div>
 			<br />
 			<b translate="metrics.os.memory.title">Memory</b>
 			<p><span translate="metrics.os.memory.total">Total</span> ({{ (metricsData.os.memory.total - metricsData.os.memory.free) | memory }} / {{ metricsData.os.memory.total | memory }})</p>
 			<uib-progressbar min="0" max="metricsData.os.memory.total" value="metricsData.os.memory.total - metricsData.os.memory.free" class="progress-striped active" type="success">
-				<span>{{ 100 * (metricsData.os.memory.total - metricsData.os.memory.free) / metricsData.os.memory.total | number: 0}}%</span>
+				<span>{{ 100 * (metricsData.os.memory.total - metricsData.os.memory.free) / metricsData.os.memory.total | number: 0 }}%</span>
 			</uib-progressbar>
 			<br />
 			<b translate="metrics.os.memory.load">Load</b>
@@ -132,7 +132,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-6" translate="metrics.process.info.uptime">Uptime</div>
-				<div class="col-md-6 text-right">{{ metricsData.process.uptime | uptime:'seconds' }}</div> 
+				<div class="col-md-6 text-right">{{ metricsData.process.uptime | uptime: 'seconds' }}</div> 
 			</div>
 			<br />
 			<b translate="metrics.process.memory.title">Memory</b>
@@ -142,7 +142,7 @@
 			</div>
 			<p><span translate="metrics.process.memory.heap">Total</span> ({{ metricsData.process.memory.heapUsed | memory }} / {{ metricsData.process.memory.heapTotal | memory }})</p>
 			<uib-progressbar min="0" max="metricsData.process.memory.heapTotal" value="metricsData.process.memory.heapUsed" class="progress-striped active" type="success">
-				<span>{{ 100 * metricsData.process.memory.heapUsed / metricsData.process.memory.heapTotal | number: 0}}%</span>
+				<span>{{ 100 * metricsData.process.memory.heapUsed / metricsData.process.memory.heapTotal | number: 0 }}%</span>
 			</uib-progressbar>
 		</div>
 		<div class="col-md-4">
@@ -207,4 +207,123 @@
 				<br ng-hide="$last" />
 			</div>
 		</div>
+	</div>
+	<h3 translate="metrics.db.title">Server</h3>
+	<div class="row" ng-show="metricsData.$resolved">
+		<div class="col-md-4">
+			<b translate="metrics.db.info.title">Information</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.info.version">Version</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.version }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.info.host">Hostname</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.host }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.info.pid">PID</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.pid }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.info.uptime">Uptime</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.uptime | uptime: 'seconds'}}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.info.ok">OK</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.ok }}</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<b translate="metrics.db.asserts.title">Asserts</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.asserts.regular">Regular</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.asserts.regular }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.asserts.warning">Warning</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.asserts.warning }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.asserts.msg">Msg</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.asserts.msg }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.asserts.user">User</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.asserts.user }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.asserts.rollovers">Rollovers</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.asserts.rollovers }}</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<b translate="metrics.db.backgroundFlushing.title">Asserts</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.flushes">Flushes</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.flushes }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.total_ms">Total Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.total_ms | uptime }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.average_ms">Average Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.average_ms | number: 2}} MS</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.last_ms">Last Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.last_ms }} MS</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.last_finished">Last Finished</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.last_finished | date: 'short'}}</div>
+			</div>
+			<br />
+		</div>
+		<div class="col-md-4">
+			<b translate="metrics.db.connections.title">Connections</b>
+			<p><span translate="metrics.db.connections.current">Current</span> ({{ metricsData.db.connections.current }} / {{ metricsData.db.connections.available }})</p>
+			<uib-progressbar min="0" max="metricsData.db.connections.available" value="metricsData.db.connections.current" class="progress-striped active" type="success">
+				<span>{{ 100 * metricsData.db.connections.current / metricsData.db.connections.available | number: 0 }}%</span>
+			</uib-progressbar>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.connections.totalCreated">Total Created</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.connections.totalCreated }}</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<b translate="metrics.db.network.title">Network</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.network.bytesIn">In</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.network.bytesIn | memory }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.network.bytesOut">Out</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.network.bytesOut | memory }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.network.numRequests">Requests</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.network.numRequests }}</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<b translate="metrics.db.document.title">Document</b>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.document.deleted">Deleted</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.document.deleted }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.document.inserted">Inserted</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.document.inserted }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.document.returned">Returned</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.document.returned }}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6" translate="metrics.db.document.updated">Updated</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.document.updated }}</div>
+			</div>
+		</div>
+	</div>
 </div>
