@@ -49,7 +49,11 @@
 								provider: '<%= socialLogins [i].name %>',
 								password: '<%= socialLogins [i].password %>',
 								clientId: '<%= socialLogins [i].clientId %>',
-								/* Never share your secret key */
+								/*
+								 * Never share your secret key. Best practies is to move the key to an environment variable:
+								 * clientSecret: process.env.<%= socialLogins [i].name.toUpperCase () %>_CLIENT_SECRET
+								 * TODO:  Document in README.md
+								 */
 								clientSecret: '<%= socialLogins [i].clientSecret %>',
 								isSecure: true
 							});

@@ -96,7 +96,7 @@
 		}
 	}
 
-	//temp.track ();
+	temp.track ();
 
 	create ().then ((dbname) => {
 		dropDb (dbname).then (() => {

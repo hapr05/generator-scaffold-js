@@ -35,7 +35,7 @@
 			require: 'ngModel',
 			link: function (scope, elm, attrs, ctrl) {
 				ctrl.$validators.<%= appCamel %>PasswordValid = function validateStrength (modelValue, viewValue) {
-					return 0 === viewValue.length || /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/.test (viewValue);
+					return !viewValue || /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/.test (viewValue);
 				};
 			}   
 		};

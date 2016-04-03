@@ -20,20 +20,14 @@
 			expect (this.authFactory.token).toBe (null);
 		});
 	
-		it ('should indicate authenticate', function () {
+		it ('should authenticate', function () {
 			this.$httpBackend.expectPOST ('authenticate').respond (200, {}, { Authorization: infiniteToken });
 			this.authFactory.authenticate ('user', 'user');
 			this.$httpBackend.flush ();
-		});
-
-		it ('should indicate authenticated', function () {
 			expect (this.authFactory.authenticated).toBeTruthy ();
-		});
-	
-		it ('should return token', function () {
 			expect (this.authFactory.token).toBe (infiniteToken);
 		});
-	
+
 		it ('should indicate null token on expred', function () {
 			localStorage.setItem ('<%= appSlug %>.token', expToken);
 			expect (this.authFactory.token).toBe (null);
@@ -51,6 +45,12 @@
 			this.authFactory.refresh ();
 			this.$httpBackend.flush ();
 			expect (this.authFactory.token).toBe (null);
+		});
+
+		it ('should send forgot', function () {
+			this.$httpBackend.expectPOST ('authenticate/forgot').respond (200, {}, { Authorization: infiniteToken });
+			this.authFactory.forgot ('user@localhost');
+			this.$httpBackend.flush ();
 		});
 	});
 } ());

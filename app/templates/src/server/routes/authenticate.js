@@ -59,6 +59,94 @@
 			}
 		}
 	}, {
+		method: 'POST',
+		path: '/authenticate/forgot',
+		config: {
+			auth: false,
+			description: 'Update forgotton password',
+			notes: 'Givan an email addres, sends a forgot password email if the email address is found.  Given a token and a password, updates the users password.',
+			tags: [ 'api', 'authenticate' ], 
+			validate: {  
+				payload: userModel.forgot
+			},
+			plugins: {
+				'hapi-swaggered': {
+					responses: { 
+						'200': { 'description': 'Success' },
+						'401': { 'description': 'Unauthorized' }
+					}
+				}
+			},
+			handler: (request, reply) => {
+				const mongo = request.server.plugins ['hapi-mongodb' ],
+					users = mongo.db.collection ('users');
+
+				if (request.payload.token && request.payload.password) {
+					jwt.verify (request.payload.token, config.get ('web.jwtKey'), {
+						issuer: '<%= appSlug %>',
+						subject: 'forgot'
+					}, (err, decoded) => {
+						if (err) {
+							reply (boom.unauthorized ());
+						} else {
+							users.updateOne ({
+								_id: new mongo.ObjectID (decoded.user),
+								active: true
+							}, {
+								$set: { password: crypto.createHash ('sha256').update (request.payload.password).digest ('hex') }
+							}).then (() => {
+								reply (200);
+							}).catch (() => {
+								reply (boom.unauthorized ());
+							});
+						}
+					});
+				} else {
+					users.findOne ({
+						email: request.payload.email,
+						active: true
+					}).then ((user) => {
+						if (user) {
+							const token = jwt.sign ({
+								iss: '<%= appSlug %>',
+								exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenForgotExpire'),
+								iat: parseInt (new Date ().getTime () / 1000, 10),
+								sub: 'forgot',
+								user: user._id
+							}, config.get ('web.jwtKey'));
+							request.server.plugins.mailer.sendMail ({
+								from: '<%= cfgContribEmail %>',
+								to: `${user.fullname} <${user.email}>`,
+								subject: '<%= cfgName %> password reset',
+								text: `A password reset requset was requested for your <%= cfgName %> account. Please click on the URL below to reset it:\n${request.server.info.uri}/#/forgot/${token}`,
+								html: {
+									path: 'forgot.html'
+								},
+								context: {
+									nickname: user.nickname,
+									uri: request.server.info.uri,
+									token: token
+								}
+							}, (err) => {
+								if (err) {
+									request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'forgot', request.payload);
+								} else {
+									request.server.methods.audit ('auth', { id: user._id, username: user.username}, 'success', 'forgot', {});
+								}
+								reply ().code (200);
+							});
+						} else {
+							request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'forgot', request.payload);
+							reply ().code (200);
+						}
+					}).catch (() => {
+						request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'forgot', request.payload);
+						reply ().code (200);
+					});
+				}
+			}
+		}
+	}, {
 		method: 'GET',
 		path: '/authenticate',
 		config: {

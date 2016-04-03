@@ -3,7 +3,9 @@
 
 	const pkg = require ('../package'),
 		fs = require ('fs'),
+		path = require ('path'),
 		defer = require ('config/defer').deferConfig,
+		handlebars = require ('handlebars'),
 		reporter = require ('../src/server/reporters/mongo');
 
 	module.exports = {
@@ -119,6 +121,28 @@
 						}]
 					}
 				}
+			}, {
+				/* TODO either put this in the generator config or document in README.md */
+				plugin: {
+					register: 'hapi-mailer',
+					options: {
+//						transport: {
+//							service: 'Gmail',
+//							auth: {
+//								user: 'example@gmail.com',
+//								pass: 'password'
+//							}
+//						},
+						views: {
+							engines: {
+								html: {
+									module: handlebars.create(),
+									path: path.join (__dirname, '../src/server/emails')
+								}
+							}
+						}
+					}
+				}
 			}]
 		},
 		db: {
@@ -126,9 +150,14 @@
 		},
 		web: {
 			content: './src/web',
-			/* Never share your secret key */
+			/*
+			 * Never share your secret key. Best practies is to move the key to an environment variable:
+			 * jwtKey: process.env.JWT_KEY
+			 * TODO:  Document in README.md
+			 */
 			jwtKey: '<%= jwtKey %>',
-			tokenExpire: 15 * 60
+			tokenExpire: 15 * 60,
+			tokenForgotExpire: 24 * 60 * 60
 		}
 	}
 } ());

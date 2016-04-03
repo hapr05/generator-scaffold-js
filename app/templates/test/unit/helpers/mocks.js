@@ -33,6 +33,8 @@
 				}
 			},
 			mongo = {
+				ObjectID: function () {
+				},
 				MongoClient: {
 					connect (url, settings, cb) {
 						cb (false, db);

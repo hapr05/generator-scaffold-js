@@ -29,7 +29,8 @@
 		"hapi-swaggered": "latest", "glue": "latest", "inert": "latest",
 		"hapi-auth-jwt2": "latest", "hapi-router": "latest", "crumb": "latest", "bell": "latest", "vision": "latest", "visionary": "latest", "handlebars": "latest",
 		"boom": "latest", "good": "latest", "through2": "latest",
-		"mongodb": "latest", "hapi-mongodb": "latest"
+		"mongodb": "latest", "hapi-mongodb": "latest",
+		"hapi-mailer": "latest"
 	},
 	"devDependencies": {
 		"gulp": "latest",

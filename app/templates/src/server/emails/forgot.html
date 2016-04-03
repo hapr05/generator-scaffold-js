@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= cfgName %>password reset</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<p>{{ nickname }},</p>
+		<p>A password reset requset was requested for your <%= cfgName %> account. Please click on the URL below to reset it:</p>
+		<p><a href="{{ uri }}/#/forgot/{{ token }}">Reset Password</a></p>
+	</body>
+</html>

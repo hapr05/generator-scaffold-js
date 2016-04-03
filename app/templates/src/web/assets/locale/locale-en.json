@@ -90,6 +90,39 @@
 			}
 		}
 	},
+	"forgot": {
+		"title": "Reset Password",
+		"field": {
+			"email": "Email Address",
+			"password": "Password",
+			"confirmPassword": "Confirm Password"
+		},
+		"btn": {
+			"reset": "Reset Password"
+		},
+		"msg": {
+			"enterEmail": "Enter the email address you used to register.",
+			"checkEmail": "Check your email for details on how to reset your password.",
+			"enterPassword": "Enter your new password.",
+			"error": {
+				"reset": "Failed to reset password!"
+			},
+			"validate": {
+				"email": {
+					"required": "Email address is required.",
+					"email": "Invalid email adddress."
+				},
+				"password": {
+					"required": "Password is required.",
+					"pattern": "Password must be at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character."
+				},
+				"confirmPassword": {
+					"required": "Confirmation password is required.",
+					"match": "Passwords do not match."
+				}
+			}
+		}
+	},
 	"log": {
 		"nav": "Logs",
 		"title": "Logs",

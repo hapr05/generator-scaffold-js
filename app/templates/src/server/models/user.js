@@ -25,6 +25,12 @@
 		authenticate: joi.object ({
 			username: joi.string ().required ().description ('Username'),
 			password: joi.string ().required ().description ('Password')
-		}).required ().meta ({ className: 'AuthenticateUser' })
+		}).required ().meta ({ className: 'AuthenticateUser' }),
+
+		forgot: joi.object ({
+			email: joi.string ().email ().optional ().description ('Email Address'),
+			token: joi.string ().optional ().description ('Token'),
+			password: joi.string ().regex (/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/, 'strong').min (8).optional ().description ('Password')
+		}).required (),
 	};
 } ());

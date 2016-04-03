@@ -42,6 +42,14 @@
 				});
 			},
 
+			forgot: function (email, token, password) {
+				return $http.post ('authenticate/forgot', {
+					email: email,
+					token: token || undefined,
+					password: password
+				});
+			},
+
 			hasAuthority: function (authority) {
 				return _auth && !jwtHelper.isTokenExpired (_auth) && -1 !== jwtHelper.decodeToken (_auth).scope.indexOf (authority);
 			},

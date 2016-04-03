@@ -13,6 +13,12 @@
 			this.$templateCache.put ('app/components/login/login.view.html', '_login_component_content_');
 		});
 
+		it ('should transition to login state', function () {
+			this.$state.go ('login');
+			this.$rootScope.$digest ();
+			expect (this.$state.current.name).toBe ('login');
+		});
+
 		it ('should load', function () {
 			var el = this.$compile ("<login></login>") (this.$rootScope);
 			this.$rootScope.$digest ();
