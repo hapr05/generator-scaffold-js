@@ -42,7 +42,7 @@
 		"temp": "latest",
 		"jshint": "latest", "jshint-stylish": "latest",
 		"gulp": "latest", "gulp-util": "latest", "gulp-jshint": "latest", "gulp-json-lint": "latest",
-		"gulp-mocha": "latest", "gulp-istanbul": "latest",
+		"gulp-mocha": "latest", "gulp-istanbul": "latest", "gulp-jscs": "latest",
 		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest"
 	},
 	"peerDependencies": {
