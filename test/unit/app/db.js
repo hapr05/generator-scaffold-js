@@ -7,6 +7,8 @@ const chai = require ('chai'),
 	sinon = require ('sinon'),
 	mockery = require ('mockery');
 
+var database;
+
 chai.use (chaiAsPromised);
 chai.use (dirtyChai);
 
@@ -52,6 +54,7 @@ describe ('oldschool:app db', () => {
 		});
 
 		mockery.registerMock ('mongodb', mongo);
+		database = require ('../../../app/db');
 	});
 
 	afterEach (() => {
@@ -64,44 +67,30 @@ describe ('oldschool:app db', () => {
 	});
 
 	it ('should seed database', () => {
-		var db = require ('../../../app/db');
-
 		sandbox.stub (collection, 'findOne', () => Promise.reject ('err'));
-		return expect (db.seed ({})).to.be.fulfilled ();
+		return expect (database.seed ({})).to.be.fulfilled ();
 	});
 
-	it ('should reseed database', () => {
-		var db = require ('../../../app/db');
-
-		return expect (db.seed ({})).to.be.fulfilled ();
-	});
+	it ('should reseed database', () => expect (database.seed ({})).to.be.fulfilled ());
 
 	it ('should handle update failure on seed', () => {
-		var db = require ('../../../app/db');
-
 		sandbox.stub (collection, 'updateOne', () => Promise.reject ('err'));
-		return expect (db.seed ({})).to.be.rejected ();
+		return expect (database.seed ({})).to.be.rejected ();
 	});
 
 	it ('should handle update failure on reseed', () => {
-		var db = require ('../../../app/db');
-
 		sandbox.stub (collection, 'findOne', () => Promise.reject ('err'));
 		sandbox.stub (collection, 'updateOne', () => Promise.reject ('err'));
-		return expect (db.seed ({})).to.be.rejected ();
+		return expect (database.seed ({})).to.be.rejected ();
 	});
 
 	it ('should handle connect failure', () => {
-		var db = require ('../../../app/db');
-
 		sandbox.stub (mongo.MongoClient, 'connect', () => Promise.reject ('err'));
-		return expect (db.seed ({})).to.be.rejected ();
+		return expect (database.seed ({})).to.be.rejected ();
 	});
 
 	it ('should handle drop failure', () => {
-		var db2 = require ('../../../app/db');
-
 		sandbox.stub (db, 'dropDatabase', () => Promise.reject ('err'));
-		return expect (db2.seed ({})).to.be.rejected ();
+		return expect (database.seed ({})).to.be.rejected ();
 	});
 });

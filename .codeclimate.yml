@@ -17,8 +17,8 @@ engines:
     checks:
       global-require:
          enabled: false
-      handle-callback-err:
-         enabled: true
+      callback-return:
+         enabled: false
       Similar code:
          enabled: false
       no-process-exit:

@@ -6,26 +6,55 @@ const spawn = require ('child_process').spawn,
 	temp = require ('temp'),
 	mongo = require ('mongodb'),
 	db = mongo.Db,
-	server = mongo.Server,
-	testDir = 'oldschool_test',
-	prompts = {
-		cfgName: 'test-app',
-		cfgDbUrl: 'mongodb://localhost:27017/test',
-		cfgDescription: 'test-description',
-		cfgHomepage: 'test-homepage',
-		cfgBugs: 'test-issues',
-		cfgLicense: 'MIT',
-		cfgContribName: 'test-name',
-		cfgContribEmail: 'test-email',
-		cfgContribUrl: 'test-url',
-		cfgRepository: 'test-repository',
-		cfgFramework: 'AngularJS',
-		cfgSocial: [ 'github' ]
-	},
-	create = function create () {
+	server = mongo.Server;
+
+class run {
+
+	constructor () {
+		Object.assign (this, {
+			testDir: 'oldschool_test',
+			prompts: {
+				cfgName: 'test-app',
+				cfgDbUrl: 'mongodb://localhost:27017/test',
+				cfgDescription: 'test-description',
+				cfgHomepage: 'test-homepage',
+				cfgBugs: 'test-issues',
+				cfgLicense: 'MIT',
+				cfgContribName: 'test-name',
+				cfgContribEmail: 'test-email',
+				cfgContribUrl: 'test-url',
+				cfgRepository: 'test-repository',
+				cfgFramework: 'AngularJS',
+				cfgSocial: [ 'github' ]
+			}
+		});
+
+		temp.track ();
+
+		this.create ().then (dbname => {
+			this.dropDb (dbname).then (() => {
+				console.info ('Temporary DB Dropped');
+				process.exit (0);
+			}).catch (err => {
+				console.info ('Temporary DB Drop Failed');
+				console.error (err);
+				process.exit (1);
+			});
+		}).catch ((err, dbname) => {
+			console.error (err);
+			this.dropDb (dbname).then (() => {
+				process.exit (1);
+			}).catch (err => {
+				console.error (err);
+				process.exit (1);
+			});
+		});
+	}
+
+	create () {
 		return new Promise ((resolve, reject) => {
 			console.info ('Creating test directory');
-			temp.mkdir (testDir, (e, dir) => {
+			temp.mkdir (this.testDir, (e, dir) => {
 				if (e) {
 					reject (e);
 				} else {
@@ -35,7 +64,7 @@ const spawn = require ('child_process').spawn,
 					process.chdir (dir);
 
 					console.info ('Generating app');
-					helpers.run (path.join (__dirname, '../../app')).withPrompts (prompts).inDir (dir).on ('end', () => {
+					helpers.run (path.join (__dirname, '../../app')).withPrompts (this.prompts).inDir (dir).on ('end', () => {
 						var p;
 
 						console.info ('Running npm install');
@@ -71,8 +100,9 @@ const spawn = require ('child_process').spawn,
 				}
 			});
 		});
-	},
-	dropDb = function dropDb (name) {
+	}
+
+	dropDb (name) {
 		if (name) {
 			return new Promise ((resolve, reject) => {
 				new db (name, new server ('localhost', 27017)).open ().then (d => {
@@ -89,24 +119,6 @@ const spawn = require ('child_process').spawn,
 
 		return Promise.resolve ();
 	};
+}
 
-temp.track ();
-
-create ().then (dbname => {
-	dropDb (dbname).then (() => {
-		console.info ('Temporary DB Dropped');
-		process.exit (0);
-	}).catch (err => {
-		console.info ('Temporary DB Drop Failed');
-		console.error (err);
-		process.exit (1);
-	});
-}).catch ((err, dbname) => {
-	console.error (err);
-	dropDb (dbname).then (() => {
-		process.exit (1);
-	}).catch (err => {
-		console.error (err);
-		process.exit (1);
-	});
-});
+new run ();

@@ -2,102 +2,108 @@
 
 const mongo = require ('mongodb').MongoClient,
 	crypto = require ('crypto'),
-	pkg = require ('../package'),
+	pkg = require ('../package');
 
-	// versions = [ '0.0.1' ],
-	indexV1 = users => {
-		users.createIndex ({ username: 1 });
-		users.createIndex ({ username: 1, active: 1 });
-		users.createIndex ({ username: 1, password: 1 });
-		users.createIndex ({ username: 1, password: 1, active: 1 });
-		users.createIndex ({ username: 1, provider: 1 }, { unique: true });
-		users.createIndex ({ username: 1, provider: 1, active: 1 });
-		users.createIndex ({ email: 1 }, { unique: true });
-		users.createIndex ({ email: 1, active: 1 });
-	},
-	seedV1 = (odb, config, version) => new Promise ((resolve, reject) => odb.dropDatabase ().then (() => {
-		odb.close ();
-		return mongo.connect (config.cfgDbUrl).then (db => {
-			const	seed = db.collection ('seed'),
-				users = db.collection ('users');
+class Db {
+	constructor () { }
 
-			indexV1 (users);
+// versions = [ '0.0.1' ],
+	_indexV1 () {
+		this.userCollections.createIndex ({ username: 1 });
+		this.userCollections.createIndex ({ username: 1, active: 1 });
+		this.userCollections.createIndex ({ username: 1, password: 1 });
+		this.userCollections.createIndex ({ username: 1, password: 1, active: 1 });
+		this.userCollections.createIndex ({ username: 1, provider: 1 }, { unique: true });
+		this.userCollections.createIndex ({ username: 1, provider: 1, active: 1 });
+		this.userCollections.createIndex ({ email: 1 }, { unique: true });
+		this.userCollections.createIndex ({ email: 1, active: 1 });
+	}
 
-			db.createCollection ('log', {
-				capped: true,
-				size: 1024 * 1024 * 1024
-			});
+	_seedV1 () {
+		return new Promise ((resolve, reject) => this.db.dropDatabase ().then (() => {
+			this.db.close ();
 
-			db.createCollection ('audit', {
-				capped: true,
-				size: 1024 * 1024 * 1024
-			});
+			return mongo.connect (this.config.cfgDbUrl).then (db => {
+				this.db = db;
+				this.seedCollection = db.collection ('seed');
+				this.userCollections = db.collection ('users');
 
-			return users.insertMany ([
-				{
+				this._indexV1 ();
+
+				this.db.createCollection ('log', {
+					capped: true,
+					size: 1024 * 1024 * 1024
+				});
+
+				this.db.createCollection ('audit', {
+					capped: true,
+					size: 1024 * 1024 * 1024
+				});
+
+				return this.userCollections.insertMany ([{
 					username: 'admin', password: crypto.createHash ('sha256').update ('admin').digest ('hex'),
 					fullName: 'Administrator', nickname: 'Admin', email: 'admin@localhost', lang: 'en',
 					provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
-				},
-				{
+				}, {
 					username: 'user', password: crypto.createHash ('sha256').update ('user').digest ('hex'),
 					fullName: 'User', nickname: 'User', email: 'user@localhost', lang: 'en',
 					provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_USER' ]
-				}
-			]).then (() => seed.updateOne ({ _id: 1 }, {
-				_id: 1,
-				version,
-				name: config.cfgName,
-				description: config.cfgDescription,
-				contributors: [
-					{ name: config.cfgContribName, email: config.cfgContribEmail, url: config.cfgContribUrl }
-				],
-				repository: config.cfgRepository,
-				homepage: config.cfgHomepage,
-				license: config.cfgLicense,
-				issues: config.cfgBugs,
-				framework: config.cfgFramework
-			}, { upsert: true }).then (() => {
-				resolve (db);
-			}).catch (() => {
-				reject (db);
-			}));
-		});
-	}).catch (() => {
-		reject (odb);
-	})),
-	seedDatabase = (db, seed, config) => {
-		const version = pkg.version.split ('-') [ 0 ];
-
-		return seedV1 (db, config, version);
-
-		/* since v1 drops will need to reload seed for futuer versions */
-	};
-
-module.exports = {
-	seed: config => new Promise ((resolve, reject) => {
-		mongo.connect (config.cfgDbUrl).then (db => {
-			const seed = db.collection ('seed');
-
-			seed.findOne ({ _id: 1 }).then (dbconfig => {
-				seedDatabase (db, seed, config, dbconfig).then (fdb => {
-					fdb.close ();
+				}]).then (() => this.seedCollection.updateOne ({ _id: 1 }, {
+					_id: 1,
+					version: this.version,
+					name: this.config.cfgName,
+					description: this.config.cfgDescription,
+					contributors: [{ name: this.config.cfgContribName, email: this.config.cfgContribEmail, url: this.config.cfgContribUrl }],
+					repository: this.config.cfgRepository,
+					homepage: this.config.cfgHomepage,
+					license: this.config.cfgLicense,
+					issues: this.config.cfgBugs,
+					framework: this.config.cfgFramework
+				}, { upsert: true }).then (() => {
 					resolve ();
-				}).catch (fdb => {
-					fdb.close ();
-					reject ();
-				});
-			}).catch (() => {
-				seedDatabase (db, seed, config).then (fdb => {
-					fdb.close ();
-					resolve ();
-				}).catch (fdb => {
-					fdb.close ();
-					reject ();
-				});
+				}));
 			});
-		}).catch (err => {
-			reject (`Failed to seed database: ${ err }.`);
+		}).catch (() => {
+			reject ();
+		}));
+	}
+
+	_seedDatabase () {
+		this.version = pkg.version.split ('-') [ 0 ];
+
+		return this._seedV1 ();
+	}
+
+	seed (config) {
+		return new Promise ((resolve, reject) => {
+			const fail = () => {
+				console.log ('fail');
+				this.db.close ();
+				reject ();
+			},
+			succeed = () => {
+				console.log ('succeed');
+				this.db.close ();
+				resolve ();
+			};
+
+			this.config = config;
+
+			mongo.connect (this.config.cfgDbUrl).then (db => {
+				this.db = db;
+				this.seedCollection = this.db.collection ('seed');
+
+				this.seedCollection.findOne ({ _id: 1 }).then (dbconfig => {
+					this.dbconfig = dbconfig;
+					this._seedDatabase ().then (succeed).catch (fail);
+				}).catch (() => {
+					this._seedDatabase ().then (succeed).catch (fail);
+				});
+			}).catch (err => {
+				reject (`Failed to seed database: ${ err }.`);
+			});
 		});
-	})
-};
+	}
+}
+
+module.exports = new Db ();

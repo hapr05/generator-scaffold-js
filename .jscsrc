@@ -40,7 +40,7 @@
 	"requireLineBreakAfterVariableAssignment": true,
 	"requireMatchingFunctionName": true,
 	"requireMultipleVarDecl": true,
-	"requireNamedUnassignedFunctions": { "allExcept": [ "describe", "it" ]},
+	"requireNamedUnassignedFunctions": false,
 	"requireNumericLiterals": true,
 	"requireOperatorBeforeLineBreak": true,
 	"requirePaddingNewLineAfterVariableDeclaration": true,
@@ -79,7 +79,6 @@
 	"safeContextKeyword": ["me"],
 	"validateIndentation": "\t",
 	"validateLineBreaks": "LF",
-	"validateNewlineAfterArrayElements": true,
 	"validateParameterSeparator": ", ",
 	"validateQuoteMarks": { "mark": "'", "escape": true }
 }
