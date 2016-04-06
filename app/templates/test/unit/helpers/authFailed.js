@@ -1,20 +1,17 @@
-(function () {
+(function authFailedHeper () {
 	'use strict';
 
-	const boom = require ('boom');
-
-	function implementation () {
-		return {
-			authenticate (request, reply) {
-				return reply (boom.unauthorized ());
-			}
+	const boom = require ('boom'),
+		implimentation = function implementation () {
+			return {
+				authenticate: (request, reply) => reply (boom.unauthorized ())
+			};
 		};
-	}
 
 	module.exports = {
 		register (server, options, next) {
-			server.auth.scheme ('failed', implementation);
-			next();
+			server.auth.scheme ('failed', implimentation);
+			next ();
 		}
 	};
 

@@ -263,20 +263,20 @@
 				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.flushes }}</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" translate="metrics.db.backgroundFlushing.total_ms">Total Time</div>
-				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.total_ms | uptime }}</div>
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.totalMs">Total Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.totalMs | uptime }}</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" translate="metrics.db.backgroundFlushing.average_ms">Average Time</div>
-				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.average_ms | number: 2}} MS</div>
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.averageMs">Average Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.averageMs | number: 2}} MS</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" translate="metrics.db.backgroundFlushing.last_ms">Last Time</div>
-				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.last_ms }} MS</div>
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.lastMs">Last Time</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.lastMs }} MS</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6" translate="metrics.db.backgroundFlushing.last_finished">Last Finished</div>
-				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.last_finished | date: 'short'}}</div>
+				<div class="col-md-6" translate="metrics.db.backgroundFlushing.lastFinished">Last Finished</div>
+				<div class="col-md-6 text-right">{{ metricsData.db.backgroundFlushing.lastFinished | date: 'short'}}</div>
 			</div>
 			<br />
 		</div>

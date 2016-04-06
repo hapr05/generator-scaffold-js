@@ -1,21 +1,21 @@
-(function () {
+(function authFactory () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').factory ('authFactory', function ($timeout, $http, jwtHelper, localStorageService) {
+	angular.module ('<%= appSlug %>').factory ('authFactory', function factor ($timeout, $http, jwtHelper, localStorageService) {
 		var _auth = localStorageService.get ('token'),
-			_reset = function () {
+			_reset = function _reset () {
 				_auth = false;
 				localStorageService.set ('token', false);
 			},
-			_set = function (token) {
+			_set = function _set (token) {
 				_auth = token;
 				localStorageService.set ('token', token);
 			},
-			_refresh = function () {
-				$http.get ('authenticate').then (function (response) {
+			_refresh = function _refresh () {
+				$http.get ('authenticate').then (function _refreshSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
 					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
-				}).catch (function () {
+				}).catch (function _refreshFailureHandler () {
 					_reset ();
 				});
 			};
@@ -31,18 +31,18 @@
 				return _auth && !jwtHelper.isTokenExpired (_auth);
 			},
 
-			authenticate: function (username, password) {
+			authenticate: function authenticate (username, password) {
 				_reset ();
 				return $http.post ('authenticate', {
 					username: username,
 					password: password
-				}).then (function (response) {
+				}).then (function authenticateSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
 					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
 				});
 			},
 
-			forgot: function (email, token, password) {
+			forgot: function forgot (email, token, password) {
 				return $http.post ('authenticate/forgot', {
 					email: email,
 					token: token || undefined,
@@ -50,15 +50,15 @@
 				});
 			},
 
-			hasAuthority: function (authority) {
+			hasAuthority: function hasAuthority (authority) {
 				return _auth && !jwtHelper.isTokenExpired (_auth) && -1 !== jwtHelper.decodeToken (_auth).scope.indexOf (authority);
 			},
 
-			reset: function () {
+			reset: function reset () {
 				_reset ();
 			},
 
-			refresh: function () {
+			refresh: function refresh () {
 				_refresh ();
 			},
 

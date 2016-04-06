@@ -1,4 +1,4 @@
-(function () {
+(function credsHelper () {
 	'use strict';
 
 	module.exports = {

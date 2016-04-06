@@ -312,10 +312,10 @@
 			"backgroundFlushing": {
 				"title": "Background Flushing",
 				"flushes": "Flushes",
-				"total_ms": "Totaal Time",
-				"average_ms": "Average Time",
-				"last_ms": "Last Time",
-				"last_finished": "Last Finished"
+				"totalMs": "Totaal Time",
+				"averageMs": "Average Time",
+				"lastMs": "Last Time",
+				"lastFinished": "Last Finished"
 			},
 			"connections": {
 				"title": "Connections",

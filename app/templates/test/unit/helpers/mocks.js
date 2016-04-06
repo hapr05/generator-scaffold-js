@@ -1,4 +1,4 @@
-(function () {
+(function mocksHelper () {
 	'use strict';
 
 	const mockery = require ('mockery');
@@ -33,10 +33,9 @@
 				}
 			},
 			mongo = {
-				ObjectID: function () {
-				},
+				ObjectID: function ObjectID () {},
 				MongoClient: {
-					connect (url, settings, cb) {
+					connect:  (url, settings, cb) => {
 						cb (false, db);
 					}
 				}

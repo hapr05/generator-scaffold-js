@@ -36,6 +36,7 @@
 		"gulp": "latest",
 		"gulp-nodemon": "latest", "browser-sync": "latest",
 		"gulp-jshint": "latest", "gulp-json-lint": "latest", "jshint": "latest", "jshint-stylish": "latest",
+		"gulp-jscs": "latest",
 		"gulp-mocha": "latest", "gulp-istanbul": "latest", "chai": "latest", "dirty-chai": "latest", "chai-as-promised": "latest", "sinon": "latest", "mockery": "latest",
 		"karma": "latest", "karma-jasmine": "latest", "karma-coverage": "latest", "karma-phantomjs-launcher": "latest", "phantomjs-prebuilt": "latest", "jasmine-core": "latest",
 		"istanbul": "latest", "istanbul-threshold-checker": "latest",

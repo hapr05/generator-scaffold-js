@@ -84,6 +84,7 @@ describe ('oldschool:app', () => {
 					'.bowerrc',
 					'.travis.yml',
 					'.jshintc',
+					'.jscsrc',
 					'.editorconfig',
 					'LICENSE.MIT',
 					'README.mc',

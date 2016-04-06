@@ -1,10 +1,9 @@
-(function () {
+(function emailDirectiveTests () {
 	'use strict';
 
-	describe ('email directive', function () {
-
-		beforeEach (function () {
-			inject (function (accountFactory) {
+	describe ('email directive', function emailDirective () {
+		beforeEach (function beforeEach () {
+			inject (function inject (accountFactory) {
 				this.accountFactory = accountFactory;
 			});
 			this.$httpBackend.whenGET ('account/?email=test').respond (200);
@@ -12,15 +11,15 @@
 			this.form = this.$rootScope.form;
 		});
 
-		it ('should error if exists', function () {
+		it ('should error if exists', function errorIfExists () {
 			this.form.email.$setViewValue ('test');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.email.$valid).toBeFalsy ();
 		});
 
-		it ('should ignore empty', function () {
+		it ('should ignore empty', function ignoreEmpty () {
 			this.form.email.$setViewValue ('');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.email.$valid).toBeTruthy ();
 		});
 	});

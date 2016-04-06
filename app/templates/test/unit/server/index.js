@@ -1,92 +1,89 @@
-(function () {
-	'use strict';
+'use strict';
 
-	const chai = require ('chai'),
-		expect = chai.expect,
-		dirtyChai = require ('dirty-chai'),
-		chaiAsPromised = require ('chai-as-promised'),
-		sinon = require ('sinon'),
-		server = require ('../../../src/server'),
-		config = require ('config');
+const chai = require ('chai'),
+	expect = chai.expect,
+	dirtyChai = require ('dirty-chai'),
+	chaiAsPromised = require ('chai-as-promised'),
+	sinon = require ('sinon'),
+	server = require ('../../../src/server'),
+	config = require ('config');
 
-	chai.use (chaiAsPromised);
-	chai.use (dirtyChai);
-	process.env.ALLOW_CONFIG_MUTATIONS = 'true';
+chai.use (chaiAsPromised);
+chai.use (dirtyChai);
+process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
-	describe ('server', () => {
-		var m = config.get ('manifest');
+describe ('server', () => {
+	var m = config.get ('manifest');
 
-		beforeEach (() => {
-			m.server = {};
-			m.connections = [];
-			m.registrations = [];
+	beforeEach (() => {
+		m.server = {};
+		m.connections = [];
+		m.registrations = [];
+	});
+
+	it ('should start a server', () => {
+		var p = server.start ();
+
+		p.then (() => {
+			expect (server.instance ()).to.be.an ('object');
+			server.stop ();
 		});
 
-		it ('should start a server', () => {
-			var p = server.start ();
+		return expect (p).to.be.fulfilled;
+	});
 
-			p.then (() => {
-				expect (server.instance ()).to.be.an ('object');
-				server.stop ();
-			});
+	it ('should fail to start a server with an invalid plugin', () => {
+		var p;
 
-			return expect (p).to.be.fulfilled;
+		m.registrations = [
+			{ plugin: './invalid-plugin' }
+		];
+
+		p = server.start ();
+		p.then (() => {
+			server.stop ();
 		});
 
-		it ('should fail to start a server with an invalid plugin', () => {
-			var p;
+		return expect (p).to.be.rejected;
+	});
 
-			m.registrations = [{
-				plugin: './invalid-plugin'
-			}];
+	it ('should fail to start a second server on the same port', () => {
+		var p;
 
-			p = server.start ();
-			p.then (() => {
-				server.stop ();
-			});
+		m.connections = [
+			{ port: 8080 },
+			{ port: 8080 }
+		];
 
-			return expect (p).to.be.rejected;
+		p = server.start ();
+		p.then (() => {
+			server.stop ();
+		}).catch (() => {
+			/* This is a hack but the server is in an invalid state and cannot be stopped without this. */
+			server._state = 'started';
+			server.stop ();
 		});
 
-		it ('should fail to start a second server on the same port', () => {
-			var p;
+		return expect (p).to.be.rejected;
+	});
 
-			m.connections = [{
-				port: 8080
-			}, {
-				port: 8080
-			}];
+	it ('should audit', done => {
+		var insert = sinon.spy ();
 
-			p = server.start ();
-			p.then (() => {
-				server.stop ();
-			}).catch (() => {
-				/* This is a hack but the server is in an invalid state and cannot be stopped without this. */
-				server._state = 'started';
-				server.stop ();
-			});
-			
-			return expect (p).to.be.rejected;
-		});
-
-		it ('should audit', (done) => {
-			var insert = sinon.spy ();
-
-			server.start ().then ((s) => {
-				s.plugins ['hapi-mongodb'] = {
-					db: {
-						collection () {
-							return {
-								insertOne: insert
-							};
-						}
+		server.start ().then (s => {
+			s.plugins [ 'hapi-mongodb' ] = {
+				db: {
+					collection () {
+						return {
+							insertOne: insert
+						};
 					}
-				};
-				s.methods.audit ('', {}, '', '', {});
-				server.stop ();
-				expect (insert.called).to.be.true ();
-				done ();
-			});
+				}
+			};
+			s.methods.audit ('', {}, '', '', {});
+			server.stop ();
+			expect (insert.called).to.be.true ();
+			done ();
 		});
 	});
-} ());
+});

@@ -1,10 +1,9 @@
-(function () {
+(function usernameDirectiveTests () {
 	'use strict';
 
-	describe ('username directive', function () {
-
-		beforeEach (function () {
-			inject (function (accountFactory) {
+	describe ('username directive', function usernameDirective () {
+		beforeEach (function beforeEach () {
+			inject (function inject (accountFactory) {
 				this.accountFactory = accountFactory;
 			});
 			this.$httpBackend.whenGET ('account/test').respond (200);
@@ -12,15 +11,15 @@
 			this.form = this.$rootScope.form;
 		});
 
-		it ('should error if exists', function () {
+		it ('should error if exists', function errorIfExists () {
 			this.form.username.$setViewValue ('test');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.username.$valid).toBeFalsy ();
 		});
 
-		it ('should ignore empty', function () {
+		it ('should ignore empty', function ignoreEmpty () {
 			this.form.username.$setViewValue ('');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.username.$valid).toBeTruthy ();
 		});
 	});

@@ -1,4 +1,4 @@
-(function () {
+(function app () {
 	'use strict';
 
 	angular.module ('<%= appSlug %>', [
@@ -14,21 +14,21 @@
 		'ui.bootstrap.datetimepicker',
 		'angular-jwt',
 		'swaggerUi'
-	]).config (function ($urlRouterProvider) {
+	]).config (function configUrlRouter ($urlRouterProvider) {
 		$urlRouterProvider.otherwise ('/');
-	}).config (function ($translateProvider) {
+	}).config (function configTranslate ($translateProvider) {
 		$translateProvider.useLocalStorage ();
 		$translateProvider.useStaticFilesLoader ({
 			prefix: 'assets/locale/locale-',
 			suffix: '.json'
 		}).preferredLanguage ('en').useSanitizeValueStrategy ('sanitize');
-	}).config (function (localStorageServiceProvider) {
+	}).config (function configLocalStorage (localStorageServiceProvider) {
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
-	}).config (function ($httpProvider, $resourceProvider, jwtInterceptorProvider) {
+	}).config (function configHttp ($httpProvider, $resourceProvider, jwtInterceptorProvider) {
 		$httpProvider.defaults.xsrfCookieName = 'crumb';
 		$httpProvider.defaults.xsrfHeaderName = 'X-CSRF-Token';
 
-		jwtInterceptorProvider.tokenGetter = function (config, authFactory) {
+		jwtInterceptorProvider.tokenGetter = function tokenGetter (config, authFactory) {
 			if (-1 !== [ 'html' ].indexOf (config.url.substr (config.url.length - 4))) {
 				return null;
 			} else {
@@ -36,25 +36,25 @@
 			}
 		};
 
-		$httpProvider.interceptors.push('jwtInterceptor');
+		$httpProvider.interceptors.push ('jwtInterceptor');
 		$resourceProvider.defaults.stripTrailingSlashes = false;
-	}).run (function ($rootScope, $state, authFactory) {
-		$rootScope.$on ('$stateChangeStart', function (e, to) {
+	}).run (function run ($rootScope, $state, authFactory) {
+		$rootScope.$on ('$stateChangeStart', function stateChangeStart (e, to) {
 			if (to.data && angular.isFunction (to.data.allowed) && !to.data.allowed (authFactory)) {
 				e.preventDefault ();
 				$state.go ('home');
 			}
 		});
 
-		$rootScope.$on ('$stateChangeSuccess',  function (toState, toParams, fromState, fromParams) {
-			if (-1 === ['login', 'reigster' ].indexOf (fromState.name)) {
+		$rootScope.$on ('$stateChangeSuccess', function stateChangeSuccess (toState, toParams, fromState, fromParams) {
+			if (-1 === [ 'login', 'reigster' ].indexOf (fromState.name)) {
 				$rootScope.previousStateName = fromState.name;
 				$rootScope.previousStateParams = fromParams;
 			}
 		});
 
-		$rootScope.back = function () {
-			if (!$rootScope.previousStateName ||  null === $state.get ($rootScope.previousStateName)) {
+		$rootScope.back = function back () {
+			if (!$rootScope.previousStateName || null === $state.get ($rootScope.previousStateName)) {
 				$state.go ('home');
 			} else {
 				$state.go ($rootScope.previousStateName, $rootScope.previousStateParams);

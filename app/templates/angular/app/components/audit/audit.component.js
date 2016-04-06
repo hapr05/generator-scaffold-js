@@ -1,9 +1,9 @@
-(function () {
+(function auditComponent () {
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('audit', {
 		templateUrl: 'app/components/audit/audit.view.html',
-		controller: function ($scope, $resource, $filter) {
+		controller: function controller ($scope, $resource, $filter) {
 			angular.extend ($scope, {
 				auditRoute: $resource ('audit/'),
 				events: [
@@ -22,19 +22,19 @@
 				fromOpen: false,
 				toOpen: false,
 
-				view: function () {
+				view: function view () {
 					$scope.auditData = $scope.auditRoute.query ({
 						from: $scope.filter.from,
 						to: $scope.filter.to,
-						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined,
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [ 2 ] : undefined,
 						username: $scope.filter.username || undefined
 					});
 				}
 			});
 
-			$scope.$watch (function () {
+			$scope.$watch (function watchVar () {
 				return $scope.filter.dates;
-			}, function () {
+			}, function watchAction () {
 				if ($scope.filter.from && $scope.filter.to) {
 					$scope.filter.dates = $filter ('date') ($scope.filter.from, 'short') + ' - ' + $filter ('date') ($scope.filter.to, 'short');
 				} else {
@@ -42,12 +42,12 @@
 				}
 			});
 		}
-	}).config (function ($stateProvider) {
+	}).config (function setupState ($stateProvider) {
 		$stateProvider.state ('audit', {
 			url: '/audit',
 			template: '<audit></audit>',
 			data: {
-				allowed: function (authFactory) {
+				allowed: function allowed (authFactory) {
 					return authFactory.hasAuthority ('ROLE_ADMIN');
 				}
 			}

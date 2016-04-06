@@ -1,31 +1,31 @@
-(function () {
+(function forgotComponent () {
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('forgot', {
 		templateUrl: 'app/components/forgot/forgot.view.html',
-		controller: function ($scope, $state, $stateParams, authFactory) {
+		controller: function controller ($scope, $state, $stateParams, authFactory) {
 			angular.extend ($scope, {
 				sent: false,
 				token: $stateParams.token,
-				reset: function (event) {
+				reset: function reset (event) {
 					event.preventDefault ();
 					$scope.sent = true;
-					authFactory.forgot ($scope.email, $scope.token, $scope.password).then (function () {
+					authFactory.forgot ($scope.email, $scope.token, $scope.password).then (function resetSuccessHandler () {
 						if ($scope.token) {
 							$state.go ('login');
 						}
-					}).catch (function () {
+					}).catch (function resetFailureHandler () {
 						$scope.resetError = true;
 					});
 				}
 			});
 		}
-	}).config (function ($stateProvider) {
+	}).config (function setupState ($stateProvider) {
 		$stateProvider.state ('forgot', {
 			url: '/forgot/:token',
 			template: '<forgot></forgot>',
 			data: {
-				allowed: function (authFactory) {
+				allowed: function allowed (authFactory) {
 					return !authFactory.authenticated;
 				}
 			}

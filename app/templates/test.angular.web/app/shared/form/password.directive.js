@@ -1,9 +1,8 @@
-(function () {
+(function passwordDirectiveTests () {
 	'use strict';
 
-	describe ('password directive', function () {
-
-		beforeEach (function () {
+	describe ('password directive', function passwordDirective () {
+		beforeEach (function beforeEach () {
 			this.$templateCache.put ('app/shared/form/password.strength.html', '<div></div>');
 
 			this.$compile (
@@ -14,15 +13,15 @@
 			this.form = this.$rootScope.form;
 		});
 
-		it ('should error if invalid', function () {
+		it ('should error if invalid', function errorIfInvalid () {
 			this.form.password.$setViewValue ('test');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.password.$valid).toBeFalsy ();
 		});
 
-		it ('should ignore empty', function () {
+		it ('should ignore empty', function ignoreEmpty () {
 			this.form.password.$setViewValue ('');
-			this.$rootScope.$digest();
+			this.$rootScope.$digest ();
 			expect (this.form.password.$valid).toBeTruthy ();
 		});
 	});

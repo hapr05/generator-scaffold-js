@@ -1,31 +1,31 @@
-(function () {
+(function loginComponent () {
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('login', {
 		templateUrl: 'app/components/login/login.view.html',
-		controller: function ($rootScope, $scope, $state, authFactory) {
+		controller: function controller ($rootScope, $scope, $state, authFactory) {
 			angular.extend ($scope, {
 				disable: false,
-				login: function (event) {
+				login: function login (event) {
 					event.preventDefault ();
 					$scope.disable = true;
-					authFactory.authenticate ($scope.username, $scope.password).then (function () {
+					authFactory.authenticate ($scope.username, $scope.password).then (function loginSuccessHandler () {
 						$scope.disable = false;
 						$scope.authenticationError = false;
 						$rootScope.back ();
-					}).catch (function () {
+					}).catch (function loginFailHandler () {
 						$scope.disable = false;
 						$scope.authenticationError = true;
-					}); 
+					});
 				}
 			});
 		}
-	}).config (function ($stateProvider) {
+	}).config (function setupState ($stateProvider) {
 		$stateProvider.state ('login', {
 			url: '/login',
 			template: '<login></login>',
 			data: {
-				allowed: function (authFactory) {
+				allowed: function allowed (authFactory) {
 					return !authFactory.authenticated;
 				}
 			}
