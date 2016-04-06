@@ -7,7 +7,7 @@ const exit = () => {
 };   
 
 require ('./src/server').start ().catch ((err, server) => {
-	if (server) {
+	if (!err && server) {
 		server.stop ().then (exit).catch (exit);
 	} else {
 		exit (); 

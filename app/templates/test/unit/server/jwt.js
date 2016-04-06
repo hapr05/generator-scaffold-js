@@ -39,6 +39,7 @@ describe ('jwt helpers', () => {
 			host: 'test',
 			user: '56e321368fb6511021ff1f8b'
 		}, request, (err, response) => {
+			expect (err).to.be.null ();
 			expect (response).to.be.true ();
 		});
 	});
@@ -48,6 +49,7 @@ describe ('jwt helpers', () => {
 			host: 'invalid',
 			user: '56e321368fb6511021ff1f8b'
 		}, request, (err, response) => {
+			expect (err).to.be.null ();
 			expect (response).to.be.false ();
 		});
 	});
@@ -59,6 +61,7 @@ describe ('jwt helpers', () => {
 			host: 'test',
 			user: '56e321368fb6511021ff1f8b'
 		}, request, (err, response) => {
+			expect (err).to.be.null ();
 			expect (response).to.be.false ();
 		});
 	});
@@ -70,6 +73,7 @@ describe ('jwt helpers', () => {
 			host: 'test',
 			user: '56e321368fb6511021ff1f8b'
 		}, request, (err, response) => {
+			expect (err).to.be.null ();
 			expect (response).to.be.false ();
 		});
 	});
