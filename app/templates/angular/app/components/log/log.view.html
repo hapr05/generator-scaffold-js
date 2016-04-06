@@ -5,14 +5,14 @@
 			<div class="form-group col-md-4">
 				<div class="input-group">
 					<span class="input-group-btn" uib-dropdown is-open="isOpen" auto-close="disabled">>
-						<button type="button" class="btn btn-default" uib-dropdown-toggle><i class="glyphicon glyphicon-calendar"></i></button>
+						<button type="button" class="btn btn-default" uib-dropdown-toggle><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
 						<ul uib-dropdown-menu>
 							<li>
 							<div class="form-group" ng-class="{ 'has-error': form.from.$dirty && form.from.$invalid }">
 								<label for="from" translate="log.field.from">To</label>
 								<div class="input-group">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-default" ng-click="fromOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+										<button type="button" class="btn btn-default" ng-click="fromOpen = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
 									</span>
 									<input type="text" name="from" class="form-control" datetime-picker="short" ng-model="filter.from" ng-model-options="{ alloInvalid: true }" max-date="filter.to" is-open="fromOpen" required />
 								</div>
@@ -23,7 +23,7 @@
 								<label for="to" translate="log.field.to">To</label>
 								<div class="input-group">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-default" ng-click="toOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+										<button type="button" class="btn btn-default" ng-click="toOpen = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
 									</span>
 									<input type="text" name="to" class="form-control" datetime-picker="short" ng-model="filter.to" ng-model-options="{ alloInvalid: true }" min-date="filter.from" is-open="toOpen" required />
 								</div>
@@ -31,10 +31,12 @@
 							</li>
 						</ul>
 					</span>
+					<label for="dates" translate="log.field.date" class="sr-only">Event</label>
 					<input type="text" name="dates" class="form-control" placeholder="{{ 'log.field.dates' | translate }}" ng-model="filter.dates" readonly />
 				</div>
 			</div>
 			<div class="form-group col-md-3">
+				<label for="event" translate="log.field.event" class="sr-only">Event</label>
 				<ui-select name="event" ng-model="filter.event" theme="bootstrap" search-enabled="false" title="{{ 'log.field.event' | translate }}">
 				<ui-select-match allow-clear placeholder="{{ 'log.field.event' | translate }}">{{ $select.selected | translate }}</ui-select-match>
 				<ui-select-choices repeat="event in events">{{ event | translate }}</ui-select-choices>
@@ -137,7 +139,7 @@
 					<pre>{{ log.data | json }}</pre>
 				<td>
 					<button ng-click="raw ($index)" type="button" class="btn btn-default">
-						<span class="glyphicon glyphicon-open-file"></span>
+						<span class="glyphicon glyphicon-open-file" aria-hidden="true"></span>
 					</button>
 				</td>
 			</tr>

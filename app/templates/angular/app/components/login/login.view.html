@@ -12,8 +12,9 @@
 						</div>
 						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="login ($event)">
 							<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$invalid }">
+								<label for="username" translate="login.field.usernameOrEmailAddress" class="sr-only">Username or Email Address</label>
 								<div class="input-group">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
 									<input type="text" class="form-control" name="username" autofocus ng-model="username" value="" required placeholder="{{ 'login.field.usernameOrEmailAddress' | translate }}">
 								</div>
 								<div ng-show="form.username.$dirty && form.username.$invalid">
@@ -21,8 +22,9 @@
 								</div>
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$invalid }">
+								<label for="password" translate="login.field.password" class="sr-only">Password</label>
 								<div class="input-group">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" class="form-control" name="password" ng-model="password" required placeholder="{{ 'login.field.password' | translate }}">
 								</div>
 								<div ng-show="form.password.$dirty && form.password.$invalid">

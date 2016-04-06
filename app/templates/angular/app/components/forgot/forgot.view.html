@@ -15,9 +15,10 @@
 						</div>
 						<form novalidate ng-hide="sent" class="form-horizontial" name="emailForm" role="form" ng-submit="reset ($event)">
 							<div class="form-group" ng-class="{ 'has-error': emailForm.email.$dirty && emailForm.email.$invalid }">
+								<label for="email" translate="forgot.field.email" class="sr-only">Email</label>
 								<div class="input-group">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-									<input type="email" class="form-control" name="email" autofocus ng-model="email" value="" required placeholder="{{ 'forgot.field.email' | translate }}" />
+									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
+									<input type="email" class="form-control" name="email" autofocus ng-model="email" value="" placeholder="{{ 'forgot.field.email' | translate }}" />
 								</div>
 								<div ng-show="emailForm.email.$dirty && emailForm.email.$invalid">
 									<p class="help-block" ng-show="emailForm.email.$error.required" translate="forgot.msg.validate.email.required">Email address is required.</p>
@@ -38,9 +39,10 @@
 						</div>
 						<form novalidate ng-hide="sent" class="form-horizontial" name="passwordForm" role="form" ng-submit="reset ($event)">
 							<div class="form-group" ng-class="{ 'has-error': passwordForm.password.$dirty && passwordForm.password.$invalid }">
+								<label for="password" translate="forgot.field.password" class="sr-only">Password</label>
 								<div class="input-group">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-									<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="password" ng-model-options="{ allowInvalid: true }" required placeholder="{{ 'forgot.field.password' | translate }}" />
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+									<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="password" ng-model-options="{ allowInvalid: true }" placeholder="{{ 'forgot.field.password' | translate }}" />
 								</div>
 								<<%= appSlug %>-password-strength password="password" />
 								<div ng-show="passwordForm.password.$dirty && passwordForm.password.$invalid">
@@ -50,7 +52,7 @@
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': passwordForm.confirmPassword.$dirty && passwordForm.confirmPassword.$invalid }">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" class="form-control" <%= appSlug %>-match="password" name="confirmPassword" ng-model="confirmPassword" required placeholder="{{ 'forgot.field.confirmPassword' | translate }}" />
 								</div>
 								<div ng-show="passwordForm.confirmPassword.$dirty && passwordForm.confirmPassword.$invalid">
