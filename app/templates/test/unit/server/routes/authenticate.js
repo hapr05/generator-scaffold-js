@@ -68,6 +68,17 @@ describe ('authentication route', () => {
 			});
 		});
 
+		it ('should authenticate valid user with remember', done => {
+			server.inject ({ method: 'POST', url: '/authenticate', payload: { username: 'admin', password: 'admin', rememberMe: true }, credentials: creds.user }).then (response => {
+				try {
+					expect (response.statusCode).to.equal (200);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
 		describe ('forgot replace', () => {
 			it ('should update password', done => {
 				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' }}).then (response => {
@@ -172,7 +183,18 @@ describe ('authentication route', () => {
 		});
 
 		it ('should refresh token', done => {
-			server.inject ({ method: 'GET', url: '/authenticate', credentials: { user: { id: '1' }}}).then (response => {
+			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1' }}).then (response => {
+				try {
+					expect (response.statusCode).to.equal (200);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should refresh token with remember', done => {
+			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1', remember: true }}).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
 					done ();

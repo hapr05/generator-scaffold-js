@@ -11,7 +11,9 @@ module.exports = {
 				_id: new mongo.ObjectID (decoded.user),
 				active: true
 			}).then (user => {
-				callback (null, user ? true : false, user);
+				callback (null, user ? true : false, Object.assign (user, {
+					remember: decoded.remember
+				}));
 			}).catch (() => {
 				callback (null, false);
 			});

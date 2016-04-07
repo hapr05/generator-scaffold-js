@@ -157,6 +157,7 @@
 			 */
 			jwtKey: '<%= jwtKey %>',
 			tokenExpire: 15 * 60,
+			tokenRememberExpire: 90 * 24 * 60 * 60,
 			tokenForgotExpire: 24 * 60 * 60
 		}
 	}

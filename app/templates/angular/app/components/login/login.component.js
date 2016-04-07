@@ -9,7 +9,7 @@
 				login: function login (event) {
 					event.preventDefault ();
 					$scope.disable = true;
-					authFactory.authenticate ($scope.username, $scope.password).then (function loginSuccessHandler () {
+					authFactory.authenticate ($scope.username, $scope.password, $scope.rememberMe).then (function loginSuccessHandler () {
 						$scope.disable = false;
 						$scope.authenticationError = false;
 						$rootScope.back ();

@@ -40,11 +40,12 @@ The token must be used as a bearer token in the Authorization header on any auth
 					request.server.methods.audit ('auth', { id: user._id, username: user.username }, 'success', 'authenticate', {});
 					reply ().code (200).header ('Authorization', jwt.sign ({
 						iss: '<%= appSlug %>',
-						exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenExpire'),
+						exp: parseInt (new Date ().getTime () / 1000, 10) + config.get (request.payload.rememberMe ? 'web.tokenRememberExpire' : 'web.tokenExpire'),
 						iat: parseInt (new Date ().getTime () / 1000, 10),
 						sub: 'auth',
 						host: request.info.host,
 						user: user._id,
+						remember: request.payload.rememberMe,
 						scope: user.scope
 					}, config.get ('web.jwtKey')));
 				} else {
@@ -167,11 +168,12 @@ The token must be used as a bearer token in the Authorization header on any auth
 		handler (request, reply) {
 			reply ().code (200).header ('Authorization', jwt.sign ({
 				iss: '<%= appSlug %>',
-				exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenExpire'),
+				exp: parseInt (new Date ().getTime () / 1000, 10) + config.get (request.auth.credentials.remember ? 'web.tokenRememberExpire' : 'web.tokenExpire'),
 				iat: parseInt (new Date ().getTime () / 1000, 10),
 				sub: 'auth',
 				host: request.info.host,
 				user: request.auth.credentials._id,
+				remember: request.auth.credentials.remember,
 				scope: request.auth.credentials.scope
 			}, config.get ('web.jwtKey')));
 		}

@@ -23,7 +23,8 @@ module.exports = {
 
 	authenticate: joi.object ({
 		username: joi.string ().required ().description ('Username'),
-		password: joi.string ().required ().description ('Password')
+		password: joi.string ().required ().description ('Password'),
+		rememberMe: joi.boolean ().optional ().description ('Remember Me')
 	}).required ().meta ({ className: 'AuthenticateUser' }),
 
 	forgot: joi.object ({

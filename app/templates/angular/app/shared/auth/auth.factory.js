@@ -14,7 +14,7 @@
 			_refresh = function _refresh () {
 				$http.get ('authenticate').then (function _refreshSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
-					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
+					$timeout (_refresh, Math.min (jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000, 117440512));
 				}).catch (function _refreshFailureHandler () {
 					_reset ();
 				});
@@ -31,14 +31,15 @@
 				return _auth && !jwtHelper.isTokenExpired (_auth);
 			},
 
-			authenticate: function authenticate (username, password) {
+			authenticate: function authenticate (username, password, rememberMe) {
 				_reset ();
 				return $http.post ('authenticate', {
 					username: username,
-					password: password
+					password: password,
+					rememberMe: rememberMe
 				}).then (function authenticateSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
-					$timeout (_refresh, jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000);
+					$timeout (_refresh, Math.min (jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000, 117440512));
 				});
 			},
 
