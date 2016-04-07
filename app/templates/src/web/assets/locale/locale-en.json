@@ -35,7 +35,7 @@
 					"taken": "Username is already in use."
 				},
 				"fullName": {
-					"required": "Name is required."
+					"required": "Full name is required."
 				},
 				"nickname": {
 					"required": "Nickname is required."

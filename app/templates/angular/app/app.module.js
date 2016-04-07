@@ -6,6 +6,7 @@
 		'ngCookies',
 		'ngSanitize',
 		'ngResource',
+		'ngMessages',
 		'LocalStorageModule',
 		'pascalprecht.translate',
 		'ui.router',

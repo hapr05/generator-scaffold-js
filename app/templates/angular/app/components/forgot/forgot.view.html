@@ -18,11 +18,11 @@
 								<label for="email" translate="forgot.field.email" class="sr-only">Email</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i></span>
-									<input type="email" class="form-control" name="email" autofocus ng-model="email" value="" placeholder="{{ 'forgot.field.email' | translate }}" />
+									<input type="email" class="form-control" name="email" autofocus ng-model="email" value="" placeholder="{{ 'forgot.field.email' | translate }}" required />
 								</div>
-								<div ng-show="emailForm.email.$dirty && emailForm.email.$invalid">
-									<p class="help-block" ng-show="emailForm.email.$error.required" translate="forgot.msg.validate.email.required">Email address is required.</p>
-									<p class="help-block" ng-show="emailForm.email.$error.email" translate="forgot.msg.validate.email.email">Invalid email address.</p>
+								<div ng-messages="emailForm.email.$dirty && emailForm.email.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="forgot.msg.validate.email.required">Email address is required.</p>
+									<p class="help-block" ng-message="email" translate="forgot.msg.validate.email.email">Invalid email address.</p>
 								</div>
 							</div>
 							<div class="form-group text-right">
@@ -42,12 +42,14 @@
 								<label for="password" translate="forgot.field.password" class="sr-only">Password</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="password" ng-model-options="{ allowInvalid: true }" placeholder="{{ 'forgot.field.password' | translate }}" />
+									<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="password" ng-model-options="{ allowInvalid: true }" placeholder="{{ 'forgot.field.password' | translate }}" required />
 								</div>
 								<<%= appSlug %>-password-strength password="password" />
+								<div ng-messages="passwordForm.password.$dirty && passwordForm.password.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="forgot.msg.validate.password.required">Password is required.</p>
+									<p class="help-block" ng-message="valid" translate="forgot.msg.validate.password.pattern">Password must at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character.</p>
+								</div>
 								<div ng-show="passwordForm.password.$dirty && passwordForm.password.$invalid">
-									<p class="help-block" ng-show="passwordForm.password.$error.required" translate="forgot.msg.validate.password.required">Password is required.</p>
-									<p class="help-block" ng-show="passwordForm.password.$error.<%= appCamel %>PasswordValid" translate="forgot.msg.validate.password.pattern">Password must at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character.</p>
 								</div>
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': passwordForm.confirmPassword.$dirty && passwordForm.confirmPassword.$invalid }">
@@ -55,9 +57,10 @@
 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" class="form-control" <%= appSlug %>-match="password" name="confirmPassword" ng-model="confirmPassword" required placeholder="{{ 'forgot.field.confirmPassword' | translate }}" />
 								</div>
-								<div ng-show="passwordForm.confirmPassword.$dirty && passwordForm.confirmPassword.$invalid">
-									<p class="help-block" ng-show="passwordForm.confirmPassword.$error.required" translate="forgot.msg.validate.confirmPassword.required">Confirmation password is required.</p>
-									<p class="help-block" ng-show="passwordForm.confirmPassword.$error.match" translate="forgot.msg.validate.confirmPassword.match">Passwords do not match.</p>
+								<div ng-messages="passwordForm.confirmPassword.$dirty && passwordForm.confirmPassword.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="forgot.msg.validate.confirmPassword.required">Confirmation password is required.</p>
+									<p class="help-block" ng-message="match" translate="forgot.msg.validate.confirmPassword.match">Passwords do not match.</p>
+								</div>
 								</div>
 							</div>
 							<div class="form-group text-right">

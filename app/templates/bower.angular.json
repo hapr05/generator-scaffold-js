@@ -13,6 +13,7 @@
 		"angular-cookies": "latest",
 		"angular-sanitize": "latest",
 		"angular-resource": "latest",
+		"angular-messages": "latest",
 		"angular-mocks": "latest",
 		"angular-translate": "latest",
 		"angular-local-storage": "latest",

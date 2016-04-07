@@ -17,8 +17,8 @@
 									<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
 									<input type="text" class="form-control" name="username" autofocus ng-model="username" value="" required placeholder="{{ 'login.field.usernameOrEmailAddress' | translate }}">
 								</div>
-								<div ng-show="form.username.$dirty && form.username.$invalid">
-									<p class="help-block" ng-show="form.username.$error.required" translate="login.msg.validate.username.required">Username is required.</p>
+								<div ng-messages="form.username.$dirty && form.username.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="login.msg.validate.username.required">Unsername is required.</p>
 								</div>
 							</div>
 							<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$invalid }">
@@ -27,8 +27,8 @@
 									<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
 									<input type="password" class="form-control" name="password" ng-model="password" required placeholder="{{ 'login.field.password' | translate }}">
 								</div>
-								<div ng-show="form.password.$dirty && form.password.$invalid">
-									<p class="help-block" ng-show="form.password.$error.required" translate="login.msg.validate.password.required">Password is required.</p>
+								<div ng-messages="form.password.$dirty && form.password.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="login.msg.validate.password.required">Password is required.</p>
 								</div>
 							</div>
 							<div class="checkbox">

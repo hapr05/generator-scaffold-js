@@ -34,7 +34,7 @@
 			restrict: 'A',
 			require: 'ngModel',
 			link: function link (scope, elm, attrs, ctrl) {
-				ctrl.$validators.<%= appCamel %>PasswordValid = function <%= appCamel %>PasswordValid (modelValue, viewValue) {
+				ctrl.$validators.valid = function valid (modelValue, viewValue) {
 					return !viewValue || /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/.test (viewValue);
 				};
 			}

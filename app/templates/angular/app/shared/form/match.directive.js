@@ -8,9 +8,10 @@
 			scope: true,
 			link: function link (scope, elm, attrs, ctrl) {
 				scope.$watch (function watchVar () {
-					var match = scope.$eval (attrs.<%= appCamel %>Match);
+					var one = scope.$eval (attrs.<%= appCamel %>Match),
+						two = scope.$eval (attrs.ngModel);
 
-					return match ? scope.$eval (attrs.ngModel) === match : true;
+					return one && two ? one === two : true;
 				}, function watchHandler (valid) {
 					ctrl.$setValidity ('match', valid);
 				});
