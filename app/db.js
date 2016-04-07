@@ -77,12 +77,10 @@ class Db {
 	seed (config) {
 		return new Promise ((resolve, reject) => {
 			const fail = () => {
-				console.log ('fail');
 				this.db.close ();
 				reject ();
 			},
 			succeed = () => {
-				console.log ('succeed');
 				this.db.close ();
 				resolve ();
 			};
