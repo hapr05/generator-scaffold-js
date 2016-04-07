@@ -116,7 +116,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 							user: user._id
 						}, config.get ('web.jwtKey'));
 
-						request.server.plugins.mailer.sendMail ({
+						request.server.plugins [ 'hapi-mailer' ].send ({
 							from: '<%= cfgContribEmail %>',
 							to: `${user.fullname } <${user.email}>`,
 							subject: '<%= cfgName %> password reset',

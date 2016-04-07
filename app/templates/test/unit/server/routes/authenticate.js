@@ -40,7 +40,7 @@ describe ('authentication route', () => {
 	beforeEach (() => {
 		server = new hapi.Server ();
 		server.connection ();
-		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed, require ('hapi-mailer') ]).then (() => {
+		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
 			server.method ('audit', () => {});
 			server.auth.strategy ('jwt', 'failed');<% if (socialLogins.length) { for (var i = 0; i < socialLogins.length; i++) { %>
 			server.auth.strategy ('<%= socialLogins [i].name %>', 'failed');<% }} %>
@@ -111,9 +111,11 @@ describe ('authentication route', () => {
 
 		describe ('forgot email', () => {
 			it ('should send forgot password email', done => {
-				sandbox.stub (server.plugins.mailer, 'sendMail', (optoins, callback) => {
-					callback ();
-				});
+				server.plugins [ 'hapi-mailer' ] = {
+					send: (options, callback) => {
+						callback ();
+					}
+				};
 
 				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
 					try {
@@ -126,6 +128,12 @@ describe ('authentication route', () => {
 			});
 
 			it ('should ignore forgot password if email fails', done => {
+				server.plugins [ 'hapi-mailer' ] = {
+					send: (options, callback) => {
+						callback ('err');
+					}
+				};
+
 				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);

@@ -124,7 +124,7 @@
 			}, {
 				/* TODO either put this in the generator config or document in README.md */
 				plugin: {
-					register: 'hapi-mailer',
+					register: '@nesive/hapi-mailer',
 					options: {
 //						transport: {
 //							service: 'Gmail',

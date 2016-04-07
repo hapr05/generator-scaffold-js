@@ -118,7 +118,7 @@ class run {
 		}
 
 		return Promise.resolve ();
-	};
+	}
 }
 
 new run ();
