@@ -120,7 +120,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 						request.server.plugins [ 'hapi-mailer' ].send ({
 							from: '<%= cfgContribEmail %>',
 							to: `${user.fullname } <${user.email}>`,
-							subject: require (`../locale/${ request.pre.language [ 0 ].code}`).subject.forgot,
+							subject: require (`../locale/${ request.pre.language [ 0 ].code}.json`).subject.forgot,
 							html: {
 								path: `forgot-${ request.pre.language [ 0 ].code }.html`
 							},

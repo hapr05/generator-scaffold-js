@@ -1,0 +1,5 @@
+{
+	"subject": {
+		"forgot": "<%= cfgName %> password reset"
+	}
+}
