@@ -40,7 +40,7 @@ describe ('authentication route', () => {
 	beforeEach (() => {
 		server = new hapi.Server ();
 		server.connection ();
-		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), require ('hapi-accept-language'), failed ]).then (() => {
 			server.method ('audit', () => {});
 			server.auth.strategy ('jwt', 'failed');<% if (socialLogins.length) { for (var i = 0; i < socialLogins.length; i++) { %>
 			server.auth.strategy ('<%= socialLogins [i].name %>', 'failed');<% }} %>
@@ -128,7 +128,7 @@ describe ('authentication route', () => {
 					}
 				};
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'en' }}).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -145,7 +145,7 @@ describe ('authentication route', () => {
 					}
 				};
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'es' }}).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();

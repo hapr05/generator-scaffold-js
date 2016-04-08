@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= cfgName %> restablecimiento de contraseña</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<p>{{ nickname }},</p>
+		<p>Se ha solicitado una solicitud de restablecimiento de contraseña de su cuenta <%= cfgName %>. Por favor, haga clic en el enlace de abajo para restablecerla:</p>
+		<p><a href="{{ uri }}/#/forgot/{{ token }}">Restablecer la contraseña</a></p>
+	</body>
+</html>

@@ -30,7 +30,7 @@
 		"hapi-auth-jwt2": "latest", "hapi-router": "latest", "crumb": "latest", "bell": "latest", "vision": "latest", "visionary": "latest", "handlebars": "latest",
 		"boom": "latest", "good": "latest", "through2": "latest",
 		"mongodb": "latest", "hapi-mongodb": "latest",
-		"@nesive/hapi-mailer": "latest"
+		"@nesive/hapi-mailer": "latest", "hapi-accept-language": "latest"
 	},
 	"devDependencies": {
 		"gulp": "latest",

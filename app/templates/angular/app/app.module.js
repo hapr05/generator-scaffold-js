@@ -42,9 +42,10 @@
 
 		$httpProvider.interceptors.push ('jwtInterceptor');
 		$resourceProvider.defaults.stripTrailingSlashes = false;
-	}).run (function run ($rootScope, $state, authFactory, tmhDynamicLocale) {
+	}).run (function run ($rootScope, $state, authFactory, tmhDynamicLocale, $http) {
 		$rootScope.$on ('$translateChangeSuccess', function translateChangeSuccess (e, to) {
 			tmhDynamicLocale.set (to.language);
+			$http.defaults.headers.common [ 'Accept-Language' ] = to.language;
 		});
 
 		$rootScope.$on ('$stateChangeStart', function stateChangeStart (e, to) {

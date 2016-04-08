@@ -120,10 +120,9 @@ The token must be used as a bearer token in the Authorization header on any auth
 						request.server.plugins [ 'hapi-mailer' ].send ({
 							from: '<%= cfgContribEmail %>',
 							to: `${user.fullname } <${user.email}>`,
-							subject: '<%= cfgName %> password reset',
-							text: `A password reset requset was requested for your <%= cfgName %> account. Please click on the URL below to reset it:\n${request.server.info.uri}/#/forgot/${token}`,
+							subject: require (`../locale/${ request.pre.language [ 0 ].code}`).subject.forgot,
 							html: {
-								path: 'forgot.html'
+								path: `forgot-${ request.pre.language [ 0 ].code }.html`
 							},
 							context: {
 								nickname: user.nickname,
