@@ -1,6 +1,8 @@
 (function () {
 	'use strict';
 
+	window.localeLocation = '';
+
 	beforeEach (module ('<%= appSlug %>'));
 
 	beforeEach (function () {
@@ -12,6 +14,12 @@
 			this.$templateCache = $templateCache;
 
 			$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
+		});
+	});
+
+	beforeEach (function () {
+		inject (function (tmhDynamicLocale) {
+			spyOn (tmhDynamicLocale, 'set');
 		});
 	});
 

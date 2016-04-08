@@ -32,6 +32,7 @@
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
 		<script src="bower_components/angular-messages/angular-messages.js"></script>
 		<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+		<script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
 		<script src="bower_components/angular-translate/angular-translate.js"></script>
 		<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
 		<script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
@@ -49,6 +50,12 @@
 		<!-- build:remove -->
 		<script src="bower_components/less/dist/less.js"></script>
 		<!-- /build -->
+		<script>
+			var localeLocaiton = 'assets/locale/angular-locale_{{locale}}.js';
+			<!-- build:remove -->
+			localeLocation = '/bower_components/angular-i18n/angular-locale_{{locale}}.js';
+			<!-- /build -->
+		</script>
 	</head>
 	<body ng-app="<%= appSlug %>" role="document">
 		<!-- build:remove -->

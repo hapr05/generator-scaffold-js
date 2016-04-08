@@ -60,6 +60,7 @@ const gulp = require ('gulp'),
 					'src/web/bower_components/angular-resource/angular-resource.js',
 					'src/web/bower_components/angular-messages/angular-messages.js',
 					'src/web/bower_components/angular-local-storage/dist/angular-local-storage.js',
+					'src/web/bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
 					'src/web/bower_components/angular-translate/angular-translate.js',
 					'src/web/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
 					'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
@@ -73,6 +74,7 @@ const gulp = require ('gulp'),
 					'src/web/bower_components/angular-jwt/dist/angular-jwt.js',
 					'src/web/bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js'
 				],
+				locale: 'src/web/bower_components/angular-i18n/angular-locale*.js',
 				css: [
 					'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
 					'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css',
@@ -271,5 +273,7 @@ require ('harmony-reflect');
 
 	gulp.task ('vendor.fonts', () => gulp.src (opts.files.vendor.fonts).pipe (gulp.dest (opts.dist.assets.fonts)));
 
-	gulp.task ('vendor', [ 'vendor.js.uglify', 'vendor.css.clean', 'vendor.fonts' ]);
+	gulp.task ('vendor.locale', () => gulp.src (opts.files.vendor.locale).pipe (gulp.dest (opts.dist.assets.locale)));
+
+	gulp.task ('vendor', [ 'vendor.js.uglify', 'vendor.css.clean', 'vendor.fonts', 'vendor.locale' ]);
 }) ();

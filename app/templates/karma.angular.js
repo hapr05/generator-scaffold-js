@@ -16,6 +16,7 @@
 				'src/web/bower_components/angular-resource/angular-resource.js',
 				'src/web/bower_components/angular-messages/angular-messages.js',
 				'src/web/bower_components/angular-local-storage/dist/angular-local-storage.js',
+				'src/web/bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
 				'src/web/bower_components/angular-translate/angular-translate.js',
 				'src/web/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js',
 				'src/web/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',

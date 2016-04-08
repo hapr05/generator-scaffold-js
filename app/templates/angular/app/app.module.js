@@ -8,6 +8,7 @@
 		'ngResource',
 		'ngMessages',
 		'LocalStorageModule',
+		'tmh.dynamicLocale',
 		'pascalprecht.translate',
 		'ui.router',
 		'ui.select',
@@ -17,12 +18,14 @@
 		'swaggerUi'
 	]).config (function configUrlRouter ($urlRouterProvider) {
 		$urlRouterProvider.otherwise ('/');
-	}).config (function configTranslate ($translateProvider) {
+	}).config (function configTranslate ($translateProvider, tmhDynamicLocaleProvider) {
 		$translateProvider.useLocalStorage ();
 		$translateProvider.useStaticFilesLoader ({
 			prefix: 'assets/locale/locale-',
 			suffix: '.json'
 		}).preferredLanguage ('en').useSanitizeValueStrategy (null); // TODO:  This should be sanitize but it has issues: https://github.com/angular-translate/angular-translate/issues/1101
+
+		tmhDynamicLocaleProvider.localeLocationPattern (window.localeLocation);
 	}).config (function configLocalStorage (localStorageServiceProvider) {
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
 	}).config (function configHttp ($httpProvider, $resourceProvider, jwtInterceptorProvider) {
@@ -39,7 +42,11 @@
 
 		$httpProvider.interceptors.push ('jwtInterceptor');
 		$resourceProvider.defaults.stripTrailingSlashes = false;
-	}).run (function run ($rootScope, $state, authFactory) {
+	}).run (function run ($rootScope, $state, authFactory, tmhDynamicLocale) {
+		$rootScope.$on ('$translateChangeSuccess', function translateChangeSuccess (e, to) {
+			tmhDynamicLocale.set (to.language);
+		});
+
 		$rootScope.$on ('$stateChangeStart', function stateChangeStart (e, to) {
 			if (to.data && angular.isFunction (to.data.allowed) && !to.data.allowed (authFactory)) {
 				e.preventDefault ();
