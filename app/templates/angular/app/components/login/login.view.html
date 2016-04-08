@@ -7,8 +7,8 @@
 				</div>
 				<div class="panel-body">
 					<div class="<%= loginFormClass %>">
-						<div class="alert alert-danger" ng-show="authenticationError" translate="login.msg.error.auth">
-							<strong>Failed to sign in!</strong> Please check your credentials and try again.
+						<div class="alert alert-danger" ng-show="authenticationError">
+							<strong translate="login.msg.error.authb">Failed to sign in!</strong> <span translate="login.msg.error.auth">Please check your credentials and try again.</span>
 						</div>
 						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="login ($event)">
 							<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$invalid }">

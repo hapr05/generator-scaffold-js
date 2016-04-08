@@ -22,7 +22,7 @@
 		$translateProvider.useStaticFilesLoader ({
 			prefix: 'assets/locale/locale-',
 			suffix: '.json'
-		}).preferredLanguage ('en').useSanitizeValueStrategy ('sanitize');
+		}).preferredLanguage ('en').useSanitizeValueStrategy (null); // TODO:  This should be sanitize but it has issues: https://github.com/angular-translate/angular-translate/issues/1101
 	}).config (function configLocalStorage (localStorageServiceProvider) {
 		localStorageServiceProvider.setPrefix ('<%= appSlug %>');
 	}).config (function configHttp ($httpProvider, $resourceProvider, jwtInterceptorProvider) {

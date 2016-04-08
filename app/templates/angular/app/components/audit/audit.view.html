@@ -38,8 +38,8 @@
 			<div class="form-group col-md-3">
 				<label for="event" translate="audit.field.event" class="sr-only">Event</label>
 				<ui-select name="event" ng-model="filter.event" theme="bootstrap" search-enabled="false" title="{{ 'audit.field.event' | translate }}">
-				<ui-select-match allow-clear placeholder="{{ 'audit.field.event' | translate }}">{{ $select.selected | translate }}</ui-select-match>
-				<ui-select-choices repeat="event in events">{{ event | translate }}</ui-select-choices>
+					<ui-select-match allow-clear placeholder="{{ 'audit.field.event' | translate }}">{{ $select.selected | translate }}</ui-select-match>
+					<ui-select-choices repeat="event in events">{{ event | translate }}</ui-select-choices>
 				</ui-select>
 			</div>
 			<div class="form-group col-md-3">

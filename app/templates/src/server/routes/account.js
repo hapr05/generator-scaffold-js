@@ -111,7 +111,6 @@ The latter case can be used to check for duplicates, such as accounts with the s
 					fullName: request.payload.fullName,
 					nickname: request.payload.nickname,
 					email: request.payload.email,
-					lang: request.payload.lang || 'en',
 					provider: 'internal'
 				};
 
@@ -121,7 +120,6 @@ The latter case can be used to check for duplicates, such as accounts with the s
 				fullName: request.payload.fullName,
 				nickname: request.payload.nickname,
 				email: request.payload.email,
-				lang: request.payload.lang || 'en',
 				provider: 'internal',
 				active: true,
 				created: new Date (),

@@ -201,7 +201,6 @@ The token must be used as a bearer token in the Authorization header on any auth
 						fullName: request.auth.credentials.profile.displayName,
 						nickname: <% if (-1 !== [ 'facebook', 'linkedin' ].indexOf (socialLogins [i].name)) { %>request.auth.credentials.profile.name.first<% } else if ('google' === socialLogins [i].name) { %>request.auth.credentials.profile.name.givenName<% } else { %>request.auth.credentials.profile.displayName.split (' ').shift ()<% } %>,
 						email: request.auth.credentials.profile.email,
-						lang: <% if ('twitter' === socialLogins [i].name) { %>request.auth.credentials.profile.raw.lang<% } else { %>'en'<% } %>,
 						active: true,
 						created: new Date (),
 						scope: [ 'ROLE_USER' ]

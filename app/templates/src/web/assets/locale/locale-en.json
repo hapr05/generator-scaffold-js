@@ -2,6 +2,7 @@
 	"global": {
 		"account": "Account",
 		"administration": "Administration",
+		"language": "Language",
 		"btn": {
 			"toggleNavigation": "Toggle Navigation"
 		}
@@ -79,7 +80,8 @@
 		},
 		"msg": {
 			"error": {
-				"auth": "<strong>Failed to sign in!</strong> Please check your credentials and try again."
+				"authb": "Failed to sign in!",
+				"auth": "Please check your credentials and try again."
 			},
 			"validate": {
 				"username": {

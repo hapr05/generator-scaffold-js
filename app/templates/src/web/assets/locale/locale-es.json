@@ -1,0 +1,346 @@
+{
+	"global": {
+		"account": "Cuenta",
+		"administration": "Administración",
+		"language": "Idioma",
+		"btn": {
+			"toggleNavigation": "Navegación de la palanca"
+		}
+	},
+	"home": {
+		"nav": "Página de inicio",
+		"title": "Página de inicio"
+	},
+	"register": {
+		"nav": "Registro",
+		"title": "Únete",
+		"field": {
+			"username": "Nombre de usuario",
+			"fullName": "Nombre completo",
+			"nickname": "¿Qué deberíamos llamarte?",
+			"email": "Dirección de correo electrónico",
+			"password": "Contraseña",
+			"confirmPassword": "Confirmar contraseña"
+		},
+		"btn": {
+			"register": "Registro"
+		},
+		"msg": {
+			"error": {
+				"failed": "Error en el registro!"
+			},
+			"validate": {
+				"username": {
+					"required": "Nombre de usuario es requerido.",
+					"pending": "Comprobar username...",
+					"taken": "Nombre de usuario ya está en uso."
+				},
+				"fullName": {
+					"required": "Nombre completo es requerido."
+				},
+				"nickname": {
+					"required": "Apodo es necesario."
+				},
+				"email": {
+					"required": "Dirección de correo electrónico es necesaria.",
+					"email": "Dirección de correo electrónico no es válida.",
+					"pending": "Comprobación de correo electrónico adddess...",
+					"taken": "Dirección de correo electrónico ya está en uso."
+				},
+				"password": {
+					"required": "Se requiere una contraseña.",
+					"pattern": "Contraseña debe tener al menos 8 caracteres y contener numérico entre mayúscula, minúscula, al menos uno y el carácter de símbolo."
+				},
+				"confirmPassword": {
+					"required": "Se requiere una contraseña de confirmación.",
+					"match": "Las contraseñas no coinciden."
+				}
+			}
+		}
+	},
+	"login": {
+		"nav": "Inicia sesión",
+		"logoutNav": "Cerrar sesión",
+		"title": "Inicia sesión",
+		"forgotPassword": "¿Olvidó su contraseña?",
+		"noAccount": "¿No tiene una cuenta?",
+		"signUpHere": "Regístrese aquí.",
+		"field": {
+			"usernameOrEmailAddress": "Nombre de usuario o dirección de correo electrónico",
+			"password": "Contraseña",
+			"rememberMe": "Acuérdate de mí"
+		},
+		"btn": {
+			"login": "Inicia sesión",
+			"loginWithGitHub": "Iniciar sesión con GitHub",
+			"loginWithTwitter": "Iniciar sesión con Tiwtter",
+			"loginWithFacebook": "Iniciar sesión con Facebook",
+			"loginWithGoogle": "Inicia sesión con Google",
+			"loginWithLinkedin": "Iniciar sesión con Linkedin"
+		},
+		"msg": {
+			"error": {
+				"authb": "No se pudo firmar!",
+				"auth": "Por favor, compruebe sus credenciales y vuelva a intentarlo."
+			},
+			"validate": {
+				"username": {
+					"required": "Nombre de usuario es requerido."
+				},
+				"password": {
+					"required": "Se requiere una contraseña."
+				}
+			}
+		}
+	},
+	"forgot": {
+		"title": "Restablecer contraseña",
+		"field": {
+			"email": "Dirección de correo electrónico",
+			"password": "Contraseña",
+			"confirmPassword": "Confirmar contraseña"
+		},
+		"btn": {
+			"reset": "Restablecer contraseña"
+		},
+		"msg": {
+			"enterEmail": "Introduzca la dirección de correo electrónico que utilizó para registrarse.",
+			"checkEmail": "Revise su correo electrónico para obtener más información sobre cómo restablecer su contraseña.",
+			"enterPassword": "Ingrese su nueva contraseña.",
+			"error": {
+				"reset": "Error al restablecer contraseña."
+			},
+			"validate": {
+				"email": {
+					"required": "Dirección de correo electrónico es necesaria.",
+					"email": "Dirección de correo electrónico válida."
+				},
+				"password": {
+					"required": "Se requiere una contraseña.",
+					"pattern": "Contraseña debe tener al menos 8 caracteres y contener numérico entre mayúscula, minúscula, al menos uno y el carácter de símbolo."
+				},
+				"confirmPassword": {
+					"required": "Se requiere una contraseña de confirmación.",
+					"match": "Las contraseñas no coinciden."
+				}
+			}
+		}
+	},
+	"log": {
+		"nav": "Registros de",
+		"title": "Registros de",
+		"btn": {
+			"view": "Ver"
+		},
+		"field": {
+			"dates": "Fechas de",
+			"from": "De",
+			"to": "Para",
+			"event": "Evento"
+		},
+		"option": {
+			"log": "Registro",
+			"ops": "OPS",
+			"request": "Solicitud de",
+			"response": "Respuesta"
+		},
+		"header": {
+			"event": "Evento",
+			"timestamp": "Fecha y hora",
+			"host": "Host",
+			"data": "Datos",
+			"raw": "Crudo"
+		},
+		"data": {
+			"tags": "Etiquetas",
+			"data": "Datos",
+			"os": "OS",
+			"proc": "Proc",
+			"load": "Carga",
+			"uptime": "Tiempo de actividad",
+			"totalMem": "Memoria total",
+			"freeMem": "Memoria libre",
+			"rssMem": "RSS memoria",
+			"heapTotalMemory": "Memoria de montón total",
+			"heapUsedMemory": "Memoria Heap usada",
+			"delay": "Retardo de",
+			"requests": "Solicitudes de",
+			"total": "Total",
+			"disconnects": "Discconects",
+			"statusCode": "Código de estado",
+			"concurrents": "Concurrents",
+			"responseTimes": "Tiempos de respuesta",
+			"avg": "Promedio",
+			"max": "Max",
+			"sockets": "Tomas de corriente",
+			"labels": "Etiquetas",
+			"method": "Método",
+			"path": "Ruta de acceso",
+			"query": "Consulta",
+			"responseTime": "Tiempo de respuesta",
+			"httpVersion": "Versión de HTTP",
+			"source": "Fuente",
+			"remoteAddress": "remoteAddress",
+			"userAgent": "Agente de usuario",
+			"referer": "Sitios de referencia"
+		}
+	},
+	"audit": {
+		"nav": "Logs de auditoría",
+		"title": "Logs de auditoría",
+		"btn": {
+			"view": "Ver"
+		},
+		"field": {
+			"dates": "Fechas de",
+			"from": "De",
+			"to": "Para",
+			"event": "Evento",
+			"username": "Nombre de usuario"
+		},
+		"option": {
+			"auth": "Autorización",
+			"access": "Acceso",
+			"change": "Cambio",
+			"create": "Crear"
+		},
+		"header": {
+			"event": "Evento",
+			"timestamp": "Fecha y hora",
+			"user": "Usuario",
+			"status": "Estado",
+			"resource": "Recursos",
+			"data": "Datos"
+		}
+	},
+	"metrics": {
+		"nav": "Sistema de indicadores",
+		"title": "Sistema de indicadores",
+		"btn": {
+			"refresh": "Actualización"
+		},
+		"os": {
+			"title": "Sistema operativo",
+			"info": {
+				"title": "Información",
+				"arch": "Arquitectura",
+				"hostname": "Nombre de host",
+				"platform": "Plataforma",
+				"release": "Lanzamiento",
+				"tempdir": "Directorio temporal",
+				"uptime": "Tiempo de actividad"
+			},
+			"cpus": {
+				"title": "CPUS",
+				"cpu": "CPU",
+				"model": "Modelo",
+				"speed": "Velocidad",
+				"times": "Veces",
+				"user": "Usuario",
+				"nice": "Bonito",
+				"sys": "Sistema de",
+				"idle": "Marcha lenta",
+				"irq": "IRQ"
+			},
+			"memory": {
+				"title": "Memoria",
+				"total": "Total"
+			},
+			"load": {
+				"title": "Carga"
+			},
+			"networkInterfaces": {
+				"title": "Interfaces de red",
+				"address": "Dirección",
+				"netmask": "Máscara de red",
+				"family": "Familia",
+				"mac": "MAC",
+				"scopeid": "Identificación del alcance",
+				"internal": "Interna"
+			}
+		},
+		"process": {
+			"title": "Proceso",
+			"info": {
+				"title": "Información",
+				"pid": "PID"
+			},
+			"memory": {
+				"title": "Memoria",
+				"rss": "RSS",
+				"heap": "Montón de"
+			},
+			"env": {
+				"title": "Variables de entorno"
+			},
+			"versions": {
+				"title": "Versiones"
+			}
+		},
+		"server": {
+			"title": "Servidor",
+			"info": {
+				"title": "Información",
+				"version": "Versión"
+			},
+			"connections": {
+				"title": "Conexiones de",
+				"id": "ID",
+				"host": "Nombre de host",
+				"address": "Dirección",
+				"port": "Puerto",
+				"protocol": "Protocolo",
+				"uri": "Uri"
+			}
+		},
+		"db": {
+			"title": "Base de datos",
+			"info": {
+				"title": "Información",
+				"version": "Versión",
+				"host": "Nombre de host",
+				"pid": "PID",
+				"uptime": "Tiempo de actividad",
+				"ok": "Vale"
+			},
+			"asserts": {
+				"title": "Afirma",
+				"regular": "Regular",
+				"warning": "ADVERTENCIA",
+				"msg": "MSG",
+				"user": "Usuario",
+				"rollovers": "Rollovers"
+			},
+			"backgroundFlushing": {
+				"title": "Flushing de fondo",
+				"flushes": "Descargas",
+				"totalMs": "Tiempo total",
+				"averageMs": "Tiempo promedio de",
+				"lastMs": "Última vez",
+				"lastFinished": "Fin terminado"
+			},
+			"connections": {
+				"title": "Conexiones de",
+				"current": "Corriente",
+				"available": "Avilable",
+				"totalCreated": "Total creado"
+			},
+			"network": {
+				"title": "Red",
+				"bytesIn": "En",
+				"bytesOut": "Hacia fuera",
+				"numRequests": "Solicitudes de"
+			},
+			"document": {
+				"title": "Documento",
+				"deleted": "Elimina",
+				"inserted": "Inserta",
+				"returned": "Volvió",
+				"updated": "Actualizado"
+			}
+		}
+	},
+	"apidoc": {
+		"nav": "Documentación de la API"
+	}
+}

@@ -17,8 +17,7 @@ module.exports = {
 		password: joi.string ().regex (/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\W).*$/, 'strong').min (8).required ().description ('Password'),
 		fullName: joi.string ().required ().description ('Full Name'),
 		nickname: joi.string ().required ().description ('Nickname'),
-		email: joi.string ().email ().required ().description ('Email Address'),
-		lang: joi.string ().optional ().description ('IETF language tag')
+		email: joi.string ().email ().required ().description ('Email Address')
 	}).required ().meta ({ className: 'CreateUser' }),
 
 	authenticate: joi.object ({

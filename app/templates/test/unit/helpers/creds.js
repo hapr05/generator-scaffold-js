@@ -11,9 +11,6 @@
 				email: 'test',
 				name: {
 					first: 'test'
-				},
-				raw: {
-					lang: 'en'
 				}
 			},
 			scope: [ 'ROLE_ADMIN' ]
@@ -28,9 +25,6 @@
 				email: 'test',
 				name: {
 					first: 'test'
-				},
-				raw: {
-					lang: 'en'
 				}
 			},
 			scope: [ 'ROLE_USER' ]
