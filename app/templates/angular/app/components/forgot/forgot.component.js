@@ -25,9 +25,7 @@
 			url: '/forgot/:token',
 			template: '<forgot></forgot>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return !authFactory.authenticated;
-				}
+				authenticated: false
 			}
 		});
 	});

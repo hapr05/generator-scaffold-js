@@ -13,9 +13,8 @@
 			url: '/apidoc',
 			template: '<apidoc></apidoc>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return authFactory.hasAuthority ('ROLE_ADMIN');
-				}
+				authenticated: true,
+				authority: [ 'ROLE_ADMIN' ]
 			}
 		});
 	});

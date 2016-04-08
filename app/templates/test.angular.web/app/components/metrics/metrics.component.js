@@ -18,17 +18,18 @@
 		});
 
 		it ('should transition to metrics state', function transitionToState () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (true);
+			this.authenticate (200);
+			spyOn (this.authFactory, 'hasAnyAuthority').and.returnValue (true);
 			this.$state.go ('metrics');
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('metrics');
 		});
 
 		it ('should fail to transition to metrics if not authorized', function failToTransitionIfNotAuthorized () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (false);
+			this.authFactory.reset ();
 			this.$state.go ('metrics');
 			this.$rootScope.$digest ();
-			expect (this.$state.current.name).toBe ('home');
+			expect (this.$state.current.name).toBe ('login');
 		});
 
 		it ('should refresh metrics', function refreshMetrics () {

@@ -17,17 +17,18 @@
 		});
 
 		it ('should transition to audit state', function transitionToState () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (true);
+			this.authenticate (200);
+			spyOn (this.authFactory, 'hasAnyAuthority').and.returnValue (true);
 			this.$state.go ('audit');
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('audit');
 		});
 
 		it ('should fail to transition to audit if not authorized', function failToTransitionIfNotAuthorized () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (false);
+			this.authFactory.reset ();
 			this.$state.go ('audit');
 			this.$rootScope.$digest ();
-			expect (this.$state.current.name).toBe ('home');
+			expect (this.$state.current.name).toBe ('login');
 		});
 
 		it ('should load audit', function loadAudit () {

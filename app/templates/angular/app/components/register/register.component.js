@@ -32,9 +32,7 @@
 			url: '/register',
 			template: '<register></register>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return !authFactory.authenticated;
-				}
+				authenticated: false
 			}
 		});
 	});

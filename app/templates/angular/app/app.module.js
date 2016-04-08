@@ -49,9 +49,17 @@
 		});
 
 		$rootScope.$on ('$stateChangeStart', function stateChangeStart (e, to) {
-			if (to.data && angular.isFunction (to.data.allowed) && !to.data.allowed (authFactory)) {
-				e.preventDefault ();
-				$state.go ('home');
+			if (to.data) {
+				if (true === to.data.authenticated && !authFactory.authenticated) {
+					e.preventDefault ();
+					$state.go ('login');
+				} else if (false === to.data.authenticated && authFactory.authenticated) {
+					e.preventDefault ();
+					$state.go ('home');
+				} else if (to.data.authority && !authFactory.hasAnyAuthority (to.data.authority)) {
+					e.preventDefault ();
+					$state.go ('home');
+				}
 			}
 		});
 

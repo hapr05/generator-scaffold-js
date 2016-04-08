@@ -17,17 +17,18 @@
 		});
 
 		it ('should transition to log state', function transitionToState () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (true);
+			this.authenticate (200);
+			spyOn (this.authFactory, 'hasAnyAuthority').and.returnValue (true);
 			this.$state.go ('log');
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('log');
 		});
 
 		it ('should fail to transition to log if not authorized', function failToTransitionIfNotAuthorized () {
-			spyOn (this.authFactory, 'hasAuthority').and.returnValue (false);
+			this.authFactory.reset ();
 			this.$state.go ('log');
 			this.$rootScope.$digest ();
-			expect (this.$state.current.name).toBe ('home');
+			expect (this.$state.current.name).toBe ('login');
 		});
 
 		it ('should load log', function loadLog () {

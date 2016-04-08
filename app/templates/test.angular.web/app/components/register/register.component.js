@@ -12,6 +12,7 @@
 		});
 
 		it ('should transition to register state', function transitionToState () {
+			this.authFactory.reset ();
 			this.$state.go ('register');
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('register');

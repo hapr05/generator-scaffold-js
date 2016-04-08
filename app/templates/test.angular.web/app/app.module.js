@@ -12,8 +12,25 @@
 			this.$compile = $compile;
 			this.$httpBackend = $httpBackend;
 			this.$templateCache = $templateCache;
+			this.infiniteToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyMzQ1Njc4OTAsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJzY29wZSI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl19.lNob43rYJaJMMrojCrlLtkyNT59ujuagGALTKpar5Gc';
 
+			this.refreshResponse = 200;
 			$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
+			this.$httpBackend.whenGET ('authenticate').respond (function respond () {
+				return [ this.refreshResponse, {}, { Authorization: this.infiniteToken } ];
+			});
+		});
+	});
+
+	beforeEach (function () {
+		inject (function inject (authFactory) {
+			this.authFactory = authFactory;
+
+			this.authenticate = function (code) {
+				this.$httpBackend.whenPOST ('authenticate').respond (code, {}, { Authorization: this.infiniteToken });
+				this.authFactory.authenticate ('user', 'user');
+				this.$httpBackend.flush ();
+			};
 		});
 	});
 
@@ -64,6 +81,30 @@
 			this.$rootScope.back ();
 			this.$rootScope.previousStateName = 'login';
 			this.$rootScope.back ();
+		});
+
+		describe ('redirection', function () {
+			it ('should redirect when not authenticated and authentication required', function () {
+				this.authFactory.reset ();
+				this.$state.go ('audit');
+				this.$rootScope.$digest ();
+				expect (this.$state.current.name).toBe ('login');
+			});
+
+			it ('should redirect when authenticated and authentication not allowed', function () {
+				this.authenticate (200);
+				this.$state.go ('forgot');
+				this.$rootScope.$digest ();
+				expect (this.$state.current.name).toBe ('home');
+			});
+
+			it ('should redirect when authoridty not allowed', function () {
+				spyOn (this.authFactory, 'hasAnyAuthority').and.returnValue (false);
+				this.authenticate (200);
+				this.$state.go ('audit');
+				this.$rootScope.$digest ();
+				expect (this.$state.current.name).toBe ('home');
+			});
 		});
 	});
 } ());

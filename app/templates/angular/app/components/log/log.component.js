@@ -61,9 +61,8 @@
 			url: '/log',
 			template: '<log></log>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return authFactory.hasAuthority ('ROLE_ADMIN');
-				}
+				authenticated: true,
+				authority: [ 'ROLE_ADMIN' ]
 			}
 		});
 	});

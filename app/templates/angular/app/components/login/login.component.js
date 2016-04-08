@@ -25,9 +25,7 @@
 			url: '/login',
 			template: '<login></login>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return !authFactory.authenticated;
-				}
+				authenticated: false
 			}
 		});
 	});

@@ -14,7 +14,7 @@
 		it ('should load', function load () {
 			var el = this.$compile ('<topnav></topnav>') (this.$rootScope);
 
-			this.$httpBackend.whenGET ('authenticate').respond (200);
+			this.authenticate (200);
 			this.$rootScope.$digest ();
 			expect (el.html ()).toContain ('_topnav_component_content_');
 		});

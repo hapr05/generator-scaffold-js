@@ -36,7 +36,6 @@
 
 		it ('should handle login failure', function handleFailure () {
 			this.$httpBackend.expectPOST ('authenticate').respond (401);
-			this.$httpBackend.whenGET ('authenticate').respond (401);
 			this.scope.login ({
 				preventDefault: function preventDefault () {}
 			});

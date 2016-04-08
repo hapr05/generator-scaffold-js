@@ -21,9 +21,8 @@
 			url: '/metrics',
 			template: '<metrics></metrics>',
 			data: {
-				allowed: function allowed (authFactory) {
-					return authFactory.hasAuthority ('ROLE_ADMIN');
-				}
+				authenticated: true,
+				authority: [ 'ROLE_ADMIN' ]
 			}
 		});
 	});
