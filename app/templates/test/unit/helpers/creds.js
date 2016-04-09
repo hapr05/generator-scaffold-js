@@ -3,29 +3,37 @@
 
 	module.exports = {
 		admin: {
-			username: 'test',
+			_id: 'admin',
+			username: 'admin',
+			fullName: 'Admin',
+			nickname: 'Admin',
+			email: 'admin@localhost',
 			profile: {
-				id: 'test',
-				username: 'test',
-				displayName: 'test',
-				email: 'test',
+				id: 'admin',
+				username: 'admin',
+				displayName: 'Admin',
 				name: {
-					first: 'test'
-				}
+					first: 'Admin'
+				},
+				email: 'admin@localhost'
 			},
 			scope: [ 'ROLE_ADMIN' ]
 		},
 
 		user: {
-			username: 'test',
+			_id: 'user',
+			username: 'user',
+			fullName: 'User',
+			nickname: 'User',
+			email: 'user@localhost',
 			profile: {
-				id: 'test',
-				username: 'test',
-				displayName: 'test',
-				email: 'test',
+				id: 'user',
+				username: 'user',
+				displayName: 'User',
 				name: {
-					first: 'test'
-				}
+					first: 'User'
+				},
+				email: 'user@localhost'
 			},
 			scope: [ 'ROLE_USER' ]
 		}

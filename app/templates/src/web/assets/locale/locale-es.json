@@ -11,6 +11,47 @@
 		"nav": "Página de inicio",
 		"title": "Página de inicio"
 	},
+	"account": {
+		"nav": "Configuración",
+		"title": "Cuenta",
+		"field": {
+			"fullName": "Nombre completo",
+			"nickname": "¿Qué deberíamos llamarte?",
+			"email": "Dirección de correo electrónico",
+			"password": "Contraseña",
+			"confirmPassword": "Confirmar contraseña"
+		},
+		"btn": {
+			"update": "Actualización"
+		},
+		"msg": {
+			"error": {
+				"failed": "Error de actualización!",
+				"succeded": "Cuenta actualizada."
+			},
+			"validate": {
+				"fullName": {
+					"required": "Nombre completo es requerido."
+				},
+				"nickname": {
+					"required": "Apodo es necesario."
+				},
+				"email": {
+					"required": "Dirección de correo electrónico es necesaria.",
+					"email": "Dirección de correo electrónico no es válida.",
+					"pending": "Comprobación de correo electrónico adddess...",
+					"taken": "Dirección de correo electrónico ya está en uso."
+				},
+				"password": {
+					"pattern": "Contraseña debe tener al menos 8 caracteres y contener numérico entre mayúscula, minúscula, al menos uno y el carácter de símbolo."
+				},
+				"confirmPassword": {
+					"required": "Se requiere una contraseña de confirmación.",
+					"match": "Las contraseñas no coinciden."
+				}
+			}
+		}
+	},
 	"register": {
 		"nav": "Registro",
 		"title": "Únete",
@@ -80,7 +121,7 @@
 		},
 		"msg": {
 			"error": {
-				"authb": "No se pudo firmar!",
+				"authb": "No se pudo iniciar sesión!",
 				"auth": "Por favor, compruebe sus credenciales y vuelva a intentarlo."
 			},
 			"validate": {

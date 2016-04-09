@@ -22,9 +22,9 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { 'description': 'Success' },
-					'400': { 'description': 'Bad Request' },
-					'401': { 'description': 'Unauthorized' }
+					'200': { description: 'Success' },
+					'400': { description: 'Bad Request' },
+					'401': { description: 'Unauthorized' }
 				}
 			}
 		},
@@ -74,8 +74,8 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { 'description': 'Success' },
-					'401': { 'description': 'Unauthorized' }
+					'200': { description: 'Success' },
+					'401': { description: 'Unauthorized' }
 				}
 			}
 		},
@@ -158,9 +158,9 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { 'description': 'Success' },
-					'400': { 'description': 'Bad Request' },
-					'401': { 'description': 'Unauthorized' }
+					'200': { description: 'Success' },
+					'400': { description: 'Bad Request' },
+					'401': { description: 'Unauthorized' }
 				}
 			}
 		},

@@ -32,11 +32,20 @@
 			expect (this.authFactory.token).toBe (null);
 		});
 
-		it ('should refresh token', function refreshToken () {
-			this.$httpBackend.expectGET ('authenticate').respond (200, {}, { Authorization: this.infiniteToken });
-			this.authFactory.refresh ();
-			this.$httpBackend.flush ();
-			expect (this.authFactory.token).toBe (this.infiniteToken);
+		describe ('refresh', function refresh () {
+			it ('should refresh token', function refreshToken () {
+				this.$httpBackend.expectGET ('authenticate').respond (200, {}, { Authorization: this.infiniteToken });
+				this.authFactory.refresh ();
+				this.$httpBackend.flush ();
+				expect (this.authFactory.token).toBe (this.infiniteToken);
+			});
+
+			it ('should request account on first token refresh', function refreshTokenFirst () {
+				this.$httpBackend.expectGET ('authenticate').respond (200, {}, { Authorization: this.infiniteToken });
+				this.authFactory.refresh (true);
+				this.$httpBackend.flush ();
+				this.$httpBackend.expectGET ('account').respond (200, {}, { Authorization: this.infiniteToken });
+			});
 		});
 
 		it ('should test authrority', function refreshToken () {

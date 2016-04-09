@@ -28,6 +28,9 @@ describe ('account route', () => {
 			},
 			insertOne () {
 				return Promise.resolve (true);
+			},
+			updateOne () {
+				return Promise.resolve (true);
 			}
 		},
 		sandbox = sinon.sandbox.create ();
@@ -43,8 +46,6 @@ describe ('account route', () => {
 			server.auth.strategy ('jwt', 'failed');
 			server.method ('audit', () => {});
 			server.route (require ('../../../../src/server/routes/account'));
-		}).catch (err => {
-			console.log (err);
 		})).to.be.fulfilled ();
 	});
 
@@ -57,47 +58,178 @@ describe ('account route', () => {
 	});
 
 	describe ('item', () => {
-		it ('should retrieve an account', done => {
-			server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then (response => {
-				try {
-					expect (response.statusCode).to.equal (200);
-					done ();
-				} catch (err) {
-					done (err);
-				}
+		describe ('retrieve', () => {
+			it ('should retrieve an account', done => {
+				server.inject ({ method: 'GET', url: '/account/user', credentials: creds.user }).then (response => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should retrieve an account as admin', done => {
+				server.inject ({ method: 'GET', url: '/account/user', credentials: creds.admin }).then (response => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail if not authorized', done => {
+				sandbox.stub (users, 'findOne', () => Promise.resolve (null));
+
+				server.inject ({ method: 'GET', url: '/account/admin', credentials: creds.user }).then (response => {
+					try {
+						expect (response.statusCode).to.equal (403);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail if no account', done => {
+				sandbox.stub (users, 'findOne', () => Promise.resolve (null));
+
+				server.inject ({ method: 'GET', url: '/account/user', credentials: creds.user }).then (response => {
+					try {
+						expect (response.statusCode).to.equal (404);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail on error', done => {
+				sandbox.stub (users, 'findOne', () => Promise.reject ('err'));
+
+				server.inject ({ method: 'GET', url: '/account/user', credentials: creds.user }).then (response => {
+					try {
+						expect (response.statusCode).to.equal (500);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
 			});
 		});
 
-		it ('should fail if no account', done => {
-			sandbox.stub (users, 'findOne', () => Promise.resolve (null));
-
-			server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then (response => {
-				try {
-					expect (response.statusCode).to.equal (404);
-					done ();
-				} catch (err) {
-					done (err);
-				}
+		describe ('update', () => {
+			it ('should update an account', done => {
+				server.inject ({
+					method: 'POST',
+					url: '/account/user',
+					credentials: creds.user,
+					payload: {
+						email: 'test@localhost',
+						active: true,
+						scope: [ 'ROLE_USER' ]
+					}
+				}).then (response => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
 			});
-		});
 
-		it ('should fail on error', done => {
-			sandbox.stub (users, 'findOne', () => Promise.reject ('err'));
+			it ('should update an account as admin', done => {
+				server.inject ({
+					method: 'POST',
+					url: '/account/user',
+					credentials: creds.admin,
+					payload: {
+						password: 'AAbb11$$',
+						active: true,
+						scope: [ 'ROLE_USER' ]
+					}
+				}).then (response => {
+					try {
+						expect (response.statusCode).to.equal (200);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
 
-			server.inject ({ method: 'GET', url: '/account/test', credentials: creds.user }).then (response => {
-				try {
-					expect (response.statusCode).to.equal (500);
-					done ();
-				} catch (err) {
-					done (err);
-				}
+			it ('should fail update an account if not authorized', done => {
+				server.inject ({
+					method: 'POST',
+					url: '/account/admin',
+					credentials: creds.user,
+					payload: {}
+				}).then (response => {
+					try {
+						expect (response.statusCode).to.equal (403);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail update an account if no update specified', done => {
+				server.inject ({
+					method: 'POST',
+					url: '/account/user',
+					credentials: creds.user,
+					payload: {}
+				}).then (response => {
+					try {
+						expect (response.statusCode).to.equal (400);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
+			});
+
+			it ('should fail update an account if update fails', done => {
+				sandbox.stub (users, 'updateOne', () => Promise.reject ('err'));
+
+				server.inject ({
+					method: 'POST',
+					url: '/account/user',
+					credentials: creds.user,
+					payload: {
+						email: 'test@localhost'
+					}
+				}).then (response => {
+					try {
+						expect (response.statusCode).to.equal (500);
+						done ();
+					} catch (err) {
+						done (err);
+					}
+				});
 			});
 		});
 	});
 
 	describe ('collection', () => {
-		it ('should list accounts', done => {
+		it ('should validate accounts', done => {
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
+				try {
+					expect (response.statusCode).to.equal (204);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should list accounts', done => {
+			server.inject ({ method: 'GET', url: '/account/', credentials: creds.admin }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
 					done ();

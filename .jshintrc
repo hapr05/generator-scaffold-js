@@ -13,7 +13,6 @@
 	"latedef": true,
 	"maxcomplexity": 5,
 	"maxdepth": 4,
-	"maxparams": 5,
 	"maxstatements": 10,
 	"noarg": true,
 	"nocomma": true,

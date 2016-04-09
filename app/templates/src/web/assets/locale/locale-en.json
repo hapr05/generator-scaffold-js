@@ -11,6 +11,47 @@
 		"nav": "Home",
 		"title": "Home"
 	},
+	"account": {
+		"nav": "Settings",
+		"title": "Account",
+		"field": {
+			"fullName": "Full Name",
+			"nickname": "What should we call you?",
+			"email": "Email Address",
+			"password": "Password",
+			"confirmPassword": "Confirm Password"
+		},
+		"btn": {
+			"update": "Update"
+		},
+		"msg": {
+			"error": {
+				"failed": "Update failed!",
+				"succeded": "Account updated."
+			},
+			"validate": {
+				"fullName": {
+					"required": "Full name is required."
+				},
+				"nickname": {
+					"required": "Nickname is required."
+				},
+				"email": {
+					"required": "Email address is required.",
+					"email": "Email address is invalid.",
+					"pending": "Checking email adddess...",
+					"taken": "Email address is already in use."
+				},
+				"password": {
+					"pattern": "Password must be at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character."
+				},
+				"confirmPassword": {
+					"required": "Confirmation password is required.",
+					"match": "Passwords do not match."
+				}
+			}
+		}
+	},
 	"register": {
 		"nav": "Register",
 		"title": "Sign Up",

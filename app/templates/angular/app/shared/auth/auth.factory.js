@@ -1,7 +1,7 @@
 (function authFactory () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').factory ('authFactory', function factor ($timeout, $http, jwtHelper, localStorageService) {
+	angular.module ('<%= appSlug %>').factory ('authFactory', function factory ($timeout, $http, $state, jwtHelper, localStorageService, accountFactory) {
 		var _auth = localStorageService.get ('token'),
 			_timeout = false,
 			_reset = function _reset () {
@@ -12,22 +12,29 @@
 					$timeout.cancel (_timeout);
 					_timeout = false;
 				}
+
+				accountFactory.reset ();
 			},
 			_set = function _set (token) {
 				_auth = token;
 				localStorageService.set ('token', token);
 			},
-			_refresh = function _refresh () {
+			_refresh = function _refresh (loadAccount) {
 				$http.get ('authenticate').then (function _refreshSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
 					_timeout = $timeout (_refresh, Math.min (jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000, 117440512));
+
+					if (loadAccount) {
+						accountFactory.get (jwtHelper.decodeToken (_auth).user);
+					}
 				}).catch (function _refreshFailureHandler () {
 					_reset ();
+					$state.go ('login');
 				});
 			};
 
 		if (_auth && !jwtHelper.isTokenExpired (_auth)) {
-			_refresh ();
+			_refresh (true);
 		} else {
 			_reset ();
 		}
@@ -46,6 +53,7 @@
 				}).then (function authenticateSuccessHandler (response) {
 					_set (response.headers ('Authorization'));
 					_timeout = $timeout (_refresh, Math.min (jwtHelper.getTokenExpirationDate (_auth) - Date.now () - 5 * 60 * 1000, 117440512));
+					accountFactory.get (jwtHelper.decodeToken (_auth).user);
 				});
 			},
 
@@ -79,8 +87,8 @@
 				_reset ();
 			},
 
-			refresh: function refresh () {
-				_refresh ();
+			refresh: function refresh (loadAccount) {
+				_refresh (loadAccount);
 			},
 
 			get token () {

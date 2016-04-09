@@ -7,17 +7,31 @@
 
 	beforeEach (function () {
 		inject (function ($rootScope, $state, $compile, $httpBackend, $templateCache) {
-			this.$rootScope = $rootScope;
-			this.$state = $state;
-			this.$compile = $compile;
-			this.$httpBackend = $httpBackend;
-			this.$templateCache = $templateCache;
-			this.infiniteToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyMzQ1Njc4OTAsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJzY29wZSI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl19.lNob43rYJaJMMrojCrlLtkyNT59ujuagGALTKpar5Gc';
+			angular.extend (this, {
+				$rootScope: $rootScope,
+				$state: $state,
+				$compile: $compile,
+				$httpBackend: $httpBackend,
+				$templateCache: $templateCache,
+				infiniteToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyMzQ1Njc4OTAsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJzY29wZSI6WyJST0xFX0FETUlOIiwiUk9MRV9VU0VSIl19.lNob43rYJaJMMrojCrlLtkyNT59ujuagGALTKpar5Gc',
 
-			this.refreshResponse = 200;
-			$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
+				refreshResponse: 200,
+				accountResponse: 200,
+				account: {
+					id: 'test',
+					username: 'test',
+					fullName: 'Test User',
+					nickname: 'Test',
+					email: 'test@localhost'
+				}
+			});
+
+			this.$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
 			this.$httpBackend.whenGET ('authenticate').respond (function respond () {
 				return [ this.refreshResponse, {}, { Authorization: this.infiniteToken } ];
+			});
+			this.$httpBackend.whenGET ('account/').respond (function respond () {
+				return [ this.accountResponse, this.account, {} ];
 			});
 		});
 	});
