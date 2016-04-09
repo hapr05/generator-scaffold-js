@@ -24,6 +24,7 @@
 		"angular-translate-loader-static-files": "latest",
 		"angular-bootstrap": "latest",
 		"bootstrap-ui-datetime-picker": "latest",
+		"angular-loading-bar": "latest",
 		"angular-ui-select": "latest",
 		"angular-ui-router": "latest",
 		"angular-jwt": "latest",

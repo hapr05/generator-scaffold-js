@@ -24,6 +24,7 @@
 				'src/web/bower_components/angular-ui-router/release/angular-ui-router.js',
 				'src/web/bower_components/angular-bootstrap/ui-bootstrap.js',
 				'src/web/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+				'src/web/bower_components/angular-loading-bar/build/loading-bar.js',
 				'src/web/bower_components/angular-ui-select/dist/select.js',
 				'src/web/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js',
 				'src/web/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.tpls.js',

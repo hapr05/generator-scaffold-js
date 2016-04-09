@@ -11,6 +11,7 @@
 		'tmh.dynamicLocale',
 		'pascalprecht.translate',
 		'ui.router',
+		'angular-loading-bar',
 		'ui.select',
 		'ui.bootstrap',
 		'ui.bootstrap.datetimepicker',

@@ -69,9 +69,7 @@
 						<li ng-repeat="tag in log.tags">{{ tag }}</li>
 					</ul>
 					<div translate="log.data.data">Data</div>
-					<ul class="list-unstyled">
-						<li ng-repeat="(key, value) in log.data">{{ key }}: {{ value }}</li>
-					</ul>
+					<pre>{{ log.data | json }}</pre>
 				</td>
 				<td ng-switch-when="ops">
 					<div><strong translate="log.data.os">OS</strong></div>
@@ -124,7 +122,7 @@
 					<div><span translate="log.data.responseTime">Response Time</span>: {{ log.responseTime }}ms</div>
 					<div><span translate="log.data.statusCode">Status Code</span>: {{ log.statusCode }}</div>
 					<div><span translate="log.data.httpVersion">HTTP Version</span>: {{ log.httpVersion }}</div>
-					<div><span translate="log.data.remoteAddresss">Remote Address</span>: {{ log.source.remoteAddress}}</div>
+					<div><span translate="log.data.remoteAddress">Remote Address</span>: {{ log.source.remoteAddress}}</div>
 					<div><span translate="log.data.userAgent">User Agent</span>: {{ log.source.userAgent}}</div>
 					<div><span translate="log.data.referer">Referer</span>: {{ log.source.referer }}</div>
 				</td>
