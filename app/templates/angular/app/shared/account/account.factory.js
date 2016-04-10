@@ -47,6 +47,10 @@
 				_user = accountRoute.get ({ userId: id });
 			},
 
+			query: function query (params, handler) {
+				return accountRoute.query (params, handler);
+			},
+
 			reset: function reset () {
 				if (_user.$cancelRequest) {
 					_user.$cancelRequest ();

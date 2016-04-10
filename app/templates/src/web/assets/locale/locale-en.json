@@ -5,6 +5,12 @@
 		"language": "Language",
 		"btn": {
 			"toggleNavigation": "Toggle Navigation"
+		},
+		"pager": {
+			"first": "First",
+			"last": "Last",
+			"next": "Next",
+			"previous": "Previous"
 		}
 	},
 	"home": {
@@ -384,5 +390,25 @@
 	},
 	"apidoc": {
 		"nav": "API Documentation"
+	},
+	"users": {
+		"nav": "User Management",
+		"title": "Users",
+		"field": {
+			"username": "Username",
+			"email": "Email Address"
+		},
+		"header": {
+			"username": "Username",
+			"fullName": "Full Name",
+			"nickname": "Nickname",
+			"email": "Email Address",
+			"created": "Created",
+			"modified": "Modified",
+			"active": "Active"
+		},
+		"btn": {
+			"search": "Search"
+		}
 	}
 }

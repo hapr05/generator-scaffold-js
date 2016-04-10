@@ -43,8 +43,8 @@ describe ('account route', () => {
 		server = new hapi.Server ();
 		server.connection ();
 		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+			require ('../../../../src/server/methods') (server);
 			server.auth.strategy ('jwt', 'failed');
-			server.method ('audit', () => {});
 			server.route (require ('../../../../src/server/routes/account'));
 		})).to.be.fulfilled ();
 	});
@@ -218,6 +218,10 @@ describe ('account route', () => {
 
 	describe ('collection', () => {
 		it ('should validate accounts', done => {
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({
+				count: 1,
+				values: [{}]
+			}));
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (204);
@@ -229,6 +233,27 @@ describe ('account route', () => {
 		});
 
 		it ('should list accounts', done => {
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({
+				count: 1,
+				values: [{
+					_id: 'user'
+				}]
+			}));
+			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
+				try {
+					expect (response.statusCode).to.equal (200);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should list accounts admin', done => {
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({
+				count: 1,
+				values: [{}]
+			}));
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.admin }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
@@ -240,9 +265,7 @@ describe ('account route', () => {
 		});
 
 		it ('should handle empty list', done => {
-			sandbox.stub (users, 'find', () => ({
-				toArray: () => Promise.resolve (null)
-			}));
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({ count: 0 }));
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (404);
@@ -254,9 +277,7 @@ describe ('account route', () => {
 		});
 
 		it ('should error on list failure', done => {
-			sandbox.stub (users, 'find', () => ({
-				toArray: () => Promise.reject ('err')
-			}));
+			sinon.stub (server.methods, 'search').returns (Promise.reject ('err'));
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (500);

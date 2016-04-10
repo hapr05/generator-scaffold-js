@@ -29,7 +29,21 @@
 		mongo (collections) {
 			var db = {
 				collection (name) {
-					return collections [name];
+					if (collections [name]) {
+						return collections [name];
+					}
+
+					switch (name) {
+						case 'audit':
+							return { 
+					         insertOne () {
+					            return Promise.resolve (true);
+					         }   
+					      };
+
+						default: 
+							break;
+					}
 				}
 			},
 			mongo = {

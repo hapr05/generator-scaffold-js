@@ -1,0 +1,47 @@
+<div class="well users">
+	<h1 translate="users.title">Users</h1>
+	<form novalidate name="form" role="form">
+		<div class="row">
+			<div class="form-group col-md-3">
+				<label for="username" class="sr-only" translate="users.field.username">Username</label>
+				<input name="username" class="form-control" ng-model="filter.username" placeholder="{{ 'users.field.username' | translate }}" value="" />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="email" class="sr-only" translate="users.field.email">Email Address</label>
+				<input name="email" class="form-control" ng-model="filter.email" placeholder="{{ 'users.field.email' | translate }}" value="" />
+			</div>
+			<div class="form-group col-md-5 text-right">
+				<button class="btn btn-primary" ng-click="search ()" ng-disabled="!(filter.username || filter.email)" translate="users.btn.search">Search</button>
+			</div>
+		</div>
+	</form>
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+			<tr>
+				<td ng-click="sort ('username')"><span translate="users.header.username">Usernam</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('fullName')"><span translate="users.header.fullName">Full Name</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('nickname')"><span translate="users.header.nickname">Nickname</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('email')"><span translate="users.header.email">Email Address</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('created')"><span translate="users.header.created">Created</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('modified')"><span translate="users.header.modified">Modified</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<td ng-click="sort ('active')"><span translate="users.header.active">Active</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in userData">
+				<td>{{ user.username }}</td>
+				<td>{{ user.fullName }}</td>
+				<td>{{ user.nickname }}</td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.created | date: 'short' }}</td>
+				<td>{{ user.modified | date: 'short' }}</td>
+				<td class="text-center"><i class="glyphicon" aria-hiden="true" ng-class="{ 'glyphicon-ok': user.active, 'text-success': user.active, 'glyphicon-remove': !user.active, 'text-danger': !user.active }"></i><span class="sr-only">{{ user.active }}</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="text-center">
+		<uib-pagination total-items="total" boundry-link-numbers="true" first-text="{ 'global.pager.first' | translate }" last-text="{ 'global.pager.last' | translate }" next-text="{ 'global.pager.next' | translate }" previous-text="{ 'global.pager.previous' | translate }" items-per-page="limit" ng-model="currentPage" ng-change="search ()"></uib-pagination>
+	<div class="text-center">
+</div>
+</div>
+

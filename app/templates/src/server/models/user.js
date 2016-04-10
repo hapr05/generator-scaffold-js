@@ -8,6 +8,10 @@ module.exports = {
 	}).required (),
 
 	query: joi.object ({
+		sortBy: joi.string ().valid ([ 'id', 'username', 'fullName', 'nickname', 'email', 'created', 'modified', 'active' ]).optional ().description ('Sort Column'),
+		sortDir: joi.string ().valid ([ 'asc', 'desc' ]).optional ().description ('Sort Direction'),
+		start: joi.number ().integer ().optional ().description ('Start Record Index'),
+		limit: joi.number ().integer ().optional ().description ('Maxmimum Number of Records to Return'),
 		username: joi.string ().optional ().description ('Username'),
 		email: joi.string ().email ().optional ().description ('Email Address')
 	}).optional (),
@@ -48,6 +52,8 @@ module.exports = {
 		fullName: joi.string ().required ().description ('Full Name'),
 		nickname: joi.string ().required ().description ('Nickname'),
 		email: joi.string ().email ().required ().description ('Email Address'),
-		created: joi.date ().timestamp ().required ().description ('Email Address')
+		created: joi.date ().timestamp ().required ().description ('Created Date'),
+		modified: joi.date ().timestamp ().required ().description ('Modified Date'),
+		active: joi.boolean ().required ().description ('Account Active')
 	}).required ().meta ({ className: 'Account' })
 };

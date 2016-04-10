@@ -4,17 +4,6 @@ const crypto = require ('crypto'),
 	joi = require ('joi'),
 	boom = require ('boom'),
 	userModel = require ('../models/user'),
-	copyKeys = (keys, src) => {
-		var copy = {};
-
-		keys.forEach (key => {
-			if (undefined !== src [ key ]) {
-				copy [ key ] = src [ key ];
-			}
-		});
-
-		return copy;
-	},
 	replyUser = (users, query, reply, notFound) => {
 		users.findOne (query).then (user => {
 			if (user) {
@@ -24,7 +13,9 @@ const crypto = require ('crypto'),
 					fullName: user.fullName,
 					nickname: user.nickname,
 					email: user.email,
-					created: user.created
+					created: user.created,
+					modified: user.modified,
+					active: user.active
 				}).code (200);
 			} else {
 				reply (notFound);
@@ -79,7 +70,7 @@ module.exports = [{
 		},
 		description: 'Search User Accounts',
 		notes: `Searches for user accounts by fields.  If the user has ROLE_ADMIN or the account being retrieved belongs to the user, full account details are returned.  Otherwise only the status code is returned.
-The latter case can be used to check for duplicates, such as accounts with the same email address.`,
+The latter case can be used to check for duplicates, such as accounts with the same email address. The X-Total-Count header item lists the total number of records.`,
 		tags: [ 'api', 'account' ],
 		validate: {
 			query: userModel.query
@@ -101,25 +92,28 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		handler (request, reply) {
 			const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users');
 
-			users.find (copyKeys ([ 'username', 'email' ], request.query)).toArray ().then (users => {
-				if (users && users.length) {
-					let resp = [];
+			request.server.methods.search (users, request.query, [ 'username', 'email' ]).then (users => {
+				if (users.values && users.values.length) {
+					let resp = [],
+						admin = -1 !== request.auth.credentials.scope.indexOf ('ROLE_ADMIN');
 
-					users.forEach (user => {
-						if (request.auth.credentials && (request.auth.credentials._id.toString () === user._id || -1 !== request.auth.credentials.scope.indexOf ('ROLE_ADMIN'))) {
+					users.values.forEach (user => {
+						if (request.auth.credentials && (request.auth.credentials._id.toString () === user._id || admin)) {
 							resp.push ({
 								id: user._id,
 								username: user.username,
 								fullName: user.fullName,
 								nickname: user.nickname,
 								email: user.email,
-								created: user.created
+								created: user.created,
+								modified: user.modified,
+								active: user.active
 							});
 						}
 					});
 
 					if (resp.length) {
-						reply (resp).code (200);
+						reply (resp).code (200).header ('X-Total-Count', admin ? users.count : resp.length);
 					} else {
 						reply ().code (204);
 					}
@@ -170,6 +164,7 @@ The latter case can be used to check for duplicates, such as accounts with the s
 				provider: 'internal',
 				active: true,
 				created: new Date (),
+				modified: new Date (),
 				scope: [ 'ROLE_USER' ]
 			}).then (res => {
 				request.server.methods.audit ('create', { id: res.insertedId, username: request.payload.username }, 'success', 'users', data);
@@ -212,13 +207,15 @@ The latter case can be used to check for duplicates, such as accounts with the s
 				adminKeys = [ 'password', 'fullName', 'nickname', 'email', 'active', 'scope' ];
 
 			if (request.auth.credentials._id.toString () === request.params.id || admin) {
-				var update = copyKeys (admin ? adminKeys : keys, request.payload);
+				var update = request.server.methods.filter (request.payload, admin ? adminKeys : keys);
 
 				if (update.password) {
 					update.password = crypto.createHash ('sha256').update (update.password).digest ('hex');
 				}
 
 				if (Reflect.ownKeys (update).length) {
+					update.modified = new Date ();
+
 					users.updateOne ({
 						_id: new mongo.ObjectID (request.params.id)
 					}, { $set: update }).then (() => {

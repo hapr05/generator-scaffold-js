@@ -4,7 +4,6 @@ const chai = require ('chai'),
 	expect = chai.expect,
 	dirtyChai = require ('dirty-chai'),
 	chaiAsPromised = require ('chai-as-promised'),
-	sinon = require ('sinon'),
 	server = require ('../../../src/server'),
 	config = require ('config');
 
@@ -65,25 +64,5 @@ describe ('server', () => {
 		});
 
 		return expect (p).to.be.rejected;
-	});
-
-	it ('should audit', done => {
-		var insert = sinon.spy ();
-
-		server.start ().then (s => {
-			s.plugins [ 'hapi-mongodb' ] = {
-				db: {
-					collection () {
-						return {
-							insertOne: insert
-						};
-					}
-				}
-			};
-			s.methods.audit ('', {}, '', '', {});
-			server.stop ();
-			expect (insert.called).to.be.true ();
-			done ();
-		});
 	});
 });

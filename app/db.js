@@ -24,6 +24,8 @@ class Db {
 			this.db.close ();
 
 			return mongo.connect (this.config.cfgDbUrl).then (db => {
+				var d = new Date ();
+
 				this.db = db;
 				this.seedCollection = db.collection ('seed');
 				this.userCollections = db.collection ('users');
@@ -43,11 +45,11 @@ class Db {
 				return this.userCollections.insertMany ([{
 					username: 'admin', password: crypto.createHash ('sha256').update ('admin').digest ('hex'),
 					fullName: 'Administrator', nickname: 'Admin', email: 'admin@localhost',
-					provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
+					provider: 'internal', active: true, created: d, modified: d, scope: [ 'ROLE_ADMIN', 'ROLE_USER' ]
 				}, {
 					username: 'user', password: crypto.createHash ('sha256').update ('user').digest ('hex'),
 					fullName: 'User', nickname: 'User', email: 'user@localhost',
-					provider: 'internal', active: true, created: new Date (), scope: [ 'ROLE_USER' ]
+					provider: 'internal', active: true, created: d, modified: d, scope: [ 'ROLE_USER' ]
 				}]).then (() => this.seedCollection.updateOne ({ _id: 1 }, {
 					_id: 1,
 					version: this.version,

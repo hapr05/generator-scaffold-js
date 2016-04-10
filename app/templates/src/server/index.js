@@ -1,9 +1,10 @@
 'use strict';
 
+var server;
 const glue = require ('glue'),
 	config = require ('config'),
-	jwt = require ('./jwt');
-var server;
+	jwt = require ('./jwt'),
+	methods = require ('./methods');
 
 module.exports = {
 	start () {
@@ -13,21 +14,7 @@ module.exports = {
 				preRegister (_server_, next) {
 					server = _server_;
 
-					server.method ('audit', (event, user, status, resource, data) => {
-						const audit = server.plugins [ 'hapi-mongodb' ].db.collection ('audit');
-
-						audit.insertOne ({
-							event,
-							timestamp: new Date ().getTime (),
-							user,
-							status,
-							resource,
-							data
-						});
-					}, {
-						bind: server,
-						callback: false
-					});
+					methods (server);
 
 					server.register (require ('hapi-auth-jwt2'), () => {
 						server.auth.strategy ('jwt', 'jwt', {
