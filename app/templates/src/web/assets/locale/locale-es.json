@@ -5,6 +5,12 @@
 		"language": "Idioma",
 		"btn": {
 			"toggleNavigation": "Navegación de la palanca"
+		},
+		"pager": {
+			"first": "Primero",
+			"last": "Duran",
+			"next": "Siguiente",
+			"previous": "Anterior"
 		}
 	},
 	"home": {
@@ -383,5 +389,50 @@
 	},
 	"apidoc": {
 		"nav": "Documentación de la API"
+	},
+	"users": {
+		"nav": "Gestión de usuarios",
+		"title": "Usuarios de",
+		"field": {
+			"username": "Nombre de usuario",
+			"fullName": "Nombre completo",
+			"nickname": "¿Qué deberíamos llamarte?",
+			"email": "Dirección de correo electrónico",
+			"active": "Activo"
+		},
+		"msg": {
+			"error": {
+				"failed": "Error de actualización!",
+				"succeded": "Cuenta actualizada."
+			},
+			"validate": {
+				"fullName": {
+					"required": "Nombre completo es requerido."
+				},
+				"nickname": {
+					"required": "Apodo es necesario."
+				},
+				"email": {
+					"required": "Dirección de correo electrónico es necesaria.",
+					"email": "Dirección de correo electrónico no es válida.",
+					"pending": "Comprobación de correo electrónico adddess...",
+					"taken": "Dirección de correo electrónico ya está en uso."
+				}
+			}
+		},
+		"header": {
+			"username": "Nombre de usuario",
+			"fullName": "Nombre completo",
+			"nickname": "Apodo de",
+			"email": "Dirección de correo electrónico",
+			"created": "Creado",
+			"modified": "Modificado",
+			"active": "Activo"
+		},
+		"btn": {
+			"search": "Búsqueda de",
+			"update": "Actualización",
+			"back": "Atrás"
+		}
 	}
 }

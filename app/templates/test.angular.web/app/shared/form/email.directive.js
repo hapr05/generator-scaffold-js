@@ -34,8 +34,17 @@
 			this.form = this.$rootScope.form;
 		});
 
-		it ('should gnore if mateches current', function errorIfExists () {
+		it ('should gnore if matches current', function errorIfExists () {
 			this.form.email.$setViewValue (undefined);
+			this.$rootScope.$digest ();
+			expect (this.form.email.$valid).toBeTruthy ();
+		});
+
+		it ('should gnore if matches editing', function errorIfExists () {
+			this.$compile (angular.element ('<form name="form"><input <%= appSlug %>-email-change="origEmail" name="email" ng-model="email" /></form>')) (this.$rootScope);
+			this.form = this.$rootScope.form;
+			this.$rootScope.origEmail = 'test';
+			this.form.email.$setViewValue ('test');
 			this.$rootScope.$digest ();
 			expect (this.form.email.$valid).toBeTruthy ();
 		});

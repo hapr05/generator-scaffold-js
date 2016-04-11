@@ -14,7 +14,7 @@
 
 			this.$templateCache.put ('app/components/users/users.view.html', '_usersin_component_content_');
 			this.$templateCache.put ('app/components/users/users.raw.html', '{{ raw }}');
-			this.$httpBackend.expectGET ('account/?limit=20&sortBy=username&sortDir=asc&start=0').respond (200, []);
+			this.$httpBackend.whenGET ('account/?limit=20&sortBy=username&sortDir=asc&start=0').respond (200, [ this.account ]);
 		});
 
 		it ('should transition to users state', function transitionToState () {
@@ -48,6 +48,48 @@
 			this.$httpBackend.expectGET ('account/?limit=20&sortBy=email&sortDir=asc&start=0').respond (200, []);
 			this.scope.sort ('email');
 			this.$httpBackend.flush ();
+		});
+
+		describe ('edit', function edit () {
+			it ('should edit users', function loadLog () {
+				this.scope.search ();
+				this.$httpBackend.flush ();
+				this.scope.edit (0);
+				expect (this.scope.editIndex).toBe (0);
+			});
+
+			it ('should go back users', function loadLog () {
+				this.scope.search ();
+				this.$httpBackend.flush ();
+				this.scope.edit (0);
+				expect (this.scope.editIndex).toBe (0);
+				this.scope.back ();
+				expect (this.scope.editIndex).toBe (false);
+			});
+
+			it ('should update', function account () {
+				this.scope.search ();
+				this.$httpBackend.flush ();
+				this.scope.edit (0);
+				this.$httpBackend.expectPOST ('account/test').respond (200, this.account);
+				this.scope.update ({
+					preventDefault: function preventDefault () {}
+				});
+				this.$httpBackend.flush ();
+				expect (this.scope.updateSuccess).toBeTruthy ();
+			});
+
+			it ('should handle update failure', function account () {
+				this.scope.search ();
+				this.$httpBackend.flush ();
+				this.scope.edit (0);
+				this.$httpBackend.expectPOST ('account/test').respond (400, this.account);
+				this.scope.update ({
+					preventDefault: function preventDefault () {}
+				});
+				this.$httpBackend.flush ();
+				expect (this.scope.updateSuccess).toBeFalsy ();
+			});
 		});
 	});
 } ());

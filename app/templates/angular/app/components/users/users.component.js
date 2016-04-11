@@ -5,16 +5,21 @@
 		templateUrl: 'app/components/users/users.view.html',
 		controller: function controller ($scope, accountFactory) {
 			angular.extend ($scope, {
+				disable: false,
 				page: 0,
 				limit: 20,
 				sortBy: 'username',
 				sortDir: 'asc',
 				total: 0,
+				updateFailure: false,
+				updateSuccess: false,
+				editIndex: false,
+				editUser: false,
+				origUser: false,
+				userData: [],
 
 				filter: {
 				},
-
-				userData: [],
 
 				sort: function sort (by) {
 					if (by === $scope.sortBy) {
@@ -41,6 +46,33 @@
 					}), function getTotal (data, headers) {
 						$scope.total = headers ('X-Total-Count');
 					});
+				},
+
+				edit: function edit (index) {
+					$scope.origEmail = $scope.userData [ index ].email;
+					$scope.editIndex = index;
+					$scope.editUser = angular.copy ($scope.userData [ index ]);
+				},
+
+				update: function update (event) {
+					$scope.disable = true;
+					delete $scope.editUser.created;
+					delete $scope.editUser.modified;
+					event.preventDefault ();
+					$scope.editUser.$update ().then (function updateSuccessHandler () {
+						$scope.disable = false;
+						$scope.updateError = false;
+						$scope.updateSuccess = true;
+						$scope.userData [ $scope.editIndex ] = angular.copy ($scope.editUser);
+					}).catch (function updateFailureHandler () {
+						$scope.disable = false;
+						$scope.updateError = true;
+						$scope.updateSuccess = false;
+					});
+				},
+
+				back: function back () {
+					$scope.updateFailure = $scope.updateSuccess = $scope.editIndex = $scope.editUser = $scope.origUser = false;
 				}
 			});
 

@@ -396,7 +396,30 @@
 		"title": "Users",
 		"field": {
 			"username": "Username",
-			"email": "Email Address"
+			"fullName": "Full Name",
+			"nickname": "What should we call you?",
+			"email": "Email Address",
+			"active": "Active"
+		},
+		"msg": {
+			"error": {
+				"failed": "Update failed!",
+				"succeded": "Account updated."
+			},
+			"validate": {
+				"fullName": {
+					"required": "Full name is required."
+				},
+				"nickname": {
+					"required": "Nickname is required."
+				},
+				"email": {
+					"required": "Email address is required.",
+					"email": "Email address is invalid.",
+					"pending": "Checking email adddess...",
+					"taken": "Email address is already in use."
+				}
+			}
 		},
 		"header": {
 			"username": "Username",
@@ -408,7 +431,9 @@
 			"active": "Active"
 		},
 		"btn": {
-			"search": "Search"
+			"search": "Search",
+			"update": "Update",
+			"back": "Back"
 		}
 	}
 }

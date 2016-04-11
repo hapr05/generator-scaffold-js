@@ -21,7 +21,9 @@
 			require: 'ngModel',
 			link: function link (scope, elm, attrs, ctrl) {
 				ctrl.$asyncValidators.taken = function taken (modelValue) {
-					if (modelValue === accountFactory.email || ctrl.$isEmpty (modelValue)) {
+					var check = scope.$eval (attrs.<%= appCamel %>EmailChange) || accountFactory.email;
+
+					if (modelValue === check || ctrl.$isEmpty (modelValue)) {
 						return $q.when ();
 					} else {
 						return accountFactory.available (false, modelValue);

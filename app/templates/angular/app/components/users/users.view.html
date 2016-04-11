@@ -1,4 +1,4 @@
-<div class="well users">
+<div class="well users" ng-if="!editUser">>
 	<h1 translate="users.title">Users</h1>
 	<form novalidate name="form" role="form">
 		<div class="row">
@@ -18,17 +18,17 @@
 	<table class="table table-striped table-hover table-condensed">
 		<thead>
 			<tr>
-				<td ng-click="sort ('username')"><span translate="users.header.username">Usernam</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('fullName')"><span translate="users.header.fullName">Full Name</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('nickname')"><span translate="users.header.nickname">Nickname</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('email')"><span translate="users.header.email">Email Address</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('created')"><span translate="users.header.created">Created</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('modified')"><span translate="users.header.modified">Modified</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
-				<td ng-click="sort ('active')"><span translate="users.header.active">Active</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></td>
+				<th ng-click="sort ('username')"><span translate="users.header.username">Usernam</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('fullName')"><span translate="users.header.fullName">Full Name</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('nickname')"><span translate="users.header.nickname">Nickname</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('email')"><span translate="users.header.email">Email Address</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('created')"><span translate="users.header.created">Created</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('modified')"><span translate="users.header.modified">Modified</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
+				<th ng-click="sort ('active')"><span translate="users.header.active">Active</span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in userData">
+			<tr ng-repeat="user in userData" ng-click="edit ($index)">
 				<td>{{ user.username }}</td>
 				<td>{{ user.fullName }}</td>
 				<td>{{ user.nickname }}</td>
@@ -40,8 +40,72 @@
 		</tbody>
 	</table>
 	<div class="text-center">
-		<uib-pagination total-items="total" boundry-link-numbers="true" first-text="{ 'global.pager.first' | translate }" last-text="{ 'global.pager.last' | translate }" next-text="{ 'global.pager.next' | translate }" previous-text="{ 'global.pager.previous' | translate }" items-per-page="limit" ng-model="currentPage" ng-change="search ()"></uib-pagination>
-	<div class="text-center">
+		<uib-pagination total-items="total" boundry-link-numbers="true" first-text="{{ 'global.pager.first' | translate }}" last-text="{{ 'global.pager.last' | translate }}" next-text="{{ 'global.pager.next' | translate }}" previous-text="{{ 'global.pager.previous' | translate }}" items-per-page="limit" ng-model="currentPage" ng-change="search ()"></uib-pagination>
+	</div>
 </div>
+<div class="well users" ng-if="editUser">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title">{{ editUser.fullName }}</div>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="alert alert-danger" ng-show="updateFailure" translate="users.msg.error.failed">
+							Update failed!
+						</div>
+						<div class="alert alert-success" ng-show="updateSuccess" translate="users.msg.error.succeded">
+							Account updated!
+						</div>
+						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="update ($event)">
+							<div class="form-group">
+								<label for="username" translate="users.field.username" class="control-label">Username</label>
+								<input type="text" class="form-control" name="username" ng-model="editUser.username" value="" readonly />
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.fullName.$dirty && form.fullName.$invalid }">
+								<label for="fullName" translate="users.field.fullName" class="control-label">Full Name</label>
+								<input type="text" class="form-control" name="fullName" ng-model="editUser.fullName" value="" required>
+								<div ng-messages="form.fullName.$dirty && form.fullName.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="users.msg.validate.fullName.required">Full name is required.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.nickname.$dirty && form.nickname.$invalid }">
+								<label for="nickname" translate="users.field.nickname" class="control-label">Nickname</label>
+								<input type="text" class="form-control" name="nickname" ng-model="editUser.nickname" value="" required>
+								<div ng-messages="form.nickname.$dirty && form.nickname.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="users.msg.validate.nickname.required">Nickame is required.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$invalid }">
+								<label for="email" translate="users.field.email" class="control-label">Email Address</label>
+								<input type="email" class="form-control" name="email" <%= appSlug %>-email-change="origEmail" ng-model="editUser.email" value="" required>
+								<div ng-messages="form.email.$dirty && form.email.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="users.msg.validate.email.required">Email address is required.</p>
+									<p class="help-block" ng-message="email" translate="users.msg.validate.email.email">Email address is invalid.</p>
+									<p class="help-block" ng-message="taken" translate="users.msg.validate.email.taken">Email address is already in use.</p>
+								</div>
+								<div ng-messages="form.email.$pending" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="taken" translate="users.msg.validate.email.pending">Checking email address...</p>
+								</div>
+							</div>
+							<div class="form-group checkbox">
+								<label for="active">
+									<input type="checkbox" name="active" ng-model="editUser.active"> <span translate="users.field.active">Active</span>
+								</label>
+							</div>
+							<div class="form-group">
+								<div class="col-md-6">
+									<button type="button" class="btn" ng-click="back ()"><i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i> <span translate="users.btn.back">Back</span></button>
+								</div>
+								<div class="col-md-6 text-right">
+									<button type="submit" ng-disabled="form.$invalid || disable" class="btn btn-primary" translate="users.btn.update">Update</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
