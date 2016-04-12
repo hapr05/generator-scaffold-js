@@ -15,6 +15,7 @@
 				'src/web/bower_components/angular-sanitize/angular-sanitize.js',
 				'src/web/bower_components/angular-resource/angular-resource.js',
 				'src/web/bower_components/angular-messages/angular-messages.js',
+				'src/web/bower_components/angular-animate/angular-animate.js',
 				'src/web/bower_components/angular-local-storage/dist/angular-local-storage.js',
 				'src/web/bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js',
 				'src/web/bower_components/angular-translate/angular-translate.js',

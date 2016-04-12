@@ -1,4 +1,4 @@
-<div class="well users" ng-if="!editUser">>
+<div class="well users" ng-if="!editUser">
 	<h1 translate="users.title">Users</h1>
 	<form novalidate name="form" role="form">
 		<div class="row">
@@ -43,7 +43,7 @@
 		<uib-pagination total-items="total" boundry-link-numbers="true" first-text="{{ 'global.pager.first' | translate }}" last-text="{{ 'global.pager.last' | translate }}" next-text="{{ 'global.pager.next' | translate }}" previous-text="{{ 'global.pager.previous' | translate }}" items-per-page="limit" ng-model="currentPage" ng-change="search ()"></uib-pagination>
 	</div>
 </div>
-<div class="well users" ng-if="editUser">
+<div class="well users-edit" ng-if="editUser">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
 			<div class="panel panel-default">

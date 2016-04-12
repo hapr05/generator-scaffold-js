@@ -20,23 +20,6 @@ html, body {
 	margin: 2px;
 }
 
-.log,
-.audit {
-	.dropdown-menu {
-		li {
-			min-width: 200px;
-			margin: 0 10px;
-		}
-	}
-}
-
-.metrics {
-	.scroll {
-		max-height: 400px;
-		overflow: auto;
-	}
-}
-
 pre.modal-body {
 	margin-bottom: 0;
 }
@@ -74,4 +57,69 @@ pre.modal-body {
 			}
 		}
 	}
+}
+
+[ui-view] {
+   &.ng-enter {
+      animation: fadeIn 500ms;
+   }   
+
+   &.ng-leave {
+      animation: fadeOut 500ms;
+   }   
+}
+
+.content {
+   position: relative;
+
+   & > * { 
+      position: absolute;
+      left: 0;
+      right: 0;
+
+      & > * {   
+         position: absolute;
+         left: 0;
+         right: 0;
+      }   
+
+      .log,
+      .audit {
+         .dropdown-menu {
+            li {
+               min-width: 200px;
+               margin: 0 10px;
+            }   
+         }   
+      }   
+   
+      .metrics {
+         .scroll {
+            max-height: 400px;
+            overflow: auto;
+         }   
+      }   
+
+      .users-edit {
+         &.ng-enter {
+				margin-left: 10px;
+            animation: slideInRight 1s;
+         }   
+   
+         &.ng-leave {
+				margin-left: 10px;
+            animation: slideOutRight 1s;
+         }   
+      }   
+
+      .users {
+         &.ng-enter {
+            animation: slideInLeft 1s;
+         }   
+    
+         &.ng-leave {
+            animation: slideOutLeft 1s;
+         }   
+      }   
+   }
 }

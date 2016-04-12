@@ -7,6 +7,7 @@
 		'ngSanitize',
 		'ngResource',
 		'ngMessages',
+		'ngAnimate',
 		'LocalStorageModule',
 		'tmh.dynamicLocale',
 		'pascalprecht.translate',

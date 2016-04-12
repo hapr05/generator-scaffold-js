@@ -13,9 +13,9 @@
 			<ul class="nav navbar-nav">
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ui-sref-active="active"><a ui-sref="home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;<span translate="home.nav">Home</span></a></li>
+				<li ui-sref-active="active"><a ui-sref="home"><i class="glyphicon glyphicon-home" aria-hidden="true"></i>&nbsp;<span translate="home.nav">Home</span></a></li>
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;<span translate="global.account">Account</span><span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;<span translate="global.account">Account</span><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a <%= appSlug %>-unauthenticated ui-sref="login" translate="login.nav">Sign In</a></li>
 						<li><a <%= appSlug %>-unauthenticated ui-sref="register" translate="register.nav">Register</a></li>
@@ -24,7 +24,7 @@
 					</ul>
 				</li>
 				<li <%= appSlug %>-has-authority="ROLE_ADMIN" class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-wrench" aria-hidden="true">&nbsp;<span translate="global.administration">Administration</span><span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>&nbsp;<span translate="global.administration">Administration</span><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a ui-sref="apidoc" translate="apidoc.nav">API Documentation</a></li>
 						<li><a ui-sref="audit" translate="audit.nav">Logs</a></li>
@@ -34,7 +34,7 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-flag" aria-hidden="true">&nbsp;<span translate="global.language">Language</span><span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-flag" aria-hidden="true"></i>&nbsp;<span translate="global.language">Language</span><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li ng-repeat="(key, name) in languages" ng-class="{ active: key === $translate.use () }"><a ng-click="$translate.use (key)">{{ name }}</a></li>
 					</ul>
