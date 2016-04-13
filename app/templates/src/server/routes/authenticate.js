@@ -4,7 +4,7 @@ const crypto = require ('crypto'),
 	jwt = require ('jsonwebtoken'),
 	config = require ('config'),
 	boom = require ('boom'),
-	userModel = require ('../models/user');
+	accountModel = require ('../models/account');
 
 module.exports = [{
 	method: 'POST',
@@ -17,7 +17,7 @@ Returns a json web token in the Authorization header on success.
 The token must be used as a bearer token in the Authorization header on any authenticated requests.`,
 		tags: [ 'api', 'authenticate' ],
 		validate: {
-			payload: userModel.authenticate
+			payload: accountModel.authenticate
 		},
 		plugins: {
 			'hapi-swaggered': {
@@ -69,7 +69,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 		notes: 'Givan an email addres, sends a forgot password email if the email address is found.  Given a token and a password, updates the users password.',
 		tags: [ 'api', 'authenticate' ],
 		validate: {
-			payload: userModel.forgot
+			payload: accountModel.forgot
 		},
 		plugins: {
 			'hapi-swaggered': {

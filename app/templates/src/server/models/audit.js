@@ -4,6 +4,10 @@ const joi = require ('joi');
 
 module.exports = {
 	search: joi.object ({
+		sortBy: joi.string ().valid ([ 'event', 'timestamp', 'user', 'status', 'resource' ]).optional ().description ('Sort Column'),
+		sortDir: joi.string ().valid ([ 'asc', 'desc' ]).optional ().description ('Sort Direction'),
+		start: joi.number ().integer ().optional ().description ('Start Record Index'),
+		limit: joi.number ().integer ().optional ().description ('Maxmimum Number of Records to Return'),
 		from: joi.date ().required ().description ('Start Date/Time for Log Entries'),
 		to: joi.date ().required ().description ('End Date/Time for Log Entries'),
 		username: joi.string ().optional ().description ('Username'),

@@ -4,7 +4,8 @@
 	"browser": true,
 	"globals": {
 		"angular": false,
-		"moment": false
+		"moment": false,
+		"saveAs": false
 	}
 }
 

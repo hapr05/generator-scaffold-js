@@ -62,26 +62,26 @@ pre.modal-body {
 [ui-view] {
    &.ng-enter {
       animation: fadeIn 500ms;
-   }   
+   }
 
    &.ng-leave {
       animation: fadeOut 500ms;
-   }   
+   }
 }
 
 .content {
    position: relative;
 
-   & > * { 
+   & > * {
       position: absolute;
       left: 0;
       right: 0;
 
-      & > * {   
+      & > * {
          position: absolute;
          left: 0;
          right: 0;
-      }   
+      }
 
       .log,
       .audit {
@@ -89,37 +89,45 @@ pre.modal-body {
             li {
                min-width: 200px;
                margin: 0 10px;
-            }   
-         }   
-      }   
-   
+            }
+         }
+
+			.pagination {
+				margin: 0;
+			}
+      }
+
       .metrics {
          .scroll {
             max-height: 400px;
             overflow: auto;
-         }   
-      }   
+         }
+      }
 
       .users-edit {
          &.ng-enter {
 				margin-left: 10px;
             animation: slideInRight 1s;
-         }   
-   
+         }
+
          &.ng-leave {
 				margin-left: 10px;
             animation: slideOutRight 1s;
-         }   
-      }   
+         }
+      }
 
       .users {
+			.pagination {
+				margin: 0;
+			}
+
          &.ng-enter {
             animation: slideInLeft 1s;
-         }   
-    
+         }
+
          &.ng-leave {
             animation: slideOutLeft 1s;
-         }   
-      }   
+         }
+      }
    }
 }

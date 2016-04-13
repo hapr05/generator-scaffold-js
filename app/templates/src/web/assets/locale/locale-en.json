@@ -177,7 +177,8 @@
 		"nav": "Logs",
 		"title": "Logs",
 		"btn": {
-			"view": "View"
+			"view": "View",
+			"export": "Export"
 		},
 		"field": {
 			"dates": "Dates",
@@ -237,7 +238,8 @@
 		"nav": "Audit Logs",
 		"title": "Audit Logs",
 		"btn": {
-			"view": "View"
+			"view": "View",
+			"export": "Export"
 		},
 		"field": {
 			"dates": "Dates",

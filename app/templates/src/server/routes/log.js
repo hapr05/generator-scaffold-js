@@ -38,15 +38,9 @@ module.exports = [{
 				]
 			};
 
-			if (request.query.event) {
-				query.event = request.query.event;
-			}
-
-			log.find (query).sort ({
-				$natural: 1
-			}).toArray ().then (log => {
+			request.server.methods.search (log, request.query, [ 'event' ], query).then (logs => {
 				request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username }, 'success', 'log', request.query);
-				reply (log).code (200);
+				reply (logs.values).code (200).header ('X-Total-Count', logs.count);
 			}).catch (() => {
 				request.server.methods.audit ('access', { id: request.auth.credentials._id, username: request.auth.credentials.username }, 'failure', 'log', request.query);
 				reply (boom.badImplementation ());

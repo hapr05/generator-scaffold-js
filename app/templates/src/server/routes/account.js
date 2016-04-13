@@ -3,7 +3,7 @@
 const crypto = require ('crypto'),
 	joi = require ('joi'),
 	boom = require ('boom'),
-	userModel = require ('../models/user'),
+	accountModel = require ('../models/account'),
 	replyUser = (users, query, reply, notFound) => {
 		users.findOne (query).then (user => {
 			if (user) {
@@ -33,14 +33,14 @@ module.exports = [{
 		notes: 'Returns an account user by id.  If the user has ROLE_ADMIN or the account being retrieved belongs to the user, full account details are returned.',
 		tags: [ 'api', 'account' ],
 		validate: {
-			params: userModel.retrieve
+			params: accountModel.retrieve
 		},
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
 					'200': {
 						description: 'Success',
-						schema: userModel.account
+						schema: accountModel.account
 					},
 					'400': { description: 'Bad Request' },
 					'403': { description: 'Forbidden' },
@@ -73,14 +73,14 @@ module.exports = [{
 The latter case can be used to check for duplicates, such as accounts with the same email address. The X-Total-Count header item lists the total number of records.`,
 		tags: [ 'api', 'account' ],
 		validate: {
-			query: userModel.query
+			query: accountModel.query
 		},
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
 					'200': {
 						description: 'Success',
-						schema: joi.array ().items (userModel.account).meta ({ className: 'AccountList' })
+						schema: joi.array ().items (accountModel.account).meta ({ className: 'AccountList' })
 					},
 					'204': { description: 'No Data' },
 					'400': { description: 'Bad Request' },
@@ -134,7 +134,7 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		notes: 'Creates a new user account.',
 		tags: [ 'api', 'account' ],
 		validate: {
-			payload: userModel.create
+			payload: accountModel.create
 		},
 		plugins: {
 			'hapi-swaggered': {
@@ -183,14 +183,14 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		notes: 'Updates an existing user account. Only admin user can set active flag and scopes.',
 		tags: [ 'api', 'account' ],
 		validate: {
-			payload: userModel.update
+			payload: accountModel.update
 		},
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
 					'200': {
 						description: 'Success',
-						schema: userModel.account
+						schema: accountModel.account
 					},
 					'400': { description: 'Bad Request' },
 					'403': { description: 'Forbidden' },

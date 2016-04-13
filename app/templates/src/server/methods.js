@@ -33,8 +33,8 @@ sort = params => {
 	}
 	return false;
 },
-search = (collection, params, filters) => {
-	var cursor = collection.find (filter (params, filters)),
+search = (collection, params, filters, custom) => {
+	var cursor = collection.find (filter (params, Object.assign (filters, custom))),
 		s = sort (params);
 
 	return new Promise ((resolve, reject) => {

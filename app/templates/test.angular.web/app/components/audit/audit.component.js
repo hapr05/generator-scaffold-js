@@ -37,11 +37,40 @@
 			this.$httpBackend.flush ();
 		});
 
+		it ('should export audit', function exportAudit () {
+			window.saveAs = jasmine.createSpy ();
+			this.$httpBackend.expectGET (/audit\/\?from=(.+)&to=(.+)/).respond (200, []);
+			this.scope.export ();
+			this.$httpBackend.flush ();
+			expect (window.saveAs).toHaveBeenCalled ();
+		});
+
+		it ('should sort audit', function loadLog () {
+			this.$httpBackend.expectGET (/audit\/\?from=(.+)&limit=20&sortBy=timestamp&sortDir=desc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('timestamp');
+			this.$httpBackend.flush ();
+			this.$httpBackend.expectGET (/audit\/\?from=(.+)&limit=20&sortBy=timestamp&sortDir=asc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('timestamp');
+			this.$httpBackend.flush ();
+			this.$httpBackend.expectGET (/audit\/\?from=(.+)&limit=20&sortBy=event&sortDir=asc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('event');
+			this.$httpBackend.flush ();
+		});
+
 		it ('should load audit filtered by event', function filterAuditByEvent () {
 			this.$httpBackend.expectGET (/audit\/\?event=test&from=(.+)&to=(.+)/).respond (200, []);
 			this.scope.filter.event = 'audit.event.test';
 			this.scope.view ();
 			this.$httpBackend.flush ();
+		});
+
+		it ('should export audit filteredi by event', function exportAudit () {
+			window.saveAs = jasmine.createSpy ();
+			this.$httpBackend.expectGET (/audit\/\?event=test&from=(.+)&to=(.+)/).respond (200, []);
+			this.scope.filter.event = 'audit.event.test';
+			this.scope.export ();
+			this.$httpBackend.flush ();
+			expect (window.saveAs).toHaveBeenCalled ();
 		});
 
 		it ('should load audit filtered by username', function filterAuditByUsername () {

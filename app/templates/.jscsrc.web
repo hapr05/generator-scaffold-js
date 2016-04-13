@@ -31,7 +31,7 @@
 	"requireAlignedMultilineParams": 1,
 	"requireArrayDestructuring": false,
 	"requireBlocksOnNewline": 1,
-	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "JSON", "Error", "Object", "Boolean", "Math", "Date", "Reflect", "Promise", "Server", "Assertion", "MongoClient", "ObjectID", "Db", "Reporter", "Collector", "Readable", "ALLOW_CONFIG_MUTATIONS", "Authorization" ], "allowedPrefixes": [ "$" ], "strict": true },
+	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "JSON", "Error", "Object", "Boolean", "Math", "Date", "Reflect", "Promise", "Blob", "Server", "Assertion", "MongoClient", "ObjectID", "Db", "Reporter", "Collector", "Readable", "ALLOW_CONFIG_MUTATIONS", "Authorization" ], "allowedPrefixes": [ "$" ], "strict": true },
 	"requireCommaBeforeLineBreak": true,
 	"requireCurlyBraces": [ "if", "else", "for", "while", "do", "try", "catch" ],
 	"requireDotNotation": true,

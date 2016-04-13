@@ -6,7 +6,6 @@ const chai = require ('chai'),
 	chaiAsPromised = require ('chai-as-promised'),
 	sinon = require ('sinon'),
 	hapi = require ('hapi'),
-	mocks = require ('../../helpers/mocks'),
 	creds = require ('../../helpers/creds'),
 	failed = require ('../../helpers/authFailed');
 
@@ -15,31 +14,14 @@ chai.use (dirtyChai);
 
 describe ('audit route', () => {
 	var server,
-		audit = {
-			find () {
-				return {
-					sort () {
-						return {
-							toArray () {
-								return Promise.resolve (true);
-							}
-						};
-					}
-				};
-			}
-		},
 		sandbox = sinon.sandbox.create ();
-
-	before (() => {
-		mocks.mongo ({ audit });
-	});
 
 	beforeEach (() => {
 		server = new hapi.Server ();
 		server.connection ();
 		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+			require ('../../../../src/server/methods') (server);
 			server.auth.strategy ('jwt', 'failed');
-			server.method ('audit', () => {});
 			server.route (require ('../../../../src/server/routes/audit'));
 		})).to.be.fulfilled ();
 	});
@@ -48,12 +30,13 @@ describe ('audit route', () => {
 		sandbox.restore ();
 	});
 
-	after (() => {
-		mocks.disable ();
-	});
-
 	describe ('collection', () => {
 		it ('should list audit entries', done => {
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({
+				count: 1,
+				values: [{}]
+			}));
+
 			server.inject ({
 				method: 'GET',
 				url: '/audit/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z',
@@ -67,11 +50,7 @@ describe ('audit route', () => {
 		});
 
 		it ('should handle db failure ', done => {
-			sandbox.stub (audit, 'find', () => ({
-				sort: () => ({
-					toArray: () => Promise.reject (true)
-				})
-			}));
+			sinon.stub (server.methods, 'search').returns (Promise.reject ('err'));
 
 			server.inject ({
 				method: 'GET',
@@ -86,6 +65,11 @@ describe ('audit route', () => {
 		});
 
 		it ('should list audit entries by event/username', done => {
+			sinon.stub (server.methods, 'search').returns (Promise.resolve ({
+				count: 1,
+				values: [{}]
+			}));
+
 			server.inject ({
 				method: 'GET',
 				url: '/audit/?from=2016-03-30T05:00:00.000Z&to=2016-03-31T04:59:59.999Z&event=create&username=test',

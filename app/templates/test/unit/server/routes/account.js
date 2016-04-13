@@ -222,6 +222,7 @@ describe ('account route', () => {
 				count: 1,
 				values: [{}]
 			}));
+
 			server.inject ({ method: 'GET', url: '/account/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (204);

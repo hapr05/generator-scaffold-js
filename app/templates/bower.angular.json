@@ -7,6 +7,7 @@
 		"es6-shim": "latest",
 		"jquery": "latest",
 		"moment": "latest",
+		"file-saver.js": "latest",
 		"bootstrap": "latest",
 		"animate.css": "latest",
 		"angular": "latest",

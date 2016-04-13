@@ -37,11 +37,40 @@
 			this.$httpBackend.flush ();
 		});
 
+		it ('should export log', function exportLog () {
+			window.saveAs = jasmine.createSpy ();
+			this.$httpBackend.expectGET (/log\/\?from=(.+)&to=(.+)/).respond (200, []);
+			this.scope.export ();
+			this.$httpBackend.flush ();
+			expect (window.saveAs).toHaveBeenCalled ();
+		});
+
+		it ('should sort logs ', function loadLog () {
+			this.$httpBackend.expectGET (/log\/\?from=(.+)&limit=10&sortBy=timestamp&sortDir=desc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('timestamp');
+			this.$httpBackend.flush ();
+			this.$httpBackend.expectGET (/log\/\?from=(.+)&limit=10&sortBy=timestamp&sortDir=asc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('timestamp');
+			this.$httpBackend.flush ();
+			this.$httpBackend.expectGET (/log\/\?from=(.+)&limit=10&sortBy=event&sortDir=asc&start=0&to=(.+)/).respond (200, []);
+			this.scope.sort ('event');
+			this.$httpBackend.flush ();
+		});
+
 		it ('should load log filtered by event', function filterByEvent () {
 			this.$httpBackend.expectGET (/log\/\?event=test&from=(.+)&to=(.+)/).respond (200, []);
 			this.scope.filter.event = 'log.event.test';
 			this.scope.view ();
 			this.$httpBackend.flush ();
+		});
+
+		it ('should export log filtered by event', function exportLog () {
+			window.saveAs = jasmine.createSpy ();
+			this.$httpBackend.expectGET (/log\/\?event=test&from=(.+)&to=(.+)/).respond (200, []);
+			this.scope.filter.event = 'log.event.test';
+			this.scope.export ();
+			this.$httpBackend.flush ();
+			expect (window.saveAs).toHaveBeenCalled ();
 		});
 
 		it ('should show raw log', function showRawLog () {
