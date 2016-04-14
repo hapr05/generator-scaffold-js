@@ -33,14 +33,9 @@ module.exports = {
 					server.register (require ('bell'), () => {<% for (var i = 0; i < socialLogins.length; i++) { %>
 						server.auth.strategy ('<%= socialLogins [i].name %>', 'bell', {
 							provider: '<%= socialLogins [i].name %>',
-							password: '<%= socialLogins [i].password %>',
-							clientId: '<%= socialLogins [i].clientId %>',
-							/*
-							 * Never share your secret key. Best practies is to move the key to an environment variable:
-							 * clientSecret: process.env.<%= socialLogins [i].name.toUpperCase () %>_CLIENT_SECRET
-							 * TODO: Document in README.md
-							 */
-							clientSecret: '<%= socialLogins [i].clientSecret %>',
+							password: process.env.<%= socialLogins [i].upper %>_PASSWORD,
+							clientId: process.env.<%= socialLogins [i].upper %>_CLIENT_ID,
+							clientSecret: process.env.<%= socialLogins [i].upper %>_CLIENT_SECRET,
 							isSecure: true
 						});
 <% } %>					});<% } %>

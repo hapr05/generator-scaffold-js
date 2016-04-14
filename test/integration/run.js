@@ -29,6 +29,7 @@ class run {
 			}
 		});
 
+		process.env.JWT_KEY = 'test';
 		temp.track ();
 
 		this.create ().then (dbname => {

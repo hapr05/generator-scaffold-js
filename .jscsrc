@@ -32,7 +32,7 @@
 	"requireArrayDestructuring": false,
 	"requireArrowFunctions": true,
 	"requireBlocksOnNewline": true,
-	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "Error", "Object", "Boolean", "Date", "Reflect", "Promise", "Server", "Db", "Assertion", "MongoClient", "Base" ], "strict": true },
+	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "Error", "Object", "Boolean", "Date", "Reflect", "Promise", "Server", "Db", "Assertion", "MongoClient", "Base", "JWT_KEY" ], "strict": true },
 	"requireCommaBeforeLineBreak": true,
 	"requireCurlyBraces": [ "if", "else", "for", "while", "do", "try", "catch" ],
 	"requireDotNotation": true,

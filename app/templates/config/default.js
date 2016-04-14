@@ -152,12 +152,7 @@
 		},
 		web: {
 			content: './src/web',
-			/*
-			 * Never share your secret key. Best practies is to move the key to an environment variable:
-			 * jwtKey: process.env.JWT_KEY
-			 * TODO:  Document in README.md
-			 */
-			jwtKey: '<%= jwtKey %>',
+			jwtKey: process.env.JWT_KEY,
 			tokenExpire: 15 * 60,
 			tokenRememberExpire: 90 * 24 * 60 * 60,
 			tokenForgotExpire: 24 * 60 * 60

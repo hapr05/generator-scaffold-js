@@ -188,6 +188,7 @@ describe ('oldschool:app', () => {
 			before (done => {
 				helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
 					cfgName: name,
+					cfgDbUrl: 'mongodb://localhost:27017',
 					cfgDescription: 'my-description',
 					cfgBugs: 'my-issues',
 					cfgLicense: 'Junk',
@@ -218,6 +219,7 @@ describe ('oldschool:app', () => {
 				gitError = true;
 				helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts ({
 					cfgName: name,
+					cfgDbUrl: 'mongodb://localhost:27017',
 					cfgDescription: 'my-description',
 					cfgHomepage: 'my-homepage',
 					cfgBugs: 'my-issues',

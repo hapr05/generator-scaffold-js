@@ -3,7 +3,6 @@
 const generator = require ('yeoman-generator'),
 	path = require ('path'),
 	process = require ('process'),
-	uuid = require ('node-uuid'),
 	camel = require ('to-camel-case'),
 	slug = require ('to-slug-case'),
 	gitConfig = require ('git-config'),
@@ -22,9 +21,6 @@ module.exports = generator.Base.extend ({
 
 		this.appname = path.basename (process.cwd ());
 		this.config.set ('appname', this.appname);
-
-		this.jwtKey = this._def ('jwtKey', uuid.v4 ());
-		this.config.set ('jwtKey', this.jwtKey);
 	},
 
 	_def (a, b) {
@@ -138,8 +134,7 @@ module.exports = generator.Base.extend ({
 				{ name: caps.google, value: 'google' },
 				{ name: caps.linkedin, value: 'linkedin' }
 			] }
-		],
-		dprompts = [];
+		];
 
 		this.prompt (prompts, answers => {
 			this.config.set (answers);
@@ -151,44 +146,15 @@ module.exports = generator.Base.extend ({
 				answers.cfgSocial.forEach (option => {
 					var cap = caps [ option ];
 
-					dprompts.push ({
-						name: `cfg${cap}Password`,
-						message: `${cap} password`,
-						default: this._def (`cfg${cap}Password`),
-						validate: validators.socialPassword
-					});
-					dprompts.push ({
-						name: `cfg${cap}ClientId`,
-						message: `${cap} client id`,
-						default: this._def (`cfg${cap}ClientId`),
-						validate: validators.socialClientId
-					});
-					dprompts.push ({
-						name: `cfg${cap}ClientSecret`,
-						message: `${cap} client secret`,
-						default: this._def (`cfg${cap}ClientSecret`),
-						validate: validators.socialClientSecret
+					this.socialLogins.push ({
+						name: option,
+						cap,
+						upper: option.toUpperCase (),
+						icon: icons [ option ]
 					});
 				});
 
-				this.prompt (dprompts, details => {
-					this.config.set (details);
-
-					answers.cfgSocial.forEach (option => {
-						var cap = caps [ option ];
-
-						this.socialLogins.push ({
-							name: option,
-							cap,
-							password: details [ `cfg${cap}Password` ],
-							clientId: details [ `cfg${cap}ClientId` ],
-							clientSecret: details [ `cfg${cap}ClientSecret` ],
-							icon: icons [ option ]
-						});
-					});
-
-					done ();
-				});
+				done ();
 			} else {
 				done ();
 			}

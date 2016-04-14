@@ -19,8 +19,10 @@
 		},
 		web: {
 			content: './src/web/dist',
-			/* Never share your secret key */
-			jwtKey: '<%= jwtKey %>'
+			jwtKey: process.env.JWT_KEY,
+			tokenExpire: 15 * 60,
+			tokenRememberExpire: 90 * 24 * 60 * 60,
+			tokenForgotExpire: 24 * 60 * 60
 		}
 	}
 } ());

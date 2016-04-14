@@ -32,7 +32,7 @@
 	"requireArrayDestructuring": false,
 	"requireArrowFunctions": true,
 	"requireBlocksOnNewline": 1,
-	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "JSON", "Error", "Object", "Boolean", "Date", "Reflect", "Promise", "Server", "Assertion", "MongoClient", "ObjectID", "Db", "Reporter", "Collector", "Readable", "ALLOW_CONFIG_MUTATIONS" ], "allowedPrefixes": [ "$" ], "strict": true },
+	"requireCamelCaseOrUpperCaseIdentifiers": { "allExcept": [ "JSON", "Error", "Object", "Boolean", "Date", "Reflect", "Promise", "Server", "Assertion", "MongoClient", "ObjectID", "Db", "Reporter", "Collector", "Readable", "ALLOW_CONFIG_MUTATIONS"<% if (socialLogins.length) { %><% for (var i = 0; i < socialLogins.length; i++) { %>, "<%= socialLogins [i].upper %>_PASSWORD", "<%= socialLogins [i].upper %>_CLIENT_ID", "<%= socialLogins [i].upper %>_CLIENT_SECRET"<% }} %> ], "allowedPrefixes": [ "$" ], "strict": true },
 	"requireCommaBeforeLineBreak": true,
 	"requireCurlyBraces": [ "if", "else", "for", "while", "do", "try", "catch" ],
 	"requireDotNotation": true,
