@@ -7,6 +7,7 @@ module.exports = {
 		const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users');
 
 		if (request.info.host === decoded.host) {
+			/* No need to sanitize input here as the key is signed and validated */
 			users.findOne ({
 				_id: new mongo.ObjectID (decoded.user),
 				active: true

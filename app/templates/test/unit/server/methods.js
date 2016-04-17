@@ -54,33 +54,59 @@ describe ('server methods', () => {
 		mocks.disable ();
 	});
 
-	it ('should audit', () => {
-		server.methods.audit ('', {}, '', '', {});
-		expect (audit.insertOne.called).to.be.true ();
-	});
+	describe ('misc', () => {
+		it ('should audit', () => {
+			server.methods.audit ('', {}, '', '', {});
+			expect (audit.insertOne.called).to.be.true ();
+		});
 
-	it ('should copy filter values', () => {
-		expect (server.methods.filter ({
-			test: 1,
-			other: 1
-		}, [ 'test' ])).to.eql ({
-			test: 1
+		it ('should copy filter values', () => {
+			expect (server.methods.filter ({
+				test: 1,
+				other: 1
+			}, [ 'test' ])).to.eql ({
+				test: 1
+			});
+		});
+
+		it ('should sort', () => {
+			expect (server.methods.sort ({})).to.equal (false);
+			expect (server.methods.sort ({
+				sortBy: 'test',
+				sortDir: 'asc'
+			})).to.eql ({
+				test: 1
+			});
+			expect (server.methods.sort ({
+				sortBy: 'test',
+				sortDir: 'desc'
+			})).to.eql ({
+				test: -1
+			});
 		});
 	});
 
-	it ('should sort', () => {
-		expect (server.methods.sort ({})).to.equal (false);
-		expect (server.methods.sort ({
-			sortBy: 'test',
-			sortDir: 'asc'
-		})).to.eql ({
-			test: 1
+	describe ('check', () => {
+		it ('should replace $ identifiers at BOL', () => {
+			expect (server.methods.check ('$test')).to.equal ('test');
 		});
-		expect (server.methods.sort ({
-			sortBy: 'test',
-			sortDir: 'desc'
-		})).to.eql ({
-			test: -1
+
+		it ('should not replace $ identifiers other locations', () => {
+			expect (server.methods.check ('t$est')).to.equal ('t$est');
+		});
+	});
+
+	describe ('sanitize', () => {
+		it ('should fail $ identifiers at BOL', () => {
+			expect (server.methods.sanitize ({ test: '$test' }, [ 'test' ])).to.be.false ();
+		});
+
+		it ('should fail identifiers at BOL with no filters', () => {
+			expect (server.methods.sanitize ({ start: '$test' })).to.be.false ();
+		});
+
+		it ('should not replace $ identifiers other locations', () => {
+			expect (server.methods.sanitize ({ test: 't$est' }, [ 'test' ])).to.be.true ();
 		});
 	});
 

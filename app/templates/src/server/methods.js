@@ -4,6 +4,7 @@ var server;
 const audit = (event, user, status, resource, data) => {
 	const audit = server.plugins [ 'hapi-mongodb' ].db.collection ('audit');
 
+	/* No need to sanitize here as the data is generated internally */
 	audit.insertOne ({
 		event,
 		timestamp: new Date ().getTime (),
@@ -12,6 +13,20 @@ const audit = (event, user, status, resource, data) => {
 		resource,
 		data
 	});
+},
+check = str => str.replace (/^\$/, ''),
+sanitize = (params, filters) => {
+	var c = [ 'sortBy', 'sortDir', 'start', 'limit' ].concat (filters || Reflect.ownKeys (params)),
+		ret = true;
+
+	c.forEach (key => {
+		if (params [ key ] && params [ key ] !== check (params [ key ])) {
+			ret = false;
+			return false;
+		}
+	});
+
+	return ret;
 },
 filter = (params, filters) => {
 	var f = {};
@@ -33,36 +48,34 @@ sort = params => {
 	}
 	return false;
 },
-search = (collection, params, filters, custom) => {
+search = (collection, params, filters, custom) => new Promise ((resolve, reject) => {
 	var cursor = collection.find (filter (params, Object.assign (filters, custom))),
 		s = sort (params);
 
-	return new Promise ((resolve, reject) => {
-		cursor.count ().then (count => {
-			if (s) {
-				cursor = cursor.sort (s);
-			}
+	cursor.count ().then (count => {
+		if (s) {
+			cursor = cursor.sort (s);
+		}
 
-			if (params.start) {
-				cursor = cursor.skip (params.start);
-			}
+		if (params.start) {
+			cursor = cursor.skip (params.start);
+		}
 
-			if (params.limit) {
-				cursor = cursor.limit (params.limit);
-			}
+		if (params.limit) {
+			cursor = cursor.limit (params.limit);
+		}
 
-			return cursor.toArray ().then (array => {
-				resolve ({
-					values: array,
-					count
-				});
+		return cursor.toArray ().then (array => {
+			resolve ({
+				values: array,
+				count
 			});
-		}).catch (err => {
-			reject (err);
 		});
+	}).catch (err => {
+		reject (err);
 	});
-},
-methods = { audit, filter, sort, search };
+}),
+methods = { audit, check, sanitize, filter, sort, search };
 
 module.exports = _server_ => {
 	server = _server_;

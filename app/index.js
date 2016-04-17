@@ -61,10 +61,10 @@ module.exports = generator.Base.extend ({
 				{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.name },
 				{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.dbUrl },
 				{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'oldschool generated application') },
-				{ name: 'cfgContribName', message: 'Author name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
-				{ name: 'cfgContribEmail', message: 'Author email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
-				{ name: 'cfgContribUrl', message: 'Author url', default: this._def ('cfgContribUrl', '') },
-				{ name: 'cfgRepository', message: 'Repository url', default: this._def ('cfgRepository', '') }
+				{ name: 'cfgContribName', message: 'Author Name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
+				{ name: 'cfgContribEmail', message: 'Author Email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
+				{ name: 'cfgContribUrl', message: 'Author Url', default: this._def ('cfgContribUrl', '') },
+				{ name: 'cfgRepository', message: 'Repository Url', default: this._def ('cfgRepository', '') }
 			];
 
 		this.prompt (prompts, answers => {
@@ -85,13 +85,13 @@ module.exports = generator.Base.extend ({
 
 		if (this.isGithub) {
 			prompts = prompts.concat ([
-				{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('cfgHomepage', homepage) },
-				{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', `${homepage}/issues`) }
+				{ name: 'cfgHomepage', message: 'Project Homepage Url', default: this._def ('cfgHomepage', homepage) },
+				{ name: 'cfgBugs', message: 'Issue Tracker Url', default: this._def ('cfgBugs', `${homepage}/issues`) }
 			]);
 		} else {
 			prompts = prompts.concat ([
-				{ name: 'cfgHomepage', message: 'Project homepage url', default: this._def ('cfgHomepage', '') },
-				{ name: 'cfgBugs', message: 'Issue tracker url', default: this._def ('cfgBugs', '') }
+				{ name: 'cfgHomepage', message: 'Project Homepage Url', default: this._def ('cfgHomepage', '') },
+				{ name: 'cfgBugs', message: 'Issue Tracker Url', default: this._def ('cfgBugs', '') }
 			]);
 		}
 
@@ -127,7 +127,7 @@ module.exports = generator.Base.extend ({
 				linkedin: 'In-2C-34px-R.png'
 			};
 		var prompts = [
-			{ name: 'cfgSocial', message: 'Social logins', default: this._def ('cfgSocial'), type: 'checkbox', choices: [
+			{ name: 'cfgSocial', message: 'Social Logins', default: this._def ('cfgSocial'), type: 'checkbox', choices: [
 				{ name: caps.github, value: 'github' },
 				{ name: caps.twitter, value: 'twitter' },
 				{ name: caps.facebook, value: 'facebook' },

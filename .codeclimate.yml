@@ -14,6 +14,7 @@ engines:
          - 9c0901e1232c25d27cd632e68029baf1
          - 02577be5b8ddc3cbbb4c04bbcdc764aa
          - 77757e3d9e6cc7fa291b1c1e0d221425
+         - 8140ca4839fdf0d3db6fe882724ddd08
     checks:
       global-require:
          enabled: false

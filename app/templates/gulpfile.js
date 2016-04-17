@@ -149,7 +149,7 @@ require ('harmony-reflect');
 
 	gulp.task ('bs', [ 'nm' ], () => {
 		browserSync ({
-			proxy: 'localhost:8080'
+			proxy: 'localhost:8443'
 		});
 	});
 
