@@ -15,9 +15,9 @@ These are just guidelines, not rules, use your best judgment and feel free to pr
 
 [Styleguides](#styleguides)
   * [Git Commit Messages](#git-commit-messages)
-  * [CoffeeScript Styleguide](#coffeescript-styleguide)
-  * [Specs Styleguide](#specs-styleguide)
-  * [Documentation Styleguide](#documentation-styleguide)
+  * [General Styleguide](#general-styleguide)
+  * [JavaScript Styleguide](#javascript-styleguide)
+  * [Unit Test Styleguide](#unit-test-styleguide)
 
 [Additional Notes](#additional-notes)
   * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
@@ -87,7 +87,7 @@ Include details about your configuration and environment:
 
     **Additional information:**
 
-    * Problem started happening recently, didn't happen in an older version of Atom: [Yes/No]
+    * Problem started happening recently, didn't happen in an older version of **scaffold-js**: [Yes/No]
     * Problem can be reliably reproduced, doesn't happen randomly: [Yes/No]
 
 ### Suggesting Enhancements
@@ -148,12 +148,16 @@ Unsure where to begin contributing to **scaffold-js**? You can start by looking 
 * [Beginner issues](https://github.com/scaffold-js/generator-scaffold-js/labels/beginner) - issues which should only require a few lines of code, and a test or two.
 * [Help wanted issues](https://github.com/scaffold-js/generator-scaffold-js/labels/help%20wanted) - issues which should be a bit more involved than `beginner` issues.
 
+If you intended to work on an issue, please add a comment indicating you are working on it to help avoid conflicts.
+
 ### Pull Requests
 
 * Include screenshots in your pull request whenever possible.
 * Follow the [stylegudes](#styleguides).
 * Include thoughtfully-worded, well-structured unit tests for both the generator and generated code.
 * Ensure your changes maintain 100% code coverage without ignore comments.
+* Ensure code builds successfully and passes all code quality checks.
+* Run **gulp ci** and check result (**echo $?**) is 0.
 * Avoid platform-dependent code:
     * Use `require('fs-plus').getHomeDirectory()` to get the home directory.
     * Use `path.join()` to concatenate filenames.
@@ -163,10 +167,36 @@ Unsure where to begin contributing to **scaffold-js**? You can start by looking 
 
 ### Git Commit Messages
 
-* Use the present tense ("Add feature" not "Added feature")
-* Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-* Limit the first line to 72 characters or less
-* Reference issues and pull requests liberally
+* Use the present tense ("Add feature" not "Added feature").
+* Use the imperative mood ("Move cursor to..." not "Moves cursor to...").
+* Limit the first line to 72 characters or less.
+* Reference issues and pull requests liberally.
+
+### General Styleguide
+
+A .editorconfig file is included with the project if your editor supports it.  Additionally most styles are inforced by the code quality checks.
+
+#### Whitespace
+
+ * Use tabs instead of spaces.
+ * Use an indent size of 3.
+ * Use Unix style EOL, i.e. lf instead of crlf.
+ * Trim trailing whitespace
+
+### JavaScript Styleguide
+
+ * Function spacing:  functionName (param, param)
+ * Braces: [OTBS](http://eslint.org/docs/rules/brace-style#tbs)
+
+#### Server (ES6)
+
+ * Use arrow function where appropriate
+ * Use object shorthand where appropriate
+ * Use Promise instead of callbacks
+
+#### Client (ES5)
+
+ * Avoid ES6 conventions that cannot be shimed.  Just becasue Chrome supports it doesn't mean the other supported browsers do.
 
 ### Unit Test Styleguide
 
