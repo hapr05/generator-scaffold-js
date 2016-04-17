@@ -1,6 +1,6 @@
 {
 	"name": "generator-scaffold-js",
-	"version": "1.0.0-alpha.1",
+	"version": "0.1.0-alpha.1",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
 		"NodeJS",
