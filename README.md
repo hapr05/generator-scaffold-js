@@ -17,7 +17,7 @@
 [![peerDependency Status](https://david-dm.org/scaffold-js/generator-scaffold-js/peer-status.svg)](https://david-dm.org/scaffold-js/generator-scaffold-js#info=peerDependencies)
 [![optionalDependency Status](https://david-dm.org/scaffold-js/generator-scaffold-js/optional-status.svg)](https://david-dm.org/scaffold-js/generator-scaffold-js#info=optionalDependencies)
 
-[![Twitter Follow](https://img.shields.io/twitter/follow/shields_io.svg?style=social?maxAge=2592000)](https://twitter.com/scaffoldjs)
+[![Twitter Follow](https://img.shields.io/twitter/follow/scaffoldjs.svg?style=social?maxAge=2592000)](https://twitter.com/scaffoldjs)
 
 <!--
 [npm-image]: https://badge.fury.io/js/generator-scaffold-js.svg
