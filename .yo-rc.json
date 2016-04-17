@@ -1,15 +1,15 @@
 {
   "generator-generator": {},
-  "generator-oldschool": {
-    "appname": "generator-oldschool",
-    "name": "generator-oldschool",
-    "description": "oldschool generated application",
+  "generator-scaffold-js": {
+    "appname": "generator-scaffold-js",
+    "name": "generator-scaffold-js",
+    "description": "JavaScript full stack Yeoman scaffolding",
     "cName": "James Goddard",
     "cEmail": "james@goddard.bz",
     "cUrl": "",
-    "repository": "",
+    "repository": "https://github.com/scaffold-js/generator-scaffold-js",
     "license": "MIT",
-    "homepage": "",
-    "bugs": ""
+    "homepage": "https://scaffold-js.github.io",
+    "bugs": "https://github.com/scaffold-js/generator-scaffold-js/issues"
   }
 }

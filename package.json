@@ -1,5 +1,5 @@
 {
-	"name": "generator-oldschool",
+	"name": "generator-scaffold-js",
 	"version": "1.0.0-alpha.1",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
@@ -8,16 +8,17 @@
 		"Bootstrap",
 		"AngularJS",
 		"MongoDB",
+		"less",
 		"Yeoman",
 		"yeoman-generator"
 	],
-	"homepage": "https://github.com/fluky/generator-oldschool.git",
-	"bugs": "https://github.com/fluky/generator-oldschool.git",
+	"homepage": "https://scaffold-js.github.io",
+	"bugs": "https://github.com/scaffold-js/generator-scaffold-js/issues",
 	"license": "MIT",
 	"contributors": {
 		"name": "James Goddard",
 		"email": "james@goddard.bz",
-		"url": "http://goddard.bz"
+		"url": "https://github.com/fluky"
 	},
 	"files": [
 		"app"
@@ -25,7 +26,7 @@
 	"main": "index.js",
 	"bin": {},
 	"man": [],
-	"repository": "fluky/generator-oldschool",
+	"repository": "scaffold-js/generator-scaffold-js",
 	"scripts": {
 		"test": "gulp test"
 	},
