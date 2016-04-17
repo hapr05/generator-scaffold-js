@@ -59,7 +59,7 @@ class run {
 				if (e) {
 					reject (e);
 				} else {
-					var dbname = path.basename (dir);
+					let dbname = path.basename (dir);
 
 					console.info (`Test directory created: ${ dir }`);
 					process.chdir (dir);
