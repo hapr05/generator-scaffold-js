@@ -7,9 +7,6 @@ These are just guidelines, not rules, use your best judgment and feel free to pr
 
 #### Table Of Contents
 
-[What should I know before I get started?](#what-should-i-know-before-i-get-started)
-  * [Code of Conduct](#code-of-conduct)
-
 [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs)
   * [Suggesting Enhancements](#suggesting-enhancements)
@@ -25,14 +22,6 @@ These are just guidelines, not rules, use your best judgment and feel free to pr
 [Additional Notes](#additional-notes)
   * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
 
-## What should I know before I get started?
-
-### Code of Conduct
-
-This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
-By participating, you are expected to uphold this code.
-Please report unacceptable behavior to [atom@github.com](mailto:atom@github.com).
-
 ## How Can I Contribute?
 
 ### Reporting Bugs
@@ -47,38 +36,29 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 
 #### How Do I Submit A (Good) Bug Report?
 
-Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined [which repository](#atom-and-packages) your bug is related to, create an issue on that repository and provide the following information.
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). When you create an issue provide the following information.
 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible. For example, start by explaining how you started Atom, e.g. which command exactly you used in the terminal, or how you started Atom otherwise. When listing steps, **don't just say what you did, but explain how you did it**. For example, if you moved the cursor to the end of a line, explain if you used the mouse, or a keyboard shortcut or an Atom command, and if so which one?
+* **Describe the exact steps which reproduce the problem** in as many details as possible. When listing steps, **don't just say what you did, but explain how you did it**.
 * **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
-* **Include screenshots and animated GIFs** which show you following the described steps and clearly demonstrate the problem. If you use the keyboard while following the steps, **record the GIF with the [Keybinding Resolver](https://github.com/atom/keybinding-resolver) shown**. You can use [this tool](http://www.cockos.com/licecap/) to record GIFs on OSX and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
-* **If you're reporting that Atom crashed**, include a crash report with a stack trace from the operating system. On OSX, the crash report will be available in `Console.app` under "Diagnostic and usage information" > "User diagnostic reports". Include the crash report in the issue in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines), a [file attachment](https://help.github.com/articles/file-attachments-on-issues-and-pull-requests/), or put it in a [gist](https://gist.github.com/) and provide link to that gist.
-* **If the problem is related to performance**, include a [CPU profile capture and a screenshot](http://flight-manual.atom.io/hacking-atom/sections/debugging/#diagnose-performance-problems-with-the-dev-tools-cpu-profiler) with your report.
-* **If the Chrome's developer tools pane is shown without you triggering it**, that normally means that an exception was thrown. The Console tab will include an entry for the exception. Expand the exception so that the stack trace is visible, and provide the full exception and stack trace in a [code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines) and as a screenshot.
+* **Include screenshots** which show you following the described steps and clearly demonstrate the problem.
 * **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
 
 Provide more context by answering these questions:
 
-* **Can you reproduce the problem in [safe mode](http://flight-manual.atom.io/hacking-atom/sections/debugging/#diagnose-runtime-performance-problems-with-the-dev-tools-cpu-profiler)?**
-* **Did the problem start happening recently** (e.g. after updating to a new version of Atom) or was this always a problem?
-* If the problem started happening recently, **can you reproduce the problem in an older version of Atom?** What's the most recent version in which the problem doesn't happen? You can download older versions of Atom from [the releases page](https://github.com/atom/atom/releases).
+* **Did the problem start happening recently** (e.g. after updating to a new version of **scaffold-js**) or was this always a problem?
+* If the problem started happening recently, **can you reproduce the problem in an older version of scaffold-js?** What's the most recent version in which the problem doesn't happen? You can download older versions of **scaffold-js++ from [the releases page](https://github.com/scaffold-js/generator-scaffold-js/releases).
 * **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
-* If the problem is related to working with files (e.g. opening and editing files), **does the problem happen for all files and projects or only some?** Does the problem happen only when working with local or remote files (e.g. on network drives), with files of a specific type (e.g. only JavaScript or Python files), with large files or files with very long lines, or with files in a specific encoding? Is there anything else special about the files you are using?
 
 Include details about your configuration and environment:
 
-* **Which version of Atom are you using?** You can get the exact version by running `atom -v` in your terminal, or by starting Atom and running the `Application: About` command from the [Command Palette](https://github.com/atom/command-palette).
+* **Which version of scaffold-js are you using?**
 * **What's the name and version of the OS you're using**?
-* **Are you running Atom in a virtual machine?** If so, which VM software are you using and which operating systems and versions are used for the host and the guest?
-* **Which [packages](#atom-and-packages) do you have installed?** You can get that list by running `apm list --installed`.
-* **Are you using [local configuration files](http://flight-manual.atom.io/using-atom/sections/basic-customization/)** `config.cson`, `keymap.cson`, `snippets.cson`, `styles.less` and `init.coffee` to customize Atom? If so, provide the contents of those files, preferably in a [code block](https://help.github.com/articles/markdown-basics/#multiple-lines) or with a link to a [gist](https://gist.github.com/).
-* **Are you using Atom with multiple monitors?** If so, can you reproduce the problem when you use a single monitor?
-* **Which keyboard layout are you using?** Are you using a US layout or some other layout?
+* **Are you running scaffold-js in a virtual machine?** If so, which VM software are you using and which operating systems and versions are used for the host and the guest?
 
 #### Template For Submitting Bug Reports
 
@@ -98,23 +78,17 @@ Include details about your configuration and environment:
 
     [Describe observed behavior here]
 
-    **Screenshots and GIFs**
+    **Screenshots**
 
-    ![Screenshots and GIFs which follow reproduction steps to demonstrate the problem](url)
+    ![Screenshots which follow reproduction steps to demonstrate the problem](url)
 
-    **Atom version:** [Enter Atom version here]
+    **scaffold-js version:** [Enter scaffold-js version here]
     **OS and version:** [Enter OS name and version here]
-
-    **Installed packages:**
-
-    [List of installed packages here]
 
     **Additional information:**
 
-    * Problem can be reproduced in safe mode: [Yes/No]
     * Problem started happening recently, didn't happen in an older version of Atom: [Yes/No]
     * Problem can be reliably reproduced, doesn't happen randomly: [Yes/No]
-    * Problem happens with all files and projects, not only some files or projects: [Yes/No]
 
 ### Suggesting Enhancements
 
