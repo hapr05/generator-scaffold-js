@@ -5,6 +5,7 @@ language: node_js
 os:
    - linux
 #   - osx - travis-ci doesn't support node on osx (lame)
+sudo: required
 node_js:
    - "5.10.0"
 services:
@@ -23,7 +24,7 @@ script:
    - gulp ci
 after_success:
    - ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info 
-   - ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info
+#   - ./node_modules/codeclimate-test-reporter/bin/codeclimate.js < coverage/lcov.info
    - ./node_modules/codacy-coverage/bin/codacy-coverage.js < coverage/lcov.info 
 after_failure:
    - ./node_modules/coveralls/bin/coveralls.js < coverage/lcov.info 
