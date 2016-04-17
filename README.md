@@ -19,13 +19,10 @@
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/scaffoldjs.svg?style=social?maxAge=2592000)](https://twitter.com/scaffoldjs)
 
-<!--
 [npm-image]: https://badge.fury.io/js/generator-scaffold-js.svg
 [npm-url]: https://npmjs.org/package/generator-scaffold-js
-[![node](https://img.shields.io/node/v/gh-badges.svg)]()
-[![Bower](https://img.shields.io/bower/v/bootstrap.svg)]()
-[![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)]()
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+
+<!--
 [![Libscore](https://img.shields.io/libscore/s/jQuery.svg)]()
 -->
 
