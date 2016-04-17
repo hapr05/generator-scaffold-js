@@ -18,6 +18,8 @@
 		'ui.bootstrap.datetimepicker',
 		'angular-jwt',
 		'swaggerUi'
+
+		// scaffold-js-insertsion-point app-dependencies
 	]).config (function configUrlRouter ($urlRouterProvider) {
 		$urlRouterProvider.otherwise ('/');
 	}).config (function configTranslate ($translateProvider, tmhDynamicLocaleProvider) {

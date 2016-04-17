@@ -76,6 +76,8 @@ const gulp = require ('gulp'),
 					'src/web/bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.tpls.js',
 					'src/web/bower_components/angular-jwt/dist/angular-jwt.js',
 					'src/web/bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js'
+
+					// scaffold-js-insertsion-point vendor-javascript
 				],
 				locale: 'src/web/bower_components/angular-i18n/angular-locale*.js',
 				css: [
@@ -85,6 +87,8 @@ const gulp = require ('gulp'),
 					'src/web/bower_components/angular-loading-bar/build/loading-bar.css',
 					'src/web/bower_components/angular-ui-select/dist/select.css',
 					'src/web/bower_components/angular-swagger-ui/dist/css/swagger-ui.css'
+
+					// scaffold-js-insertsion-point vendor-css
 				],
 				fonts: [
 					'src/web/bower_components/bootstrap/dist/fonts/*'

@@ -12,7 +12,7 @@ class run {
 
 	constructor () {
 		Object.assign (this, {
-			testDir: 'oldschool_test',
+			testDir: 'scaffold_js_test',
 			prompts: {
 				cfgName: 'test-app',
 				cfgDbUrl: 'mongodb://localhost:27017/test',

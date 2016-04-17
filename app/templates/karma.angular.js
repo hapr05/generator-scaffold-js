@@ -32,6 +32,8 @@
 				'src/web/bower_components/angular-jwt/dist/angular-jwt.js',
 				'src/web/bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js',
 				'src/web/bower_components/angular-mocks/angular-mocks.js',
+
+				// scaffold-js-insertsion-point vendor-javascript
 				'src/web/app/**/*.js',
 				'test/unit/web/app/**/*.js'
 			],

@@ -1,29 +1,29 @@
-# generator-oldschool
+# generator-scaffold-js
 
 > [Yeoman](http://yeoman.io) generator
 
-[![Build Status](https://travis-ci.org/fluky/generator-oldschool.svg?branch=master)](https://travis-ci.org/fluky/generator-oldschool)
-[![Code Climate](https://codeclimate.com/github/fluky/generator-oldschool/badges/gpa.svg)](https://codeclimate.com/github/fluky/generator-oldschool)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/eeae91ca87c049768c3355321e8fdd68)](https://www.codacy.com/app/james_20/generator-oldschool)
-[![Test Coverage](https://codeclimate.com/github/fluky/generator-oldschool/badges/coverage.svg)](https://codeclimate.com/github/fluky/generator-oldschool/coverage)
+[![Build Status](https://travis-ci.org/fluky/generator-scaffold-js.svg?branch=master)](https://travis-ci.org/fluky/generator-scaffold-js)
+[![Code Climate](https://codeclimate.com/github/fluky/generator-scaffold-js/badges/gpa.svg)](https://codeclimate.com/github/fluky/generator-scaffold-js)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/eeae91ca87c049768c3355321e8fdd68)](https://www.codacy.com/app/james_20/generator-scaffold-js)
+[![Test Coverage](https://codeclimate.com/github/fluky/generator-scaffold-js/badges/coverage.svg)](https://codeclimate.com/github/fluky/generator-scaffold-js/coverage)
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2016.svg)]()
-[![Github Releases](https://img.shields.io/github/downloads/fluky/generator-oldschool/latest/total.svg)]()
-[![Stories in Ready](https://badge.waffle.io/fluky/generator-oldschool.png?label=ready&title=ready)](https://waffle.io/fluky/generator-oldschool)
-[![GitHub license](https://img.shields.io/github/license/fluky/generator-oldschool.svg)]()
+[![Github Releases](https://img.shields.io/github/downloads/fluky/generator-scaffold-js/latest/total.svg)]()
+[![Stories in Ready](https://badge.waffle.io/fluky/generator-scaffold-js.png?label=ready&title=ready)](https://waffle.io/fluky/generator-scaffold-js)
+[![GitHub license](https://img.shields.io/github/license/fluky/generator-scaffold-js.svg)]()
 
-[![Dependency Status](https://david-dm.org/fluky/generator-oldschool.svg)](https://david-dm.org/fluky/generator-oldschool)
-[![devDependency Status](https://david-dm.org/fluky/generator-oldschool/dev-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=devDependencies)
-[![peerDependency Status](https://david-dm.org/fluky/generator-oldschool/peer-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=peerDependencies)
-[![optionalDependency Status](https://david-dm.org/fluky/generator-oldschool/optional-status.svg)](https://david-dm.org/fluky/generator-oldschool#info=optionalDependencies)
+[![Dependency Status](https://david-dm.org/fluky/generator-scaffold-js.svg)](https://david-dm.org/fluky/generator-scaffold-js)
+[![devDependency Status](https://david-dm.org/fluky/generator-scaffold-js/dev-status.svg)](https://david-dm.org/fluky/generator-scaffold-js#info=devDependencies)
+[![peerDependency Status](https://david-dm.org/fluky/generator-scaffold-js/peer-status.svg)](https://david-dm.org/fluky/generator-scaffold-js#info=peerDependencies)
+[![optionalDependency Status](https://david-dm.org/fluky/generator-scaffold-js/optional-status.svg)](https://david-dm.org/fluky/generator-scaffold-js#info=optionalDependencies)
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/shields_io.svg?style=social?maxAge=2592000)](https://twitter.com/scaffoldjs)
 
 <!--
-[npm-image]: https://badge.fury.io/js/generator-oldschool.svg
-[npm-url]: https://npmjs.org/package/generator-oldschool
+[npm-image]: https://badge.fury.io/js/generator-scaffold-js.svg
+[npm-url]: https://npmjs.org/package/generator-scaffold-js
 [![node](https://img.shields.io/node/v/gh-badges.svg)]()
 [![Bower](https://img.shields.io/bower/v/bootstrap.svg)]()
-[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)]()
-[![Twitter Follow](https://img.shields.io/twitter/follow/shields_io.svg?style=social)]()
 [![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)]()
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 [![Libscore](https://img.shields.io/libscore/s/jQuery.svg)]()
@@ -31,81 +31,15 @@
 
 ## Synopsis
 
-Yeoman generator to create a full stack web application using the following techonologies:
- - NodeJS (V8 4.9)
- - Hapi
- - MongoDB
- - AngularJS
- - Bootstrap
+**scaffold-js** is an opionated Yeoman generator to create a full stack web page/application. To give full credit, scaffold-js is inspired by, but shares no code with, JHipster. JHipster is a fantastic project and, if you are a Java programmer, it is well worth checking out.
 
-## Code Example
+## Documentation
 
-## Motivation
-
- - Why Anguler 1..coming
-
-## Installation
-
-```bash
-$ npm install -g gulp
-$ npm install -g bower
-$ npm install -g yo
-```
-
-## Usage
-
-### App generator (api and web combo)
-
-```bash
-$ mkdir project-directory
-$ chdir project-directory
-$ yo oldschool
-```
-
-```bash
-$ gulp
-```
-## API Reference
-
-## Tests
-
-```bash
-$ gulp test
-```
+Please visit https://scaffold-js.github.io for documentation.
 
 ## Questions and contributing
 
-Any issues or questions (no matter how basic), open an issue. Please take the
-initiative to include basic debugging information like operating system
-and relevant version details such as:
-
-```bash
-$ npm version
-
-#{ 'generator-oldschool': '1.0.0-alpha.1',
-#	npm: '3.6.0',
-#	ares: '1.10.1-DEV',
-#	http_parser: '2.6.2',
-#	icu: '56.1',
-#	modules: '47',
-#	node: '5.7.0',
-#	openssl: '1.0.2f',
-#	uv: '1.8.0',
-#	v8: '4.6.85.31',
-#	zlib: '1.2.8' }
-```
-
-Contributions are welcome. Your code should:
-
- - include 100% test coverage
- - follow the code convention (comming soon)
-
-If you're changing something non-trivial, you may want to submit an issue first.
-
-## Keep it covered
-
-:+1: All the generators include 100% test coverage. 
-
+See https://github.com/scaffold-js/generator-scaffold-js/blob/master/CONTRIBUTING.md
 
 ## License
 

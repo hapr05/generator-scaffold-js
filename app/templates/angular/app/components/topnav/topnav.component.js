@@ -8,6 +8,8 @@
 				languages: {
 					en: 'English',
 					es: 'Español'
+
+					// scaffold-js-insertsion-point app-languages
 				},
 
 				$translate: $translate,

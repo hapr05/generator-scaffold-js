@@ -12,7 +12,7 @@ var database;
 chai.use (chaiAsPromised);
 chai.use (dirtyChai);
 
-describe ('oldschool:app db', () => {
+describe ('scaffold-js:app db', () => {
 	var collection = {
 		findOne () {
 			return Promise.resolve ({});

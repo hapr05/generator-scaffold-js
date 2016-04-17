@@ -42,7 +42,7 @@ chai.use ((_chai, utils) => {
 	});
 });
 
-describe ('oldschool:app', () => {
+describe ('scaffold-js:app', () => {
 	var gitError = false;
 
 	before (() => {
@@ -195,7 +195,7 @@ describe ('oldschool:app', () => {
 					cfgContribName: 'my-name',
 					cfgContribEmail: 'my-email',
 					cfgContribUrl: 'my-url',
-					cfgRepository: 'git@github.com:fluky/generator-oldschool.git',
+					cfgRepository: 'git@github.com:fluky/generator-scaffold-js.git',
 					cfgFramework: 'Junk',
 					cfgSocial: [ 'github' ]
 				}).on ('ready', generator => {
@@ -208,7 +208,7 @@ describe ('oldschool:app', () => {
 			});
 
 			it ('should parse github repo', () => {
-				expect ('package.json').to.have.content ('https://github.com/fluky/generator-oldschool');
+				expect ('package.json').to.have.content ('https://github.com/fluky/generator-scaffold-js');
 			});
 		});
 	});

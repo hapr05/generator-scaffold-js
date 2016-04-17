@@ -60,7 +60,7 @@ module.exports = generator.Base.extend ({
 			prompts = [
 				{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.name },
 				{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.dbUrl },
-				{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'oldschool generated application') },
+				{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'scaffold-js generated application') },
 				{ name: 'cfgContribName', message: 'Author Name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
 				{ name: 'cfgContribEmail', message: 'Author Email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
 				{ name: 'cfgContribUrl', message: 'Author Url', default: this._def ('cfgContribUrl', '') },
