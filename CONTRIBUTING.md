@@ -1,15 +1,14 @@
 # Contributing to scaffold-js
 
-First off, thanks for taking the time to contribute!
+**First off, thanks for taking the time to contribute!**
 
-The following is a set of guidelines for contributing to scaffold-js and its packages, which are hosted in the [Atom Organization](https://github.com/atom) on GitHub.
+The following is a set of guidelines for contributing to **scaffold-js** and its packages, which are hosted in the   [scaffold-js](https://github.com/scaffold-js) repository on GitHub.
 These are just guidelines, not rules, use your best judgment and feel free to propose changes to this document in a pull request.
 
 #### Table Of Contents
 
 [What should I know before I get started?](#what-should-i-know-before-i-get-started)
   * [Code of Conduct](#code-of-conduct)
-  * [Atom and Packages](#atom-and-packages)
 
 [How Can I Contribute?](#how-can-i-contribute)
   * [Reporting Bugs](#reporting-bugs)
@@ -34,58 +33,17 @@ This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDU
 By participating, you are expected to uphold this code.
 Please report unacceptable behavior to [atom@github.com](mailto:atom@github.com).
 
-### Atom and Packages
-
-Atom is a large open source project—it's made up of over [200 repositories](https://github.com/atom).
-When you initially consider contributing to Atom, you might be unsure about which of those 200 repositories implements the functionality you want to change or report a bug for.
-This section should help you with that.
-
-Atom is intentionally very modular.
-Nearly every non-editor UI element you interact with comes from a package, even fundamental things like tabs and the status-bar.
-These packages are packages in the same way that packages in the [package store](https://atom.io/packages) are packages, with one difference: they are bundled into the [default distribution](https://github.com/atom/atom/blob/10b8de6fc499a7def9b072739486e68530d67ab4/package.json#L58).
-
-![atom-packages](https://cloud.githubusercontent.com/assets/69169/10472281/84fc9792-71d3-11e5-9fd1-19da717df079.png)
-
-To get a sense for the packages that are bundled with Atom, you can go to Settings > Packages within Atom and take a look at the Core Packages section.
-
-Here's a list of the big ones:
-
-* [atom/atom](https://github.com/atom/atom) - Atom Core! The core editor component is responsible for basic text editing (e.g. cursors, selections, scrolling), text indentation, wrapping, and folding, text rendering, editor rendering, file system operations (e.g. saving), and installation and auto-updating. You should also use this repository for feedback related to the [core API](https://atom.io/docs/api/latest) and for large, overarching design proposals.
-* [tree-view](https://github.com/atom/tree-view) - file and directory listing on the left of the UI.
-* [fuzzy-finder](https://github.com/atom/fuzzy-finder) - the quick file opener.
-* [find-and-replace](https://github.com/atom/find-and-replace) - all search and replace functionality.
-* [tabs](https://github.com/atom/tabs) - the tabs for open editors at the top of the UI.
-* [status-bar](https://github.com/atom/status-bar) - the status bar at the bottom of the UI.
-* [markdown-preview](https://github.com/atom/markdown-preview) - the rendered markdown pane item.
-* [settings-view](https://github.com/atom/settings-view) - the settings UI pane item.
-* [autocomplete-plus](https://github.com/atom/autocomplete-plus) - autocompletions shown while typing. Some languages have additional packages for autocompletion functionality, such as [autocomplete-html](https://github.com/atom/autocomplete-html).
-* [git-diff](https://github.com/atom/git-diff) - Git change indicators shown in the editor's gutter.
-* [language-javascript](https://github.com/atom/language-javascript) - all bundled languages are packages too, and each one has a separate package `language-[name]`. Use these for feedback on syntax highlighting issues that only appear for a specific language.
-* [one-dark-ui](https://github.com/atom/one-dark-ui) - the default UI styling for anything but the text editor. UI theme packages (i.e. packages with a `-ui` suffix) provide only styling and it's possible that a bundled package is responsible for a UI issue. There are other other bundled UI themes, such as [one-light-ui](https://github.com/atom/one-light-ui).
-* [one-dark-syntax](https://github.com/atom/one-dark-syntax) - the default syntax highlighting styles applied for all languages. There are other other bundled syntax themes, such as [solarized-dark](https://github.com/atom/solarized-dark). You should use these packages for reporting issues that appear in many languages, but disappear if you change to another syntax theme.
-* [apm](https://github.com/atom/apm) - the `apm` command line tool (Atom Package Manager). You should use this repository for any contributions related to the `apm` tool and to publishing packages.
-* [atom.io](https://github.com/atom/atom.io) - the repository for feedback on the [Atom.io website](https://atom.io) and the [Atom.io package API](https://github.com/atom/atom/blob/master/docs/apm-rest-api.md) used by [apm](https://github.com/atom/apm).
-
-There are many more, but this list should be a good starting point.
-For more information on how to work with Atom's official packages, see [Contributing to Atom Packages](https://github.com/atom/atom/blob/master/docs/contributing-to-packages.md).
-
-Also, because Atom is so extensible, it's possible that a feature you've become accustomed to in Atom or an issue you're encountering aren't coming from a bundled package at all, but rather a [community package](https://atom.io/packages) you've installed.
-Each community package has its own repository too, and you should be able to find it in Settings > Packages for the packages you installed and contribute there.
-
 ## How Can I Contribute?
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for Atom. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer: :computer:, and find related reports :mag_right:.
+This section guides you through submitting a bug report for **scaffold-js**. Following these guidelines helps maintainers and the community understand your report, reproduce the behavior, and find related reports:.
 
 Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). If you'd like, you can use [this template](#template-for-submitting-bug-reports) to structure the information.
 
 #### Before Submitting A Bug Report
 
-* **Check the [debugging guide](http://flight-manual.atom.io/hacking-atom/sections/debugging/).** You might be able to find the cause of the problem and fix things yourself. Most importantly, check if you can reproduce the problem [in the latest version of Atom](http://flight-manual.atom.io/hacking-atom/sections/debugging/#update-to-the-latest-version), if the problem happens when you run Atom in [safe mode](http://flight-manual.atom.io/hacking-atom/sections/debugging/#check-if-the-problem-shows-up-in-safe-mode), and if you can get the desired behavior by changing [Atom's or packages' config settings](http://flight-manual.atom.io/hacking-atom/sections/debugging/#check-atom-and-package-settings).
-* **Check the [FAQs on the forum](https://discuss.atom.io/c/faq)** for a list of common questions and problems.
-* **Determine [which repository the problem should be reported in](#atom-and-packages)**.
-* **Perform a [cursory search](https://github.com/issues?q=+is%3Aissue+user%3Aatom)** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
+* **Perform a [cursory search](https://github.com/issues?q=+is%3Aissue+user%3generator-scaffold-js)** to see if the problem has already been reported. If it has, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
