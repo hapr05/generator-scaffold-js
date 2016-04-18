@@ -5,8 +5,6 @@ const mongo = require ('mongodb').MongoClient,
 	pkg = require ('../package');
 
 class Db {
-	constructor () { }
-
 // versions = [ '0.0.1' ],
 	_indexV1 () {
 		this.userCollections.createIndex ({ username: 1 });
@@ -71,7 +69,7 @@ class Db {
 	}
 
 	_seedDatabase () {
-		this.version = pkg.version.split ('-') [ 0 ];
+		this.version = pkg.version.split ('-') [0];
 
 		return this._seedV1 ();
 	}
@@ -79,13 +77,13 @@ class Db {
 	seed (config) {
 		return new Promise ((resolve, reject) => {
 			const fail = () => {
-				this.db.close ();
-				reject ();
-			},
-			succeed = () => {
-				this.db.close ();
-				resolve ();
-			};
+					this.db.close ();
+					reject ();
+				},
+				succeed = () => {
+					this.db.close ();
+					resolve ();
+				};
 
 			this.config = config;
 

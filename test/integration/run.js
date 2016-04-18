@@ -5,10 +5,12 @@ const spawn = require ('child_process').spawn,
 	helpers = require ('yeoman-test'),
 	temp = require ('temp'),
 	mongo = require ('mongodb'),
-	db = mongo.Db,
-	server = mongo.Server;
+	Db = mongo.Db,
+	Server = mongo.Server,
+	SUCCESS = 0,
+	FAILURE = 1;
 
-class run {
+class Run {
 
 	constructor () {
 		Object.assign (this, {
@@ -35,19 +37,19 @@ class run {
 		this.create ().then (dbname => {
 			this.dropDb (dbname).then (() => {
 				console.info ('Temporary DB Dropped');
-				process.exit (0);
+				process.exit (SUCCESS);
 			}).catch (err => {
 				console.info ('Temporary DB Drop Failed');
 				console.error (err);
-				process.exit (1);
+				process.exit (FAILURE);
 			});
 		}).catch ((err, dbname) => {
 			console.error (err);
 			this.dropDb (dbname).then (() => {
-				process.exit (1);
-			}).catch (err => {
-				console.error (err);
-				process.exit (1);
+				process.exit (FAILURE);
+			}).catch (error => {
+				console.error (error);
+				process.exit (FAILURE);
 			});
 		});
 	}
@@ -55,11 +57,11 @@ class run {
 	create () {
 		return new Promise ((resolve, reject) => {
 			console.info ('Creating test directory');
-			temp.mkdir (this.testDir, (e, dir) => {
-				if (e) {
-					reject (e);
+			temp.mkdir (this.testDir, (err, dir) => {
+				if (err) {
+					reject (err);
 				} else {
-					let dbname = path.basename (dir);
+					const dbname = path.basename (dir);
 
 					console.info (`Test directory created: ${ dir }`);
 					process.chdir (dir);
@@ -69,14 +71,14 @@ class run {
 						var p;
 
 						console.info ('Running npm install');
-						p = spawn ('npm', [ 'install' ]).on ('close', code => {
-							if (code) {
-								reject (`failed to install npm modules: ${ code }`, dbname);
+						p = spawn ('npm', [ 'install' ]).on ('close', errCode => {
+							if (errCode) {
+								reject (`failed to install npm modules: ${ errCode }`, dbname);
 							} else {
 								console.info ('Running bower install');
-								p = spawn ('bower', [ 'install' ]).on ('close', code => {
-									if (code) {
-										reject (`failed to install bower modules: ${ code }`, dbname);
+								p = spawn ('bower', [ 'install' ]).on ('close', error => {
+									if (error) {
+										reject (`failed to install bower modules: ${ error }`, dbname);
 									} else {
 										console.info ('Running gulp ci');
 										p = spawn ('gulp', [ 'ci' ]).on ('close', code => {
@@ -97,7 +99,7 @@ class run {
 						});
 						p.stdout.pipe (process.stdout);
 						p.stderr.pipe (process.stderr);
-					}).on ('error', e => reject (`failed to generate: ${ e }`, dbname));
+					}).on ('error', error => reject (`failed to generate: ${ error }`, dbname));
 				}
 			});
 		});
@@ -106,7 +108,7 @@ class run {
 	dropDb (name) {
 		if (name) {
 			return new Promise ((resolve, reject) => {
-				new db (name, new server ('localhost', 27017)).open ().then (d => {
+				new Db (name, new Server ('localhost', 27017)).open ().then (d => {
 					d.dropDatabase ().then (() => {
 						resolve ();
 					}).catch (err => {
@@ -122,4 +124,4 @@ class run {
 	}
 }
 
-new run ();
+new Run ();

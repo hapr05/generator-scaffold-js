@@ -59,7 +59,7 @@ module.exports = generator.Base.extend ({
 		const done = this.async (),
 			prompts = [
 				{ name: 'cfgName', message: 'Name', default: this._def ('cfgName', this.appname), validate: validators.name },
-				{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname}`), validate: validators.dbUrl },
+				{ name: 'cfgDbUrl', message: 'Database Connection Url', default: this._def ('cfgDbUrl', `mongodb://localhost:27017/${ this.appname }`), validate: validators.dbUrl },
 				{ name: 'cfgDescription', message: 'Description', default: this._def ('cfgDescription', 'scaffold-js generated application') },
 				{ name: 'cfgContribName', message: 'Author Name', default: this._def ('cfgContribName', this.gitConfig && this.gitConfig.user && this.gitConfig.user.name) },
 				{ name: 'cfgContribEmail', message: 'Author Email', default: this._def ('cfgContribEmail', this.gitConfig && this.gitConfig.user && this.gitConfig.user.email) },
@@ -86,7 +86,7 @@ module.exports = generator.Base.extend ({
 		if (this.isGithub) {
 			prompts = prompts.concat ([
 				{ name: 'cfgHomepage', message: 'Project Homepage Url', default: this._def ('cfgHomepage', homepage) },
-				{ name: 'cfgBugs', message: 'Issue Tracker Url', default: this._def ('cfgBugs', `${homepage}/issues`) }
+				{ name: 'cfgBugs', message: 'Issue Tracker Url', default: this._def ('cfgBugs', `${ homepage }/issues`) }
 			]);
 		} else {
 			prompts = prompts.concat ([
@@ -144,13 +144,13 @@ module.exports = generator.Base.extend ({
 				this.loginFormClass = 'col-md-8';
 
 				answers.cfgSocial.forEach (option => {
-					var cap = caps [ option ];
+					var cap = caps [option];
 
 					this.socialLogins.push ({
 						name: option,
 						cap,
 						upper: option.toUpperCase (),
-						icon: icons [ option ]
+						icon: icons [option]
 					});
 				});
 
@@ -166,7 +166,7 @@ module.exports = generator.Base.extend ({
 			const keys = selfsigned.generate ([
 				{
 					name: 'commonName',
-					value: `${this.appSlug}.com`
+					value: `${ this.appSlug }.com`
 				}
 			], {
 				days: 35600

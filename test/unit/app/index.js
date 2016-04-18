@@ -27,9 +27,8 @@ const assert = require ('yeoman-assert'),
 chai.use (chaiAsPromised);
 chai.use (dirtyChai);
 chai.use ((_chai, utils) => {
-	// the following callbacks are called with either call or apply and need to be real functions
-	// until jscs add support for this must use an ignore
-	_chai.Assertion.addMethod ('existOnFs', function existOnFS () { // jscs:ignore requireArrowFunctions
+	/* eslint-disable no-invalid-this */
+	_chai.Assertion.addMethod ('existOnFs', function existOnFS () {
 		var obj = utils.flag (this, 'object');
 
 		assert.file (obj);
@@ -40,6 +39,7 @@ chai.use ((_chai, utils) => {
 
 		assert.fileContent (obj, str);
 	});
+	/* eslint-enable no-invalid-this */
 });
 
 describe ('scaffold-js:app', () => {

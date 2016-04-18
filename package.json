@@ -1,6 +1,6 @@
 {
 	"name": "generator-scaffold-js",
-	"version": "0.1.0-alpha.1",
+	"version": "0.2.0-alpha.2",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
 		"NodeJS",
@@ -40,9 +40,8 @@
 	},
 	"devDependencies": {
 		"temp": "latest",
-		"jshint": "latest", "jshint-stylish": "latest",
-		"gulp": "latest", "gulp-util": "latest", "gulp-jshint": "latest", "gulp-json-lint": "latest",
-		"gulp-mocha": "latest", "gulp-istanbul": "latest", "gulp-jscs": "latest",
+		"gulp": "latest", "gulp-util": "latest", "gulp-eslint": "latest", "gulp-json-lint": "latest",
+		"gulp-mocha": "latest", "gulp-istanbul": "latest",
 		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest"
 	},
 	"engines": {

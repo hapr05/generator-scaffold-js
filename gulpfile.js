@@ -3,19 +3,18 @@
 const gulp = require ('gulp'),
 	gutil = require ('gulp-util'),
 	istanbul = require ('gulp-istanbul'),
-	jscs = require ('gulp-jscs'),
-	jshint = require ('gulp-jshint'),
+	eslint = require ('gulp-eslint'),
 	jsonlint = require ('gulp-json-lint'),
 	mocha = require ('gulp-mocha'),
 	opts = {
 		files: {
 			js: {
-				'gulpfile': 'gulpfile.js',
-				'app': 'app/**/*.js',
-				'appnt': '!app/templates/**/*.js',
-				'util': 'util/**/*.js',
-				'unitTest': 'test/unit/**/*.js',
-				'integrationTest': 'test/integration/**/*.js'
+				gulpfile: 'gulpfile.js',
+				app: 'app/**/*.js',
+				appnt: '!app/templates/**/*.js',
+				util: 'util/**/*.js',
+				unitTest: 'test/unit/**/*.js',
+				integrationTest: 'test/integration/**/*.js'
 			},
 			json: [
 				'package.json',
@@ -30,7 +29,7 @@ const gulp = require ('gulp'),
 
 		for (k in obj) {
 			if (obj.hasOwnProperty (k)) {
-				v.push (obj [ k ]);
+				v.push (obj [k]);
 			}
 		}
 		return v;
@@ -99,14 +98,9 @@ gulp.task ('watch', () => {
 
 /* JavaScript tasks */
 (() => {
-	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail')));
+	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (eslint ()).pipe (eslint.format ()).pipe (eslint.failAfterError ()));
 
-	gulp.task ('js.jscs', () => gulp.src (values (opts.files.js)).pipe (jscs ({
-		esnext: true,
-		verbose: true
-	})).pipe (jscs.reporter ()).pipe (jscs.reporter ('fail')));
-
-	gulp.task ('js', [ 'js.lint', 'js.jscs' ]);
+	gulp.task ('js', [ 'js.lint' ]);
 }) ();
 
 /* Json tasks */
