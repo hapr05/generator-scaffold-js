@@ -1,6 +1,7 @@
 branches:
    only:
       - master
+      - alpha-1
 language: node_js
 os:
    - linux
