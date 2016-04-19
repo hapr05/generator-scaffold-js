@@ -28,10 +28,10 @@
 
 			this.$httpBackend.whenGET (/assets\/locale\/locale-.*\.json/).respond (200, {});
 			this.$httpBackend.whenGET ('authenticate').respond (function respond () {
-				return [ this.refreshResponse, {}, { Authorization: this.infiniteToken } ];
+				return [ this.refreshResponse, {}, { Authorization: this.infiniteToken }];
 			});
 			this.$httpBackend.whenGET ('account/').respond (function respond () {
-				return [ this.accountResponse, this.account, {} ];
+				return [ this.accountResponse, this.account, {}];
 			});
 		});
 	});
@@ -56,7 +56,7 @@
 
 	describe ('app.module', function () {
 		it ('should default to home state', function () {
-			window.location = window.location + '#/invalid_locaiton';
+			window.location += '#/invalid_locaiton';
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('home');
 		});

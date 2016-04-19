@@ -1,0 +1,5 @@
+env:
+   mocha: true
+
+rules:
+   no-empty-function: 0

@@ -30,11 +30,11 @@ module.exports = [{
 			}
 		},
 		handler (request, reply) {
-			const log = request.server.plugins [ 'hapi-mongodb' ].db.collection ('log');
+			const log = request.server.plugins ['hapi-mongodb'].db.collection ('log');
 			var query = {
 				$and: [
-					{ timestamp: { $gte: request.query.from.getTime () }},
-					{ timestamp: { $lte: request.query.to.getTime () }}
+					{ timestamp: { $gte: request.query.from.getTime () } },
+					{ timestamp: { $lte: request.query.to.getTime () } }
 				]
 			};
 

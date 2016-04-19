@@ -1,6 +1,7 @@
 (function authFactory () {
 	'use strict';
 
+	// TODO see if this can be broken up into subfunctions for params
 	angular.module ('<%= appSlug %>').factory ('authFactory', function factory ($timeout, $http, $state, jwtHelper, localStorageService, accountFactory) {
 		var _auth = localStorageService.get ('token'),
 			_timeout = false,
@@ -74,7 +75,7 @@
 
 				if (_auth && !jwtHelper.isTokenExpired (_auth)) {
 					for (i = 0; i < authorities.length; i++) {
-						if (-1 !== jwtHelper.decodeToken (_auth).scope.indexOf (authorities [ i ])) {
+						if (-1 !== jwtHelper.decodeToken (_auth).scope.indexOf (authorities [i])) {
 							return true;
 						}
 					}
@@ -100,12 +101,12 @@
 					if (jwtHelper.isTokenExpired (token)) {
 						_reset ();
 						return null;
-					} else {
-						return token;
 					}
-				} else {
-					return null;
+
+					return token;
 				}
+
+				return null;
 			}
 		};
 	});

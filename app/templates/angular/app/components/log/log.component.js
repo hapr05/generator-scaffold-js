@@ -1,6 +1,10 @@
 (function logComponent () {
 	'use strict';
 
+	var rawController = function rawController ($scope, raw) {
+		$scope.raw = raw;
+	};
+
 	angular.module ('<%= appSlug %>').component ('log', {
 		templateUrl: 'app/components/log/log.view.html',
 		controller: function controller ($scope, $resource, $filter, $uibModal) {
@@ -47,7 +51,7 @@
 						sortDir: $scope.sortDir,
 						from: $scope.filter.from,
 						to: $scope.filter.to,
-						event: $scope.filter.event ? $scope.filter.event.split ('.') [ 2 ] : undefined
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined
 					}, function getTotal (data, headers) {
 						$scope.total = headers ('X-Total-Count');
 					});
@@ -59,7 +63,7 @@
 						sortDir: $scope.sortDir,
 						from: $scope.filter.from,
 						to: $scope.filter.to,
-						event: $scope.filter.event ? $scope.filter.event.split ('.') [ 2 ] : undefined
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined
 					}).$promise.then (function save (data) {
 						saveAs (new Blob ([ JSON.stringify (data, null, '\t') ], { type: 'text/plain;charset=utf-8' }), 'log.json');
 					});
@@ -69,12 +73,10 @@
 					$uibModal.open ({
 						size: 'md',
 						templateUrl: 'app/components/log/log.raw.html',
-						controller: function controller ($scope, raw) {
-							$scope.raw = raw;
-						},
+						controller: rawController,
 						resolve: {
-							raw: function raw () {
-								return $scope.logData [ index ];
+							raw: function rawResolver () {
+								return $scope.logData [index];
 							}
 						}
 					});

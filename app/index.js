@@ -182,7 +182,7 @@ module.exports = generator.Base.extend ({
 	},
 
 	app () {
-		const template = [ '.gitignore', '.travis.yml', '.jshintrc', '.jscsrc.server', '.jscsrc.web', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
+		const template = [ '.gitignore', '.travis.yml', '.eslintignore', '.eslintrc.yml', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
 			directory = [ 'config', 'src', 'test', 'tls' ];
 
 		Object.assign (this, this.config.getAll ());

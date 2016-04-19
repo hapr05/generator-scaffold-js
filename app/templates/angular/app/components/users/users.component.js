@@ -49,9 +49,9 @@
 				},
 
 				edit: function edit (index) {
-					$scope.origEmail = $scope.userData [ index ].email;
+					$scope.origEmail = $scope.userData [index].email;
 					$scope.editIndex = index;
-					$scope.editUser = angular.copy ($scope.userData [ index ]);
+					$scope.editUser = angular.copy ($scope.userData [index]);
 				},
 
 				update: function update (event) {
@@ -63,7 +63,7 @@
 						$scope.disable = false;
 						$scope.updateError = false;
 						$scope.updateSuccess = true;
-						$scope.userData [ $scope.editIndex ] = angular.copy ($scope.editUser);
+						$scope.userData [$scope.editIndex] = angular.copy ($scope.editUser);
 					}).catch (function updateFailureHandler () {
 						$scope.disable = false;
 						$scope.updateError = true;

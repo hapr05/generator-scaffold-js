@@ -19,9 +19,9 @@ module.exports = {
 			}).required ().description ('CPU').meta ({ className: 'CPUS' })).required ().description ('CPUS'),
 			hostname: joi.string ().hostname ().required ().description ('Hostname'),
 			load: joi.object ({
-				'1': joi.number ().integer ().required ().description ('1 Minute Load Average'),
-				'5': joi.number ().integer ().required ().description ('5 Minute Load Average'),
-				'15': joi.number ().integer ().required ().description ('15 Minute Load Average')
+				1: joi.number ().integer ().required ().description ('1 Minute Load Average'),
+				5: joi.number ().integer ().required ().description ('5 Minute Load Average'),
+				15: joi.number ().integer ().required ().description ('15 Minute Load Average')
 			}).required ().description ('Load Averages').meta ({ className: 'OSLoad' }),
 			memory: joi.object ({
 				free: joi.number ().integer ().required ().description ('Free Memory'),

@@ -178,22 +178,6 @@ describe ('account route', () => {
 				});
 			});
 
-			it ('should fail update an account if no update specified', done => {
-				server.inject ({
-					method: 'POST',
-					url: '/account/user',
-					credentials: creds.user,
-					payload: {}
-				}).then (response => {
-					try {
-						expect (response.statusCode).to.equal (400);
-						done ();
-					} catch (err) {
-						done (err);
-					}
-				});
-			});
-
 			it ('should fail update an account if update fails', done => {
 				sandbox.stub (users, 'updateOne', () => Promise.reject ('err'));
 

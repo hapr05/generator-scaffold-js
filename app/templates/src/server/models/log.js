@@ -15,7 +15,7 @@ module.exports = {
 
 	logEntry: joi.array ().items (joi.alternatives ().try (
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('log').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			tags: joi.array ().items (joi.string ()).required ().description ('Tags'),
@@ -24,7 +24,7 @@ module.exports = {
 		}).meta ({ className: 'LogLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('ops').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			host: joi.string ().hostname ().required ().description ('Hostname'),
@@ -74,7 +74,7 @@ module.exports = {
 		}).meta ({ className: 'OpsLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('request').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' }),
@@ -85,7 +85,7 @@ module.exports = {
 		}).meta ({ className: 'RequestLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('response').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			id: joi.string ().token ().optional ().description ('Request Identifier'),
@@ -119,7 +119,7 @@ module.exports = {
 	)).meta ({ className: 'LogEntry' }),
 
 	logEntryBecauseOpenAPISpecDoesntSupportAlternatives: joi.array ().items (joi.object ({
-		'_id': joi.string ().token ().required ().description ('Identifier'),
+		_id: joi.string ().token ().required ().description ('Identifier'),
 		event: joi.string ().allow ('log').required ().description ('Log Event Type'),
 		timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 		tags: joi.array ().items (joi.string ()).optional ().description ('Tags'),

@@ -22,7 +22,7 @@
 
 				scope.$watch (attr.password, function passwordSrengthWatchHandler (password) {
 					var str = angular.isString (password) ? measure (password) : 0,
-						c = colors [ measure (password || '') ];
+						c = colors [measure (password || '')];
 
 					element.find ('ul').children ('li').removeClass ();
 					element.find ('ul').children ('li').slice (0, str).addClass (c);

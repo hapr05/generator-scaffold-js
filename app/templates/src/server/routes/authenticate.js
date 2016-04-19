@@ -22,17 +22,17 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { description: 'Success' },
-					'400': { description: 'Bad Request' },
-					'401': { description: 'Unauthorized' }
+					200: { description: 'Success' },
+					400: { description: 'Bad Request' },
+					401: { description: 'Unauthorized' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users');
+			const users = request.server.plugins ['hapi-mongodb'].db.collection ('users');
 
 			users.findOne ({
-				$or: [ { username: request.payload.username }, { email: request.payload.username } ],
+				$or: [{ username: request.payload.username }, { email: request.payload.username }],
 				password: crypto.createHash ('sha256').update (request.payload.password).digest ('hex'),
 				active: true
 			}).then (user => {
@@ -49,12 +49,12 @@ The token must be used as a bearer token in the Authorization header on any auth
 						scope: user.scope
 					}, config.get ('web.jwtKey')));
 				} else {
-					delete request.payload.password;
+					Reflect.deleteProperty (request.payload, 'password');
 					request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'authenticate', request.payload);
-					return Promise.reject ();
+					reply (boom.unauthorized ());
 				}
 			}).catch (() => {
-				delete request.payload.password;
+				Reflect.deleteProperty (request.payload, 'password');
 				request.server.methods.audit ('auth', { id: '', username: '' }, 'failure', 'authenticate', request.payload);
 				reply (boom.unauthorized ());
 			});
@@ -74,13 +74,13 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { description: 'Success' },
-					'401': { description: 'Unauthorized' }
+					200: { description: 'Success' },
+					401: { description: 'Unauthorized' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const mongo = request.server.plugins [ 'hapi-mongodb' ],
+			const mongo = request.server.plugins ['hapi-mongodb'],
 				users = mongo.db.collection ('users');
 
 			if (request.payload.token && request.payload.password) {
@@ -117,12 +117,12 @@ The token must be used as a bearer token in the Authorization header on any auth
 							user: user._id
 						}, config.get ('web.jwtKey'));
 
-						request.server.plugins [ 'hapi-mailer' ].send ({
+						request.server.plugins ['hapi-mailer'].send ({
 							from: '<%= cfgContribEmail %>',
-							to: `${user.fullname } <${user.email}>`,
-							subject: require (`../locale/${ request.pre.language [ 0 ].code}.json`).subject.forgot,
+							to: `${ user.fullname } <${ user.email }>`,
+							subject: require (`../locale/${ request.pre.language [0].code }.json`).subject.forgot,
 							html: {
-								path: `forgot-${ request.pre.language [ 0 ].code }.html`
+								path: `forgot-${ request.pre.language [0].code }.html`
 							},
 							context: {
 								nickname: user.nickname,
@@ -158,9 +158,9 @@ The token must be used as a bearer token in the Authorization header on any auth
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { description: 'Success' },
-					'400': { description: 'Bad Request' },
-					'401': { description: 'Unauthorized' }
+					200: { description: 'Success' },
+					400: { description: 'Bad Request' },
+					401: { description: 'Unauthorized' }
 				}
 			}
 		},
@@ -186,15 +186,18 @@ The token must be used as a bearer token in the Authorization header on any auth
 		notes: 'Authenticates a user using OAuth for <%= socialLogins [i].cap %>.  Returns a json web token in the Authorization header on success.  The token must be used as a bearer token in the Authorization header on any authenticated requests.',
 		tags: [ 'api', 'authenticate' ],
 		handler (request, reply) {
-			const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users');
+			const users = request.server.plugins ['hapi-mongodb'].db.collection ('users');
+			var insert;
 
 			users.findOne ({
 				username: request.auth.credentials.profile.username,
 				provider: '<%= socialLogins [i].name %>',
 				active: true
 			}).then (user => {
-				if (!user) {
-					user = {
+				if (user) {
+					insert = user;
+				} else {
+					insert = {
 						username: <% if (-1 !== [ 'facebook', 'google', 'linkedin' ].indexOf (socialLogins [i].name)) { %>request.auth.credentials.profile.id<% } else { %>request.auth.credentials.profile.username<% } %>,
 						provider: '<%= socialLogins [i].name %>',
 						fullName: request.auth.credentials.profile.displayName,
@@ -204,10 +207,10 @@ The token must be used as a bearer token in the Authorization header on any auth
 						created: new Date (),
 						scope: [ 'ROLE_USER' ]
 					};
-					users._id = users.insertOne (user).insertedId;
+					insert._id = users.insertOne (insert).insertedId;
 				}
 
-				request.server.methods.audit ('auth', { id: user._id, username: user.username }, 'success', 'authenticate', {});
+				request.server.methods.audit ('auth', { id: insert._id, username: insert.username }, 'success', 'authenticate', {});
 				reply.view ('jwt', {
 					token: jwt.sign ({
 						iss: '<%= appSlug %>',
@@ -215,8 +218,8 @@ The token must be used as a bearer token in the Authorization header on any auth
 						iat: parseInt (new Date ().getTime () / 1000, 10),
 						sub: 'auth',
 						host: request.info.host,
-						user: user._id,
-						scope: user.scope
+						user: insert._id,
+						scope: insert.scope
 					}, config.get ('web.jwtKey'))
 				});
 			}).catch (() => {

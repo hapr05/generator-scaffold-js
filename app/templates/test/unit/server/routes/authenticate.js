@@ -81,7 +81,7 @@ describe ('authentication route', () => {
 
 		describe ('forgot replace', () => {
 			it ('should update password', done => {
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -96,7 +96,7 @@ describe ('authentication route', () => {
 					callback (true);
 				});
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (401);
 						done ();
@@ -109,7 +109,7 @@ describe ('authentication route', () => {
 			it ('should handle update failure', done => {
 				sandbox.stub (users, 'updateOne', () => Promise.reject ());
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { token: 'token', password: 'ABcd02$$' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (401);
 						done ();
@@ -122,13 +122,13 @@ describe ('authentication route', () => {
 
 		describe ('forgot email', () => {
 			it ('should send forgot password email', done => {
-				server.plugins [ 'hapi-mailer' ] = {
+				server.plugins ['hapi-mailer'] = {
 					send: (options, callback) => {
 						callback ();
 					}
 				};
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'en' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'en' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -139,13 +139,13 @@ describe ('authentication route', () => {
 			});
 
 			it ('should ignore forgot password if email fails', done => {
-				server.plugins [ 'hapi-mailer' ] = {
+				server.plugins ['hapi-mailer'] = {
 					send: (options, callback) => {
 						callback ('err');
 					}
 				};
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'es' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }, headers: { 'Accept-Language': 'es' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -158,7 +158,7 @@ describe ('authentication route', () => {
 			it ('should ignore forgot password if no user', done => {
 				sandbox.stub (users, 'findOne', () => Promise.resolve (null));
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -171,7 +171,7 @@ describe ('authentication route', () => {
 			it ('should ignore forgot password on db error', done => {
 				sandbox.stub (users, 'findOne', () => Promise.reject ('err'));
 
-				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' }}).then (response => {
+				server.inject ({ method: 'POST', url: '/authenticate/forgot', payload: { email: 'user@localhost' } }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -183,7 +183,7 @@ describe ('authentication route', () => {
 		});
 
 		it ('should refresh token', done => {
-			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1' }}).then (response => {
+			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1' } }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
 					done ();
@@ -194,7 +194,7 @@ describe ('authentication route', () => {
 		});
 
 		it ('should refresh token with remember', done => {
-			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1', remember: true }}).then (response => {
+			server.inject ({ method: 'GET', url: '/authenticate', credentials: { _id: '1', remember: true } }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
 					done ();

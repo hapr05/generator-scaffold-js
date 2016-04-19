@@ -9,9 +9,9 @@
 				ctrl.$asyncValidators.taken = function taken (modelValue) {
 					if (ctrl.$isEmpty (modelValue)) {
 						return $q.when ();
-					} else {
-						return accountFactory.available (false, modelValue);
 					}
+
+					return accountFactory.available (false, modelValue);
 				};
 			}
 		};
@@ -25,9 +25,9 @@
 
 					if (modelValue === check || ctrl.$isEmpty (modelValue)) {
 						return $q.when ();
-					} else {
-						return accountFactory.available (false, modelValue);
 					}
+
+					return accountFactory.available (false, modelValue);
 				};
 			}
 		};

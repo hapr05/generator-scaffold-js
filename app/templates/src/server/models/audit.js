@@ -16,7 +16,7 @@ module.exports = {
 
 	auditEntry: joi.array ().items (
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('auth', 'access', 'change', 'create').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			userid: joi.object ({

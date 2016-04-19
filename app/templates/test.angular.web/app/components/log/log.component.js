@@ -74,7 +74,7 @@
 		});
 
 		it ('should show raw log', function showRawLog () {
-			this.$httpBackend.expectGET (/log\/\?from=(.+)&to=(.+)/).respond (200, [{ test: 1}]);
+			this.$httpBackend.expectGET (/log\/\?from=(.+)&to=(.+)/).respond (200, [{ test: 1 }]);
 			this.scope.view ();
 			this.$httpBackend.flush ();
 			this.scope.raw (0);

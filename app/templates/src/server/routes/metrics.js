@@ -31,12 +31,12 @@ module.exports = [{
 			var networkInterfaces = [],
 				osLoad = os.loadavg (),
 				osNetworkInterfaces = os.networkInterfaces (),
-				admin = request.server.plugins [ 'hapi-mongodb' ].db.admin ();
+				admin = request.server.plugins ['hapi-mongodb'].db.admin ();
 
 			Reflect.ownKeys (osNetworkInterfaces).forEach (name => {
 				networkInterfaces.push ({
 					name,
-					addresses: osNetworkInterfaces [ name ]
+					addresses: osNetworkInterfaces [name]
 				});
 			});
 
@@ -52,9 +52,9 @@ module.exports = [{
 						},
 						hostname: os.hostname (),
 						load: {
-							'1': osLoad [ 0 ],
-							'5': osLoad [ 1 ],
-							'15': osLoad [ 2 ]
+							1: osLoad [0],
+							5: osLoad [1],
+							15: osLoad [2]
 						},
 						networkInterfaces,
 						platform: os.platform (),

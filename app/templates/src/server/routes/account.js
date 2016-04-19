@@ -23,7 +23,8 @@ const crypto = require ('crypto'),
 		}).catch (() => {
 			reply (boom.badImplementation ());
 		});
-	};
+	},
+	hash = password => crypto.createHash ('sha256').update (password).digest ('hex');
 
 module.exports = [{
 	method: 'GET',
@@ -38,19 +39,19 @@ module.exports = [{
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': {
+					200: {
 						description: 'Success',
 						schema: accountModel.account
 					},
-					'400': { description: 'Bad Request' },
-					'403': { description: 'Forbidden' },
-					'404': { description: 'Not Found' },
-					'500': { description: 'Internal Server Error' }
+					400: { description: 'Bad Request' },
+					403: { description: 'Forbidden' },
+					404: { description: 'Not Found' },
+					500: { description: 'Internal Server Error' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const mongo = request.server.plugins [ 'hapi-mongodb' ],
+			const mongo = request.server.plugins ['hapi-mongodb'],
 				users = mongo.db.collection ('users');
 
 			if (request.auth.credentials._id.toString () === request.params.id || -1 !== request.auth.credentials.scope.indexOf ('ROLE_ADMIN')) {
@@ -78,26 +79,26 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': {
+					200: {
 						description: 'Success',
 						schema: joi.array ().items (accountModel.account).meta ({ className: 'AccountList' })
 					},
-					'204': { description: 'No Data' },
-					'400': { description: 'Bad Request' },
-					'404': { description: 'Not Found' },
-					'500': { description: 'Internal Server Error' }
+					204: { description: 'No Data' },
+					400: { description: 'Bad Request' },
+					404: { description: 'Not Found' },
+					500: { description: 'Internal Server Error' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users');
+			const users = request.server.plugins ['hapi-mongodb'].db.collection ('users');
 
-			request.server.methods.search (users, request.query, [ 'username', 'email' ]).then (users => {
-				if (users.values && users.values.length) {
-					let resp = [],
+			request.server.methods.search (users, request.query, [ 'username', 'email' ]).then (result => {
+				if (result.values && result.values.length) {
+					const resp = [],
 						admin = -1 !== request.auth.credentials.scope.indexOf ('ROLE_ADMIN');
 
-					users.values.forEach (user => {
+					result.values.forEach (user => {
 						if (request.auth.credentials && (request.auth.credentials._id.toString () === user._id || admin)) {
 							resp.push ({
 								id: user._id,
@@ -113,7 +114,7 @@ The latter case can be used to check for duplicates, such as accounts with the s
 					});
 
 					if (resp.length) {
-						reply (resp).code (200).header ('X-Total-Count', admin ? users.count : resp.length);
+						reply (resp).code (200).header ('X-Total-Count', admin ? result.count : resp.length);
 					} else {
 						reply ().code (204);
 					}
@@ -139,14 +140,14 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': { description: 'Success' },
-					'400': { description: 'Bad Request' },
-					'500': { description: 'Internal Server Error' }
+					200: { description: 'Success' },
+					400: { description: 'Bad Request' },
+					500: { description: 'Internal Server Error' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const users = request.server.plugins [ 'hapi-mongodb' ].db.collection ('users'),
+			const users = request.server.plugins ['hapi-mongodb'].db.collection ('users'),
 				data = {
 					username: request.payload.username,
 					fullName: request.payload.fullName,
@@ -157,7 +158,7 @@ The latter case can be used to check for duplicates, such as accounts with the s
 
 			users.insertOne ({
 				username: request.payload.username,
-				password: crypto.createHash ('sha256').update (request.payload.password).digest ('hex'),
+				password: hash (request.payload.password),
 				fullName: request.payload.fullName,
 				nickname: request.payload.nickname,
 				email: request.payload.email,
@@ -188,47 +189,42 @@ The latter case can be used to check for duplicates, such as accounts with the s
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
-					'200': {
+					200: {
 						description: 'Success',
 						schema: accountModel.account
 					},
-					'400': { description: 'Bad Request' },
-					'403': { description: 'Forbidden' },
-					'404': { description: 'Not Found' },
-					'500': { description: 'Internal Server Error' }
+					400: { description: 'Bad Request' },
+					403: { description: 'Forbidden' },
+					404: { description: 'Not Found' },
+					500: { description: 'Internal Server Error' }
 				}
 			}
 		},
 		handler (request, reply) {
-			const mongo = request.server.plugins [ 'hapi-mongodb' ],
+			const mongo = request.server.plugins ['hapi-mongodb'],
 				users = mongo.db.collection ('users'),
 				admin = -1 !== request.auth.credentials.scope.indexOf ('ROLE_ADMIN'),
 				keys = [ 'password', 'fullName', 'nickname', 'email' ],
-				adminKeys = [ 'password', 'fullName', 'nickname', 'email', 'active', 'scope' ];
+				adminKeys = [ 'password', 'fullName', 'nickname', 'email', 'active', 'scope' ],
+				update = request.server.methods.filter (request.payload, admin ? adminKeys : keys);
 
-			if (request.auth.credentials._id.toString () === request.params.id || admin) {
-				var update = request.server.methods.filter (request.payload, admin ? adminKeys : keys);
-
+			if (admin || request.auth.credentials._id.toString () === request.params.id) {
 				if (update.password) {
-					update.password = crypto.createHash ('sha256').update (update.password).digest ('hex');
+					update.password = hash (update.password);
 				}
 
-				if (Reflect.ownKeys (update).length) {
-					update.modified = new Date ();
+				update.modified = new Date ();
 
-					users.updateOne ({
-						_id: new mongo.ObjectID (request.params.id)
-					}, { $set: update }).then (() => {
-						delete update.password;
-						request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', 'users', update);
-						replyUser (users, { _id: new mongo.ObjectID (request.params.id) }, reply, boom.badImplementation ());
-					}).catch (() => {
-						request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'failure', 'users', update);
-						reply (boom.badImplementation ());
-					});
-				} else {
-					reply (boom.badRequest ());
-				}
+				users.updateOne ({
+					_id: new mongo.ObjectID (request.params.id)
+				}, { $set: update }).then (() => {
+					Reflect.deleteProperty (update, 'password');
+					request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', 'users', update);
+					replyUser (users, { _id: new mongo.ObjectID (request.params.id) }, reply, boom.badImplementation ());
+				}).catch (() => {
+					request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'failure', 'users', update);
+					reply (boom.badImplementation ());
+				});
 			} else {
 				reply (boom.forbidden ());
 			}

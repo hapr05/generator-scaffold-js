@@ -72,7 +72,7 @@ describe ('metrics route', () => {
 
 		it ('should handle error', done => {
 			db.admin = () => ({
-				serverStatus: () => Promise.reject ({ metrics: {}})
+				serverStatus: () => Promise.reject ({ metrics: {} })
 			});
 
 			server.inject ({

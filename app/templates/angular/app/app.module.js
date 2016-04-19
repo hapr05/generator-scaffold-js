@@ -37,11 +37,10 @@
 		$httpProvider.defaults.xsrfHeaderName = 'X-CSRF-Token';
 
 		jwtInterceptorProvider.tokenGetter = function tokenGetter (config, authFactory) {
-			if (-1 !== [ 'html' ].indexOf (config.url.substr (config.url.length - 4))) {
-				return null;
-			} else {
+			if (-1 === [ 'html' ].indexOf (config.url.substr (config.url.length - 4))) {
 				return authFactory.token;
 			}
+			return null;
 		};
 
 		$httpProvider.interceptors.push ('jwtInterceptor');
@@ -49,7 +48,7 @@
 	}).run (function run ($rootScope, $state, authFactory, tmhDynamicLocale, $http) {
 		$rootScope.$on ('$translateChangeSuccess', function translateChangeSuccess (e, to) {
 			tmhDynamicLocale.set (to.language);
-			$http.defaults.headers.common [ 'Accept-Language' ] = to.language;
+			$http.defaults.headers.common ['Accept-Language'] = to.language;
 		});
 
 		$rootScope.$on ('$stateChangeStart', function stateChangeStart (e, to) {

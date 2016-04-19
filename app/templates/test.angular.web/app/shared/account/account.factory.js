@@ -1,7 +1,7 @@
 (function accountFactoryTests () {
 	'use strict';
 
-	describe ('account factory', function accountFactory () {
+	describe ('account factory', function () {
 		beforeEach (function beforeEach () {
 			inject (function inject (accountFactory) {
 				this.accountFactory = accountFactory;

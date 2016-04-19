@@ -47,7 +47,7 @@
 						sortDir: $scope.sortDir,
 						from: $scope.filter.from,
 						to: $scope.filter.to,
-						event: $scope.filter.event ? $scope.filter.event.split ('.') [ 2 ] : undefined,
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined,
 						username: $scope.filter.username || undefined
 					}, function getTotal (data, headers) {
 						$scope.total = headers ('X-Total-Count');
@@ -60,7 +60,7 @@
 						sortDir: $scope.sortDir,
 						from: $scope.filter.from,
 						to: $scope.filter.to,
-						event: $scope.filter.event ? $scope.filter.event.split ('.') [ 2 ] : undefined,
+						event: $scope.filter.event ? $scope.filter.event.split ('.') [2] : undefined,
 						username: $scope.filter.username || undefined
 					}).$promise.then (function save (data) {
 						saveAs (new Blob ([ JSON.stringify (data, null, '\t') ], { type: 'text/plain;charset=utf-8' }), 'audit.json');
