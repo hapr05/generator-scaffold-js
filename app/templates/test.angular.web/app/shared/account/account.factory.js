@@ -35,6 +35,18 @@
 			expect (this.accountFactory.user.username).toBe ('test');
 		});
 
+		it ('should redirect if no email', function createAccount () {
+			var account = Object.assign ({}, this.account);
+
+			this.authenticate (200);
+			Reflect.deleteProperty (account, 'email');
+			this.$httpBackend.expectGET ('account/test').respond (200, account);
+			this.accountFactory.get ('test');
+			this.$httpBackend.flush ();
+			this.$rootScope.$digest ();
+			expect (this.$state.current.name).toBe ('account');
+		});
+
 		describe ('query', function test () {
 			it ('should search accounts', function createAccount () {
 				this.$httpBackend.expectGET ('account/?username=test').respond (200, [ this.account ]);

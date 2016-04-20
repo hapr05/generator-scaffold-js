@@ -1,7 +1,7 @@
 (function accountFactory () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').factory ('accountFactory', function factory ($q, $resource, $http) {
+	angular.module ('<%= appSlug %>').factory ('accountFactory', function factory ($q, $resource, $http, $state) {
 		var AccountRoute = $resource ('account/:userId', {
 				userId: '@id'
 			}, {
@@ -44,7 +44,11 @@
 			},
 
 			get: function get (id) {
-				_user = AccountRoute.get ({ userId: id });
+				_user = AccountRoute.get ({ userId: id }, function getUser (user) {
+					if (user.username && !user.email) {
+						$state.go ('account');
+					}
+				});
 			},
 
 			query: function query (params, handler) {
