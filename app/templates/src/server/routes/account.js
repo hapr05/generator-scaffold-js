@@ -1,7 +1,10 @@
 'use strict';
 
 const crypto = require ('crypto'),
+	jwt = require ('jsonwebtoken'),
+	config = require ('config'),
 	joi = require ('joi'),
+	hoek = require ('hoek'),
 	boom = require ('boom'),
 	accountModel = require ('../models/account'),
 	replyUser = (users, query, reply, notFound) => {
@@ -15,7 +18,8 @@ const crypto = require ('crypto'),
 					email: user.email,
 					created: user.created,
 					modified: user.modified,
-					active: user.active
+					active: user.active,
+					validated: user.validated
 				}).code (200);
 			} else {
 				reply (notFound);
@@ -24,7 +28,30 @@ const crypto = require ('crypto'),
 			reply (boom.badImplementation ());
 		});
 	},
-	hash = password => crypto.createHash ('sha256').update (password).digest ('hex');
+	hash = password => crypto.createHash ('sha256').update (password).digest ('hex'),
+	sendValidation = (request, user) => {
+		const token = jwt.sign ({
+			iss: '<%= appSlug %>',
+			exp: parseInt (new Date ().getTime () / 1000, 10) + config.get ('web.tokenValidateExpire'),
+			iat: parseInt (new Date ().getTime () / 1000, 10),
+			sub: 'validate',
+			user: user._id
+		}, config.get ('web.jwtKey'));
+
+		request.server.plugins ['hapi-mailer'].send ({
+			from: '<%= cfgContribEmail %>',
+			to: `${ user.fullname } <${ user.email }>`,
+			subject: require (`../locale/${ request.pre.language [0].code }.json`).subject.validate,
+			html: {
+				path: `validate-${ request.pre.language [0].code }.html`
+			},
+			context: {
+				nickname: user.nickname,
+				uri: request.server.info.uri,
+				token
+			}
+		}, hoek.ignore);
+	};
 
 module.exports = [{
 	method: 'GET',
@@ -164,11 +191,15 @@ The latter case can be used to check for duplicates, such as accounts with the s
 				email: request.payload.email,
 				provider: 'internal',
 				active: true,
+				validated: false,
 				created: new Date (),
 				modified: new Date (),
 				scope: [ 'ROLE_USER' ]
 			}).then (res => {
 				request.server.methods.audit ('create', { id: res.insertedId, username: request.payload.username }, 'success', 'users', data);
+				sendValidation (request, Object.assign (data, {
+					_id: res.insertedId
+				}));
 				reply ().code (200);
 			}).catch (() => {
 				request.server.methods.audit ('create', { id: '', username: request.payload.username }, 'failure', 'users', data);
@@ -228,6 +259,71 @@ The latter case can be used to check for duplicates, such as accounts with the s
 			} else {
 				reply (boom.forbidden ());
 			}
+		}
+	}
+}, {
+	method: 'GET',
+	path: '/account/validate',
+	config: {
+		auth: false,
+		description: 'Validate email',
+		notes: 'Validates a users email based on the token provided.',
+		tags: [ 'api', 'account' ],
+		validate: {
+			query: accountModel.validate
+		},
+		plugins: {
+			'hapi-swaggered': {
+				responses: {
+					302: { description: 'Success' },
+					400: { description: 'Bad Request' },
+					500: { description: 'Internal Server Error' }
+				}
+			}
+		},
+		handler (request, reply) {
+			const mongo = request.server.plugins ['hapi-mongodb'],
+				users = mongo.db.collection ('users');
+
+			jwt.verify (request.query.token, config.get ('web.jwtKey'), {
+				issuer: '<%= appSlug %>',
+				subject: 'validate'
+			}, (err, decoded) => {
+				if (err) {
+					reply (boom.badRequest ());
+				} else {
+					users.updateOne ({
+						_id: new mongo.ObjectID (decoded.user)
+					}, {
+						$set: { validated: true }
+					}).then (() => {
+						reply.redirect ('/#account');
+					}).catch (() => {
+						reply (boom.badImplementation ());
+					});
+				}
+			});
+		}
+	}
+}, {
+	method: 'POST',
+	path: '/account/validate',
+	config: {
+		auth: 'jwt',
+		description: 'Resend validation email to user',
+		notes: 'Resends validation email for the current user.',
+		tags: [ 'api', 'account' ],
+		plugins: {
+			'hapi-swaggered': {
+				responses: {
+					200: { description: 'Success' },
+					401: { description: 'Unauthorized' }
+				}
+			}
+		},
+		handler (request, reply) {
+			sendValidation (request, request.auth.credentials);
+			reply ().code (200);
 		}
 	}
 }];

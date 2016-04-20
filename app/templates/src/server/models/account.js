@@ -55,5 +55,9 @@ module.exports = {
 		created: joi.date ().timestamp ().required ().description ('Created Date'),
 		modified: joi.date ().timestamp ().required ().description ('Modified Date'),
 		active: joi.boolean ().required ().description ('Account Active')
-	}).required ().meta ({ className: 'Account' })
+	}).required ().meta ({ className: 'Account' }),
+
+	validate: joi.object ({
+		token: joi.string ().required ().description ('Token')
+	}).required ().meta ({ className: 'Validate' })
 };

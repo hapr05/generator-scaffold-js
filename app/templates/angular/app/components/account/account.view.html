@@ -7,6 +7,10 @@
 				</div>
 				<div class="panel-body">
 					<div>
+						<div class="clearfix alert alert-warning" ng-hide="user.validated">
+							<span class="pull-left" translate="account.msg.warning.notValidated">Your email address has not been validated!</span>
+							<button class="pull-right btn btn-primary" ng-click="accountFactory.resendValidation ()" translate="account.btn.resendEmail">Resend Email</button>
+						</div>
 						<div class="alert alert-danger" ng-show="registrationError" translate="account.msg.error.failed">
 							Update failed!
 						</div>

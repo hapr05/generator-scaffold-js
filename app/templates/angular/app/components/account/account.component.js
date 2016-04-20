@@ -7,6 +7,7 @@
 			angular.extend ($scope, {
 				disable: false,
 
+				accountFactory: accountFactory,
 				user: accountFactory.user,
 
 				update: function update (event) {

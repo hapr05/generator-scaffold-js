@@ -65,6 +65,14 @@
 				this.$httpBackend.flush ();
 			});
 		});
+
+		describe ('revalidate', function test () {
+			it ('should send new validation email', function revalidate () {
+				this.$httpBackend.expectPOST ('account/validate').respond (200);
+				this.accountFactory.resendValidation ();
+				this.$httpBackend.flush ();
+			});
+		});
 	});
 } ());
 

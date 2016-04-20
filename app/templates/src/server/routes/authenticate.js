@@ -4,7 +4,8 @@ const crypto = require ('crypto'),
 	jwt = require ('jsonwebtoken'),
 	config = require ('config'),
 	boom = require ('boom'),
-	accountModel = require ('../models/account');
+	accountModel = require ('../models/account'),
+	hash = password => crypto.createHash ('sha256').update (password).digest ('hex');
 
 module.exports = [{
 	method: 'POST',
@@ -33,7 +34,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 
 			users.findOne ({
 				$or: [{ username: request.payload.username }, { email: request.payload.username }],
-				password: crypto.createHash ('sha256').update (request.payload.password).digest ('hex'),
+				password: hash (request.payload.password),
 				active: true
 			}).then (user => {
 				if (user) {
@@ -66,7 +67,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 	config: {
 		auth: false,
 		description: 'Update forgotton password',
-		notes: 'Givan an email addres, sends a forgot password email if the email address is found.  Given a token and a password, updates the users password.',
+		notes: 'Givan an email address, sends a forgot password email if the email address is found.  Given a token and a password, updates the users password.',
 		tags: [ 'api', 'authenticate' ],
 		validate: {
 			payload: accountModel.forgot
@@ -95,7 +96,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 							_id: new mongo.ObjectID (decoded.user),
 							active: true
 						}, {
-							$set: { password: crypto.createHash ('sha256').update (request.payload.password).digest ('hex') }
+							$set: { password: hash (request.payload.password) }
 						}).then (() => {
 							reply (200);
 						}).catch (() => {
@@ -204,6 +205,7 @@ The token must be used as a bearer token in the Authorization header on any auth
 						nickname: <% if (-1 !== [ 'facebook', 'linkedin' ].indexOf (socialLogins [i].name)) { %>request.auth.credentials.profile.name.first<% } else if ('google' === socialLogins [i].name) { %>request.auth.credentials.profile.name.givenName<% } else { %>request.auth.credentials.profile.displayName.split (' ').shift ()<% } %>,
 						email: request.auth.credentials.profile.email,
 						active: true,
+						validated: <% if ('github' === socialLogins [i].name) { %>false<% } else { %>true<% } %>,
 						created: new Date (),
 						scope: [ 'ROLE_USER' ]
 					};

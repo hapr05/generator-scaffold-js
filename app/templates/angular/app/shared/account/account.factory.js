@@ -1,7 +1,7 @@
 (function accountFactory () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').factory ('accountFactory', function factory ($q, $resource) {
+	angular.module ('<%= appSlug %>').factory ('accountFactory', function factory ($q, $resource, $http) {
 		var AccountRoute = $resource ('account/:userId', {
 				userId: '@id'
 			}, {
@@ -61,6 +61,10 @@
 
 			create: function create (user) {
 				return AccountRoute.save (user).$promise;
+			},
+
+			resendValidation: function resendValidation () {
+				return $http.post ('account/validate');
 			}
 		};
 	});

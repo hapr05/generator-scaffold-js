@@ -28,9 +28,13 @@
 			"confirmPassword": "Confirm Password"
 		},
 		"btn": {
-			"update": "Update"
+			"update": "Update",
+			"resendEmail": "Resend Email"
 		},
 		"msg": {
+			"warning": {
+				"notValidated": "Your email address has not been validated!"
+			},
 			"error": {
 				"failed": "Update failed!",
 				"succeded": "Account updated."
@@ -73,6 +77,9 @@
 			"register": "Register"
 		},
 		"msg": {
+			"help": {
+				"email": "Email address is used for account validation."
+			},
 			"error": {
 				"failed": "Registration failed!"
 			},
