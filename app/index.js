@@ -14,8 +14,6 @@ const generator = require ('yeoman-generator'),
 require ('harmony-reflect');
 
 module.exports = generator.Base.extend ({
-	// Yeoman uses non ESC class
-	// jscs:disable requireEnhancedObjectLiterals
 	constructor: function constructor () {
 		Reflect.apply (generator.Base, this, arguments);
 

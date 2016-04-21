@@ -12,6 +12,8 @@ const gulp = require ('gulp'),
 				gulpfile: 'gulpfile.js',
 				app: 'app/**/*.js',
 				appnt: '!app/templates/**/*.js',
+				entity: 'entity/**/*.js',
+				entitynt: '!entity/templates/**/*.js',
 				util: 'util/**/*.js',
 				unitTest: 'test/unit/**/*.js',
 				integrationTest: 'test/integration/**/*.js'
@@ -42,6 +44,7 @@ gulp.task ('watch', () => {
 	gulp.watch ([
 		opts.files.js.gulpfile,
 		opts.files.js.app,
+		opts.files.js.entity,
 		opts.files.js.unitTest
 	], [ 'js', 'test.unit' ]);
 });
@@ -51,6 +54,8 @@ gulp.task ('watch', () => {
 	gulp.task ('test.init', () => gulp.src ([
 		opts.files.js.app,
 		opts.files.js.appnt,
+		opts.files.js.entity,
+		opts.files.js.entitynt,
 		opts.files.js.util
 	]).pipe (istanbul ({
 		includeUntested: true

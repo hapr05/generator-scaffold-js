@@ -35,8 +35,7 @@
 		"yeoman-generator": "latest",
 		"git-config": "latest", "github-url-from-git": "latest",
 		"to-camel-case": "latest", "to-slug-case": "latest",
-		"mongodb": "latest",
-		"selfsigned": "latest"
+		"mongodb": "latest", "selfsigned": "latest", "moment": "latest"
 	},
 	"devDependencies": {
 		"temp": "latest",

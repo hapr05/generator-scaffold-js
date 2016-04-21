@@ -28,7 +28,9 @@
 
 ## Synopsis
 
-**scaffold-js** is an opionated Yeoman generator to create a full stack web page/application. To give full credit, scaffold-js is inspired by, but shares no code with, JHipster. JHipster is a fantastic project and, if you are a Java programmer, it is well worth checking out.
+**scaffold-js** is an opionated Yeoman generator to create a full stack web page/application. 
+
+scaffold-js implements a NodeJS service layer with MongoDB and an Angular JS/Bootstrap client layer.
 
 ## Documentation
 

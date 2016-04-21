@@ -1,5 +1,7 @@
 'use strict';
 
+const moment = require ('moment');
+
 module.exports = {
 	name (value) {
 		if ('string' !== typeof value || value.length < 1) {
@@ -43,5 +45,49 @@ module.exports = {
 		}
 
 		return true;
+	},
+
+	collectionName (value) {
+		if ('string' !== typeof value || value.length < 1) {
+			return 'Collection Name is required.';
+		} else if (/^[a-zA-Z]+$/.test (value)) {
+			return true;
+		}
+
+		return 'Collection Name cannot contain non alpha characters.';
+	},
+
+	fieldName (value) {
+		if (/^[a-zA-Z]*$/.test (value)) {
+			return true;
+		}
+
+		return 'Field Name cannot contain non alpha characters.';
+	},
+
+	number (value) {
+		if (value && value !== parseFloat (value).toString ()) {
+			return 'Invalid number.';
+		}
+
+		return true;
+	},
+
+	integer (value) {
+		if (value && value !== parseInt (value, 10).toString ()) {
+			return 'Must be an integer.';
+		}
+
+		return true;
+	},
+
+	date (value) {
+		if (!value || moment (value, [
+			'MM-dd-yyyy'
+		]).isValid ()) {
+			return true;
+		}
+
+		return 'Invalid date.';
 	}
 };

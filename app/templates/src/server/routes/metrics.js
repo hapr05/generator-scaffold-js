@@ -81,10 +81,10 @@ module.exports = [{
 						asserts: db.asserts,
 						backgroundFlushing: {
 							flushes: db.backgroundFlushing.flushes,
-							totalMs: db.backgroundFlushing.total_ms, // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
-							averageMs: db.backgroundFlushing.average_ms, // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
-							lastMs: db.backgroundFlushing.last_ms, // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
-							lastFinished: db.backgroundFlushing.last_finished // jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
+							totalMs: db.backgroundFlushing.total_ms,
+							averageMs: db.backgroundFlushing.average_ms,
+							lastMs: db.backgroundFlushing.last_ms,
+							lastFinished: db.backgroundFlushing.last_finished
 						},
 						connections: db.connections,
 						network: db.network,
