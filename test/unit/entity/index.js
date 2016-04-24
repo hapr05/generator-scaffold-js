@@ -6,6 +6,7 @@ const assert = require ('yeoman-assert'),
 	chaiAsPromised = require ('chai-as-promised'),
 	expect = chai.expect,
 	helpers = require ('yeoman-test'),
+	mockery = require ('mockery'),
 	path = require ('path');
 
 chai.use (chaiAsPromised);
@@ -27,13 +28,32 @@ chai.use ((_chai, utils) => {
 });
 
 describe ('scaffold-js:entity', () => {
+	before (() => {
+		mockery.enable ({
+			warnOnReplace: false,
+			warnOnUnregistered: false,
+			useCleanCache: true
+		});
+
+		mockery.registerMock ('../util/editors', {
+			appendHtml: () => true,
+			appendJSON: () => true
+		});
+	});
+
+	after (() => {
+		mockery.deregisterAll ();
+		mockery.disable ();
+	});
+
 	describe ('boolean', () => {
 		beforeEach (done => {
 			helpers.run (path.join (__dirname, '../../../entity')).withArguments ([ '--skip-install' ]).withPrompts ({
 				collectionName: 'test',
 				name0: 'test',
-				type: 'Boolean',
-				required: true
+				type0: 'Boolean'
+			}).withLocalConfig ({
+				cfgName: 'test'
 			}).on ('end', done);
 		});
 
@@ -55,12 +75,15 @@ describe ('scaffold-js:entity', () => {
 			helpers.run (path.join (__dirname, '../../../entity')).withArguments ([ '--skip-install' ]).withPrompts ({
 				collectionName: 'test',
 				name0: 'test',
-				type: 'Date',
-				required: true,
-				timestamp: 'No',
-				format: 'short',
-				min: '01-01-2014',
-				max: '01-01-2015'
+				name1: 'test',
+				type0: 'Date',
+				type1: 'Date',
+				required0: true,
+				required1: true,
+				min0: '01-01-2014',
+				max0: '01-01-2015'
+			}).withLocalConfig ({
+				cfgName: 'test'
 			}).on ('end', done);
 		});
 
@@ -77,12 +100,52 @@ describe ('scaffold-js:entity', () => {
 		});
 	});
 
-	describe ('date', () => {
+	describe ('number', () => {
 		beforeEach (done => {
 			helpers.run (path.join (__dirname, '../../../entity')).withArguments ([ '--skip-install' ]).withPrompts ({
 				collectionName: 'test',
 				name0: 'test',
-				type: 'Number'
+				name1: 'test',
+				type0: 'Number',
+				type1: 'Number',
+				required0: true,
+				required1: true,
+				integer0: false,
+				integer1: true,
+				min0: 1,
+				max0: 5
+			}).withLocalConfig ({
+				cfgName: 'test'
+			}).on ('end', done);
+		});
+
+		it ('should generate files', () => {
+			var files = [
+				'src/server/models/test.js',
+				'src/server/routes/test.js',
+				'test/unit/server/routes/test.js'
+			];
+
+			files.forEach (i => {
+				expect (i).to.exist ();
+			});
+		});
+	});
+
+	describe ('string', () => {
+		beforeEach (done => {
+			helpers.run (path.join (__dirname, '../../../entity')).withArguments ([ '--skip-install' ]).withPrompts ({
+				collectionName: 'test',
+				name0: 'test',
+				name1: 'test',
+				type0: 'String',
+				type1: 'String',
+				required0: true,
+				required1: true,
+				min0: 1,
+				max0: 5
+			}).withLocalConfig ({
+				cfgName: 'test'
 			}).on ('end', done);
 		});
 

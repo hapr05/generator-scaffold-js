@@ -1,0 +1,145 @@
+<div class="well <%= entity.collectionName %>" ng-if="!(editEntity || createEntity)">
+	<h1 translate="<%= entity.collectionName %>.title"><%= entity.collectionName %></h1>
+	<form novalidate name="form" role="form">
+		<div class="row"><% entity.fields.forEach (field => { %>
+			<div class="form-group col-md-3"><% if ('Boolean' === field.type) { %>
+				<label>
+					<input type="checkbox" ng-model="filter.<%= field.name %>" > <%= field.name %>
+				</label><% } else { if ('Date' === field.type) { %>
+				<div class="input-group">
+					<input type="text" name="<%= field.name %>" placeholder="{{ <%= entity.collectionName %>.field.<%= field.name %> | translate }}" class="form-control" uib-datepicker-popup ng-model="filter.<%= field.name %>" datepicker-options="<%= field.name %>Options" is-open="<%= field.name %>Open" />
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="<%= field.name %>Open = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
+					</span>
+				</div><% } else if ('Number' === field.type) { %>
+				<input type="number" name="<%= field.name %>" placeholder="{{ <%= entity.collectionName %>.field.field.name %> | translate }}" class="form-control" ng-model="filter.<%= field.name %>" <% if (field.max) { %> max="<%= field.max %>"<% } if (field.min) { %> min="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } %> /><% } else if ('String' === field.type) { %>
+				<input type="text" name="<%= field.name %>" placeholder="{{ <%= entity.collectionName %>.field.<%= field.name %> | translate }}" class="form-control" ng-model="filter.<%= field.name %>" <% if (field.max) { %> ng-maxlength="<%= field.max %>"<% } if (field.min) { %> ng-minlength="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } %> /><% } } %>
+			</div><% }); %>
+		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<button class="btn btn-primary" ng-click="create ()" translate="<%= entity.collectionName %>.btn.create"></button>
+			</div>
+			<div class="col-md-6 text-right">
+				<button class="btn btn-primary" ng-click="search ()" translate="<%= entity.collectionName %>.btn.search"></button>
+			</div>
+		</div>
+	</form>
+	<table class="table table-striped table-hover table-condensed">
+		<thead>
+			<tr><% entity.fields.forEach (field => { %>
+				<th ng-click="sort ('<%= field.name %>')"><span translate="<%= entity.collectionName %>.header.<%= field.name %>"></span> <i class="glyphicon glyphicon-sort" aria-hidden="true"></i></th><% }); %>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="entity in entities" ng-click="edit ($index)"><% entity.fields.forEach (field => { %>
+				<td>{{ entity.<%= field.name %><% if ('Date' === field.type) { %> | date: 'shortDate'<% } %> }}</td><% }); %>
+			</tr>
+		</tbody>
+	</table>
+	<div class="text-center">
+		<uib-pagination total-items="total" boundry-link-numbers="true" first-text="{{ 'global.pager.first' | translate }}" last-text="{{ 'global.pager.last' | translate }}" next-text="{{ 'global.pager.next' | translate }}" previous-text="{{ 'global.pager.previous' | translate }}" items-per-page="limit" ng-model="currentPage" ng-change="search ()"></uib-pagination>
+	</div>
+</div>
+<div class="well <%= entity.collectionName %>-create" ng-if="createEntity">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title" translate="<%= entity.collectionName %>.titleNew"></div>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="alert alert-danger" ng-show="createFailure" translate="<%= entity.collectionName %>.msg.error.createFailed"></div>
+						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="save ($event)"><% entity.fields.forEach (field => { %>
+							<div class="form-group"><% if ('Boolean' === field.type) { %>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="createEntity.<%= field.name %>"> <%= field.name %>
+									</label>
+								</div><% } else { %><label for="<%= field.name %>" translate="<%= entity.collectionName %>.field.<%= field.name %>" class="control-label"><%= field.name %></label><% if ('Date' === field.type) { %>
+								<div class="input-group">
+									<input type="text" name="<%= field.name %>" class="form-control" uib-datepicker-popup ng-model="createEntity.<%= field.name %>" datepicker-options="<%= field.name %>Options" is-open="<%= field.name %>Open"<% if (field.required) { %> required<% } %> />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="<%= field.name %>Open = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
+									</span>
+								</div><% } else if ('Number' === field.type) { %>
+								<input type="number" name="<%= field.name %>" class="form-control" ng-model="createEntity.<%= field.name %>" <% if (field.max) { %> max="<%= field.max %>"<% } if (field.min) { %> min="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } if (field.required) { %> required<% } %> /><% } else if ('String' === field.type) { %>
+								<input type="text" name="<%= field.name %>" class="form-control" ng-model="createEntity.<%= field.name %>" <% if (field.max) { %> ng-maxlength="<%= field.max %>"<% } if (field.min) { %> ng-minlength="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } if (field.required) { %> required<% } %> /><% } } %>
+								<div ng-messages="form.<%= field.name %>.$dirty && form.<%= field.name %>.$error" role="alert" ng-messages-multiple><% if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="min" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.min"></p><% } if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="max" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.max"></p><% } if (field.integer) { %>
+									<p class="help-block" ng-message="pattern" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.pattern"></p><% } if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="number" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.number"></p><% } if (field.min && 'String' === field.type) { %>
+									<p class="help-block" ng-message="minlength" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.minlength"></p><% } if ('String' === field.type) { %>
+									<p class="help-block" ng-message="maxlength" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.maxlength"></p><% } if ('Date' === field.type) { %>
+									<p class="help-block" ng-message="date" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.date"></p><% } if (field.required) { %>
+									<p class="help-block" ng-message="required" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.required"></p><% } %>
+								</div>
+							</div><% }); %>
+							<div class="row">
+								<div class="col-md-12 text-right">
+									<button type="button" class="btn" ng-click="cancel ()" translate="<%= entity.collectionName %>.btn.cancel %>"></span></button>
+									<button type="submit" ng-disabled="form.$invalid || disable" class="btn btn-primary" translate="<%= entity.collectionName %>.btn.save"></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="well <%= entity.collectionName %>-edit" ng-if="editEntity">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title" translate="<%= entity.collectionName %>.titleEdit"></div>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="alert alert-danger" ng-show="updateFailure" translate="<%= entity.collectionName %>.msg.error.updateFailed"></div>
+						<div class="alert alert-success" ng-show="updateSuccess" translate="<%= entity.collectionName %>.msg.error.updateSuccess"></div>
+						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="update ($event)"><% entity.fields.forEach (field => { %>
+							<div class="form-group"><% if ('Boolean' === field.type) { %>
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="editEntity.<%= field.name %>"> <%= field.name %>
+									</label>
+								</div><% } else { %><label for="<%= field.name %>" translate="<%= entity.collectionName %>.field.<%= field.name %>" class="control-label"><%= field.name %></label><% if ('Date' === field.type) { %>
+								<div class="input-group">
+									<input type="text" name="<%= field.name %>" class="form-control" uib-datepicker-popup ng-model="editEntity.<%= field.name %>" datepicker-options="<%= field.name %>Options" is-open="<%= field.name %>Open"<% if (field.required) { %> required<% } %> />
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-default" ng-click="<%= field.name %>Open = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
+									</span>
+								</div><% } else if ('Number' === field.type) { %>
+								<input type="number" name="<%= field.name %>" class="form-control" ng-model="editEntity.<%= field.name %>" <% if (field.max) { %> max="<%= field.max %>"<% } if (field.min) { %> min="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } if (field.required) { %> required<% } %> /><% } else if ('String' === field.type) { %>
+								<input type="text" name="<%= field.name %>" class="form-control" ng-model="editEntity.<%= field.name %>" <% if (field.max) { %> ng-maxlength="<%= field.max %>"<% } if (field.min) { %> ng-minlength="<%= field.min %>"<% } if (field.integer) { %> pattern="^\d+$"<% } if (field.required) { %> required<% } %> /><% } } %>
+								<div ng-messages="form.<%= field.name %>.$dirty && form.<%= field.name %>.$error" role="alert" ng-messages-multiple><% if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="min" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.min"></p><% } if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="max" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.max"></p><% } if (field.integer) { %>
+									<p class="help-block" ng-message="pattern" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.pattern"></p><% } if (field.min && 'String' !== field.type) { %>
+									<p class="help-block" ng-message="number" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.number"></p><% } if ('Number' === field.type) { %>
+									<p class="help-block" ng-message="minlength" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.minlength"></p><% } if (field.min && 'String' === field.type) { %>
+									<p class="help-block" ng-message="maxlength" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.maxlength"></p><% } if ('Date' === field.type) { %>
+									<p class="help-block" ng-message="date" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.date"></p><% } if (field.required) { %>
+									<p class="help-block" ng-message="required" translate="<%= entity.collectionName %>.msg.validate.<%= field.name %>.required"></p><% } %>
+								</div>
+							</div><% }); %>
+							<div class="row">
+								<div class="col-md-6">
+									<button type="button" class="btn" ng-click="back ()"><i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i> <span translate="<%= entity.collectionName %>.btn.back">Back</span></button>
+								</div>
+								<div class="col-md-6 text-right">
+									<button type="button" ng-disabled="disable" class="btn btn-danger" translate="<%= entity.collectionName %>.btn.delete" ng-click="remove ()"></button>
+									<button type="submit" ng-disabled="form.$invalid || disable" class="btn btn-primary" translate="<%= entity.collectionName %>.btn.update"></button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

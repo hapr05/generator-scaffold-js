@@ -15,7 +15,6 @@
 				updateSuccess: false,
 				editIndex: false,
 				editUser: false,
-				origUser: false,
 				userData: [],
 
 				filter: {
@@ -72,7 +71,7 @@
 				},
 
 				back: function back () {
-					$scope.updateFailure = $scope.updateSuccess = $scope.editIndex = $scope.editUser = $scope.origUser = false;
+					$scope.updateFailure = $scope.updateSuccess = $scope.editIndex = $scope.editUser = false;
 				}
 			});
 

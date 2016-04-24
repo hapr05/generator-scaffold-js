@@ -6,46 +6,19 @@ const chai = require ('chai'),
 	chaiAsPromised = require ('chai-as-promised'),
 	sinon = require ('sinon'),
 	hapi = require ('hapi'),
-	mocks = require ('../../helpers/mocks'),<% entity.fields.forEach ((field, index) => { if ('Date' === field.type ) { %>
-	moment = require ('moment'),<% return false; }});%>
+	mocks = require ('../../helpers/mocks'),
 	creds = require ('../../helpers/creds'),
 	failed = require ('../../helpers/authFailed'),
 	payload = {<% entity.fields.forEach ((field, index) => { %>
 		<%= field.name %>: <% if ('Boolean' === field.type) {
 			%>true<%
-		} else if ('Yes (JavaScript)' === field.timestamp) {
-			if ('' !== field.min) {
-				%><%= moment (field.min, 'MM-dd-yyyy').format ('x'); %><%
-			} else if ('' !== field.max) {
-				%><%= moment (field.max, 'MM-dd-yyyy').format ('x'); %><%
-		   } else {
-				%><%= moment ().format ('x'); %><%
-			}
-		} else if ('Yes (Unix)' === field.timestamp) {
-			if ('' !== field.min) {
-				%><%= moment (field.min, 'MM-dd-yyyy').format ('X'); %><%
-			} else if ('' !== field.max) {
-				%><%= moment (field.max, 'MM-dd-yyyy').format ('X'); %><%
-		   } else {
-				%><%= moment ().format ('X'); %><%
-		   }
 		} else if ('Date' === field.type) {
-			if ('' !== field.format) {
-				%><% if ('' !== field.min) {
-					%><%= moment (field.min, 'MM-dd-yyyy').format (field.format); %><%
-				} else if ('' !== field.max) {
-					%><%= moment (field.max, 'MM-dd-yyyy').format (field.format); %><%
-			   } else {
-					%><%= moment ().format (field.format); %><%
-			   }
+			%><% if ('' !== field.min) {
+				%>'<%= moment (field.min, 'MM-DD-YYYY').format ('MM-DD-YYYY'); %>'<%
+			} else if ('' !== field.max) {
+				%>'<%= moment (field.max, 'MM-DD-YYYY').format ('MM-DD-YYYY'); %>'<%
 		   } else {
-				%><% if ('' !== field.min) {
-					%><%= moment (field.min, 'MM-dd-yyyy').format ('MM-dd-yyyy'); %><%
-				} else if ('' !== field.max) {
-					%><%= moment (field.max, 'MM-dd-yyyy').format ('MM-dd-yyyy'); %><%
-			   } else {
-					%><%= moment ().format ('MM-dd-yyyy'); %><%
-			   }
+				%>'<%= moment ().format ('MM-DD-YYYY'); %>'<%
 		   }
 		} else if ('Number' === field.type) {
 			if ('' !== field.min) {
@@ -55,13 +28,13 @@ const chai = require ('chai'),
 		   } else {
 				%>1<%
 		   }
-	 } else {
+		 } else {
 			if ('' !== field.min) {
-				%><%= Array (field.min).join ('x') %><%
+				%>'<%= Array (field.min).join ('x') %>'<%
 			} else if ('' !== field.max) {
-				%><%= Array (field.max).join ('x') %><%
+				%>'<%= Array (field.max).join ('x') %>'<%
 		   } else {
-				%>test<%
+				%>'test'<%
 		   }
 		}
 		if (index !== (entity.fields.length - 1)) {

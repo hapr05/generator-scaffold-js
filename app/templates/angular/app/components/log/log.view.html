@@ -14,7 +14,7 @@
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="fromOpen = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
 									</span>
-									<input type="text" name="from" class="form-control" datetime-picker="short" ng-model="filter.from" ng-model-options="{ alloInvalid: true }" max-date="filter.to" is-open="fromOpen" required />
+									<input type="text" name="from" class="form-control" datetime-picker="short" ng-model="filter.from" ng-model-options="{ allowInvalid: true }" max-date="filter.to" is-open="fromOpen" required />
 								</div>
 							</div>
 							</li>
@@ -25,7 +25,7 @@
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-default" ng-click="toOpen = true"><i class="glyphicon glyphicon-calendar" aria-hidden="true"></i></button>
 									</span>
-									<input type="text" name="to" class="form-control" datetime-picker="short" ng-model="filter.to" ng-model-options="{ alloInvalid: true }" min-date="filter.from" is-open="toOpen" required />
+									<input type="text" name="to" class="form-control" datetime-picker="short" ng-model="filter.to" ng-model-options="{ allowInvalid: true }" min-date="filter.from" is-open="toOpen" required />
 								</div>
 							</div>
 							</li>
