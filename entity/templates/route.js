@@ -85,7 +85,6 @@ module.exports = [{
 	method: 'POST',
 	path: '/<%= entity.collectionName %>/',
 	config: {
-		auth: false,
 		description: 'Create <%= entity.collectionName %>',
 		notes: 'Creates a new <%= entity.collectionName %>.',
 		tags: [ 'api', '<%= entity.collectionName %>' ],
@@ -106,14 +105,17 @@ module.exports = [{
 		},
 		handler (request, reply) {
 			const mongo = request.server.plugins ['hapi-mongodb'],
-				collection = mongo.db.collection ('<%= entity.collectionName %>');
+				collection = mongo.db.collection ('<%= entity.collectionName %>'),
+				entity = Object.assign ({
+					created: new Date (),
+					modified: new Date ()
+				}, request.server.methods.filter (request.payload, [<% entity.fields.forEach ((field, index) => { %> '<%= field.name %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]));
 
-			collection.insertOne (Object.assign ({
-				created: new Date (),
-				modified: new Date ()
-			}, request.server.methods.filter (request.payload, [<% entity.fields.forEach ((field, index) => { %> '<%= field.name %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]))).then (res => {
+			collection.insertOne (entity).then (res => {
+				request.server.methods.audit ('create', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', '<%= entity.collectionName %>', Object.assign ({ id: res.insertedId }, entity));
 				replyEntity (mongo, collection, res.insertedId, reply, boom.badImplementation ());
 			}).catch (() => {
+				request.server.methods.audit ('create', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'failure', '<%= entity.collectionName %>', entity);
 				reply (boom.badImplementation ());
 			});
 		}
@@ -153,8 +155,10 @@ module.exports = [{
 			collection.updateOne ({
 				_id: new mongo.ObjectID (request.params._id)
 			}, { $set: update }).then (() => {
+				request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', '<%= entity.collectionName %>', Object.assign ({ id: request.params._id }, update));
 				replyEntity (mongo, collection, request.params._id, reply, boom.badImplementation ());
 			}).catch (() => {
+				request.server.methods.audit ('change', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'failure', '<%= entity.collectionName %>', Object.assign ({ id: request.params._id }, update));
 				reply (boom.badImplementation ());
 			});
 		}
@@ -186,8 +190,10 @@ module.exports = [{
 			collection.deleteOne ({
 				_id: new mongo.ObjectID (request.params._id)
 			}).then (() => {
+				request.server.methods.audit ('delete', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', '<%= entity.collectionName %>', { id: request.params._id });
 				reply ().code (200);
 			}).catch (() => {
+				request.server.methods.audit ('delete', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'failure', '<%= entity.collectionName %>', { id: request.params._id });
 				reply (boom.badImplementation ());
 			});
 		}

@@ -1,4 +1,4 @@
-(function accountComponent () {
+(function <%= entity.collectionName %>Component () {
 	'use strict';
 
 	angular.module ('<%= appSlug %>').component ('<%= entity.collectionName %>', {

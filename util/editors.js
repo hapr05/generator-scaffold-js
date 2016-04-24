@@ -1,9 +1,9 @@
 'use strict';
 
-const find = (array, string) => {
+const find = (array, string, start) => {
 	var i;
 
-	for (i = 0; i < array.length; i++) {
+	for (i = start; i < array.length; i++) {
 		if (-1 !== array [i].indexOf (string)) {
 			break;
 		}
@@ -16,8 +16,8 @@ module.exports = {
 	appendHtml (base, file, open, close, data) {
 		var html = base.fs.read (file).split ('\n'),
 			indented,
-			i = find (html, open),
-			j = find (html, close);
+			i = find (html, open, 0),
+			j = find (html, close, i);
 
 		if (j >= html.length) {
 			throw new Error (`Failed to find insertion point for ${ data } in %{ file }`);
