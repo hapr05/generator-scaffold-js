@@ -18,6 +18,7 @@
 [![optionalDependency Status](https://david-dm.org/scaffold-js/generator-scaffold-js/optional-status.svg)](https://david-dm.org/scaffold-js/generator-scaffold-js#info=optionalDependencies)
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/scaffoldjs.svg?style=social?maxAge=2592000)](https://twitter.com/scaffoldjs)
+[![npm](https://img.shields.io/npm/dt/generator-scaffold-js.svg?maxAge=2592000)](https://www.npmjs.com/package/generator-scaffold-js)
 
 [npm-image]: https://badge.fury.io/js/generator-scaffold-js.svg
 [npm-url]: https://npmjs.org/package/generator-scaffold-js

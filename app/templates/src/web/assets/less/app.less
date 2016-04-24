@@ -60,74 +60,86 @@ pre.modal-body {
 }
 
 [ui-view] {
-   &.ng-enter {
-      animation: fadeIn 500ms;
-   }
+	&.ng-enter {
+		animation: fadeIn 500ms;
 
-   &.ng-leave {
-      animation: fadeOut 500ms;
-   }
+		& > * {
+			position: absolute;
+			left: 0;
+			right: 0;
+
+			& > * {
+				position: absolute;
+				left: 0;
+				right: 0;
+			}
+		}
+	}
+
+	&.ng-leave {
+		animation: fadeOut 500ms;
+
+		& > * {
+			position: absolute;
+			left: 0;
+			right: 0;
+
+			& > * {
+				position: absolute;
+				left: 0;
+				right: 0;
+			}
+		}
+	}
 }
 
 .content {
-   position: relative;
+	position: relative;
 
-   & > * {
-      position: absolute;
-      left: 0;
-      right: 0;
-
-      & > * {
-         position: absolute;
-         left: 0;
-         right: 0;
-      }
-
-      .log,
-      .audit {
-         .dropdown-menu {
-            li {
-               min-width: 200px;
-               margin: 0 10px;
-            }
-         }
-
-			.pagination {
-				margin: 0;
+	.log,
+	.audit {
+		.dropdown-menu {
+			li {
+				min-width: 200px;
+				margin: 0 10px;
 			}
-      }
+		}
 
-      .metrics {
-         .scroll {
-            max-height: 400px;
-            overflow: auto;
-         }
-      }
+		.pagination {
+			margin: 0;
+		}
+	}
 
-      .users-edit {
-         &.ng-enter {
-				margin-left: 10px;
-            animation: slideInRight 1s;
-         }
+	.metrics {
+		.scroll {
+			max-height: 400px;
+			overflow: auto;
+		}
+	}
 
-         &.ng-leave {
-				margin-left: 10px;
-            animation: slideOutRight 1s;
-         }
-      }
+	.users-edit {
+		&.ng-enter {
+			margin-left: 10px;
+			animation: slideInRight 1s;
+		}
 
-      .users {
-			.pagination {
-				margin: 0;
-			}
+		&.ng-leave {
+			margin-left: 10px;
+			animation: slideOutRight 1s;
+		}
+	}
 
-         &.ng-enter {
-            animation: slideInLeft 1s;
-         }
+	.users {
+		.pagination {
+			margin: 0;
+		}
 
-         &.ng-leave {
-            animation: slideOutLeft 1s;
-         }
-      }
-   }
+		&.ng-enter {
+			animation: slideInLeft 1s;
+		}
+
+		&.ng-leave {
+			animation: slideOutLeft 1s;
+		}
+	}
 }
