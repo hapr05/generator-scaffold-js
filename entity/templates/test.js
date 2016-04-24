@@ -10,29 +10,29 @@ const chai = require ('chai'),
 	creds = require ('../../helpers/creds'),
 	failed = require ('../../helpers/authFailed'),
 	payload = {<% entity.fields.forEach ((field, index) => { %>
-		<%= field.name %>: <% if ('Boolean' === field.type) {
+		<%= field.camel %>: <% if ('Boolean' === field.type) {
 			%>true<%
 		} else if ('Date' === field.type) {
-			%><% if ('' !== field.min) {
-				%>'<%= moment (field.min, 'MM-DD-YYYY').format ('MM-DD-YYYY'); %>'<%
-			} else if ('' !== field.max) {
-				%>'<%= moment (field.max, 'MM-DD-YYYY').format ('MM-DD-YYYY'); %>'<%
+			%><% if ('' !== field.min && undefined !== field.min) {
+				%>'<%= moment (field.min, 'MM-DD-YYYY').format (); %>'<%
+			} else if ('' !== field.max && undefined !== field.max) {
+				%>'<%= moment (field.max, 'MM-DD-YYYY').format (); %>'<%
 		   } else {
-				%>'<%= moment ().format ('MM-DD-YYYY'); %>'<%
+				%>'<%= moment ().format (); %>'<%
 		   }
 		} else if ('Number' === field.type) {
-			if ('' !== field.min) {
+			if ('' !== field.min && undefined !== field.min) {
 				%><%= field.min %><%
-			} else if ('' !== field.max) {
+			} else if ('' !== field.max && undefined !== field.max) {
 				%><%= field.max %><%
 		   } else {
 				%>1<%
 		   }
 		 } else {
-			if ('' !== field.min) {
-				%>'<%= Array (field.min).join ('x') %>'<%
-			} else if ('' !== field.max) {
-				%>'<%= Array (field.max).join ('x') %>'<%
+			if ('' !== field.min && undefined !== field.min) {
+				%>'<%= Array (parseInt (field.min, 10) + 1).join ('x') %>'<%
+			} else if ('' !== field.max && undefined !== field.max) {
+				%>'<%= Array (parseInt (field.max, 10) + 1).join ('x') %>'<%
 		   } else {
 				%>'test'<%
 		   }
@@ -47,7 +47,7 @@ chai.use (dirtyChai);
 
 describe ('<%= entity.collectionName %> route', () => {
 	var server,
-		<%= entity.collectionName %> = {
+		<%= entity.collectionCamel %> = {
 			find () {
 				return {
 					toArray () {
@@ -71,7 +71,7 @@ describe ('<%= entity.collectionName %> route', () => {
 		sandbox = sinon.sandbox.create ();
 
 	before (() => {
-		mocks.mongo ({ <%= entity.collectionName %> });
+		mocks.mongo ({ <%= entity.collectionCamel %> });
 	});
 
 	beforeEach (() => {
@@ -80,7 +80,7 @@ describe ('<%= entity.collectionName %> route', () => {
 		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), require ('hapi-accept-language'), failed ]).then (() => {
 			require ('../../../../src/server/methods') (server);
 			server.auth.strategy ('jwt', 'failed');
-			server.route (require ('../../../../src/server/routes/<%= entity.collectionName %>'));
+			server.route (require ('../../../../src/server/routes/<%= entity.collectionSlug %>'));
 		})).to.be.fulfilled ();
 	});
 
@@ -95,7 +95,7 @@ describe ('<%= entity.collectionName %> route', () => {
 	describe ('item', () => {
 		describe ('retrieve', () => {
 			it ('should retrieve a <%= entity.collectionName %>', done => {
-				server.inject ({ method: 'GET', url: '/<%= entity.collectionName %>/id', credentials: creds.user }).then (response => {
+				server.inject ({ method: 'GET', url: '/<%= entity.collectionSlug %>/id', credentials: creds.user }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (200);
 						done ();
@@ -106,9 +106,9 @@ describe ('<%= entity.collectionName %> route', () => {
 			});
 
 			it ('should fail if no <%= entity.collectionName %>', done => {
-				sandbox.stub (<%= entity.collectionName %>, 'findOne', () => Promise.resolve (null));
+				sandbox.stub (<%= entity.collectionCamel %>, 'findOne', () => Promise.resolve (null));
 
-				server.inject ({ method: 'GET', url: '/<%= entity.collectionName %>/id', credentials: creds.user }).then (response => {
+				server.inject ({ method: 'GET', url: '/<%= entity.collectionSlug %>/id', credentials: creds.user }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (404);
 						done ();
@@ -119,9 +119,9 @@ describe ('<%= entity.collectionName %> route', () => {
 			});
 
 			it ('should fail on error', done => {
-				sandbox.stub (<%= entity.collectionName %>, 'findOne', () => Promise.reject ('err'));
+				sandbox.stub (<%= entity.collectionCamel %>, 'findOne', () => Promise.reject ('err'));
 
-				server.inject ({ method: 'GET', url: '/<%= entity.collectionName %>/id', credentials: creds.user }).then (response => {
+				server.inject ({ method: 'GET', url: '/<%= entity.collectionSlug %>/id', credentials: creds.user }).then (response => {
 					try {
 						expect (response.statusCode).to.equal (500);
 						done ();
@@ -136,7 +136,7 @@ describe ('<%= entity.collectionName %> route', () => {
 			it ('should update a <%= entity.collectionName %>', done => {
 				server.inject ({
 					method: 'POST',
-					url: '/<%= entity.collectionName %>/id',
+					url: '/<%= entity.collectionSlug %>/id',
 					credentials: creds.user,
 					payload
 				}).then (response => {
@@ -150,11 +150,11 @@ describe ('<%= entity.collectionName %> route', () => {
 			});
 
 			it ('should fail update a <%= entity.collectionName %> if update fails', done => {
-				sandbox.stub (<%= entity.collectionName %>, 'updateOne', () => Promise.reject ('err'));
+				sandbox.stub (<%= entity.collectionCamel %>, 'updateOne', () => Promise.reject ('err'));
 
 				server.inject ({
 					method: 'POST',
-					url: '/<%= entity.collectionName %>/id',
+					url: '/<%= entity.collectionSlug %>/id',
 					credentials: creds.user,
 					payload
 				}).then (response => {
@@ -172,7 +172,7 @@ describe ('<%= entity.collectionName %> route', () => {
 			it ('should delete a <%= entity.collectionName %>', done => {
 				server.inject ({
 					method: 'DELETE',
-					url: '/<%= entity.collectionName %>/id',
+					url: '/<%= entity.collectionSlug %>/id',
 					credentials: creds.user
 				}).then (response => {
 					try {
@@ -185,11 +185,11 @@ describe ('<%= entity.collectionName %> route', () => {
 			});
 
 			it ('should fail <%= entity.collectionName %> if delete fails', done => {
-				sandbox.stub (<%= entity.collectionName %>, 'deleteOne', () => Promise.reject ('err'));
+				sandbox.stub (<%= entity.collectionCamel %>, 'deleteOne', () => Promise.reject ('err'));
 
 				server.inject ({
 					method: 'DELETE',
-					url: '/<%= entity.collectionName %>/id',
+					url: '/<%= entity.collectionSlug %>/id',
 					credentials: creds.user
 				}).then (response => {
 					try {
@@ -211,7 +211,7 @@ describe ('<%= entity.collectionName %> route', () => {
 					_id: 'test'
 				}]
 			}));
-			server.inject ({ method: 'GET', url: '/<%= entity.collectionName %>/', credentials: creds.user }).then (response => {
+			server.inject ({ method: 'GET', url: '/<%= entity.collectionSlug %>/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (200);
 					done ();
@@ -223,7 +223,7 @@ describe ('<%= entity.collectionName %> route', () => {
 
 		it ('should error on list failure', done => {
 			sinon.stub (server.methods, 'search').returns (Promise.reject ('err'));
-			server.inject ({ method: 'GET', url: '/<%= entity.collectionName %>/', credentials: creds.user }).then (response => {
+			server.inject ({ method: 'GET', url: '/<%= entity.collectionSlug %>/', credentials: creds.user }).then (response => {
 				try {
 					expect (response.statusCode).to.equal (500);
 					done ();
@@ -238,7 +238,7 @@ describe ('<%= entity.collectionName %> route', () => {
 		it ('should create a <%= entity.collectionName %>', done => {
 			server.inject ({
 				method: 'POST',
-				url: '/<%= entity.collectionName %>/',
+				url: '/<%= entity.collectionSlug %>/',
 				payload,
 				credentials: creds.user
 			}).then (response => {
@@ -252,11 +252,11 @@ describe ('<%= entity.collectionName %> route', () => {
 		});
 
 		it ('should error on list failure', done => {
-			sandbox.stub (<%= entity.collectionName %>, 'insertOne', () => Promise.reject ('err'));
+			sandbox.stub (<%= entity.collectionCamel %>, 'insertOne', () => Promise.reject ('err'));
 
 			server.inject ({
 				method: 'POST',
-				url: '/<%= entity.collectionName %>/',
+				url: '/<%= entity.collectionSlug %>/',
 				payload,
 				credentials: creds.user
 			}).then (response => {

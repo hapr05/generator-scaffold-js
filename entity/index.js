@@ -1,8 +1,7 @@
 'use strict';
 
 const generator = require ('yeoman-generator'),
-	camel = require ('to-camel-case'),
-	slug = require ('to-slug-case'),
+	to = require ('to-case'),
 	validators = require ('../util/validators'),
 	editors = require ('../util/editors');
 
@@ -20,8 +19,8 @@ module.exports = generator.Base.extend ({
 	},
 
 	init () {
-		this.appCamel = camel (this.config.get ('cfgName'));
-		this.appSlug = slug (this.config.get ('cfgName'));
+		this.appCamel = to.camel (this.config.get ('cfgName'));
+		this.appSlug = to.slug (this.config.get ('cfgName'));
 		this.moment = require ('moment');
 	},
 
@@ -54,6 +53,8 @@ module.exports = generator.Base.extend ({
 		this.prompt (prompt, answers => {
 			if (answers [`name${ index }`]) {
 				field.name = answers [`name${ index }`];
+				field.slug = to.slug (answers [`name${ index }`]);
+				field.camel = to.camel (answers [`name${ index }`]);
 				prompt = [
 					{ name: `type${ index }`, message: 'Field Type', type: 'list', choices: [ 'Boolean', 'Date', 'Number', 'String' ] },
 					{ name: `required${ index }`, message: 'Required', type: 'confirm', when: this._isNotBoolean },
@@ -86,32 +87,32 @@ module.exports = generator.Base.extend ({
 
 	_dateStrings (json, field) {
 		if (field.min) {
-			json.msg.validate [field.name].min = `${ field.name } is outside of the allowed range.`;
+			json.msg.validate [field.camel].min = `${ field.name } is outside of the allowed range.`;
 		}
 		if (field.max) {
-			json.msg.validate [field.name].max = `${ field.name } is outside of the allowed range.`;
+			json.msg.validate [field.camel].max = `${ field.name } is outside of the allowed range.`;
 		}
-		json.msg.validate [field.name].date = 'Invalid date.';
+		json.msg.validate [field.camel].date = 'Invalid date.';
 	},
 
 	_numberStrings (json, field) {
 		if (field.min) {
-			json.msg.validate [field.name].min = `${ field.name } must be greater than or equal to ${ field.min }.`;
+			json.msg.validate [field.camel].min = `${ field.name } must be greater than or equal to ${ field.min }.`;
 		}
 		if (field.max) {
-			json.msg.validate [field.name].max = `${ field.name } must be less than or equal to ${ field.max }.`;
+			json.msg.validate [field.camel].max = `${ field.name } must be less than or equal to ${ field.max }.`;
 		}
 		if (field.integer) {
-			json.msg.validate [field.name].pattern = `${ field.name } must be an integer.`;
+			json.msg.validate [field.camel].pattern = `${ field.name } must be an integer.`;
 		}
 	},
 
 	_stringStrings (json, field) {
 		if (field.min) {
-			json.msg.validate [field.name].minlength = `${ field.name } must be greater than or equal to ${ field.min } characters.`;
+			json.msg.validate [field.camel].minlength = `${ field.name } must be greater than or equal to ${ field.min } characters.`;
 		}
 		if (field.max) {
-			json.msg.validate [field.name].maxlength = `${ field.name } must be less than or equal to ${ field.min } characters.`;
+			json.msg.validate [field.camel].maxlength = `${ field.name } must be less than or equal to ${ field.min } characters.`;
 		}
 	},
 
@@ -145,9 +146,9 @@ module.exports = generator.Base.extend ({
 			data = {};
 
 		this.entity.fields.forEach (field => {
-			json.field [field.name] = field.name;
-			json.header [field.name] = field.name;
-			json.msg.validate [field.name] = {};
+			json.field [field.camel] = field.name;
+			json.header [field.camel] = field.name;
+			json.msg.validate [field.camel] = {};
 			switch (field.type) {
 				case 'Date':
 					this._dateStrings (json, field);
@@ -162,22 +163,22 @@ module.exports = generator.Base.extend ({
 			}
 
 			if (field.required) {
-				json.msg.validate [field.name].required = `${ field.name } is required.`;
+				json.msg.validate [field.camel].required = `${ field.name } is required.`;
 			}
 		});
 
-		editors.appendHtml (this, 'src/web/index.html', '<!-- build:js app/app.min.js -->', '<!-- /build -->', `<script src="app/components/${ this.entity.collectionName }/${ this.entity.collectionName }.component.js"></script>`);
+		editors.appendHtml (this, 'src/web/index.html', '<!-- build:js app/app.min.js -->', '<!-- /build -->', `<script src="app/components/${ this.entity.collectionSlug }/${ this.entity.collectionSlug }.component.js"></script>`);
 		editors.appendHtml (this,
 			'src/web/app/components/topnav/topnav.view.html',
 			'<!-- entity -->',
 			'<!-- /entity -->',
-			`<li><a ${ this.appSlug }-authenticated ui-sref="${ this.entity.collectionName }" translate="${ this.entity.collectionName }.nav">${ this.entity.collectionName }</a></li>`
+			`<li><a ${ this.appSlug }-authenticated ui-sref="${ this.entity.collectionSlug }" translate="${ this.entity.collectionSlug }.nav">${ this.entity.collectionName }</a></li>`
 		);
-		data [this.entity.collectionName] = json;
+		data [this.entity.collectionCamel] = json;
 		editors.appendJSON (this, 'src/web/assets/locale/locale-en.json', data);
-		this.template ('component.js', `src/web/app/components/${ this.entity.collectionName }/${ this.entity.collectionName }.component.js`);
-		this.template ('view.html', `src/web/app/components/${ this.entity.collectionName }/${ this.entity.collectionName }.view.html`);
-		this.template ('test.angular.js', `test/unit/web/app/components/${ this.entity.collectionName }/${ this.entity.collectionName }.component.js`);
+		this.template ('component.js', `src/web/app/components/${ this.entity.collectionSlug }/${ this.entity.collectionSlug }.component.js`);
+		this.template ('view.html', `src/web/app/components/${ this.entity.collectionSlug }/${ this.entity.collectionSlug }.view.html`);
+		this.template ('test.angular.js', `test/unit/web/app/components/${ this.entity.collectionSlug }/${ this.entity.collectionSlug }.component.js`);
 	},
 
 	askFor () {
@@ -189,14 +190,17 @@ module.exports = generator.Base.extend ({
 		index = 0;
 		this.prompt (prompts, answers => {
 			this.entity.collectionName = answers.collectionName;
+			this.entity.collectionSlug = to.slug (answers.collectionName);
+			this.entity.collectionPascal = to.pascal (answers.collectionName);
+			this.entity.collectionCamel = to.camel (answers.collectionName);
 			this._promptField (done);
 		});
 	},
 
 	app () {
-		this.template ('model.js', `src/server/models/${ this.entity.collectionName }.js`);
-		this.template ('route.js', `src/server/routes/${ this.entity.collectionName }.js`);
-		this.template ('test.js', `test/unit/server/routes/${ this.entity.collectionName }.js`);
+		this.template ('model.js', `src/server/models/${ this.entity.collectionSlug }.js`);
+		this.template ('route.js', `src/server/routes/${ this.entity.collectionSlug }.js`);
+		this.template ('test.js', `test/unit/server/routes/${ this.entity.collectionSlug }.js`);
 		this._angular ();
 	}
 });

@@ -2,7 +2,7 @@
 
 const joi = require ('joi'),
 	boom = require ('boom'),
-	entityModel = require ('../models/<%= entity.collectionName %>'),
+	entityModel = require ('../models/<%= entity.collectionSlug %>'),
 	replyEntity = (mongo, collection, id, reply, notFound) => {
 		collection.findOne ({
 			_id: new mongo.ObjectID (id)
@@ -19,7 +19,7 @@ const joi = require ('joi'),
 
 module.exports = [{
 	method: 'GET',
-	path: '/<%= entity.collectionName %>/{_id}',
+	path: '/<%= entity.collectionSlug %>/{_id}',
 	config: {
 		description: 'Retrieve single <%= entity.collectionName %>',
 		notes: 'Returns a <%= entity.collectionName %> by id.',
@@ -32,7 +32,7 @@ module.exports = [{
 				responses: {
 					200: {
 						description: 'Success',
-						schema: entityModel.<%= entity.collectionName %>
+						schema: entityModel.<%= entity.collectionCamel %>
 					},
 					400: { description: 'Bad Request' },
 					403: { description: 'Forbidden' },
@@ -43,14 +43,14 @@ module.exports = [{
 		},
 		handler (request, reply) {
 			const mongo = request.server.plugins ['hapi-mongodb'],
-				collection = mongo.db.collection ('<%= entity.collectionName %>');
+				collection = mongo.db.collection ('<%= entity.collectionCamel %>');
 
 			replyEntity (mongo, collection, request.params._id, reply, boom.notFound ());
 		}
 	}
 }, {
 	method: 'GET',
-	path: '/<%= entity.collectionName %>/',
+	path: '/<%= entity.collectionSlug %>/',
 	config: {
 		description: 'Search <%= entity.collectionName %>',
 		notes: 'Searches for <%= entity.collectionName %> by fields.',
@@ -63,7 +63,7 @@ module.exports = [{
 				responses: {
 					200: {
 						description: 'Success',
-						schema: joi.array ().items (entityModel.<%= entity.collectionName %>).meta ({ className: '<%= entity.collectionName %>List' })
+						schema: joi.array ().items (entityModel.<%= entity.collectionCamel %>).meta ({ className: '<%= entity.collectionName %>List' })
 					},
 					400: { description: 'Bad Request' },
 					404: { description: 'Not Found' },
@@ -72,9 +72,9 @@ module.exports = [{
 			}
 		},
 		handler (request, reply) {
-			const collection = request.server.plugins ['hapi-mongodb'].db.collection ('<%= entity.collectionName %>');
+			const collection = request.server.plugins ['hapi-mongodb'].db.collection ('<%= entity.collectionCamel %>');
 
-			request.server.methods.search (collection, request.query, [<% entity.fields.forEach ((field, index) => { %> '<%= field.name %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]).then (result => {
+			request.server.methods.search (collection, request.query, [<% entity.fields.forEach ((field, index) => { %> '<%= field.camel %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]).then (result => {
 				reply (result.values).code (200).header ('X-Total-Count', result.count);
 			}).catch (() => {
 				reply (boom.badImplementation ());
@@ -83,20 +83,20 @@ module.exports = [{
 	}
 }, {
 	method: 'POST',
-	path: '/<%= entity.collectionName %>/',
+	path: '/<%= entity.collectionSlug %>/',
 	config: {
 		description: 'Create <%= entity.collectionName %>',
 		notes: 'Creates a new <%= entity.collectionName %>.',
 		tags: [ 'api', '<%= entity.collectionName %>' ],
 		validate: {
-			payload: entityModel.<%= entity.collectionName %>
+			payload: entityModel.<%= entity.collectionCamel %>
 		},
 		plugins: {
 			'hapi-swaggered': {
 				responses: {
 					200: {
 						description: 'Success',
-						schema: entityModel.<%= entity.collectionName %>
+						schema: entityModel.<%= entity.collectionCamel %>
 					},
 					400: { description: 'Bad Request' },
 					500: { description: 'Internal Server Error' }
@@ -105,11 +105,11 @@ module.exports = [{
 		},
 		handler (request, reply) {
 			const mongo = request.server.plugins ['hapi-mongodb'],
-				collection = mongo.db.collection ('<%= entity.collectionName %>'),
+				collection = mongo.db.collection ('<%= entity.collectionCamel %>'),
 				entity = Object.assign ({
 					created: new Date (),
 					modified: new Date ()
-				}, request.server.methods.filter (request.payload, [<% entity.fields.forEach ((field, index) => { %> '<%= field.name %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]));
+				}, request.server.methods.filter (request.payload, [<% entity.fields.forEach ((field, index) => { %> '<%= field.camel %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ]));
 
 			collection.insertOne (entity).then (res => {
 				request.server.methods.audit ('create', { id: request.auth.credentials.id, username: request.auth.credentials.username }, 'success', '<%= entity.collectionName %>', Object.assign ({ id: res.insertedId }, entity));
@@ -122,7 +122,7 @@ module.exports = [{
 	}
 }, {
 	method: 'POST',
-	path: '/<%= entity.collectionName %>/{_id}',
+	path: '/<%= entity.collectionSlug %>/{_id}',
 	config: {
 		description: 'Update <%= entity.collectionName %>',
 		notes: 'Updates an existing <%= entity.collectionName %>',
@@ -136,7 +136,7 @@ module.exports = [{
 				responses: {
 					200: {
 						description: 'Success',
-						schema: entityModel.<%= entity.collectionName %>
+						schema: entityModel.<%= entity.collectionCamel %>
 					},
 					400: { description: 'Bad Request' },
 					403: { description: 'Forbidden' },
@@ -147,8 +147,8 @@ module.exports = [{
 		},
 		handler (request, reply) {
 			const mongo = request.server.plugins ['hapi-mongodb'],
-				collection = mongo.db.collection ('<%= entity.collectionName %>'),
-				keys = [<% entity.fields.forEach ((field, index) => { %> '<%= field.name %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ],
+				collection = mongo.db.collection ('<%= entity.collectionCamel %>'),
+				keys = [<% entity.fields.forEach ((field, index) => { %> '<%= field.camel %>'<% if (index !== (entity.fields.length - 1)) { %>,<% }}); %> ],
 				update = request.server.methods.filter (request.payload, keys);
 
 			update.modified = new Date ();
@@ -165,7 +165,7 @@ module.exports = [{
 	}
 }, {
 	method: 'DELETE',
-	path: '/<%= entity.collectionName %>/{_id}',
+	path: '/<%= entity.collectionSlug %>/{_id}',
 	config: {
 		description: 'Delete <%= entity.collectionName %>',
 		notes: 'Deletes an existing <%= entity.collectionName %>',
@@ -185,7 +185,7 @@ module.exports = [{
 		},
 		handler (request, reply) {
 			const mongo = request.server.plugins ['hapi-mongodb'],
-				collection = mongo.db.collection ('<%= entity.collectionName %>');
+				collection = mongo.db.collection ('<%= entity.collectionCamel %>');
 
 			collection.deleteOne ({
 				_id: new mongo.ObjectID (request.params._id)

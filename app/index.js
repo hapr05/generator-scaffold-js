@@ -3,8 +3,7 @@
 const generator = require ('yeoman-generator'),
 	path = require ('path'),
 	process = require ('process'),
-	camel = require ('to-camel-case'),
-	slug = require ('to-slug-case'),
+	to = require ('to-case'),
 	gitConfig = require ('git-config'),
 	githubUrlFromGit = require ('github-url-from-git'),
 	db = require ('./db'),
@@ -184,8 +183,8 @@ module.exports = generator.Base.extend ({
 			directory = [ 'config', 'src', 'test', 'tls' ];
 
 		Object.assign (this, this.config.getAll ());
-		this.appCamel = camel (this.config.get ('cfgName'));
-		this.appSlug = slug (this.config.get ('cfgName'));
+		this.appCamel = to.camel (this.config.get ('cfgName'));
+		this.appSlug = to.slug (this.config.get ('cfgName'));
 
 		directory.forEach (i => {
 			this.directory (i);

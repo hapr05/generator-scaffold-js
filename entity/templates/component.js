@@ -1,10 +1,10 @@
-(function <%= entity.collectionName %>Component () {
+(function <%= entity.collectionCamel %>Component () {
 	'use strict';
 
-	angular.module ('<%= appSlug %>').component ('<%= entity.collectionName %>', {
-		templateUrl: 'app/components/<%= entity.collectionName %>/<%= entity.collectionName %>.view.html',
+	angular.module ('<%= appSlug %>').component ('<%= entity.collectionCamel %>', {
+		templateUrl: 'app/components/<%= entity.collectionSlug %>/<%= entity.collectionSlug%>.view.html',
 		controller: function controller ($scope, $state, $resource) {
-			var Entity = $resource ('<%= entity.collectionName %>/:_id', { _id: '@_id' });
+			var Entity = $resource ('<%= entity.collectionSlug %>/:_id', { _id: '@_id' });
 
 			angular.extend ($scope, {
 				disable: false,
@@ -21,8 +21,8 @@
 				filter: {
 				},<% entity.fields.forEach (function (field) { if ('Date' === field.type) { %>
 
-				<%= field.name %>Open: false,
-				<%= field.name %>Options: {<% if (field.min) { %>
+				<%= field.camel %>Open: false,
+				<%= field.camel %>Options: {<% if (field.min) { %>
 					minDate: moment ('<%= field.min %>', 'MM-DD-YYYY').toDate ()<% if (field.max) %>,<% } if (field.max) { %>
 					maxDate: moment ('<%= field.max %>', 'MM-DD-YYYY').toDate ()<% } %>
 				},<% }}); %>
@@ -77,7 +77,7 @@
 				edit: function edit (index) {
 					$scope.editIndex = index;
 					$scope.editEntity = angular.copy ($scope.entities [index]);<% entity.fields.forEach (field => { if ('Date' === field.type) { %>
-					$scope.editEntity.<%= field.name %> = moment ($scope.editEntity.<%= field.name %>).toDate ();<% }}); %>
+					$scope.editEntity.<%= field.camel %> = moment ($scope.editEntity.<%= field.camel %>).toDate ();<% }}); %>
 				},
 
 				update: function update (event) {
@@ -113,9 +113,9 @@
 			$scope.search ();
 		}
 	}).config (function setupState ($stateProvider) {
-		$stateProvider.state ('<%= entity.collectionName %>', {
-			url: '/<%= entity.collectionName %>',
-			template: '<<%= entity.collectionName %>></<%= entity.collectionName %>>',
+		$stateProvider.state ('<%= entity.collectionSlug %>', {
+			url: '/<%= entity.collectionSlug %>',
+			template: '<<%= entity.collectionSlug %>></<%= entity.collectionSlug %>>',
 			data: {
 				authenticated: true
 			}

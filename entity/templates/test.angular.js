@@ -1,20 +1,20 @@
-(function <%= entity.collectionName %>ComponentTests () {
+(function <%= entity.collectionCamel %>ComponentTests () {
 	'use strict';
 
-	describe ('<%= entity.collectionName %> component', function <%= entity.collectionName %>Component () {
+	describe ('<%= entity.collectionName %> component', function <%= entity.collectionCamel %>Component () {
 		beforeEach (function beforeEach () {
 			inject (function inject ($componentController) {
 				this.scope = this.$rootScope.$new ();
-				this.ctrl = $componentController ('<%= entity.collectionName %>', { $scope: this.scope });
+				this.ctrl = $componentController ('<%= entity.collectionCamel %>', { $scope: this.scope });
 			});
 
 			inject (function inject (authFactory) {
 				this.authFactory = authFactory;
 			});
 
-			this.<%= entity.collectionName %> = {
+			this.<%= entity.collectionCamel %> = {
 				_id: 'test'<% entity.fields.forEach (field => { %>,
-				<%= field.name %>: <% if ('Boolean' === field.type) {
+				<%= field.camel %>: <% if ('Boolean' === field.type) {
 					%>true<%
 				} else if ('Date' === field.type) {
 					%>'<%= moment ().format ('MM-DD-YYYY'); %>'<%
@@ -25,41 +25,40 @@
 			   }
 			}); %>
 			};
-			this.$templateCache.put ('app/components/<%= entity.collectionName %>/<%= entity.collectionName %>.view.html', '_<%= entity.collectionName %>in_component_content_');
-			this.$templateCache.put ('app/components/<%= entity.collectionName %>/<%= entity.collectionName %>.raw.html', '{{ raw }}');
-			this.$httpBackend.whenGET ('<%= entity.collectionName %>/?limit=20&sortDir=asc&start=0').respond (200, [ this.<%= entity.collectionName %> ]);
+			this.$templateCache.put ('app/components/<%= entity.collectionSlug %>/<%= entity.collectionSlug %>.view.html', '_<%= entity.collectionSlug %>in_component_content_');
+			this.$httpBackend.whenGET ('<%= entity.collectionSlug %>/?limit=20&sortDir=asc&start=0').respond (200, [ this.<%= entity.collectionCamel %> ]);
 		});
 
 		it ('should transition to <%= entity.collectionName %> state', function transitionToState () {
 			this.authenticate (200);
-			this.$state.go ('<%= entity.collectionName %>');
+			this.$state.go ('<%= entity.collectionSlug %>');
 			this.$rootScope.$digest ();
-			expect (this.$state.current.name).toBe ('<%= entity.collectionName %>');
+			expect (this.$state.current.name).toBe ('<%= entity.collectionSlug %>');
 		});
 
 		it ('should fail to transition to <%= entity.collectionName %> if not authorized', function failToTransitionIfNotAuthorized () {
 			this.authFactory.reset ();
-			this.$state.go ('<%= entity.collectionName %>');
+			this.$state.go ('<%= entity.collectionSlug %>');
 			this.$rootScope.$digest ();
 			expect (this.$state.current.name).toBe ('login');
 		});
 
 		it ('should search <%= entity.collectionName %>', function search () {
-			this.$httpBackend.expectGET ('<%= entity.collectionName %>/?limit=20&sortDir=asc&start=0').respond (200, []);
+			this.$httpBackend.expectGET ('<%= entity.collectionSlug %>/?limit=20&sortDir=asc&start=0').respond (200, []);
 			this.scope.search ();
 			this.$httpBackend.flush ();
 		});
 
 		it ('should sort <%= entity.collectionName %>', function sort () {<% entity.fields.forEach ((field, index) => { if (0 === index) { %>
-			this.scope.sortBy = '<%= field.name %>';
-			this.$httpBackend.expectGET ('<%= entity.collectionName %>/?limit=20&sortBy=<%= field.name %>&sortDir=desc&start=0').respond (200, []);
-			this.scope.sort ('<%= field.name %>');
+			this.scope.sortBy = '<%= field.camel %>';
+			this.$httpBackend.expectGET ('<%= entity.collectionSlug %>/?limit=20&sortBy=<%= field.camel %>&sortDir=desc&start=0').respond (200, []);
+			this.scope.sort ('<%= field.camel %>');
 			this.$httpBackend.flush ();
-			this.$httpBackend.expectGET ('<%= entity.collectionName %>/?limit=20&sortBy=<%= field.name %>&sortDir=asc&start=0').respond (200, []);
-			this.scope.sort ('<%= field.name %>');
+			this.$httpBackend.expectGET ('<%= entity.collectionSlug %>/?limit=20&sortBy=<%= field.camel %>&sortDir=asc&start=0').respond (200, []);
+			this.scope.sort ('<%= field.camel %>');
 			this.$httpBackend.flush ();<% } else if (1 === index) { %>
-			this.$httpBackend.expectGET ('<%= entity.collectionName %>/?limit=20&sortBy=<%= field.name %>&sortDir=asc&start=0').respond (200, []);
-			this.scope.sort ('<%= field.name %>');
+			this.$httpBackend.expectGET ('<%= entity.collectionSlug %>/?limit=20&sortBy=<%= field.camel %>&sortDir=asc&start=0').respond (200, []);
+			this.scope.sort ('<%= field.camel %>');
 			this.$httpBackend.flush ();<% } else { return false; }}); %>
 		});
 
@@ -79,7 +78,7 @@
 
 			it ('should save ', function save () {
 				this.scope.create ();
-				this.$httpBackend.expectPOST ('<%= entity.collectionName %>/').respond (200, this.<%= entity.collectionName %>);
+				this.$httpBackend.expectPOST ('<%= entity.collectionSlug %>/').respond (200, this.<%= entity.collectionCamel %>);
 				this.scope.save ({
 					preventDefault: function preventDefault () {}
 				});
@@ -89,7 +88,7 @@
 
 			it ('should handle save failure', function saveFail () {
 				this.scope.create ();
-				this.$httpBackend.expectPOST ('<%= entity.collectionName %>/').respond (500);
+				this.$httpBackend.expectPOST ('<%= entity.collectionSlug %>/').respond (500);
 				this.scope.save ({
 					preventDefault: function preventDefault () {}
 				});
@@ -119,7 +118,7 @@
 				this.scope.search ();
 				this.$httpBackend.flush ();
 				this.scope.edit (0);
-				this.$httpBackend.expectPOST ('<%= entity.collectionName %>/test').respond (200, this.<%= entity.collectionName %>);
+				this.$httpBackend.expectPOST ('<%= entity.collectionSlug %>/test').respond (200, this.<%= entity.collectionCamel %>);
 				this.scope.update ({
 					preventDefault: function preventDefault () {}
 				});
@@ -131,7 +130,7 @@
 				this.scope.search ();
 				this.$httpBackend.flush ();
 				this.scope.edit (0);
-				this.$httpBackend.expectPOST ('<%= entity.collectionName %>/test').respond (400, this.<%= entity.collectionName %>);
+				this.$httpBackend.expectPOST ('<%= entity.collectionSlug %>/test').respond (400, this.<%= entity.collectionCamel %>);
 				this.scope.update ({
 					preventDefault: function preventDefault () {}
 				});
@@ -145,12 +144,12 @@
 				this.scope.search ();
 				this.$httpBackend.flush ();
 				this.scope.edit (0);
-				this.$httpBackend.expectPOST ('<%= entity.collectionName %>/test').respond (200, this.<%= entity.collectionName %>);
+				this.$httpBackend.expectPOST ('<%= entity.collectionSlug %>/test').respond (200, this.<%= entity.collectionCamel %>);
 				this.scope.update ({
 					preventDefault: function preventDefault () {}
 				});
 				this.$httpBackend.flush ();
-				this.$httpBackend.expectDELETE ('<%= entity.collectionName %>/test').respond (200);
+				this.$httpBackend.expectDELETE ('<%= entity.collectionSlug %>/test').respond (200);
 				this.scope.remove ();
 				this.$httpBackend.flush ();
 				expect (this.scope.entities.length).toBe (0);

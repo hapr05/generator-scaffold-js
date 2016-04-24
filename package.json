@@ -34,7 +34,7 @@
 		"harmony-reflect": "latest",
 		"yeoman-generator": "latest",
 		"git-config": "latest", "github-url-from-git": "latest",
-		"to-camel-case": "latest", "to-slug-case": "latest",
+		"to-case": "latest",
 		"mongodb": "latest", "selfsigned": "latest", "moment": "latest"
 	},
 	"devDependencies": {
