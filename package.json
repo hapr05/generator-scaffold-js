@@ -41,7 +41,8 @@
 		"temp": "latest",
 		"gulp": "latest", "gulp-util": "latest", "gulp-eslint": "latest", "gulp-json-lint": "latest",
 		"gulp-mocha": "latest", "gulp-istanbul": "latest",
-		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest"
+		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest",
+		"jsdoc": "latest", "gulp-jsdoc3": "latest", "docdash": "latest"
 	},
 	"engines": {
 		"node": ">= 5.7.0",

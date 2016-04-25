@@ -5,6 +5,7 @@ const gulp = require ('gulp'),
 	istanbul = require ('gulp-istanbul'),
 	eslint = require ('gulp-eslint'),
 	jsonlint = require ('gulp-json-lint'),
+	jsdoc = require ('gulp-jsdoc3'),
 	mocha = require ('gulp-mocha'),
 	opts = {
 		files: {
@@ -105,7 +106,37 @@ gulp.task ('watch', () => {
 (() => {
 	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (eslint ()).pipe (eslint.format ()).pipe (eslint.failAfterError ()));
 
-	gulp.task ('js', [ 'js.lint' ]);
+	gulp.task ('js.doc', done => {
+		gulp.src ([
+			opts.files.js.app,
+			opts.files.js.appnt,
+			opts.files.js.entity,
+			opts.files.js.entitynt,
+			opts.files.js.util
+		], {
+			read: false
+		}).pipe (jsdoc ({
+			tags: {
+				allowUnknownTags: false
+			},
+			opts: {
+				template: 'node_modules/docdash',
+				encoding: 'utf8',
+				destination: 'docs/',
+				verbose: true,
+				private: true
+			},
+			templates: {
+				cleverLinks: false,
+				monospaceLinks: false,
+				default: {
+					outputSourceFiles: true
+				}
+			}
+		}, done));
+	});
+
+	gulp.task ('js', [ 'js.lint', 'js.doc' ]);
 }) ();
 
 /* Json tasks */

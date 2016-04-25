@@ -1,3 +1,6 @@
+/**
+ * @namespace entity
+ */
 'use strict';
 
 const generator = require ('yeoman-generator'),
@@ -10,40 +13,110 @@ var index;
 require ('harmony-reflect');
 
 module.exports = generator.Base.extend ({
+	/**
+	 * Generator for adding custom entities
+	 * @class EntityGenerator
+	 * @memberOf entity
+	 */
 	constructor: function constructor () {
 		Reflect.apply (generator.Base, this, arguments);
+		/**
+		 * Entity definition
+		 * @member {Object} entity.EntityGenerator~entity
+		 * @private
+		 */
 		this.entity = {
 			collectionName: '',
 			fields: []
 		};
 	},
 
+	/**
+	 * Intiializes items that cannot be initialized in the constructor
+	 * @function entity.EntitypGenerator~init
+	 */
 	init () {
+		/**
+		 * camelCase app name
+		 * @member {String} entity.EntityGenerator~appCamel
+		 * @private
+		 */
 		this.appCamel = to.camel (this.config.get ('cfgName'));
+		/**
+		 * slug-case app name
+		 * @member {String} entity.EntityGenerator~appSlug
+		 * @private
+		 */
 		this.appSlug = to.slug (this.config.get ('cfgName'));
+		/**
+		 * moment instance
+		 * @member {Object} entity.EntityGenerator~moment
+		 * @private
+		 */
 		this.moment = require ('moment');
 	},
 
+	/**
+	 * Returns true if the currenly prompted field is not a Boolean
+	 * @function entity.EntityGenerator~_isNotBoolean
+	 * @private
+	 * @param {Object} answers - current prompt answers
+	 * @returns {Boolean} true if field is not a Boolean
+	 */
 	_isNotBoolean (answers) {
 		return 'Boolean' !== answers [`type${ index }`];
 	},
 
+	/**
+	 * Returns true if the currenly prompted field is a Date
+	 * @function entity.EntityGenerator~_isDate
+	 * @private
+	 * @param {Object} answers - current prompt answers
+	 * @returns {Boolean} true if field is a Date
+	 */
 	_isDate (answers) {
 		return 'Date' === answers [`type${ index }`];
 	},
 
+	/**
+	 * Returns true if the currenly prompted field is a Number (and not an Integer)
+	 * @function entity.EntityGenerator~_isNumber
+	 * @private
+	 * @param {Object} answers - current prompt answers
+	 * @returns {Boolean} true if field is a Number
+	 */
 	_isNumber (answers) {
 		return 'Number' === answers [`type${ index }`] && !answers [`integer${ index }`];
 	},
 
+	/**
+	 * Returns true if the currenly prompted field is an Integer
+	 * @function entity.EntityGenerator~_isInteger
+	 * @private
+	 * @param {Object} answers - current prompt answers
+	 * @returns {Boolean} true if field is an Integer
+	 */
 	_isInteger (answers) {
 		return 'Number' === answers [`type${ index }`] && answers [`integer${ index }`];
 	},
 
+	/**
+	 * Returns true if the currenly prompted field is an String
+	 * @function entity.EntityGenerator~_isInteger
+	 * @private
+	 * @param {Object} answers - current prompt answers
+	 * @returns {Boolean} true if field is an String
+	 */
 	_isString (answers) {
 		return 'String' === answers [`type${ index }`];
 	},
 
+	/**
+	 * Prompts user for a field
+	 * @function entity.EntityGenerator~_promptField
+	 * @private
+	 * @param {Function} done - async done callback
+	 */
 	_promptField (done) {
 		var prompt = [
 				{ name: `name${ index }`, message: 'Field Name (leave empty if done)', validate: validators.fieldName }
@@ -85,6 +158,13 @@ module.exports = generator.Base.extend ({
 		});
 	},
 
+	/**
+	 * Generates locale strings for a Date
+	 * @function entity.EntityGenerator~_dateStrings
+	 * @private
+	 * @param {Object} json - object to store strings in
+	 * @param {Object} field - field to generate strings for
+	 */
 	_dateStrings (json, field) {
 		if (field.min) {
 			json.msg.validate [field.camel].min = `${ field.name } is outside of the allowed range.`;
@@ -95,6 +175,13 @@ module.exports = generator.Base.extend ({
 		json.msg.validate [field.camel].date = 'Invalid date.';
 	},
 
+	/**
+	 * Generates locale strings for a Number
+	 * @function entity.EntityGenerator~_numberStrings
+	 * @private
+	 * @param {Object} json - object to store strings in
+	 * @param {Object} field - field to generate strings for
+	 */
 	_numberStrings (json, field) {
 		if (field.min) {
 			json.msg.validate [field.camel].min = `${ field.name } must be greater than or equal to ${ field.min }.`;
@@ -107,6 +194,13 @@ module.exports = generator.Base.extend ({
 		}
 	},
 
+	/**
+	 * Generates locale strings for a String
+	 * @function entity.EntityGenerator~_stringStrings
+	 * @private
+	 * @param {Object} json - object to store strings in
+	 * @param {Object} field - field to generate strings for
+	 */
 	_stringStrings (json, field) {
 		if (field.min) {
 			json.msg.validate [field.camel].minlength = `${ field.name } must be greater than or equal to ${ field.min } characters.`;
@@ -116,6 +210,11 @@ module.exports = generator.Base.extend ({
 		}
 	},
 
+	/**
+	 * Generates entity files for AngularJS
+	 * @function entity.EntityGenerator~_angular
+	 * @private
+	 */
 	_angular () {
 		var json = {
 				nav: this.entity.collectionName,
@@ -181,6 +280,10 @@ module.exports = generator.Base.extend ({
 		this.template ('test.angular.js', `test/unit/web/app/components/${ this.entity.collectionSlug }/${ this.entity.collectionSlug }.component.js`);
 	},
 
+	/**
+	 * Initial set of user prompts
+	 * @function entity.EntityGenerator~askFor
+	 */
 	askFor () {
 		const done = this.async (),
 			prompts = [
@@ -197,6 +300,10 @@ module.exports = generator.Base.extend ({
 		});
 	},
 
+	/**
+	 * Generates the entity based on prompt values
+	 * @function entity.EntityGenerator~app
+	 */
 	app () {
 		this.template ('model.js', `src/server/models/${ this.entity.collectionSlug }.js`);
 		this.template ('route.js', `src/server/routes/${ this.entity.collectionSlug }.js`);
