@@ -1,8 +1,14 @@
+/**
+ * @namespace server.models.metrics
+ */
 'use strict';
 
 const joi = require ('joi');
 
 module.exports = {
+	/**
+	 * @var {joi.object} server.models.metrics.metrics - validation rules for system metrics
+	 */
 	metrics: joi.object ({
 		os: joi.object ({
 			arch: joi.string ().allow ('x64', 'arm', 'ia32').required ().description ('CPU Architecture'),

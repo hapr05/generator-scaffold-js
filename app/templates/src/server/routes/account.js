@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.account
+ */
 'use strict';
 
 const crypto = require ('crypto'),
@@ -7,6 +10,14 @@ const crypto = require ('crypto'),
 	hoek = require ('hoek'),
 	boom = require ('boom'),
 	accountModel = require ('../models/account'),
+	/**
+	 * Sends a database user as a response
+	 * @function server.routes.account.replyUser
+	 * @param {MongoDb.Collectoin} users - the users collection
+	 * @param {Object} query - database query
+	 * @param {hapi.Reply} reply - reply interface
+	 * @param {Ojbect} notFound - error response if user is not found
+	 */
 	replyUser = (users, query, reply, notFound) => {
 		users.findOne (query).then (user => {
 			if (user) {
@@ -28,7 +39,19 @@ const crypto = require ('crypto'),
 			reply (boom.badImplementation ());
 		});
 	},
+	/**
+	 * Generates a password hash
+	 * @function server.routes.account.hash
+	 * @param {String} password - the unhashed password
+	 * @returns {String} the hashed password
+	 */
 	hash = password => crypto.createHash ('sha256').update (password).digest ('hex'),
+	/**
+	 * Sends a validation email
+	 * @function server.routes.account.sendValidation
+	 * @param {hapi.Request} request - the hapi request interface
+	 * @param {Object} user - the user to send the validate email to
+	 */
 	sendValidation = (request, user) => {
 		const token = jwt.sign ({
 			iss: '<%= appSlug %>',

@@ -75,7 +75,7 @@
 				plugin: {
 					register: 'hapi-router',
 					options: {
-						routes: './src/server/routes/**/*.js'
+						routes: './src/server/routes/**/!(index).js'
 					}
 				}
 			}, {

@@ -86,13 +86,13 @@ describe ('server methods', () => {
 		});
 	});
 
-	describe ('check', () => {
+	describe ('clean', () => {
 		it ('should replace $ identifiers at BOL', () => {
-			expect (server.methods.check ('$test')).to.equal ('test');
+			expect (server.methods.clean ('$test')).to.equal ('test');
 		});
 
 		it ('should not replace $ identifiers other locations', () => {
-			expect (server.methods.check ('t$est')).to.equal ('t$est');
+			expect (server.methods.clean ('t$est')).to.equal ('t$est');
 		});
 	});
 

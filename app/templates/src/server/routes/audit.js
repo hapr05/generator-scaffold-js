@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.audit
+ */
 'use strict';
 
 const boom = require ('boom'),

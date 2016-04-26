@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.metrics
+ */
 'use strict';
 
 const	boom = require ('boom'),

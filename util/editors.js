@@ -1,5 +1,18 @@
+/**
+ * File editors
+ * @namespace util.editors
+ */
 'use strict';
 
+/**
+ * Finds a line in an array
+ * @function util.editors.find
+ * @private
+ * @param {Array} array - the file contents
+ * @param {String} string - the string to find
+ * @param {Number} start - starting offset
+ * @returns {Number} the index or array.length if not found
+ */
 const find = (array, string, start) => {
 	var i;
 
@@ -13,6 +26,16 @@ const find = (array, string, start) => {
 };
 
 module.exports = {
+	/**
+	 * Appends a line inside a a HTML element
+	 * @function util.editors.appendHtml
+	 * @param {yeoman.Base} base - the generator interface
+	 * @param {String} file - file name to modify
+	 * @param {String} open - the opening tag
+	 * @param {String} close - the closing tag
+	 * @param {String} data - the HTML to insert
+	 * @throws {Error} throws an error if the insertion point is not found
+	 */
 	appendHtml (base, file, open, close, data) {
 		var html = base.fs.read (file).split ('\n'),
 			indented,
@@ -34,6 +57,13 @@ module.exports = {
 		}
 	},
 
+	/**
+	 * Appends data to a JSON file
+	 * @function util.editors.appendJSON
+	 * @param {yeoman.Base} base - the generator interface
+	 * @param {String} file - file name to modify
+	 * @param {Object} data - the data to append
+	 */
 	appendJSON (base, file, data) {
 		var json = JSON.parse (base.fs.read (file));
 

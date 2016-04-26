@@ -1,8 +1,14 @@
+/**
+ * @namespace server.models.audit
+ */
 'use strict';
 
 const joi = require ('joi');
 
 module.exports = {
+	/**
+	 * @var {joi.object} server.models.audit.query - validation rules to query the audit collection
+	 */
 	search: joi.object ({
 		sortBy: joi.string ().valid ([ 'event', 'timestamp', 'user', 'status', 'resource' ]).optional ().description ('Sort Column'),
 		sortDir: joi.string ().valid ([ 'asc', 'desc' ]).optional ().description ('Sort Direction'),
@@ -14,6 +20,9 @@ module.exports = {
 		event: joi.string ().valid ('auth', 'access', 'change', 'create').optional ().description ('Log Event Type')
 	}).required ().meta ({ className: 'SearchAuditLogs' }),
 
+	/**
+	 * @var {joi.object} server.models.audit.auditEntry - validation rules for an audit log entry
+	 */
 	auditEntry: joi.array ().items (
 		joi.object ({
 			_id: joi.string ().token ().required ().description ('Identifier'),

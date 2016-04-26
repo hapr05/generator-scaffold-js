@@ -1,3 +1,7 @@
+/**
+ * Web server
+ * @namespace server
+ */
 'use strict';
 
 var server;
@@ -7,6 +11,11 @@ const glue = require ('glue'),
 	methods = require ('./methods');
 
 module.exports = {
+	/**
+	 * Starts the server
+	 * @function server.start
+	 * @returns {Promise} promise that is resolved when the server is started
+	 */
 	start () {
 		return new Promise ((resolve, reject) => {
 			glue.compose (config.get ('manifest'), {
@@ -56,10 +65,22 @@ module.exports = {
 		});
 	},
 
+	/**
+	 * Stops the server
+	 * @function server.stop
+	 * @public
+	 * @returns {Promise} promise that is resolved when the server is stopped
+	 */
 	stop () {
 		return server.stop ();
 	},
 
+	/**
+	 * Returns the hapi server instance
+	 * @function server.instance
+	 * @public
+	 * @returns {hapi.Server} the hapi server instance
+	 */
 	instance () {
 		return server;
 	}

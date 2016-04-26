@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.authenticate
+ */
 'use strict';
 
 const crypto = require ('crypto'),
@@ -5,6 +8,12 @@ const crypto = require ('crypto'),
 	config = require ('config'),
 	boom = require ('boom'),
 	accountModel = require ('../models/account'),
+	/**
+	 * Generates a password hash
+	 * @function server.routes.account.hash
+	 * @param {String} password - the unhashed password
+	 * @returns {String} the hashed password
+	 */
 	hash = password => crypto.createHash ('sha256').update (password).digest ('hex');
 
 module.exports = [{

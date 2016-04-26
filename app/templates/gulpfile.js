@@ -4,6 +4,7 @@ const gulp = require ('gulp'),
 	nodemon = require ('gulp-nodemon'),
 	browserSync = require ('browser-sync'),
 	eslint = require ('gulp-eslint'),
+	jsdoc = require ('gulp-jsdoc3'),
 	jsonlint = require ('gulp-json-lint'),
 	mocha = require ('gulp-mocha'),
 	concat = require ('gulp-concat'),
@@ -165,6 +166,33 @@ require ('harmony-reflect');
 (() => {
 	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (eslint ()).pipe (eslint.format ()).pipe (eslint.failAfterError ()));
 
+	gulp.task ('js.doc', done => {
+		gulp.src ([
+			opts.files.js.server,
+			opts.files.js.web
+		], {
+			read: false
+		}).pipe (jsdoc ({
+			tags: {
+				allowUnknownTags: false
+			},
+			opts: {
+				template: 'node_modules/docdash',
+				encoding: 'utf8',
+				destination: 'docs/',
+				verbose: true,
+				private: true
+			},
+			templates: {
+				cleverLinks: false,
+				monospaceLinks: false,
+				default: {
+					outputSourceFiles: true
+				}
+			}
+		}, done));
+	});
+
 	gulp.task ('js.concat', () => gulp.src ([
 		opts.files.js.web,
 		opts.dist.exclude
@@ -172,7 +200,7 @@ require ('harmony-reflect');
 
 	gulp.task ('js.uglify', [ 'js.concat' ], () => gulp.src (path.join (opts.dist.app, 'app.js')).pipe (annotate ()).pipe (uglify ()).pipe (rename ('app.min.js')).pipe (gulp.dest (opts.dist.app)));
 
-	gulp.task ('js', [ 'js.lint', 'js.uglify' ]);
+	gulp.task ('js', [ 'js.lint', 'js.uglify', 'js.doc' ]);
 }) ();
 
 /* Assset tasks */

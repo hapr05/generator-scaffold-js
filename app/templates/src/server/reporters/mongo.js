@@ -1,9 +1,19 @@
+/**
+ * @namespace server.reporters.mongo
+ */
 'use strict';
 
 const through = require ('through2'),
 	hoek = require ('hoek');
 
 module.exports = function exports () {
+	/**
+	 * Intitializes the MongoDb log reporter
+	 * @function server.reporters.mongo.init
+	 * @param {Stream} stream - the logging stream
+	 * @param {Object} emitter - the event emitter
+	 * @param {Function} callback - done callback
+	 */
 	this.init = function init (stream, emitter, callback) {
 		const server = require ('../');
 

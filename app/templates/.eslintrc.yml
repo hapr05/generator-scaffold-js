@@ -37,7 +37,7 @@ rules:
    no-sparse-arrays: 2
    no-unexpected-multiline: 2
    no-unreachable: 2
-#valid-jsdoc
+   valid-jsdoc: [ 2, { requireReturn: false }]
    valid-typeof: 2
 
 ## Best Practices

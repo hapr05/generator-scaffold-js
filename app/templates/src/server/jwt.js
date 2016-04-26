@@ -3,7 +3,17 @@
 var mongo = require ('mongodb');
 
 module.exports = {
-	/* This is a known false positive with JSLint */
+	/**
+	 * Validate a JWT authorization token
+	 *
+	 * If the token is valid callback is called with the user credentials.
+	 * If the token is invalid callback is called with false.
+	 *
+	 * @function server.validate
+	 * @param {Object} decoded - the decoded JWT token
+	 * @param {hapi.Request} request - the HTTP request
+	 * @param {Function} callback - callback function
+	 */
 	/* eslint-disable callback-return */
 	validate (decoded, request, callback) {
 		const users = request.server.plugins ['hapi-mongodb'].db.collection ('users');

@@ -1,6 +1,18 @@
+/**
+ * @namespace server.methods
+ */
 'use strict';
 
 var server;
+/**
+ * Logs an audit event
+ * @function  server.methods.audit
+ * @param {String} event - the audit event (auth, access, change, etc.)
+ * @param {Object} user - the user performing audit access
+ * @param {String} status - the audit status (succes or failure)
+ * @param {String} resource - the resource being accessed
+ * @param {Object} data - additional audit data sepcifc to the resource/event
+ */
 const audit = (event, user, status, resource, data) => {
 		const auditCollection = server.plugins ['hapi-mongodb'].db.collection ('audit');
 
@@ -14,13 +26,26 @@ const audit = (event, user, status, resource, data) => {
 			data
 		});
 	},
-	check = str => str.replace (/^\$/, ''),
+	/**
+	 * Clean an input parameter for MongoDb injection
+	 * @function  server.methods.clean
+	 * @param {String} str - the input string
+	 * @returns {String} the clean string
+	 */
+	clean = str => str.replace (/^\$/, ''),
+	/**
+	 * Sanitize input params for MongoDb injection
+	 * @function  server.methods.sanitize
+	 * @param {Object} params - the parameters to sanitize
+	 * @param {Object} filters - the allowed filters
+	 * @returns {Boolean} true if the paramters are safe, otherwise false
+	 */
 	sanitize = (params, filters) => {
 		var c = [ 'sortBy', 'sortDir', 'start', 'limit' ].concat (filters || Reflect.ownKeys (params)),
 			ret = true;
 
 		c.forEach (key => {
-			if (params [key] && params [key] !== check (params [key])) {
+			if (params [key] && params [key] !== clean (params [key])) {
 				ret = false;
 				return false;
 			}
@@ -30,6 +55,13 @@ const audit = (event, user, status, resource, data) => {
 
 		return ret;
 	},
+	/**
+	 * Filters input paramters to those allowed in a collection
+	 * @function  server.methods.filter
+	 * @param {Object} params - the parameters to sanitize
+	 * @param {Array} filters - list of acceptable parameters
+	 * @returns {Object} filtered parameters
+	 */
 	filter = (params, filters) => {
 		var f = {};
 
@@ -43,6 +75,12 @@ const audit = (event, user, status, resource, data) => {
 
 		return f;
 	},
+	/**
+	 * Converts input parameters to MongoDb sorting instructions
+	 * @function  server.methods.sort
+	 * @param {Object} params - the parameters to convert
+	 * @returns {Object|Boolean} sorting instructions or false if sorting not specified
+	 */
 	sort = params => {
 		if (params.sortBy) {
 			const sortParam = {};
@@ -52,6 +90,15 @@ const audit = (event, user, status, resource, data) => {
 		}
 		return false;
 	},
+	/**
+	 * Performs a sorted and paged search on a collection
+	 * @function  server.methods.search
+	 * @param {MongoDb.Collection} collection - the collection to search
+	 * @param {Object} params - the search parameters
+	 * @param {Array} filters - the allowed search parameter keys
+	 * @param {Object} custom - custom parameters to include in the search
+	 * @returns {Promise} promise that is resolved with the search results and a count of unpaged results
+	 */
 	search = (collection, params, filters, custom) => new Promise ((resolve, reject) => {
 		var cursor = collection.find (filter (params, Object.assign (filters, custom))),
 			s = sort (params);
@@ -79,7 +126,7 @@ const audit = (event, user, status, resource, data) => {
 			reject (err);
 		});
 	}),
-	methods = { audit, check, sanitize, filter, sort, search };
+	methods = { audit, clean, sanitize, filter, sort, search };
 
 module.exports = _server_ => {
 	server = _server_;

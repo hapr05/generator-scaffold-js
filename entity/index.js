@@ -1,4 +1,5 @@
 /**
+ * The REST entity generator
  * @namespace entity
  */
 'use strict';

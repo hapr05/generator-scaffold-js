@@ -1,4 +1,5 @@
 /**
+ * The main application generator
  * @namespace app
  */
 'use strict';
