@@ -1,6 +1,6 @@
 {
 	"name": "generator-scaffold-js",
-	"version": "0.1.1-alpha.1",
+	"version": "0.1.2-alpha.1",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
 		"NodeJS",
@@ -21,7 +21,8 @@
 		"url": "https://github.com/fluky"
 	},
 	"files": [
-		"app"
+		"app",
+		"util"
 	],
 	"main": "index.js",
 	"bin": {},
