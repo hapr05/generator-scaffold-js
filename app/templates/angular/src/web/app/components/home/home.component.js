@@ -1,3 +1,7 @@
+/**
+ * Home page
+ * @class client.<%= appSlug %>.homeComponent
+ */
 (function homeComponent () {
 	'use strict';
 

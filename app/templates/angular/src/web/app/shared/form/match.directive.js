@@ -1,6 +1,15 @@
+/**
+ * Match directive
+ * @class client.<%= appSlug %>.matchDirective
+ */
 (function matchDirective () {
 	'use strict';
 
+	/**
+	 * Validates two inputs match
+	 * @function client.<%= appSlug %>.matchDirective#<%= appCamel %>Match
+	 * @public
+	 */
 	angular.module ('<%= appSlug %>').directive ('<%= appCamel %>Match', function directive () {
 		return {
 			restrict: 'A',

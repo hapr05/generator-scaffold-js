@@ -260,7 +260,7 @@ module.exports = generator.Base.extend ({
 	 * @function app.AppGenerator~app
 	 */
 	app () {
-		const template = [ '.gitignore', '.travis.yml', '.eslintignore', '.eslintrc.yml', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
+		const template = [ '.travis.yml', '.eslintignore', '.eslintrc.yml', 'gulpfile.js', '.bowerrc', 'README.md', 'package.json', 'server.js' ],
 			directory = [ 'config', 'src', 'test', 'tls' ];
 
 		Object.assign (this, this.config.getAll ());
@@ -283,6 +283,7 @@ module.exports = generator.Base.extend ({
 		template.forEach (i => {
 			this.template (i);
 		});
+		this.template ('_gitignore', '.gitignore');
 
 		switch (this.cfgLicense) {
 			case 'Apache-2.0':

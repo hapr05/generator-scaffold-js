@@ -1,6 +1,14 @@
+/**
+ * Web client
+ * @namespace client
+ */
 (function app () {
 	'use strict';
 
+	/**
+	 * Main Angular module
+	 * @class client.<%= appSlug %>
+	 */
 	angular.module ('<%= appSlug %>', [
 		'ngAria',
 		'ngCookies',

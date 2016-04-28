@@ -1,3 +1,7 @@
+/**
+ * Login
+ * @class client.<%= appSlug %>.loginComponent
+ */
 (function loginComponent () {
 	'use strict';
 
@@ -5,7 +9,18 @@
 		templateUrl: 'app/components/login/login.view.html',
 		controller: function controller ($rootScope, $scope, $state, authFactory) {
 			angular.extend ($scope, {
+				/**
+				 * Disables the form
+				 * @member client.<%= appSlug %>.loginComponent#disable
+				 */
 				disable: false,
+
+				/**
+				 * Performs login
+				 * @function client.<%= appSlug %>.loginComponent#login
+				 * @public
+				 * @param {Event} event - form submit event
+				 */
 				login: function login (event) {
 					event.preventDefault ();
 					$scope.disable = true;

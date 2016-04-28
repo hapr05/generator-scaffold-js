@@ -21,7 +21,9 @@
 		"url": "https://github.com/fluky"
 	},
 	"files": [
-		"app"
+		"app",
+		"util",
+		"entity"
 	],
 	"main": "index.js",
 	"bin": {},

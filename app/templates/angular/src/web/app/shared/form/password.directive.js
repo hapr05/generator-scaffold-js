@@ -1,6 +1,15 @@
+/**
+ * Password directives
+ * @class client.<%= appSlug %>.passwordDirective
+ */
 (function passwordDirective () {
 	'use strict';
 
+	/**
+	 * Validates password strength
+	 * @function client.<%= appSlug %>.passwordDirective#<%= appCamel %>PasswordStrength
+	 * @public
+	 */
 	angular.module ('<%= appSlug %>').directive ('<%= appCamel %>PasswordStrength', function passwordStrength () {
 		return {
 			restrict: 'E',
@@ -29,6 +38,11 @@
 				});
 			}
 		};
+	/**
+	 * Validates password validity
+	 * @function client.<%= appSlug %>.passwordDirective#<%= appCamel %>PasswordValid
+	 * @public
+	 */
 	}).directive ('<%= appCamel %>PasswordValid', function passwordValidDirective () {
 		return {
 			restrict: 'A',

@@ -1,3 +1,7 @@
+/**
+ * User registration
+ * @class client.<%= appSlug %>.registerComponent
+ */
 (function registerComponent () {
 	'use strict';
 
@@ -5,8 +9,18 @@
 		templateUrl: 'app/components/register/register.view.html',
 		controller: function controller ($scope, $state, accountFactory) {
 			angular.extend ($scope, {
+				/**
+				 * Disables the form
+				 * @member client.<%= appSlug %>.registerComponent#disable
+				 */
 				disable: false,
 
+				/**
+				 * Performs user regsitration
+				 * @function client.<%= appSlug %>.registerComponent#register
+				 * @public
+				 * @param {Event} event - form submit event
+				 */
 				register: function register (event) {
 					$scope.disable = true;
 					event.preventDefault ();

@@ -1,3 +1,7 @@
+/**
+ * API documentation
+ * @class client.<%= appSlug %>.accountComponent
+ */
 (function apidocComponent () {
 	'use strict';
 
@@ -5,6 +9,10 @@
 		templateUrl: 'app/components/apidoc/apidoc.view.html',
 		controller: function controller ($scope) {
 			angular.extend ($scope, {
+				/**
+				 * Swagger url
+				 * @member client.<%= appSlug %>.apidocComponent#url
+				 */
 				url: 'swagger.json'
 			});
 		}

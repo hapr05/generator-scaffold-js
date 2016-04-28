@@ -1,3 +1,7 @@
+/**
+ * System metrics
+ * @class client.<%= appSlug %>.metricsComponent
+ */
 (function metricsComponent () {
 	'use strict';
 
@@ -5,10 +9,23 @@
 		templateUrl: 'app/components/metrics/metrics.view.html',
 		controller: function controller ($scope, $resource) {
 			angular.extend ($scope, {
+				/**
+				 * Metrics resource
+				 * @member client.<%= appSlug %>.metricsComponent#metricsRoute
+				 */
 				metricsRoute: $resource ('metrics'),
 
+				/**
+				 * Metrics data
+				 * @member client.<%= appSlug %>.metricsComponent#metricsData
+				 */
 				metricsData: {},
 
+				/**
+				 * Loads/reloads the system metrics data
+				 * @function client.<%= appSlug %>.metricsComponent#refresh
+				 * @public
+				 */
 				refresh: function refresh () {
 					$scope.metricsData = $scope.metricsRoute.get ();
 				}
