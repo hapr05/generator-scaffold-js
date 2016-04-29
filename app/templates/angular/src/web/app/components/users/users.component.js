@@ -146,7 +146,7 @@
 				},
 
 				/**
-				 * Returns to data biew
+				 * Returns to data view
 				 * @function client.<%= appSlug %>.usersComponent#back
 				 * @public
 				 */

@@ -1,8 +1,20 @@
+/**
+ * @namespace server.routes.<%= entity.collectionCamel %>
+ */
 'use strict';
 
 const joi = require ('joi'),
 	boom = require ('boom'),
 	entityModel = require ('../models/<%= entity.collectionSlug %>'),
+	/**
+	 * Sends a database <%= entity.collectionName %> as a response
+	 * @function server.routes.<%= entity.collectionCamel %>.replyEntity
+	 * @param {MongoDb} mongo - the <%= entity.collectionName %> collection
+	 * @param {MongoDb.Collection} collection - the <%= entity.collectionName %> collection
+	 * @param {mongo.ObjectID} id - id of the entity
+	 * @param {hapi.Reply} reply - reply interface
+	 * @param {Ojbect} notFound - error response if user is not found
+	 */
 	replyEntity = (mongo, collection, id, reply, notFound) => {
 		collection.findOne ({
 			_id: new mongo.ObjectID (id)

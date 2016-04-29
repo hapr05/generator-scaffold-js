@@ -13,7 +13,7 @@ const crypto = require ('crypto'),
 	/**
 	 * Sends a database user as a response
 	 * @function server.routes.account.replyUser
-	 * @param {MongoDb.Collectoin} users - the users collection
+	 * @param {MongoDb.Collection} users - the users collection
 	 * @param {Object} query - database query
 	 * @param {hapi.Reply} reply - reply interface
 	 * @param {Ojbect} notFound - error response if user is not found
