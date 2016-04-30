@@ -176,6 +176,39 @@ module.exports = generator.Base.extend ({
 		});
 	},
 
+	framework () {
+		const done = this.async (),
+			prompts = [{
+				name: 'cfgTheme',
+				message: 'Theme',
+				default: this._def ('cfgTheme', 'Bootstrap'), type: 'list',
+				choices: [
+					'Bootstrap',
+					'Cerulean',
+					'Cosmo',
+					'Cyborg',
+					'Darkly',
+					'Flatly',
+					'Journal',
+					'Lumen',
+					'Paper',
+					'Readable',
+					'Sandstone',
+					'Simplex',
+					'Slate',
+					'Spacelab',
+					'Superhero',
+					'United',
+					'Yeti'
+				]
+			}];
+
+		this.prompt (prompts, answers => {
+			this.config.set (answers);
+			done ();
+		});
+	},
+
 	/**
 	 * Prompts for social login support
 	 * @function app.AppGenerator~social
@@ -276,6 +309,12 @@ module.exports = generator.Base.extend ({
 		 * @private
 		 */
 		this.appSlug = to.slug (this.config.get ('cfgName'));
+		/**
+		 * lowercase theme
+		 * @member {String} app.AppGenerator~themeLower
+		 * @private
+		 */
+		this.themeLower = to.lower (this.config.get ('cfgTheme'));
 
 		directory.forEach (i => {
 			this.directory (i);

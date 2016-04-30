@@ -10,7 +10,7 @@
 
 		<!-- build:css assets/css/vendor.min.css -->
 		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-		<link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+		<link href="bower_components/<% if ('Bootstrap' === cfgTheme) { %>bootstrap/dist/css/bootstrap-theme<% } else { %>bootswatch/<%= themeLower %>/bootstrap<% } %>.css" rel="stylesheet">
 		<link href="bower_components/animate.css/animate.css" rel="stylesheet">
 		<link href="bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
 		<link href="bower_components/angular-ui-select/dist/select.css" rel="stylesheet">

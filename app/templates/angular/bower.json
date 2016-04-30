@@ -8,7 +8,8 @@
 		"jquery": "latest",
 		"moment": "latest",
 		"file-saver.js": "latest",
-		"bootstrap": "latest",
+		"bootstrap": "latest",<% if ('Bootsrap' !== cfgTheme) { %>
+		"bootswatch": "latest",<% } %>
 		"animate.css": "latest",
 		"angular": "latest",
 		"angular-aria": "latest",

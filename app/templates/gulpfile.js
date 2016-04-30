@@ -82,7 +82,7 @@ const gulp = require ('gulp'),
 				locale: 'src/web/bower_components/angular-i18n/angular-locale*.js',
 				css: [
 					'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
-					'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+					'src/web/bower_components/<% if ('Bootstrap' === cfgTheme) { %>bootstrap/dist/css/bootstrap-theme<% } else { %>bootswatch/<%= themeLower %>/bootstrap<% } %>.css',
 					'src/web/bower_components/animate.css/animate.css',
 					'src/web/bower_components/angular-loading-bar/build/loading-bar.css',
 					'src/web/bower_components/angular-ui-select/dist/select.css',

@@ -242,11 +242,14 @@ describe ('scaffold-js:app', () => {
 		});
 	});
 
-	it ('should eat seed failure', done => {
+	it ('should eat seed failure', function test (done) {
+		/* eslint-disable no-invalid-this */
+		this.timeout (3000);
 		mockery.deregisterMock ('./db');
 		mockery.registerMock ('./db', {
 			seed: () => Promise.reject ()
 		});
 		helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts (prompts).on ('end', done).on ('error', done);
+		/* eslint-enable no-invalid-this */
 	});
 });
