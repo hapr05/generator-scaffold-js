@@ -14,37 +14,37 @@ chai.use (dirtyChai);
 
 describe ('scaffold-js:app db', () => {
 	var collection = {
-		findOne () {
-			return Promise.resolve ({});
+			findOne () {
+				return Promise.resolve ({});
+			},
+			updateOne () {
+				return Promise.resolve ();
+			},
+			insertMany () {
+				return Promise.resolve ();
+			},
+			createIndex () {}
 		},
-		updateOne () {
-			return Promise.resolve ();
+		db = {
+			dropDatabase () {
+				return Promise.resolve ();
+			},
+			createCollection () {
+				return Promise.resolve ();
+			},
+			collection () {
+				return collection;
+			},
+			close () {}
 		},
-		insertMany () {
-			return Promise.resolve ();
-		},
-		createIndex () {}
-	},
-	db = {
-		dropDatabase () {
-			return Promise.resolve ();
-		},
-		createCollection () {
-			return Promise.resolve ();
-		},
-		collection () {
-			return collection;
-		},
-		close () {}
-	},
-	mongo = {
-		MongoClient: {
-			connect () {
-				return Promise.resolve (db);
+		mongo = {
+			MongoClient: {
+				connect () {
+					return Promise.resolve (db);
+				}
 			}
-		}
-	},
-	sandbox = sinon.sandbox.create ();
+		},
+		sandbox = sinon.sandbox.create ();
 
 	before (() => {
 		mockery.enable ({

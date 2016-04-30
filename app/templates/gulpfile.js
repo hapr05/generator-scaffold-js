@@ -3,8 +3,8 @@
 const gulp = require ('gulp'),
 	nodemon = require ('gulp-nodemon'),
 	browserSync = require ('browser-sync'),
-	jshint = require ('gulp-jshint'),
-	jscs = require ('gulp-jscs'),
+	eslint = require ('gulp-eslint'),
+	jsdoc = require ('gulp-jsdoc3'),
 	jsonlint = require ('gulp-json-lint'),
 	mocha = require ('gulp-mocha'),
 	concat = require ('gulp-concat'),
@@ -82,7 +82,7 @@ const gulp = require ('gulp'),
 				locale: 'src/web/bower_components/angular-i18n/angular-locale*.js',
 				css: [
 					'src/web/bower_components/bootstrap/dist/css/bootstrap.css',
-					'src/web/bower_components/bootstrap/dist/css/bootstrap-theme.css',
+					'src/web/bower_components/<% if ('Bootstrap' === cfgTheme) { %>bootstrap/dist/css/bootstrap-theme<% } else { %>bootswatch/<%= themeLower %>/bootstrap<% } %>.css',
 					'src/web/bower_components/animate.css/animate.css',
 					'src/web/bower_components/angular-loading-bar/build/loading-bar.css',
 					'src/web/bower_components/angular-ui-select/dist/select.css',
@@ -111,7 +111,7 @@ const gulp = require ('gulp'),
 			delay: 500
 		}
 	},
-	values = obj => Reflect.ownKeys (obj).map (key => obj [ key ]);
+	values = obj => Reflect.ownKeys (obj).map (key => obj [key]);
 
 require ('harmony-reflect');
 
@@ -132,7 +132,7 @@ require ('harmony-reflect');
 
 /* Server tasks */
 (() => {
-	gulp.task ('serve', [ 'js.lint', 'js.jscs', 'json.lint', 'test.unit', 'bs' ], () => {
+	gulp.task ('serve', [ 'js.lint', 'json.lint', 'test.unit', 'bs' ], () => {
 		gulp.watch (opts.files.js.web, [ 'js.lint', 'test.unit', 'bs.reload' ]);
 		gulp.watch ([
 			opts.files.html.watch,
@@ -164,25 +164,34 @@ require ('harmony-reflect');
 
 /* JavaScript tasks */
 (() => {
-	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (jshint ()).pipe (jshint.reporter ('jshint-stylish')).pipe (jshint.reporter ('fail')));
+	gulp.task ('js.lint', () => gulp.src (values (opts.files.js)).pipe (eslint ()).pipe (eslint.format ()).pipe (eslint.failAfterError ()));
 
-	gulp.task ('js.jscs.server', () => gulp.src ([
-		opts.files.js.gulpfile,
-		opts.files.js.server,
-		opts.files.js.serverUnitTest,
-		opts.files.js.helperUnitTest
-	]).pipe (jscs ({
-		configPath: '.jscsrc.server'
-	})).pipe (jscs.reporter ()).pipe (jscs.reporter ('fail')));
-
-	gulp.task ('js.jscs.web', () => gulp.src ([
-		opts.files.js.web,
-		opts.files.js.webUnitTest
-	]).pipe (jscs ({
-		configPath: '.jscsrc.web'
-	})).pipe (jscs.reporter ()).pipe (jscs.reporter ('fail')));
-
-	gulp.task ('js.jscs', [ 'js.jscs.server', 'js.jscs.web' ]);
+	gulp.task ('js.doc', done => {
+		gulp.src ([
+			opts.files.js.server,
+			opts.files.js.web
+		], {
+			read: false
+		}).pipe (jsdoc ({
+			tags: {
+				allowUnknownTags: false
+			},
+			opts: {
+				template: 'node_modules/docdash',
+				encoding: 'utf8',
+				destination: 'docs/',
+				verbose: true,
+				private: true
+			},
+			templates: {
+				cleverLinks: false,
+				monospaceLinks: false,
+				default: {
+					outputSourceFiles: true
+				}
+			}
+		}, done));
+	});
 
 	gulp.task ('js.concat', () => gulp.src ([
 		opts.files.js.web,
@@ -191,7 +200,7 @@ require ('harmony-reflect');
 
 	gulp.task ('js.uglify', [ 'js.concat' ], () => gulp.src (path.join (opts.dist.app, 'app.js')).pipe (annotate ()).pipe (uglify ()).pipe (rename ('app.min.js')).pipe (gulp.dest (opts.dist.app)));
 
-	gulp.task ('js', [ 'js.lint', 'js.jscs', 'js.uglify' ]);
+	gulp.task ('js', [ 'js.lint', 'js.uglify', 'js.doc' ]);
 }) ();
 
 /* Assset tasks */
@@ -265,7 +274,7 @@ require ('harmony-reflect');
 		collector.add (JSON.parse (fs.readFileSync ('coverage/web.coverage.json', 'utf8')));
 		reporter.addAll ([ 'html', 'json', 'lcov', 'text' ]);
 		reporter.write (collector, false, () => {
-			done (checker.checkFailures ({ global: 100 }, collector.getFinalCoverage ()).every (t => !(t.global.failed || t.each && t.each.failed)) ? undefined : 'Failed to meet coverage thresholds!');
+			done (checker.checkFailures ({ global: 100 }, collector.getFinalCoverage ()).every (t => !(t.global.failed || t.each && t.each.failed)) ? null : 'Failed to meet coverage thresholds!');
 		});
 	});
 }) ();

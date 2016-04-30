@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="<%= cfgDescription %>">
+
+		<title><%= cfgName %></title>
+
+		<!-- build:css assets/css/vendor.min.css -->
+		<link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+		<link href="bower_components/<% if ('Bootstrap' === cfgTheme) { %>bootstrap/dist/css/bootstrap-theme<% } else { %>bootswatch/<%= themeLower %>/bootstrap<% } %>.css" rel="stylesheet">
+		<link href="bower_components/animate.css/animate.css" rel="stylesheet">
+		<link href="bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
+		<link href="bower_components/angular-ui-select/dist/select.css" rel="stylesheet">
+		<link href="bower_components/angular-swagger-ui/dist/css/swagger-ui.css" rel="stylesheet">
+		<!-- /build -->
+
+		<!-- build:css assets/css/app.min.css -->
+		<link rel="stylesheet/less" type="text/css" href="assets/less/app.less" />
+		<!-- /build -->
+
+		<!-- build:js assets/js/vendor.min.js -->
+		<script src="bower_components/es5-shim/es5-shim.js"></script>
+		<script src="bower_components/es6-shim/es6-shim.js"></script>
+		<script src="bower_components/moment/moment.js"></script>
+		<script src="bower_components/file-saver.js/FileSaver.js"></script>
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="bower_components/angular/angular.js"></script>
+		<script src="bower_components/angular-aria/angular-aria.js"></script>
+		<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+		<script src="bower_components/angular-resource/angular-resource.js"></script>
+		<script src="bower_components/angular-messages/angular-messages.js"></script>
+		<script src="bower_components/angular-animate/angular-animate.js"></script>
+		<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+		<script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
+		<script src="bower_components/angular-translate/angular-translate.js"></script>
+		<script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+		<script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+		<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+		<script src="bower_components/angular-ui-select/dist/select.js"></script>
+		<script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
+		<script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.tpls.js"></script>
+		<script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+		<script src="bower_components/angular-swagger-ui/dist/scripts/swagger-ui.js"></script>
+		<!-- /build -->
+
+		<!-- build:remove -->
+		<script src="bower_components/less/dist/less.js"></script>
+		<!-- /build -->
+		<script>
+			var localeLocaiton = 'assets/locale/angular-locale_{{locale}}.js';
+			<!-- build:remove -->
+			localeLocation = '/bower_components/angular-i18n/angular-locale_{{locale}}.js';
+			<!-- /build -->
+		</script>
+	</head>
+	<body ng-app="<%= appSlug %>" role="document">
+		<!-- build:remove -->
+		<div class="dev-ribbon">Development</div>
+		<!-- /build -->
+		<div class="container">
+			<topnav></topnav>
+			<div class="content" ui-view></div>
+		</div>
+
+		<!-- build:js app/app.min.js -->
+		<script src="app/app.module.js"></script>
+
+		<script src="app/components/topnav/topnav.component.js"></script>
+		<script src="app/components/home/home.component.js"></script>
+		<script src="app/components/login/login.component.js"></script>
+		<script src="app/components/forgot/forgot.component.js"></script>
+		<script src="app/components/account/account.component.js"></script>
+		<script src="app/components/register/register.component.js"></script>
+
+		<script src="app/components/apidoc/apidoc.component.js"></script>
+		<script src="app/components/audit/audit.component.js"></script>
+		<script src="app/components/log/log.component.js"></script>
+		<script src="app/components/metrics/metrics.component.js"></script>
+		<script src="app/components/users/users.component.js"></script>
+
+		<script src="app/shared/auth/auth.factory.js"></script>
+		<script src="app/shared/auth/auth.directive.js"></script>
+		<script src="app/shared/account/account.factory.js"></script>
+		<script src="app/shared/form/username.directive.js"></script>
+		<script src="app/shared/form/email.directive.js"></script>
+		<script src="app/shared/form/match.directive.js"></script>
+		<script src="app/shared/memory/memory.filter.js"></script>
+		<script src="app/shared/form/password.directive.js"></script>
+		<script src="app/shared/uptime/uptime.filter.js"></script>
+		<!-- /build -->
+		<!-- build:js app/app.tpl.min.js -->
+		<!-- /build -->
+	</body>
+</html>

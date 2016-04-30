@@ -1,5 +1,6 @@
 {
 	"subject": {
-		"forgot": "<%= cfgName %> de restablecimiento de contraseña"
+		"forgot": "<%= cfgName %> de restablecimiento de contraseña",
+		"validate": "Validación de correo electrónico <%= cfgName %>"
 	}
 }

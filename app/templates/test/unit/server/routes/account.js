@@ -7,6 +7,7 @@ const chai = require ('chai'),
 	sinon = require ('sinon'),
 	hapi = require ('hapi'),
 	mocks = require ('../../helpers/mocks'),
+	mockery = require ('mockery'),
 	creds = require ('../../helpers/creds'),
 	failed = require ('../../helpers/authFailed');
 
@@ -33,16 +34,26 @@ describe ('account route', () => {
 				return Promise.resolve (true);
 			}
 		},
+		jwt = {
+			sign () {
+			},
+			verify (token, key, options, callback) {
+				callback (false, {
+					_id: 'id'
+				});
+			}
+		},
 		sandbox = sinon.sandbox.create ();
 
 	before (() => {
 		mocks.mongo ({ users });
+		mockery.registerMock ('jsonwebtoken', jwt);
 	});
 
 	beforeEach (() => {
 		server = new hapi.Server ();
 		server.connection ();
-		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), failed ]).then (() => {
+		return expect (server.register ([ require ('hapi-mongodb'), require ('vision'), require ('hapi-accept-language'), failed ]).then (() => {
 			require ('../../../../src/server/methods') (server);
 			server.auth.strategy ('jwt', 'failed');
 			server.route (require ('../../../../src/server/routes/account'));
@@ -178,22 +189,6 @@ describe ('account route', () => {
 				});
 			});
 
-			it ('should fail update an account if no update specified', done => {
-				server.inject ({
-					method: 'POST',
-					url: '/account/user',
-					credentials: creds.user,
-					payload: {}
-				}).then (response => {
-					try {
-						expect (response.statusCode).to.equal (400);
-						done ();
-					} catch (err) {
-						done (err);
-					}
-				});
-			});
-
 			it ('should fail update an account if update fails', done => {
 				sandbox.stub (users, 'updateOne', () => Promise.reject ('err'));
 
@@ -292,6 +287,12 @@ describe ('account route', () => {
 
 	describe ('collection', () => {
 		it ('should create an account', done => {
+			server.plugins ['hapi-mailer'] = {
+				send: (options, callback) => {
+					callback ();
+				}
+			};
+
 			server.inject ({
 				method: 'POST',
 				url: '/account/',
@@ -301,6 +302,9 @@ describe ('account route', () => {
 					fullName: 'Test User',
 					nickname: 'Test',
 					email: 'test@localhost'
+				},
+				headers: {
+					'Accept-Language': 'en'
 				},
 				credentials: creds.user
 			}).then (response => {
@@ -330,6 +334,80 @@ describe ('account route', () => {
 			}).then (response => {
 				try {
 					expect (response.statusCode).to.equal (500);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+	});
+
+	describe ('validation', () => {
+		it ('should send validation email', done => {
+			server.plugins ['hapi-mailer'] = {
+				send: (options, callback) => {
+					callback ();
+				}
+			};
+
+			server.inject ({
+				method: 'POST',
+				url: '/account/validate',
+				headers: {
+					'Accept-Language': 'en'
+				},
+				credentials: creds.user
+			}).then (response => {
+				try {
+					expect (response.statusCode).to.equal (200);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should validate', done => {
+			server.inject ({
+				method: 'GET',
+				url: '/account/validate?token=test'
+			}).then (response => {
+				try {
+					expect (response.statusCode).to.equal (302);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should handle update failure', done => {
+			sandbox.stub (users, 'updateOne', () => Promise.reject ('err'));
+
+			server.inject ({
+				method: 'GET',
+				url: '/account/validate?token=test'
+			}).then (response => {
+				try {
+					expect (response.statusCode).to.equal (500);
+					done ();
+				} catch (err) {
+					done (err);
+				}
+			});
+		});
+
+		it ('should handle token error', done => {
+			sandbox.stub (jwt, 'verify', (token, key, options, callback) => {
+				callback (true);
+			});
+
+			server.inject ({
+				method: 'GET',
+				url: '/account/validate?token=test'
+			}).then (response => {
+				try {
+					expect (response.statusCode).to.equal (400);
 					done ();
 				} catch (err) {
 					done (err);

@@ -1,0 +1,52 @@
+<nav class="navbar navbar-default topnav">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only" translate="global.btn.toggleNavigation">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><%= cfgName %></a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li ui-sref-active="active"><a ui-sref="home"><i class="glyphicon glyphicon-home" aria-hidden="true"></i>&nbsp;<span translate="home.nav">Home</span></a></li>
+				<li class="dropdown" <%= appSlug %>-authenticated>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-th" aria-hidden="true"></i>&nbsp;<span translate="global.entity">Entity</span><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<!-- entity -->
+						<!-- /entity -->
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user" aria-hidden="true"></i>&nbsp;<span translate="global.account">Account</span><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a <%= appSlug %>-unauthenticated ui-sref="login" translate="login.nav">Sign In</a></li>
+						<li><a <%= appSlug %>-unauthenticated ui-sref="register" translate="register.nav">Register</a></li>
+						<li><a <%= appSlug %>-authenticated ui-sref="account" translate="account.nav">Settings</a></li>
+						<li><a <%= appSlug %>-authenticated ui-sref="home" ng-click="logout ()" translate="login.logoutNav">Sign Out</a></li>
+					</ul>
+				</li>
+				<li <%= appSlug %>-has-authority="ROLE_ADMIN" class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>&nbsp;<span translate="global.administration">Administration</span><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a ui-sref="apidoc" translate="apidoc.nav">API Documentation</a></li>
+						<li><a ui-sref="audit" translate="audit.nav">Logs</a></li>
+						<li><a ui-sref="log" translate="log.nav">Logs</a></li>
+						<li><a ui-sref="metrics" translate="metrics.nav">System Metrics</a></li>
+						<li><a ui-sref="users" translate="users.nav">User Managment</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-flag" aria-hidden="true"></i>&nbsp;<span translate="global.language">Language</span><span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li ng-repeat="(key, name) in languages" ng-class="{ active: key === $translate.use () }"><a ng-click="$translate.use (key)">{{ name }}</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

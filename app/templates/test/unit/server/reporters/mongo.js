@@ -7,17 +7,17 @@ const hoek = require ('hoek'),
 	chaiAsPromised = require ('chai-as-promised'),
 	stream = require ('stream'),
 	mocks = require ('../../helpers/mocks'),
-	mongo = require ('../../../../src/server/reporters/mongo');
+	Mongo = require ('../../../../src/server/reporters/mongo');
 
 chai.use (chaiAsPromised);
 chai.use (dirtyChai);
 
-describe ('mongo reporter', () => {
+describe ('Mongo reporter', () => {
 	var log = {
-			insertOne () {
-				return Promise.resolve (true);
-			}
-		};
+		insertOne () {
+			return Promise.resolve (true);
+		}
+	};
 
 	before (() => {
 		mocks.server ('../', { log });
@@ -29,7 +29,7 @@ describe ('mongo reporter', () => {
 
 	describe ('collection', () => {
 		it ('should log entries', done => {
-			const reporter = new mongo (),
+			const reporter = new Mongo (),
 				reader = new stream.Readable ({ objectMode: true });
 
 			reader._read = hoek.ignore;

@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.audit
+ */
 'use strict';
 
 const boom = require ('boom'),
@@ -30,11 +33,11 @@ module.exports = [{
 			}
 		},
 		handler (request, reply) {
-			const audit = request.server.plugins [ 'hapi-mongodb' ].db.collection ('audit');
+			const audit = request.server.plugins ['hapi-mongodb'].db.collection ('audit');
 			var query = {
 				$and: [
-					{ timestamp: { $gte: request.query.from.getTime () }},
-					{ timestamp: { $lte: request.query.to.getTime () }}
+					{ timestamp: { $gte: request.query.from.getTime () } },
+					{ timestamp: { $lte: request.query.to.getTime () } }
 				]
 			};
 

@@ -27,9 +27,8 @@ const assert = require ('yeoman-assert'),
 chai.use (chaiAsPromised);
 chai.use (dirtyChai);
 chai.use ((_chai, utils) => {
-	// the following callbacks are called with either call or apply and need to be real functions
-	// until jscs add support for this must use an ignore
-	_chai.Assertion.addMethod ('existOnFs', function existOnFS () { // jscs:ignore requireArrowFunctions
+	/* eslint-disable no-invalid-this */
+	_chai.Assertion.addMethod ('existOnFs', function existOnFS () {
 		var obj = utils.flag (this, 'object');
 
 		assert.file (obj);
@@ -40,6 +39,7 @@ chai.use ((_chai, utils) => {
 
 		assert.fileContent (obj, str);
 	});
+	/* eslint-enable no-invalid-this */
 });
 
 describe ('scaffold-js:app', () => {
@@ -242,11 +242,14 @@ describe ('scaffold-js:app', () => {
 		});
 	});
 
-	it ('should eat seed failure', done => {
+	it ('should eat seed failure', function test (done) {
+		/* eslint-disable no-invalid-this */
+		this.timeout (3000);
 		mockery.deregisterMock ('./db');
 		mockery.registerMock ('./db', {
 			seed: () => Promise.reject ()
 		});
-		helpers.run (path.join (__dirname, '../../../app')).withPrompts (prompts).on ('end', done);
+		helpers.run (path.join (__dirname, '../../../app')).withArguments ([ '--skip-install' ]).withPrompts (prompts).on ('end', done).on ('error', done);
+		/* eslint-enable no-invalid-this */
 	});
 });

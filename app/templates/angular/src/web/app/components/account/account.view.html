@@ -1,0 +1,72 @@
+<div class="well account">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="panel-title" translate="account.title">Account</div>
+				</div>
+				<div class="panel-body">
+					<div>
+						<div class="clearfix alert alert-warning" ng-hide="user.validated">
+							<span class="pull-left" translate="account.msg.warning.notValidated">Your email address has not been validated!</span>
+							<button class="pull-right btn btn-primary" ng-click="accountFactory.resendValidation ()" translate="account.btn.resendEmail">Resend Email</button>
+						</div>
+						<div class="alert alert-danger" ng-show="registrationError" translate="account.msg.error.failed">
+							Update failed!
+						</div>
+						<div class="alert alert-success" ng-show="updateSuccess" translate="account.msg.error.succeded">
+							Account updated!
+						</div>
+						<form novalidate class="form-horizontial" name="form" role="form" ng-submit="update ($event)">
+							<div class="form-group" ng-class="{ 'has-error': form.fullName.$dirty && form.fullName.$invalid }">
+								<label for="fullName" translate="account.field.fullName" class="control-label">Full Name</label>
+								<input type="text" class="form-control" name="fullName" ng-model="user.fullName" value="" required>
+								<div ng-messages="form.fullName.$dirty && form.fullName.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="account.msg.validate.fullName.required">Full name is required.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.nickname.$dirty && form.nickname.$invalid }">
+								<label for="nickname" translate="account.field.nickname" class="control-label">What should we call you?</label>
+								<input type="text" class="form-control" name="nickname" ng-model="user.nickname" value="" required>
+								<div ng-messages="form.nickname.$dirty && form.nickname.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="account.msg.validate.nickname.required">Nickame is required.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.email.$dirty && form.email.$invalid }">
+								<label for="email" translate="account.field.email" class="control-label">Email Address</label>
+								<input type="email" class="form-control" name="email" <%= appSlug %>-email-change ng-model="user.email" value="" required>
+								<div ng-messages="form.email.$dirty && form.email.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="account.msg.validate.email.required">Email address is required.</p>
+									<p class="help-block" ng-message="email" translate="account.msg.validate.email.email">Email address is invalid.</p>
+									<p class="help-block" ng-message="taken" translate="account.msg.validate.email.taken">Email address is already in use.</p>
+								</div>
+								<div ng-messages="form.email.$pending" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="taken" translate="account.msg.validate.email.pending">Checking email address...</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$invalid }">
+								<label for="password" translate="account.field.password" class="control-label">Password</label>
+								<input type="password" class="form-control" name="password" <%= appSlug %>-password-valid ng-model="user.password" ng-model-options="{ allowInvalid: true }" />
+								<<%= appSlug %>-password-strength password="user.password" />
+								<div ng-messages="form.password.$dirty && form.password.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="valid" translate="account.msg.validate.password.pattern">Password must at least 8 characters and contain at least one each uppercase, lowercase, numeric, and symbol character.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error': form.confirmPassword.$dirty && form.confirmPassword.$invalid }">
+								<label for="confirmPassword" translate="account.field.confirmPassword" class="control-label">Confirm Password</label>
+								<input type="password" class="form-control" <%= appSlug %>-match="user.password" name="confirmPassword" ng-model="confirmPassword" ng-required="user.password" />
+								<div ng-messages="form.confirmPassword.$dirty && form.confirmPassword.$error" role="alert" ng-messages-multiple>
+									<p class="help-block" ng-message="required" translate="account.msg.validate.confirmPassword.required">Confirmation password is required.</p>
+									<p class="help-block" ng-message="match" translate="account.msg.validate.confirmPassword.match">Passwords do not match.</p>
+								</div>
+							</div>
+							<div class="form-group text-right">
+								<button type="submit" ng-disabled="form.$invalid || disable" class="btn btn-primary" translate="account.btn.update">Update</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

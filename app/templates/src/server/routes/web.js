@@ -1,3 +1,6 @@
+/**
+ * @namespace server.routes.web
+ */
 'use strict';
 
 const config = require ('config');

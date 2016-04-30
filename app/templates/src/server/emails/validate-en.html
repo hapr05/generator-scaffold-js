@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title><%= cfgName %> email validation</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	<body>
+		<p>{{ nickname }},</p>
+		<p>You recently signed up for a <%= cfgName %> account. Please click on the URL below to validate your email:</p>
+		<p><a href="{{ uri }}/account/validate?token={{ token }}">Validate Email</a></p>
+	</body>
+</html>
+

@@ -1,0 +1,41 @@
+{
+	"name": "<%= cfgName %>",
+	"version": "0.0.0",
+	"appPath": "src/web",
+	"dependencies": {
+		"es5-shim": "latest",
+		"es6-shim": "latest",
+		"jquery": "latest",
+		"moment": "latest",
+		"file-saver.js": "latest",
+		"bootstrap": "latest",<% if ('Bootsrap' !== cfgTheme) { %>
+		"bootswatch": "latest",<% } %>
+		"animate.css": "latest",
+		"angular": "latest",
+		"angular-aria": "latest",
+		"angular-cookies": "latest",
+		"angular-sanitize": "latest",
+		"angular-resource": "latest",
+		"angular-messages": "latest",
+		"angular-animate": "latest",
+		"angular-i18n": "latest",
+		"angular-mocks": "latest",
+		"angular-dynamic-locale": "latest",
+		"angular-translate": "latest",
+		"angular-local-storage": "latest",
+		"angular-translate-storage-cookie": "latest",
+		"angular-translate-storage-local": "latest",
+		"angular-translate-loader-static-files": "latest",
+		"angular-bootstrap": "latest",
+		"bootstrap-ui-datetime-picker": "latest",
+		"angular-loading-bar": "latest",
+		"angular-ui-select": "latest",
+		"angular-ui-router": "latest",
+		"angular-jwt": "latest",
+		"angular-swagger-ui": "latest",
+
+		"less": "latest"
+	},
+	"devDependencies": {
+	}
+}

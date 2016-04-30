@@ -1,8 +1,14 @@
+/**
+ * @namespace server.models.log
+ */
 'use strict';
 
 const joi = require ('joi');
 
 module.exports = {
+	/**
+	 * @var {joi.object} server.models.log.search- validation rules to query the log collection
+	 */
 	search: joi.object ({
 		sortBy: joi.string ().valid ([ 'event', 'timestamp', 'host' ]).optional ().description ('Sort Column'),
 		sortDir: joi.string ().valid ([ 'asc', 'desc' ]).optional ().description ('Sort Direction'),
@@ -13,9 +19,12 @@ module.exports = {
 		event: joi.string ().valid ('error', 'log', 'ops', 'request', 'response').optional ().description ('Log Event Type')
 	}).required ().meta ({ className: 'SearchLogs' }),
 
+	/**
+	 * @var {joi.object} server.models.log.logEntry - validation rules for a log entry
+	 */
 	logEntry: joi.array ().items (joi.alternatives ().try (
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('log').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			tags: joi.array ().items (joi.string ()).required ().description ('Tags'),
@@ -24,7 +33,7 @@ module.exports = {
 		}).meta ({ className: 'LogLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('ops').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			host: joi.string ().hostname ().required ().description ('Hostname'),
@@ -74,7 +83,7 @@ module.exports = {
 		}).meta ({ className: 'OpsLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('request').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			data: joi.object ().required ().description ('Log Entry Metadata').meta ({ className: 'AnyObject' }),
@@ -85,7 +94,7 @@ module.exports = {
 		}).meta ({ className: 'RequestLogEntry' }),
 
 		joi.object ({
-			'_id': joi.string ().token ().required ().description ('Identifier'),
+			_id: joi.string ().token ().required ().description ('Identifier'),
 			event: joi.string ().allow ('response').required ().description ('Log Event Type'),
 			timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 			id: joi.string ().token ().optional ().description ('Request Identifier'),
@@ -118,8 +127,11 @@ module.exports = {
 		}).meta ({ className: 'ResponseLogEntry' })
 	)).meta ({ className: 'LogEntry' }),
 
+	/**
+	 * @var {joi.object} server.models.log.logEntryBecauseOpenAPISpecDoesntSupportAlternatives - validation rules for a log entry (this is the real one that will replace logEntry when OpenAPI supports JavaScript)
+	 */
 	logEntryBecauseOpenAPISpecDoesntSupportAlternatives: joi.array ().items (joi.object ({
-		'_id': joi.string ().token ().required ().description ('Identifier'),
+		_id: joi.string ().token ().required ().description ('Identifier'),
 		event: joi.string ().allow ('log').required ().description ('Log Event Type'),
 		timestamp: joi.date ().timestamp ('javascript').required ().description ('Javascript Timestamp of the Log Entry'),
 		tags: joi.array ().items (joi.string ()).optional ().description ('Tags'),

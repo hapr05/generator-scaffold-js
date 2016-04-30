@@ -1,8 +1,14 @@
+/**
+ * @namespace server.models.metrics
+ */
 'use strict';
 
 const joi = require ('joi');
 
 module.exports = {
+	/**
+	 * @var {joi.object} server.models.metrics.metrics - validation rules for system metrics
+	 */
 	metrics: joi.object ({
 		os: joi.object ({
 			arch: joi.string ().allow ('x64', 'arm', 'ia32').required ().description ('CPU Architecture'),
@@ -19,9 +25,9 @@ module.exports = {
 			}).required ().description ('CPU').meta ({ className: 'CPUS' })).required ().description ('CPUS'),
 			hostname: joi.string ().hostname ().required ().description ('Hostname'),
 			load: joi.object ({
-				'1': joi.number ().integer ().required ().description ('1 Minute Load Average'),
-				'5': joi.number ().integer ().required ().description ('5 Minute Load Average'),
-				'15': joi.number ().integer ().required ().description ('15 Minute Load Average')
+				1: joi.number ().integer ().required ().description ('1 Minute Load Average'),
+				5: joi.number ().integer ().required ().description ('5 Minute Load Average'),
+				15: joi.number ().integer ().required ().description ('15 Minute Load Average')
 			}).required ().description ('Load Averages').meta ({ className: 'OSLoad' }),
 			memory: joi.object ({
 				free: joi.number ().integer ().required ().description ('Free Memory'),

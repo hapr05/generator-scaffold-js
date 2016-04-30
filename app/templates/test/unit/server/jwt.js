@@ -12,23 +12,23 @@ chai.use (dirtyChai);
 
 describe ('jwt helpers', () => {
 	var users = {
-		findOne: () => Promise.resolve ({})
-	},
-	request = {
-		info: {
-			host: 'test'
+			findOne: () => Promise.resolve ({})
 		},
-		server: {
-			plugins: {
-				'hapi-mongodb': {
-					db: {
-						collection: () => users
+		request = {
+			info: {
+				host: 'test'
+			},
+			server: {
+				plugins: {
+					'hapi-mongodb': {
+						db: {
+							collection: () => users
+						}
 					}
 				}
 			}
-		}
-	},
-	sandbox = sinon.sandbox.create ();
+		},
+		sandbox = sinon.sandbox.create ();
 
 	afterEach (() => {
 		sandbox.restore ();

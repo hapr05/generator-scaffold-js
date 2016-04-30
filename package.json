@@ -1,6 +1,6 @@
 {
 	"name": "generator-scaffold-js",
-	"version": "0.1.3-alpha.1",
+	"version": "0.2.0-alpha.2",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
 		"NodeJS",
@@ -22,7 +22,8 @@
 	},
 	"files": [
 		"app",
-		"util"
+		"util",
+		"entity"
 	],
 	"main": "index.js",
 	"bin": {},
@@ -35,16 +36,15 @@
 		"harmony-reflect": "latest",
 		"yeoman-generator": "latest",
 		"git-config": "latest", "github-url-from-git": "latest",
-		"to-camel-case": "latest", "to-slug-case": "latest",
-		"mongodb": "latest",
-		"selfsigned": "latest"
+		"to-case": "latest",
+		"mongodb": "latest", "selfsigned": "latest", "moment": "latest"
 	},
 	"devDependencies": {
 		"temp": "latest",
-		"jshint": "latest", "jshint-stylish": "latest",
-		"gulp": "latest", "gulp-util": "latest", "gulp-jshint": "latest", "gulp-json-lint": "latest",
-		"gulp-mocha": "latest", "gulp-istanbul": "latest", "gulp-jscs": "latest",
-		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest"
+		"gulp": "latest", "gulp-util": "latest", "gulp-eslint": "latest", "gulp-json-lint": "latest",
+		"gulp-mocha": "latest", "gulp-istanbul": "latest",
+		"sinon": "latest", "mockery": "latest", "dirty-chai": "latest", "chai": "latest", "chai-as-promised": "latest",
+		"jsdoc": "latest", "gulp-jsdoc3": "latest", "docdash": "latest"
 	},
 	"engines": {
 		"node": ">= 5.7.0",
