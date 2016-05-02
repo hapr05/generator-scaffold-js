@@ -1,6 +1,6 @@
 {
 	"name": "generator-scaffold-js",
-	"version": "0.2.0-alpha.2",
+	"version": "0.2.01-alpha.2",
 	"description": "NodeJS, hapi, AngularJS, MondoDB Yeoman - Generator",
 	"keywords": [
 		"NodeJS",
@@ -34,7 +34,7 @@
 	},
 	"dependencies": {
 		"harmony-reflect": "latest",
-		"yeoman-generator": "latest",
+		"yeoman-generator": "0.22.6",
 		"git-config": "latest", "github-url-from-git": "latest",
 		"to-case": "latest",
 		"mongodb": "latest", "selfsigned": "latest", "moment": "latest"
